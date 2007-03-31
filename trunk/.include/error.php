@@ -47,6 +47,10 @@ function empty_messages() {
 	$_SESSION['jx_message'] = array();
 }
 function count_messages() {
+	
+	if( empty($_SESSION['jx_message'])) {
+		return 0;
+	}
 	$count = 0;
 	foreach( $_SESSION['jx_message'] as $type ) {
 		if( !empty( $type ) && is_array( $type )) {
@@ -86,7 +90,7 @@ function show_error($error,$extra=NULL) {		// show error-message
 		show_header($GLOBALS["error_msg"]["error"]);
 		
 		echo '<div class="quote">';
-		echo '<a href="#errors">'.count_errors() .' '.$GLOBALS["error_msg"]["error"].'</a><br />';
+		echo '<a href="#errors">'.count_errors() .' '.$GLOBALS["error_msg"]["error"].'</a>, ';
 		echo '<a href="#messages">'.count_messages() .' '.$GLOBALS["error_msg"]["message"].'</a><br />';
 		echo "</div>\n";
 		
