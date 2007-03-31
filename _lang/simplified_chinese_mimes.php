@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // traditional chinese Mimes Module for v2.3 (translated by baijianpeng http://www.tcmbook.net)
 
@@ -46,7 +46,7 @@ $GLOBALS["mimes"]=array(
 	"mp3"	=> "MP3 声音文件",
 	"wav"	=> "WAV 声音文件",
 	"midi"	=> "MIDI 声音文件",
-	"real"	=> "RealAudio 文件",
+	"real"	=> "Real 音频文件",
 	
 	// movie
 	"mpg"	=> "MPG 影片文件",

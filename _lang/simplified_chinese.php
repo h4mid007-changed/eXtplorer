@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Simplified chinese Language Module for joomlaXplorer version 1.5 
 
 // translated by Baijianpeng http://www.tcmbook.net
@@ -18,13 +18,13 @@ $GLOBALS["error_msg"] = array(
 	"targetabovehome"	=> "目标目录可能并非Joomla根目录的上级目录.",
 	
 	// exist
-	"direxist"		=> "这目录不存在.",
+	"direxist"		=> "该目录不存在.",
 	//"filedoesexist"	=> "这目录已存在.",
-	"fileexist"		=> "这文件不存在.",
-	"itemdoesexist"		=> "这项目已存在.",
-	"itemexist"		=> "这项目不存在.",
-	"targetexist"		=> "这目标目录不存在.",
-	"targetdoesexist"	=> "这目标项目已存在.",
+	"fileexist"		=> "该文件不存在.",
+	"itemdoesexist"		=> "该项目已存在.",
+	"itemexist"		=> "该项目不存在.",
+	"targetexist"		=> "该目标目录不存在.",
+	"targetdoesexist"	=> "该目标项目已存在.",
 	
 	// open
 	"opendir"		=> "无法打开目录.",
@@ -253,11 +253,11 @@ $GLOBALS["messages"] = array(
 	'creating_archive' => '创建存档文件...',
 	'processed_x_files' => '已处理 %s 个文件，共有 %s 个文件',
 	
-	'ftp_header' => 'Local FTP Authentication',
+	'ftp_header' => '本地 FTP 验证',
 	'ftp_login_lbl' => '请为 FTP 服务器输入登录信息',
 	'ftp_login_name' => 'FTP 用户名',
 	'ftp_login_pass' => 'FTP 密码',
-	'ftp_hostname_port' => 'FTP Server Hostname and Port <br />(Port is optional)',
+	'ftp_hostname_port' => 'FTP 服务器主机名和端口号<br />(端口可以不填)',
 	'ftp_login_check' => '检查 FTP 连接...',
 	'ftp_connection_failed' => "FTP 服务器无法连接。 \n请检查你的主机上是否运行了 FTP 服务器。",
 	'ftp_login_failed' => "FTP 登录失败。请检查用户名及密码是否正确，然后再试一次。",
@@ -265,14 +265,14 @@ $GLOBALS["messages"] = array(
 	'switch_file_mode' => '当前模式: <strong>%s</strong>. 你可以切换到 %s 模式.',
 	'symlink_target' => '象征性链接的目标',
 	
-	"permchange"		=> "CHMOD Success:",
-	"savefile"		=> "The File was saved.",
-	"moveitem"		=> "Moving succeeded.",
-	"copyitem"		=> "Copying succeeded.",
-	'archive_name' 	=> 'Name of the Archive File',
-	'archive_saveToDir' 	=> 'Save the Archive in this directory',
+	"permchange"		=> "CHMOD 成功:",
+	"savefile"		=> "文件已被保存.",
+	"moveitem"		=> "移动成功.",
+	"copyitem"		=> "复制成功.",
+	'archive_name' 	=> '存档文件的名称',
+	'archive_saveToDir' 	=> '在本目录中保存存档文件',
 	
-	'editor_simple'	=> 'Simple Editor Mode',
-	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode'
+	'editor_simple'	=> '简化编辑器模式',
+	'editor_syntaxhighlight'	=> '语法高亮提示模式'
 );
 ?>

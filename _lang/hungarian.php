@@ -1,6 +1,6 @@
 <?php
 
-// Hungarian Language Module for v2.3 (translated by Jozsef Tamas Herczeg a.k.a LocaLiceR www.soft-trans.hu)
+// Hungarian Language Module for v2.3 (translated by Jozsef Tamas Herczeg a.k.a LocaLiceR www.joomlandia.hu)
 global $_VERSION;
 
 $GLOBALS["charset"] = "iso-8859-2";
@@ -9,6 +9,7 @@ $GLOBALS["date_fmt"] = "Y.m.d. H:i";
 $GLOBALS["error_msg"] = array(
 	// error
 	"error"			=> "HIBÁ(K)",
+	"message"			=> "ÜZENET(EK)",
 	"back"			=> "Vissza",
 	
 	// root
@@ -210,7 +211,7 @@ $GLOBALS["messages"] = array(
 	'extract_success' => "A kibontás sikerült",
 	'extract_failure' => "A kibontás nem sikerült",
 	
-	'overwrite_files' => 'Felülírja a létezõ fájl(oka)t?',
+	'overwrite_files' => 'A létezõ fájlok felülírása',
 	"viewlink"		=> "NÉZET",
 	"actview"		=> "A fájl forrásának megtekintése",
 	
@@ -237,7 +238,7 @@ $GLOBALS["messages"] = array(
 	'bookmark_was_added' => 'Ez a könyvtár hozzáadásra került a könyvjelzõkbe.',
 	'not_a_bookmark' => 'Ez a könyvtár nem könyvjelzõ.',
 	'bookmark_was_removed' => 'Ez a könyvtár eltávolításra került a könyvjelzõk közül.',
-	'bookmarkfile_not_writable' => "Nem sikerült %s a könyvjelzõt.\n A(z) '%s' könyvjelzõfájl \nnem írható.",
+	'bookmarkfile_not_writable' => "Nem sikerült %s a könyvjelzõt.\n A '%s' könyvjelzõfájl \nnem írható.",
 	
 	'lbl_add_bookmark' => 'Könyvjelzõ készítése ehhez a könyvtárhoz',
 	'lbl_remove_bookmark' => 'A könyvtár könyvjelzõjének eltávolítása',
@@ -252,27 +253,26 @@ $GLOBALS["messages"] = array(
 	'creating_archive' => 'Archív fájl létrehozása...',
 	'processed_x_files' => 'Feldolgozva %s a(z) %s fájlból',
 	
-	'ftp_header' => 'Local FTP Authentication',
-	'ftp_login_lbl' => 'Kérjük, hogy írja be az FTP kiszolgálóra belépés hitelesítési adatait',
+	'ftp_header' => 'Helyi FTP hitelesítés',
+	'ftp_login_lbl' => 'Kérjük, hogy írja be az FTP kiszolgáló hitelesítési adatait',
 	'ftp_login_name' => 'FTP felhasználónév',
 	'ftp_login_pass' => 'FTP jelszó',
-	'ftp_hostname_port' => 'FTP Server Hostname and Port <br />(Port is optional)',
+	'ftp_hostname_port' => 'Az FTP kiszolgáló neve és portja <br />(A port elhagyható)',
 	'ftp_login_check' => 'FTP kapcsolat ellenõrzése...',
 	'ftp_connection_failed' => "Nem lehet kapcsolódni az FTP kiszolgálóhoz. \nKérjük, ellenõrizze, hogy mûködik-e az FTP kiszolgáló a szerveren.",
 	'ftp_login_failed' => "Sikertelen az FTP bejelentkezés. Kérjük, hogy ellenõrizze a felhasználónevet és a jelszót, majd próbálja újra.",
 		
-	'switch_file_mode' => 'Jelenlegi mód: <strong>%s</strong>. Átválthat %s módba.',
-	'symlink_target' => 'Target of the Symbolic Link',
+	'switch_file_mode' => 'Jelenlegi mód: <strong>%s</strong>. Átváltás %s módba.',
+	'symlink_target' => 'A szimbolikus hivatkozás célja',
 	
-	"permchange"		=> "CHMOD Success:",
-	"savefile"		=> "The File was saved.",
-	"moveitem"		=> "Moving succeeded.",
-	"copyitem"		=> "Copying succeeded.",
-	'archive_name' 	=> 'Name of the Archive File',
-	'archive_saveToDir' 	=> 'Save the Archive in this directory',
+	"permchange"		=> "CHMOD siker:",
+	"savefile"		=> "A fájl mentése kész.",
+	"moveitem"		=> "Az áthelyezés sikerült.",
+	"copyitem"		=> "A másolás sikerült.",
+	'archive_name' 	=> 'Az archívumfájl neve',
+	'archive_saveToDir' 	=> 'Az archívum mentése a könyvtárban',
 	
-	'editor_simple'	=> 'Simple Editor Mode',
-	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode'
-	
+	'editor_simple'	=> 'Egyszerû szerkesztõ mód',
+	'editor_syntaxhighlight'	=> 'Szintaxis-kiemeléses mód'
 );
 ?>
