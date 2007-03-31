@@ -11,7 +11,7 @@ if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 // The joomlaXplorer version number
-$GLOBALS['jx_version'] = '1.6.0';
+$GLOBALS['jx_version'] = '1.5.1';
 $GLOBALS['jx_home'] = 'http://developer.joomla.org/sf/projects/joomlaxplorer';
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
@@ -43,7 +43,7 @@ $GLOBALS['jx_home'] = 'http://developer.joomla.org/sf/projects/joomlaxplorer';
 Author: soeren, The QuiX project( quix@free.fr, http://www.quix.tk, http://quixplorer.sourceforge.net)
 
 Comment:
-	joomlaXplorer 1.6.0
+	joomlaXplorer 1.5.0
 	Main File
 	
 	Have Fun...
@@ -83,12 +83,11 @@ elseif( empty( $action ))
 
 if( $action != "arch" && $action != "download" ) {
 	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/_style/opacity.js"></script>' );
-	if( $action != "edit") {
+	if( $action == "archive") {
 		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/_js/mootools.ajax.js"></script>' );
 	}	
 }
 
-$item = mosGetParam( $_REQUEST, "item" );
 switch($action) {		// Execute action
 //------------------------------------------------------------------------------
   // EDIT FILE

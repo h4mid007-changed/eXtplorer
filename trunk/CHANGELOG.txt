@@ -1,6 +1,12 @@
 ****************************
 Changelog for joomlaXplorer
 ****************************
+- updated CodePress to version 0.9.1.
+- reintroduced the direct file link (very helpful for viewing images) for those directories which are located inside the Joomla! installation joomlaXplorer is used in
+- using correct encoding (urlencode) now for file links, so files with special characters can be modified, deleted or downloaded as well
+- fixed the "...foreach..." error in the "show_error" page
+
+--- version 1.6.0 released ----
 
 - archives do not contain the whole file path anymore now, but only the relative one
 - added possibility to specify a directory where an archive file is saved to (allows to create archives even when the currenty directory is not writable)

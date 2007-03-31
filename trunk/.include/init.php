@@ -70,9 +70,14 @@ if($GLOBALS["dir"]==".")
 
 // Get Item
 if(isset($GLOBALS['__GET']["item"])) 
-  $GLOBALS["item"]=stripslashes($GLOBALS['__GET']["item"]);
+  $GLOBALS["item"]=stripslashes(urldecode($GLOBALS['__GET']["item"]));
 else 
   $GLOBALS["item"]="";
+if( !empty( $GLOBALS['__POST']["selitems"] )) {
+	foreach( $GLOBALS['__POST']["selitems"] as $i => $item ) {
+		$GLOBALS['__POST']["selitems"][$i] = urldecode( $item );
+	}
+}
 
 // Get Sort
 if(isset($GLOBALS['__GET']["order"])) 
