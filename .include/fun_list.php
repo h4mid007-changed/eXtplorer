@@ -203,7 +203,9 @@ function print_table($dir, $list, $allow) {	// print table of files
 		
 		$target="";
 		$extra="";
-		if(@$GLOBALS['jx_File']->is_link($abs_item)) $extra=" -> ".@readlink($abs_item);
+		if(@$GLOBALS['jx_File']->is_link($abs_item))  {
+			$extra=" -> ".@readlink($abs_item);
+		}
 		if(@get_is_dir($abs_item, '')) {
 			$link = make_link("list",get_rel_item($dir, $item),NULL);
 		} else { 
@@ -211,7 +213,12 @@ function print_table($dir, $list, $allow) {	// print table of files
 				$link = make_link( 'edit', $dir, $item);
 			}
 			elseif( $is_readable )  {
-				$link = make_link('download', $dir, $item );
+				if( strstr(get_abs_dir( $dir ), $GLOBALS['mosConfig_absolute_path'] ) && !$GLOBALS['jx_File']->is_link($abs_item)) {
+					$link = $GLOBALS["home_url"]."/".get_rel_item($dir, $item);
+					$target = '_blank';
+				} else {
+					$link = make_link('download', $dir, $item );
+				}
 			}			
 		}
 		
@@ -224,16 +231,16 @@ function print_table($dir, $list, $allow) {	// print table of files
 			$toggle = !$toggle;
 		}
 		echo "<td><input type=\"checkbox\" id=\"item_$i\" name=\"selitems[]\" value=\"";
-		echo htmlspecialchars($item)."\" onclick=\"javascript:Toggle(this);\"></td>\n";
+		echo urlencode($item)."\" onclick=\"javascript:Toggle(this);\" /></td>\n";
 	// Icon + Link
-		echo "<td nowrap=\"nowrap\">";
+		echo "<td nowrap=\"nowrap\" align=\"left\">";
 		if($is_readable) {
 			echo"<a href=\"".$link."\" target=\"".$target."\">";
 		}
 		//else echo "<<>";
 		echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 		
-		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/_img/".get_mime_type($abs_item, "img")."\" alt=\"\">&nbsp;";
+		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/_img/".get_mime_type($abs_item, "img")."\" alt=\"\" />&nbsp;";
 		$s_item=$item;	if(strlen($s_item)>50) $s_item=substr($s_item,0,47)."...";
 		echo htmlspecialchars($s_item . $extra );
 		if( $is_readable ) {
@@ -287,12 +294,12 @@ function print_table($dir, $list, $allow) {	// print table of files
 			echo "<a href=\"".make_link("rename",$dir,$item)."\">";
 			echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 			echo "src=\""._QUIXPLORER_URL."/_img/_rename.gif\" alt=\"".$GLOBALS["messages"]["renamelink"]."\" title=\"";
-			echo $GLOBALS["messages"]["renamelink"]."\"></a>\n";
+			echo $GLOBALS["messages"]["renamelink"]."\" /></a>\n";
 		} 
 		else {
 			echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 			echo "src=\""._QUIXPLORER_URL."/_img/_rename_.gif\" alt=\"".$GLOBALS["messages"]["renamelink"]."\" title=\"";
-			echo $GLOBALS["messages"]["renamelink"]."\">\n";
+			echo $GLOBALS["messages"]["renamelink"]."\" />\n";
 		}
 		
 		// EDIT
@@ -303,12 +310,12 @@ function print_table($dir, $list, $allow) {	// print table of files
 				echo "<a href=\"".make_link("edit",$dir,$item)."\">";
 				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 				echo "src=\""._QUIXPLORER_URL."/_img/_edit.png\" alt=\"".$GLOBALS["messages"]["editlink"]."\" title=\"";
-				echo $GLOBALS["messages"]["editlink"]."\"></a>\n";
+				echo $GLOBALS["messages"]["editlink"]."\" /></a>\n";
 			} 
 			else {
 				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 				echo "src=\""._QUIXPLORER_URL."/_img/_edit_.png\" alt=\"".$GLOBALS["messages"]["editlink"]."\" title=\"";
-				echo $GLOBALS["messages"]["editlink"]."\">\n";
+				echo $GLOBALS["messages"]["editlink"]."\" />\n";
 			}
 		} else {
 			// Extract Link
@@ -318,20 +325,20 @@ function print_table($dir, $list, $allow) {	// print table of files
 			  echo "href=\"".make_link("extract",$dir,$item)."\" title=\"".$GLOBALS["messages"]["extractlink"]."\">";
 			  echo "<img border=\"0\" width=\"22\" height=\"20\" ";
 			  echo "src=\""._QUIXPLORER_URL."/_img/_extract.png\" alt=\"".$GLOBALS["messages"]["extractlink"];
-			  echo "\" title=\"".$GLOBALS["messages"]["extractlink"]."\"></a>\n";
+			  echo "\" title=\"".$GLOBALS["messages"]["extractlink"]."\" /></a>\n";
 			}
 			else {
 			  echo "<img border=\"0\" width=\"16\" height=\"16\" ";
-			  echo "src=\""._QUIXPLORER_URL."/_img/_.gif\" alt=\"\">\n";
+			  echo "src=\""._QUIXPLORER_URL."/_img/_.gif\" alt=\"\" />\n";
 			}
 		}
 		// VIEW
-		if( $GLOBALS['jx_File']->is_readable( $abs_item ) && get_is_file( $abs_item)) {
+		if( get_is_editable($abs_item) && $GLOBALS['jx_File']->is_readable( $abs_item ) && get_is_file( $abs_item)) {
 			$link = str_replace( '/index2.php', '/index3.php', make_link("view",$dir,$item) );
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=750,height=580,directories=no,location=no,screenX=100,screenY=100';
 			echo "<a href=\"".$link."\" onclick=\"window.open('$link','win2','$status'); return false;\" title=\"". $GLOBALS["messages"]["viewlink"]."\">";
 			echo "<img border=\"0\" width=\"22\" height=\"22\" ";
-			echo "src=\""._QUIXPLORER_URL."/_img/src.gif\" alt=\"".$GLOBALS["messages"]["viewlink"]."\" ></a>\n";
+			echo "src=\""._QUIXPLORER_URL."/_img/src.gif\" alt=\"".$GLOBALS["messages"]["viewlink"]."\" /></a>\n";
 		}
 		// DOWNLOAD / Extract
 		if(get_is_file( $abs_item )) {
@@ -339,15 +346,15 @@ function print_table($dir, $list, $allow) {	// print table of files
 				echo "<a href=\"".make_link("download",$dir,$item)."\" title=\"".$GLOBALS["messages"]["downlink"]."\">";
 				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 				echo "src=\""._QUIXPLORER_URL."/_img/_download.png\" alt=\"".$GLOBALS["messages"]["downlink"];
-				echo "\" title=\"".$GLOBALS["messages"]["downlink"]."\"></a>\n";
+				echo "\" title=\"".$GLOBALS["messages"]["downlink"]."\" /></a>\n";
 			} else if(!$allow) {
 				echo "<td><img border=\"0\" width=\"22\" height=\"22\" ";
 				echo "src=\""._QUIXPLORER_URL."/_img/_download_.png\" alt=\"".$GLOBALS["messages"]["downlink"];
-				echo "\" title=\"".$GLOBALS["messages"]["downlink"]."\">\n";
+				echo "\" title=\"".$GLOBALS["messages"]["downlink"]."\" />\n";
 			}
 		} else {
 			echo "<img border=\"0\" width=\"16\" height=\"16\" ";
-			echo "src=\""._QUIXPLORER_URL."/_img/_.gif\" alt=\"\">\n";
+			echo "src=\""._QUIXPLORER_URL."/_img/_.gif\" alt=\"\" />\n";
 		}
 		// DELETE
 		if(get_is_file( $abs_item)) {
@@ -357,16 +364,16 @@ function print_table($dir, $list, $allow) {	// print table of files
 				onclick=\"javascript: ClearAll(); getElementById('item_$i').checked = true; if( confirm('". $confirm_msg ."') ) { document.selform.do_action.value='delete'; document.selform.submit(); } else {  getElementById('item_$i').checked = false; return false;}\">";
 				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 				echo "src=\""._QUIXPLORER_URL."/_img/_delete.gif\" alt=\"".$GLOBALS["messages"]["dellink"];
-				echo "\" title=\"".$GLOBALS["messages"]["dellink"]."\"></a>\n";
+				echo "\" title=\"".$GLOBALS["messages"]["dellink"]."\" /></a>\n";
 			} 
 			else {
 				echo "<img border=\"0\" width=\"22\" height=\"22\" ";
 				echo "src=\""._QUIXPLORER_URL."/_img/_delete_.gif\" alt=\"".$GLOBALS["messages"]["dellink"];
-				echo "\" title=\"".$GLOBALS["messages"]["dellink"]."\">\n";
+				echo "\" title=\"".$GLOBALS["messages"]["dellink"]."\" />\n";
 			}
 		} else {
 			echo "<img border=\"0\" width=\"16\" height=\"16\" ";
-			echo "src=\""._QUIXPLORER_URL."/_img/_.gif\" alt=\"\">\n";
+			echo "src=\""._QUIXPLORER_URL."/_img/_.gif\" alt=\"\" />\n";
 		}
 		echo "</td></tr>\n";
 		$i++;
@@ -565,7 +572,7 @@ function list_dir($dir) {			// list directory contents
 	
 	// Begin Table + Form for checkboxes
 	echo "<form name=\"selform\" method=\"post\" action=\"".make_link("post",$dir,null)."\">
-	<input type=\"hidden\" name=\"do_action\"><input type=\"hidden\" name=\"first\" value=\"y\">
+	<input type=\"hidden\" name=\"do_action\" /><input type=\"hidden\" name=\"first\" value=\"y\" />
 	<table class=\"adminlist\" width=\"95%\">\n";
 	
 	if( extension_loaded( "posix" )) {
@@ -589,7 +596,7 @@ function list_dir($dir) {			// list directory contents
 	// Table Header
 	echo "<tr>
 	<th width=\"2%\" class=\"title\">
-		<input type=\"checkbox\" name=\"toggleAllC\" onclick=\"javascript:ToggleAll(this);\">
+		<input type=\"checkbox\" name=\"toggleAllC\" onclick=\"javascript:ToggleAll(this);\" />
 	</th>
 	<th width=\"34%\" class=\"title\">\n";
 	if($GLOBALS["order"]=="name") $new_srt = $_srt;	else $new_srt = "yes";
