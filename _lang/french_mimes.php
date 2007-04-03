@@ -4,8 +4,8 @@
 
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
-	"dir"	=> "Répertoire",
-	"exe"	=> "Exécutable",
+	"dir"	=> "Repertoire",
+	"exe"	=> "Executable",
 	"file"	=> "Fichier",
 	"symlink"	=> "Lien Symbolique",
 
@@ -49,10 +49,10 @@ $GLOBALS["mimes"]=array(
 	"real"	=> "Fichier RealAudio",
 	
 	// movie
-	"mpg"	=> "Fichier vidéo MPG",
-	"mov"	=> "Fichier Vidéo",
-	"avi"	=> "Fichier vidéo AVI",
-	"flash"	=> "Fichier vidéo Flash",
+	"mpg"	=> "Fichier video MPG",
+	"mov"	=> "Fichier Video",
+	"avi"	=> "Fichier video AVI",
+	"flash"	=> "Fichier video Flash",
 	
 	// Micosoft / Adobe
 	"word"	=> "Document Word",
