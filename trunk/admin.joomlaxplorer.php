@@ -51,8 +51,13 @@ Comment:
 define ( "_QUIXPLORER_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer" );
 define ( "_QUIXPLORER_FTPTMP_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer/_ftptmp" );
 define ( "_QUIXPLORER_URL", $mosConfig_live_site."/administrator/components/com_joomlaxplorer" );
-global $action;
+global $action, $item;
 
+//------------------------------------------------------------------------------
+if( defined( 'E_STRICT' )) { // Suppress Strict Standards Warnings
+	$errorlevel=error_reporting();
+	error_reporting($errorlevel & ~E_STRICT);
+}
 //------------------------------------------------------------------------------
 umask(0002); // Added to make created files/dirs group writable
 //------------------------------------------------------------------------------
