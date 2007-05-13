@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4                                                        |
@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 // | Authors: Ian Eure <ieure@php.net>                                    |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id:Type.php 13 2007-05-13 07:10:43Z soeren $
 
 require_once dirname(__FILE__)."/../PEAR.php";
 

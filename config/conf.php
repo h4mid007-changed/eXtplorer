@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
 //------------------------------------------------------------------------------
 // Configuration Variables
@@ -63,7 +63,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 //------------------------------------------------------------------------------
 /* NOTE:
 	Users can be defined by using the Admin-section,
-	or in the file ".config/.htusers.php".
+	or in the file "config/.htusers.php".
 	For more information about PCRE Regex Syntax,
 	go to http://www.php.net/pcre.pattern.syntax
 */

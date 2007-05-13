@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -82,8 +82,8 @@ function ftp_authentication( $ftp_login='', $ftp_pass='') {
 	}
 	else {
 		?>
-		<script type="text/javascript" src="components/com_joomlaxplorer/_js/mootools.ajax.js"></script>
-		<script type="text/javascript" src="components/com_joomlaxplorer/_js/functions.js"></script>
+		<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>
+		<script type="text/javascript" src="components/com_joomlaxplorer/scripts/functions.js"></script>
 		<script type="text/javascript">
 		function checkFTPAuth( url ) {
 			showLoadingIndicator( $('loadingindicator'), true );

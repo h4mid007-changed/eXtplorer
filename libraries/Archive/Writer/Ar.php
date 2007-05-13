@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * Write data to a file and save as an ar
  *
@@ -71,7 +71,7 @@ class File_Archive_Writer_Ar extends File_Archive_Writer_Archive
      * Returns the header of the current file.
      *
      * More Info:
-     *  http://publibn.boulder.ibm.com/doc_link/en_US/a_doc_lib/files/aixfiles/ar_IA64.htm
+     *  http://publibn.boulder.ibm.com/doc_link/en_US/a_doclibraries/files/aixfiles/ar_IA64.htm
      *
      * @access  private
      * @param   string  $filename  Name of the current file

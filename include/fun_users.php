@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -41,7 +41,7 @@ Comment:
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
 function load_users() {
-	require _QUIXPLORER_PATH."/.config/.htusers.php";
+	require _QUIXPLORER_PATH."/config/.htusers.php";
 }
 //------------------------------------------------------------------------------
 function save_users() {
@@ -63,7 +63,7 @@ function save_users() {
 	$content.="\r\n); ?>";
 	
 	// Write to File
-	$fp = @fopen(_QUIXPLORER_PATH."/.config/.htusers.php", "w");
+	$fp = @fopen(_QUIXPLORER_PATH."/config/.htusers.php", "w");
 	if($fp===false) return false;	// Error
 	fputs($fp,$content);
 	fclose($fp);

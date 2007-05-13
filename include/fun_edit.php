@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -316,7 +316,7 @@ $ = function() { return document.getElementById(arguments[0]); }
 </script><?php
 
 	if( $editor_mode == 'codepress') {
-		echo '<script src="'.$mosConfig_live_site.'/administrator/components/com_joomlaxplorer/_js/codepress/codepress.js" type="text/javascript" id="cp-script" lang="en-us"> </script>';
+		echo '<script src="'.$mosConfig_live_site.'/administrator/components/com_joomlaxplorer/scripts/codepress/codepress.js" type="text/javascript" id="cp-script" lang="en-us"> </script>';
 	}
 }
 //------------------------------------------------------------------------------

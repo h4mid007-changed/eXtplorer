@@ -1,7 +1,7 @@
 /*
 * This nice script fades in and out using CSS and JS
 *
-* http://www.brainerror.net/scripts_js_blendtrans.php
+* http://www.brainerror.net/scriptsscripts_blendtrans.php
 */
 function opacity(id, opacStart, opacEnd, millisec) {
     //speed for each frame

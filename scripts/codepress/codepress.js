@@ -11,7 +11,7 @@
  
 $ = function() { return document.getElementById(arguments[0]); }
 var cpPath = $('cp-script').src.replace('codepress.js','');
-var jPath = $('cp-script').src.replace('components/com_joomlaxplorer/_js/codepress/codepress.js','');
+var jPath = $('cp-script').src.replace('components/com_joomlaxplorer/scripts/codepress/codepress.js','');
 document.write('<link type="text/css" href="'+cpPath+'themes/default/codepress-editor.css" rel="stylesheet" />');
  
 CodePress = {

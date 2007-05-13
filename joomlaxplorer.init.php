@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
 $GLOBALS['jx_home'] = 'http://developer.joomla.org/sf/projects/joomlaxplorer';
 
@@ -14,15 +14,15 @@ $GLOBALS['__POST']	=&$_POST;
 $GLOBALS['__SERVER']	=&$_SERVER;
 $GLOBALS['__FILES']	=&$_FILES;
 
-if( file_exists(_QUIXPLORER_PATH."/_lang/$mosConfig_lang.php"))
-  require _QUIXPLORER_PATH."/_lang/$mosConfig_lang.php";
+if( file_exists(_QUIXPLORER_PATH."/languages/$mosConfig_lang.php"))
+  require _QUIXPLORER_PATH."/languages/$mosConfig_lang.php";
 else
-  require _QUIXPLORER_PATH."/_lang/english.php";
+  require _QUIXPLORER_PATH."/languages/english.php";
   
-if( file_exists(_QUIXPLORER_PATH."/_lang/".$mosConfig_lang."_mimes.php"))
-  require _QUIXPLORER_PATH."/_lang/".$mosConfig_lang."_mimes.php";
+if( file_exists(_QUIXPLORER_PATH."/languages/".$mosConfig_lang."_mimes.php"))
+  require _QUIXPLORER_PATH."/languages/".$mosConfig_lang."_mimes.php";
 else
-  require _QUIXPLORER_PATH."/_lang/english_mimes.php";
+  require _QUIXPLORER_PATH."/languages/english_mimes.php";
   
 // the filename of the QuiXplorer script: (you rarely need to change this)
 if($_SERVER['SERVER_PORT'] == 443 ) {
@@ -79,12 +79,12 @@ $GLOBALS["permissions"] = 1;
 
 $GLOBALS['file_mode'] = 'file';
 
-require _QUIXPLORER_PATH."/.config/mimes.php";
-require _QUIXPLORER_PATH."/_lib/File_Operations.php";
-require _QUIXPLORER_PATH."/.include/fun_extra.php";
-require _QUIXPLORER_PATH."/.include/header.php";
-require _QUIXPLORER_PATH."/.include/footer.php";
-require _QUIXPLORER_PATH."/.include/error.php";
+require _QUIXPLORER_PATH."/config/mimes.php";
+require _QUIXPLORER_PATH."/libraries/File_Operations.php";
+require _QUIXPLORER_PATH."/include/fun_extra.php";
+require _QUIXPLORER_PATH."/include/header.php";
+require _QUIXPLORER_PATH."/include/footer.php";
+require _QUIXPLORER_PATH."/include/error.php";
 
 //------------------------------------------------------------------------------
 

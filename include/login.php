@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -40,7 +40,7 @@ Comment:
 	Have Fun...
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-require _QUIXPLORER_PATH."/.include/fun_users.php";
+require _QUIXPLORER_PATH."/include/fun_users.php";
 load_users();
 //------------------------------------------------------------------------------
 
@@ -76,7 +76,7 @@ function login() {
 			echo "<input name=\"p_pass\" type=\"password\" size=\"25\"></td></tr>\n";
 			echo "<tr><td>".$GLOBALS["messages"]["misclang"].":</td><td align=\"right\">";
 			echo "<select name=\"lang\">\n";
-			@include _QUIXPLORER_PATH."/_lang/_info.php";
+			@include _QUIXPLORER_PATH."/languages/_info.php";
 			echo "</select></td></tr>\n";
 			echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"";
 			echo $GLOBALS["messages"]["btnlogin"]."\"></td></tr>\n</form></table><br>\n";

@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * This file allows to dynamically switch between file.system based mode and FTP based mode
  */
@@ -387,7 +387,7 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 		$tmp_file = tempnam( _QUIXPLORER_FTPTMP_PATH, 'jx_ftp_dl_' );
 	
 		if( $tmp_file == 'false') {
-			show_error( 'The /_ftptmp Directory must be writable in order to use this functionality in FTP Mode.');
+			show_error( 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
 		}
 		$res = $GLOBALS['FTPCONNECTION']->get( '/'.$abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {

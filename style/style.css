@@ -53,9 +53,9 @@ a:hover, a:active {
 }
 .jx_error {
   	background-color: #fdd;
-	background-image: url( ../_img/log_error.png );
+	background-image: url( ../images/log_error.png );
 }
 .jx_message {
   	background-color: #f1f3f5;
-	background-image: url( ../_img/_info.gif );
+	background-image: url( ../images/_info.gif );
 }

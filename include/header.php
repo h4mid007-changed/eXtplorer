@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -42,7 +42,7 @@ Comment:
 //------------------------------------------------------------------------------
 function show_header($title) {
 	$url = str_replace( '&dir=', '&ignore=', $_SERVER['REQUEST_URI'] );
-	echo "<link rel=\"stylesheet\" href=\""._QUIXPLORER_URL."/_style/style.css\" type=\"text/css\" />\n";
+	echo "<link rel=\"stylesheet\" href=\""._QUIXPLORER_URL."/style/style.css\" type=\"text/css\" />\n";
 	echo "<div align=\"center\">\n";
 	echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" class=\"adminheading\"><tbody>\n";
 	$mode = mosGetParam( $_SESSION, 'file_mode', 'file' );

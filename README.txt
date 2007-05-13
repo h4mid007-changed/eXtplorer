@@ -25,7 +25,7 @@ Global
   * Changed Language Files to comply with Joomla! Language directives (en => english...)
 
 Security
-  * added "defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );" to all files
+  * added "if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );" to all files
   * added "index.html" to all directories
 
 Layout
@@ -36,7 +36,7 @@ Facts, you should know of:
 * If you're running in trouble, because you don't have permissions to chmod() or
   write to files: That's a fact! Switch to FTP mode (or file mode if you're in ftp mode)
 * joomlaXplorer is a multi-language Component (currently available in English, Dutch, German, French, Spanish and Russian)
-  The Language is automatically picked from $mosConfig_lang. If you still have an english component,
+  The Language is automatically picked from $mosConfiglanguages. If you still have an english component,
   your language isn't supported.
   
 * QuiXplorer comes with an User Management feature. As Joomla! provides it's own framework, we don't need
@@ -72,14 +72,14 @@ Troubleshooting:
 	  This is due to a bug in PHP 4.1.2; we would advise you to upgrade to a higher version.
 ----------------------------------------------------------------------------------------------------
 Users:
-	* To enable user-authentication, set "require_login" to true in ".config/conf.php";
-	  you should also set the path for the admin user in ".config/.htusers".
+	* To enable user-authentication, set "require_login" to true in "config/conf.php";
+	  you should also set the path for the admin user in "config/.htusers".
 	* You can easily magage users using the "admin" section of QuiXplorer.
 	* Standard, there is only one user, "admin", with password "pwd_admin";
 	  you should change this password immediately.
 ----------------------------------------------------------------------------------------------------
 Languages:
-	* You can choose a default language by changing "language" in ".config/conf.php"
+	* You can choose a default language by changing "language" in "config/conf.php"
 	  (to "en", "de", "nl", "fr", "es" or "ru").
 	* When using user-authentication, users can select a language on login.
 ----------------------------------------------------------------------------------------------------

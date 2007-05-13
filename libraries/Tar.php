@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /* vim: set ts=4 sw=4: */
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 // | Author: Vincent Blavet <vincent@blavet.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id:Tar.php 13 2007-05-13 07:10:43Z soeren $
 
 require_once( dirname(__FILE__) .'/PEAR.php' );
 
@@ -28,7 +28,7 @@ define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@blavet.net>
-* @version  $Revision$
+* @version  $Revision:13 $
 * @package  Archive
 */
 class Archive_Tar extends PEAR

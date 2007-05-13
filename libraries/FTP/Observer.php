@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -25,7 +25,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
  * @author     Chuck Hagenbuch <chuck@horde.org>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
+ * @version    CVS: $Id:Observer.php 13 2007-05-13 07:10:43Z soeren $
  * @link       http://pear.php.net/package/Net_FTP
  * @since      File available since Release 0.0.1
  */
