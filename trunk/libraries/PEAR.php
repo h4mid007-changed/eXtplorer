@@ -1,5 +1,5 @@
 <?php
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 //
 // +--------------------------------------------------------------------+
 // | PEAR, the PHP Extension and Application Repository                 |
@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 // |          Tomas V.V.Cox <cox@idecnet.com>                           |
 // +--------------------------------------------------------------------+
 //
-// $Id$
+// $Id:PEAR.php 13 2007-05-13 07:10:43Z soeren $
 //
 
 define('PEAR_ERROR_RETURN',     1);

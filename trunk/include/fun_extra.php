@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -45,21 +45,21 @@ Comment:
 
 $GLOBALS['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
 
-function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$_lang=NULL) {
+function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages=NULL) {
 	// make link to next page
 	if($_action=="" || $_action==NULL) $_action="list";
 	//if($_dir=="") $_dir=NULL;
 	if($_item=="") $_item=NULL;
 	if($_order==NULL) $_order=$GLOBALS["order"];
 	if($_srt==NULL) $_srt=$GLOBALS["srt"];
-	if($_lang==NULL) $_lang=(isset($GLOBALS["lang"])?$GLOBALS["lang"]:NULL);
+	if($languages==NULL) $languages=(isset($GLOBALS["lang"])?$GLOBALS["lang"]:NULL);
 	
 	$link=$GLOBALS["script_name"]."?option=com_joomlaxplorer&action=".$_action;
 	$link.="&dir=".urlencode($_dir);
 	if($_item!=NULL) $link.="&item=".urlencode($_item);
 	if($_order!=NULL) $link.="&order=".$_order;
 	if($_srt!=NULL) $link.="&srt=".$_srt;
-	if($_lang!=NULL) $link.="&lang=".$_lang;
+	if($languages!=NULL) $link.="&lang=".$languages;
 	
 	return $link;
 }

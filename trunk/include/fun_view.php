@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -70,15 +70,15 @@ function jx_show_file($dir, $item) {		// show file contents
 		else {
 			$geshi->set_source( file_get_contents( $file ));
 		}
-		if( is_callable( array($geshi,'get_language_name_from_extension'))) {
-			$lang = $geshi->get_language_name_from_extension( $pathinfo['extension'] );
+		if( is_callable( array($geshi,'getlanguagesuage_name_from_extension'))) {
+			$lang = $geshi->getlanguagesuage_name_from_extension( $pathinfo['extension'] );
 		}
 		else {
 			$pathinfo = pathinfo($item);
 			$lang = $pathinfo['extension'];
 		}
 		
-		$geshi->set_language( $lang );
+		$geshi->setlanguagesuage( $lang );
 		$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
 	
 		$text = $geshi->parse_code();

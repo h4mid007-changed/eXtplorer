@@ -81,7 +81,7 @@ Changelog for joomlaXplorer
 	/public_html/
 	You will be able to browse to the root directory
 	/
-	! Check if you want this behaviour. When not, see /.config/conf.php line 41....
+	! Check if you want this behaviour. When not, see /config/conf.php line 41....
 - created archives don't contain the full path anymore, but the relative path from the mosConfig_absolute_path
 - converted transparent .png to .gif
 - removed the IE transparency fix, which caused IE to slow down (really long load times!)

@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -62,7 +62,7 @@ function archive_items( $dir ) {
 			echo jx_alertBox('Please specify a writable directory to save the archive to.');
 			die('Please specify a writable directory to save the archive to.');
 		}
-		require_once( _QUIXPLORER_PATH .'/_lib/Archive.php' );
+		require_once( _QUIXPLORER_PATH .'/libraries/Archive.php' );
 		
 		if( !in_array(strtolower( $GLOBALS['__POST']["type"] ), $allowed_types )) {
 			echo('Unknown Archive Format: '.htmlspecialchars($GLOBALS['__POST']["type"]));
@@ -162,8 +162,8 @@ function archive_items( $dir ) {
 		die();
 	}
 	?>
-	<script type="text/javascript" src="components/com_joomlaxplorer/_js/mootools.ajax.js"></script>
-	<script type="text/javascript" src="components/com_joomlaxplorer/_js/functions.js"></script>
+	<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>
+	<script type="text/javascript" src="components/com_joomlaxplorer/scripts/functions.js"></script>
 	<script type="text/javascript">
 	function doArchiving( url ) {
 		showLoadingIndicator( $('loadingindicator'), true );
@@ -283,7 +283,7 @@ function extract_item( $dir, $item ) {
 		case "bzip2": // fallthroughs,
 		case "tbz": // don't
 		case "tar": // wonder
-		  require_once(_QUIXPLORER_PATH . "/_lib/Tar.php");
+		  require_once(_QUIXPLORER_PATH . "/libraries/Tar.php");
 		  $archive = new Archive_Tar($archive_name, $type);
 		  if( $archive->extract( $extract_dir ) )
 			$_REQUEST['mosmsg'] = $GLOBALS["messages"]["extract_success"];

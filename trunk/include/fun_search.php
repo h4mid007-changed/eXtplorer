@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -92,7 +92,7 @@ function print_table($list) {			// print table of found items
 		}
 		
 		echo "<tr><td>" . "<img border=\"0\" width=\"22\" height=\"22\" ";
-		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/_img/" . $img . "\" alt=\"\">&nbsp;";
+		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/" . $img . "\" alt=\"\">&nbsp;";
 		/*if($link!="")*/ echo"<a href=\"".$link."\" target=\"".$target."\">";
 		//else echo "<a>";
 		echo $s_item."</a></td><td><a href=\"" . make_link("list",$dir,null)."\"> /";

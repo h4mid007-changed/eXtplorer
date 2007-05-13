@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
 /** joomlaXplorer
 * This is a component with full access to the filesystem of your joomla Site
@@ -11,7 +11,7 @@ if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 // The joomlaXplorer version number
-$GLOBALS['jx_version'] = '1.5.1';
+$GLOBALS['jx_version'] = '1.6.1';
 $GLOBALS['jx_home'] = 'http://developer.joomla.org/sf/projects/joomlaxplorer';
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
@@ -49,7 +49,7 @@ Comment:
 	Have Fun...
 ------------------------------------------------------------------------------*/
 define ( "_QUIXPLORER_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer" );
-define ( "_QUIXPLORER_FTPTMP_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer/_ftptmp" );
+define ( "_QUIXPLORER_FTPTMP_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer/ftp_tmp" );
 define ( "_QUIXPLORER_URL", $mosConfig_live_site."/administrator/components/com_joomlaxplorer" );
 global $action, $item;
 
@@ -61,7 +61,7 @@ if( defined( 'E_STRICT' )) { // Suppress Strict Standards Warnings
 //------------------------------------------------------------------------------
 umask(0002); // Added to make created files/dirs group writable
 //------------------------------------------------------------------------------
-require _QUIXPLORER_PATH . "/.include/init.php";	// Init
+require _QUIXPLORER_PATH . "/include/init.php";	// Init
 //------------------------------------------------------------------------------
 
 if( !isset( $_REQUEST['dir'] ) ) {
@@ -87,9 +87,9 @@ elseif( empty( $action ))
   $action = "list";
 
 if( $action != "arch" && $action != "download" ) {
-	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/_style/opacity.js"></script>' );
+	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/style/opacity.js"></script>' );
 	if( $action == "archive") {
-		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/_js/mootools.ajax.js"></script>' );
+		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>' );
 	}	
 }
 
@@ -97,42 +97,42 @@ switch($action) {		// Execute action
 //------------------------------------------------------------------------------
   // EDIT FILE
   case "edit":
-	  require _QUIXPLORER_PATH . "/.include/fun_edit.php";
+	  require _QUIXPLORER_PATH . "/include/fun_edit.php";
 	  edit_file($dir, $item);
 	break;
 	
   // Send Source Code for CodePress Editor
   case 'getSource':  	
-	  require _QUIXPLORER_PATH . "/_js/codepress/modules/codepress.php";
+	  require _QUIXPLORER_PATH . "/scripts/codepress/modules/codepress.php";
 	  send_codepress($dir, $item);
 	break;  
   
   // VIEW FILE
   case 'view':
-  	require _QUIXPLORER_PATH . "/.include/fun_view.php";
+  	require _QUIXPLORER_PATH . "/include/fun_view.php";
   	jx_show_file($dir, $item);
   	break;
 //------------------------------------------------------------------------------
   // DELETE FILE(S)/DIR(S)
   case "delete":
-	  require _QUIXPLORER_PATH . "/.include/fun_del.php";
+	  require _QUIXPLORER_PATH . "/include/fun_del.php";
 	  del_items($dir);
   break;
 //------------------------------------------------------------------------------
   // COPY/MOVE FILE(S)/DIR(S)
   case "copy":	case "move":
-	  require _QUIXPLORER_PATH ."/.include/fun_copy_move.php";
+	  require _QUIXPLORER_PATH ."/include/fun_copy_move.php";
 	  copy_move_items($dir);
   break;
   // RENAME FILE(S)/DIR(S)
   case "rename":
-	  require _QUIXPLORER_PATH ."/.include/fun_rename.php";
+	  require _QUIXPLORER_PATH ."/include/fun_rename.php";
 	  rename_item($dir, $item);
   break;
 //------------------------------------------------------------------------------
   // DOWNLOAD FILE
   case "download":
-	  require _QUIXPLORER_PATH . "/.include/fun_down.php";
+	  require _QUIXPLORER_PATH . "/include/fun_down.php";
 	  @ob_end_clean(); // get rid of cached unwanted output
 	  download_item($dir, $item);
 	  ob_start(false); // prevent unwanted output
@@ -141,67 +141,67 @@ switch($action) {		// Execute action
 //------------------------------------------------------------------------------
   // UPLOAD FILE(S)
   case "upload":
-	  require _QUIXPLORER_PATH . "/.include/fun_up.php";
+	  require _QUIXPLORER_PATH . "/include/fun_up.php";
 	  upload_items($dir);
   break;
 //------------------------------------------------------------------------------
   // CREATE DIR/FILE
   case "mkitem":
-	  require _QUIXPLORER_PATH ."/.include/fun_mkitem.php";
+	  require _QUIXPLORER_PATH ."/include/fun_mkitem.php";
 	  make_item($dir);
   break;
 //------------------------------------------------------------------------------
   // CHMOD FILE/DIR
   case "chmod":
-	  require _QUIXPLORER_PATH ."/.include/fun_chmod.php";
+	  require _QUIXPLORER_PATH ."/include/fun_chmod.php";
 	  chmod_item($dir, $GLOBALS["item"]);
   break;
 //------------------------------------------------------------------------------
   // SEARCH FOR FILE(S)/DIR(S)
   case "search":
-	  require _QUIXPLORER_PATH ."/.include/fun_search.php";
+	  require _QUIXPLORER_PATH ."/include/fun_search.php";
 	  search_items($dir);
   break;
 //------------------------------------------------------------------------------
   // CREATE ARCHIVE
   case "arch":
-	  require _QUIXPLORER_PATH . "/.include/fun_archive.php";
+	  require _QUIXPLORER_PATH . "/include/fun_archive.php";
 	  archive_items($dir);
   break;
 //------------------------------------------------------------------------------
   // EXTRACT ARCHIVE
   case "extract":
-	  require _QUIXPLORER_PATH . "/.include/fun_archive.php";
+	  require _QUIXPLORER_PATH . "/include/fun_archive.php";
 	  extract_item($dir, $item);
   break;
 //------------------------------------------------------------------------------
   // USER-ADMINISTRATION
   case "admin":
-	  require _QUIXPLORER_PATH . "/.include/fun_admin.php";
+	  require _QUIXPLORER_PATH . "/include/fun_admin.php";
 	  show_admin($dir);
   break;
 //------------------------------------------------------------------------------
   // joomla System Info
   case 'sysinfo':
-	  require _QUIXPLORER_PATH . "/.include/fun_system_info.php";
+	  require _QUIXPLORER_PATH . "/include/fun_system_info.php";
   break;
 //------------------------------------------------------------------------------
 	// FTP LOGIN
   case 'ftp_authentication':
   	$ftp_login = mosGetParam( $_POST, 'ftp_login_name', '' );
   	$ftp_pass = mosGetParam( $_POST, 'ftp_login_pass', '' );
-  	require( _QUIXPLORER_PATH.'/.include/fun_ftpauthentication.php' );
+  	require( _QUIXPLORER_PATH.'/include/fun_ftpauthentication.php' );
   	ftp_authentication( $ftp_login, $ftp_pass );
   	break;
   case 'ftp_logout':
-  	require( _QUIXPLORER_PATH.'/.include/fun_ftpauthentication.php' );
+  	require( _QUIXPLORER_PATH.'/include/fun_ftpauthentication.php' );
   	ftp_logout();
   	break;
 //------------------------------------------------------------------------------
 	// BOOKMARKS
   case 'modify_bookmark':
   	$task = mosGetParam( $_REQUEST, 'task' );
-  	require( _QUIXPLORER_PATH.'/.include/fun_bookmarks.php' );
+  	require( _QUIXPLORER_PATH.'/include/fun_bookmarks.php' );
   	modify_bookmark( $task, $dir );
   	
   	break;
@@ -214,7 +214,7 @@ switch($action) {		// Execute action
   // DEFAULT: LIST FILES & DIRS
   case "list":
   default:
-	  require _QUIXPLORER_PATH . "/.include/fun_list.php";
+	  require _QUIXPLORER_PATH . "/include/fun_list.php";
 	  list_dir($dir);
 //------------------------------------------------------------------------------
 }				// end switch-statement

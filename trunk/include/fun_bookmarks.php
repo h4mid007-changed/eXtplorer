@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @copyright The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -62,7 +62,7 @@ if ( ! function_exists('file_put_contents') ) {
 
 function read_bookmarks() {
 	global $my;
-	$bookmarkfile = _QUIXPLORER_PATH.'/.config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
+	$bookmarkfile = _QUIXPLORER_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
 	if( file_exists( $bookmarkfile )) {
 		return parse_ini_file( $bookmarkfile );
 	}
@@ -70,7 +70,7 @@ function read_bookmarks() {
 		if( !is_writable( dirname( $bookmarkfile ) )) {
 			return;
 		} else {
-			file_put_contents( $bookmarkfile, ";<?php defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); ?>\n{$GLOBALS['messages']['homelink']}=\n" );
+			file_put_contents( $bookmarkfile, ";<?php if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' ); ?>\n{$GLOBALS['messages']['homelink']}=\n" );
 			return array( $GLOBALS['messages']['homelink'] => '' );
 		}
 	}
@@ -84,7 +84,7 @@ function modify_bookmark( $task, $dir ) {
 	global $my;
 	$alias = substr( mosGetParam($_REQUEST,'alias'), 0, 150 );
 	$bookmarks = read_bookmarks();
-	$bookmarkfile = _QUIXPLORER_PATH.'/.config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
+	$bookmarkfile = _QUIXPLORER_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
 	while( @ob_end_clean() );
 
 	header( "Status: 200 OK" );
@@ -111,7 +111,7 @@ function modify_bookmark( $task, $dir ) {
 			$msg = jx_alertBox( $GLOBALS['messages']['bookmark_was_removed'] );
 	}
 
-	$inifile = "; <?php defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); ?>\n";
+	$inifile = "; <?php if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' ); ?>\n";
 	$inifile .= $GLOBALS['messages']['homelink']."=\n";
 
 	foreach( $bookmarks as $alias => $directory ) { //changed by pokemon
@@ -153,8 +153,8 @@ function list_bookmarks( $dir ) {
 
 
 
-	$img_add = '<img src="'._QUIXPLORER_URL.'/_img/bookmark_add.gif" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
-	$img_remove = '<img src="'._QUIXPLORER_URL.'/_img/publish_x.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
+	$img_add = '<img src="'._QUIXPLORER_URL.'/images/bookmark_add.gif" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
+	$img_remove = '<img src="'._QUIXPLORER_URL.'/images/publish_x.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
 
 	$addlink=$removelink='';
 

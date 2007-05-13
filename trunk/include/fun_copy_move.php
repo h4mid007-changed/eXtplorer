@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -77,7 +77,7 @@ function dir_print($dir_list, $new_dir) {	// print list of directories
 	
 	echo "<tr><td><a href=\"javascript:NewDir('".$dir_up;
 	echo "');\"><img border=\"0\" width=\"22\" height=\"22\"";
-	echo " align=\"absmiddle\" src=\""._QUIXPLORER_URL."/_img/_up.png\" alt=\"\">&nbsp;..</a></td></tr>\n";
+	echo " align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_up.png\" alt=\"\">&nbsp;..</a></td></tr>\n";
 	
 	// Print List Of Target Directories
 	if(!is_array($dir_list)) return;
@@ -89,7 +89,7 @@ function dir_print($dir_list, $new_dir) {	// print list of directories
 		$s_item=$new_item;	if(strlen($s_item)>40) $s_item=substr($s_item,0,37)."...";
 		echo "<tr><td><a href=\"javascript:NewDir('".get_rel_item($new_dir,$new_item).
 			"');\"><img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ".
-			"src=\""._QUIXPLORER_URL."/_img/dir.png\" alt=\"\">&nbsp;".$s_item."</a></td></tr>\n";
+			"src=\""._QUIXPLORER_URL."/images/dir.png\" alt=\"\">&nbsp;".$s_item."</a></td></tr>\n";
 	}
 }
 //------------------------------------------------------------------------------
@@ -105,9 +105,9 @@ function copy_move_items($dir) {		// copy/move file/dir
 
 	// Copy or Move?
 	if($GLOBALS["action"]!="move") {
-		$_img="_img/__copy.gif";
+		$images="images/__copy.gif";
 	} else {
-		$_img="_img/__cut.gif";
+		$images="images/__cut.gif";
 	}
 	
 	// Get New Location & Names
@@ -135,10 +135,10 @@ function copy_move_items($dir) {		// copy/move file/dir
 		// "Copy / Move from .. to .."
 		$s_dir=$dir;		if(strlen($s_dir)>40) $s_dir="...".substr($s_dir,-37);
 		$s_ndir=$new_dir;	if(strlen($s_ndir)>40) $s_ndir="...".substr($s_ndir,-37);
-		echo "<br /><img src=\""._QUIXPLORER_URL.'/_img/'.$_img."\" align=\"absmiddle\" alt=\"\" />&nbsp;<strong>";
+		echo "<br /><img src=\""._QUIXPLORER_URL.'/images/'.$images."\" align=\"absmiddle\" alt=\"\" />&nbsp;<strong>";
 		echo sprintf(($GLOBALS["action"]!="move"?$GLOBALS["messages"]["actcopyfrom"]:
 			$GLOBALS["messages"]["actmovefrom"]),$s_dir, $s_ndir);
-		echo "</strong><img src=\""._QUIXPLORER_URL."/_img/__paste.gif\" align=\"absmiddle\" alt=\"\">\n";
+		echo "</strong><img src=\""._QUIXPLORER_URL."/images/__paste.gif\" align=\"absmiddle\" alt=\"\">\n";
 		
 		// Form for Target Directory & New Names
 		echo "<br /><br /><form name=\"selform\" method=\"post\" action=\"";
@@ -161,7 +161,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 				if($first=="y") $newitem=$selitem;
 			} else $newitem=$selitem;
 			$s_item=$selitem;	if(strlen($s_item)>50) $s_item=substr($s_item,0,47)."...";
-			echo "<tr><td><img src=\""._QUIXPLORER_URL."/_img/_info.gif\" align=\"absmiddle\" alt=\"\">";
+			echo "<tr><td><img src=\""._QUIXPLORER_URL."/images/_info.gif\" align=\"absmiddle\" alt=\"\">";
 			// old name
 			echo "<input type=\"hidden\" name=\"selitems[]\" value=\"";
 			echo $selitem."\">&nbsp;".$s_item."&nbsp;";

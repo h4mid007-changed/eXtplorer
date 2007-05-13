@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -124,26 +124,26 @@ else {
 
 // Necessary files
 
-require _QUIXPLORER_PATH."/.config/conf.php";
-if( file_exists(_QUIXPLORER_PATH."/_lang/".$GLOBALS["language"].".php")) {
-	require _QUIXPLORER_PATH."/_lang/".$GLOBALS["language"].".php";
+require _QUIXPLORER_PATH."/config/conf.php";
+if( file_exists(_QUIXPLORER_PATH."/languages/".$GLOBALS["language"].".php")) {
+	require _QUIXPLORER_PATH."/languages/".$GLOBALS["language"].".php";
 }
 else {
-	require _QUIXPLORER_PATH."/_lang/english.php";
+	require _QUIXPLORER_PATH."/languages/english.php";
 }
-if( file_exists(_QUIXPLORER_PATH."/_lang/".$GLOBALS["language"]."_mimes.php")) {
-	require _QUIXPLORER_PATH."/_lang/".$GLOBALS["language"]."_mimes.php";
+if( file_exists(_QUIXPLORER_PATH."/languages/".$GLOBALS["language"]."_mimes.php")) {
+	require _QUIXPLORER_PATH."/languages/".$GLOBALS["language"]."_mimes.php";
 }
 else {
-	require _QUIXPLORER_PATH."/_lang/english_mimes.php";
+	require _QUIXPLORER_PATH."/languages/english_mimes.php";
 }
 
-require _QUIXPLORER_PATH."/.config/mimes.php";
-require _QUIXPLORER_PATH."/_lib/File_Operations.php";
-require _QUIXPLORER_PATH."/.include/fun_extra.php";
-require _QUIXPLORER_PATH."/.include/header.php";
-require _QUIXPLORER_PATH."/.include/footer.php";
-require _QUIXPLORER_PATH."/.include/error.php";
+require _QUIXPLORER_PATH."/config/mimes.php";
+require _QUIXPLORER_PATH."/libraries/File_Operations.php";
+require _QUIXPLORER_PATH."/include/fun_extra.php";
+require _QUIXPLORER_PATH."/include/header.php";
+require _QUIXPLORER_PATH."/include/footer.php";
+require _QUIXPLORER_PATH."/include/error.php";
 
 
 //------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ if( jx_isFTPMode() ) {
 //------------------------------------------------------------------------------
 if($GLOBALS["require_login"]) {	// LOGIN
 
-	require _QUIXPLORER_PATH."/.include/login.php";
+	require _QUIXPLORER_PATH."/include/login.php";
 	
 	if($GLOBALS["action"]=="logout") {
 		logout();

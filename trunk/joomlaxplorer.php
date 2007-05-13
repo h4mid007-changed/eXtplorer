@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
 require( $mosConfig_absolute_path.'/components/com_joomlaxplorer/configuration.jx.php' );
 
@@ -39,7 +39,7 @@ $item = mosGetParam( $_REQUEST, 'item', '');
 // Here we allow *download* and *directory listing*, nothing more, nothing less
 switch( $action ) {
 	case 'download':
-		require _QUIXPLORER_PATH . "/.include/fun_down.php";
+		require _QUIXPLORER_PATH . "/include/fun_down.php";
 	  	@ob_end_clean(); // get rid of cached unwanted output
 	  	download_item($dir, $item);
 	  	ob_start(false); // prevent unwanted output

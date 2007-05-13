@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -44,7 +44,7 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
 	show_header($GLOBALS["messages"]["actadmin"]);
 	
 	// Javascript functions:
-	include _QUIXPLORER_PATH . "/.include/js_admin.php";
+	include _QUIXPLORER_PATH . "/include/js_admin.php";
 	
 	// Change Password
 	echo "<br/><HR width=\"95%\"><TABLE width=\"350\"><tr><td colspan=\"2\" class=\"header\"><B>";
@@ -137,7 +137,7 @@ function adduser($dir) {			// Add User
 	show_header($GLOBALS["messages"]["actadmin"].": ".$GLOBALS["messages"]["miscadduser"]);
 	
 	// Javascript functions:
-	include _QUIXPLORER_PATH . "/.include/js_admin2.php";
+	include _QUIXPLORER_PATH . "/include/js_admin2.php";
 	
 	echo "<form name=\"adduser\" action=\"".make_link("admin",$dir,NULL)."&action2=adduser\" method=\"post\">\n";
 	echo "<input type=\"hidden\" name=\"confirm\" value=\"true\"><br/><TABLE width=\"450\">\n";
@@ -217,7 +217,7 @@ function edituser($dir) {			// Edit User
 	show_header($GLOBALS["messages"]["actadmin"].": ".sprintf($GLOBALS["messages"]["miscedituser"],$data[0]));
 	
 	// Javascript functions:
-	include _QUIXPLORER_PATH . "/.include/js_admin3.php";
+	include _QUIXPLORER_PATH . "/include/js_admin3.php";
 	
 	echo "<FORM name=\"edituser\" action=\"".make_link("admin",$dir,NULL)."&action2=edituser\" method=\"post\">\n";
 	echo "<input type=\"hidden\" name=\"confirm\" value=\"true\"><input type=\"hidden\" name=\"user\" value=\"".$data[0]."\">\n";

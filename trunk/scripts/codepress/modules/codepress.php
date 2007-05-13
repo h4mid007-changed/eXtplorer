@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /*
  * CodePress - Real Time Syntax Highlighting Editor written in JavaScript -  http://codepress.fermads.net/
  *
@@ -24,7 +24,7 @@ function send_codepress($dir, $item) {
 	$code = "";
 	$engine = mosGetParam( $_GET, 'engine', 'older' );
 	$language = mosGetParam( $_GET, 'language', 'generic' );
-	$codepress_url = $mosConfig_live_site.'/administrator/components/com_joomlaxplorer/_js/codepress';
+	$codepress_url = $mosConfig_live_site.'/administrator/components/com_joomlaxplorer/scripts/codepress';
 	
     $full_file = get_abs_item($dir, basename($item) );
 
