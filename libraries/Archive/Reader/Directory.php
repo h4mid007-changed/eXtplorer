@@ -161,7 +161,7 @@ class File_Archive_Reader_Directory extends File_Archive_Reader_Relay
             return PEAR::raiseError($pred);
         }
 
-        require_once "File/Archive/Writer/Files.php";
+        require_once dirname(__FILE__)."/../Writer/Files.php";
 
         $writer = new File_Archive_Writer_Files($this->directory);
         $this->close();
@@ -188,7 +188,7 @@ class File_Archive_Reader_Directory extends File_Archive_Reader_Relay
             return PEAR::raiseError('No file selected');
         }
 
-        require_once "File/Archive/Writer/Files.php";
+        require_once dirname(__FILE__)."/../Writer/Files.php";
 
         $writer = $lastSource->makeWriterRemoveBlocks($blocks, $seek);
         if (!PEAR::isError($writer)) {
@@ -204,7 +204,7 @@ class File_Archive_Reader_Directory extends File_Archive_Reader_Relay
      */
     function makeAppendWriter()
     {
-        require_once "File/Archive/Writer/Files.php";
+        require_once dirname(__FILE__)."/../Writer/Files.php";
 
         if ($this->source === null ||
             is_a($this->source, 'File_Archive_Reader_File') ) {

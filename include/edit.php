@@ -39,284 +39,136 @@ Comment:
 	
 	Have Fun...
 ------------------------------------------------------------------------------*/
-//------------------------------------------------------------------------------
-function savefile($file_name) {			// save edited file
-	if( get_magic_quotes_gpc() ) {
-		$code = stripslashes($GLOBALS['__POST']["code"]);
-	}
-	else {
-		$code = $GLOBALS['__POST']["code"];
-	}
+class jx_Edit extends jx_Action {
 	
-	$res = $GLOBALS['jx_File']->file_put_contents( $file_name, $code );
-	
-	if( $res==false || PEAR::isError( $res )) {
-		$err = basename($file_name).": ".$GLOBALS["error_msg"]["savefile"];
-		if( PEAR::isError( $res ) ) {
-			$err .= $res->getMessage();
+	function execAction($dir, $item) {		// edit file
+		global $mainframe, $mosConfig_live_site;
+		
+		$editor_mode = mosGetParam($_REQUEST,'editor_mode', 'simple');
+		
+		if(($GLOBALS["permissions"]&01)!=01) {
+			jx_Result::sendResult('edit', false, $GLOBALS["error_msg"]["accessfunc"]);
 		}
-		show_error( $err );
-	}
-	
-}
-//------------------------------------------------------------------------------
-function edit_file($dir, $item) {		// edit file
-	global $mainframe, $mosConfig_live_site;
-	
-	$editor_mode = mosGetParam($_REQUEST,'editor_mode', 'simple');
-	
-	if(($GLOBALS["permissions"]&01)!=01) 
-	  show_error($GLOBALS["error_msg"]["accessfunc"]);
-	$fname = get_abs_item($dir, $item);
-	if(!get_is_file($fname)) 
-	  show_error($item.": ".$GLOBALS["error_msg"]["fileexist"]);
-	if(!get_show_item($dir, $item)) 
-	  show_error($item.": ".$GLOBALS["error_msg"]["accessfile"]);	
-	
-	if(isset($GLOBALS['__POST']["dosave"]) && $GLOBALS['__POST']["dosave"]=="yes") {
-		// Save / Save As
-		$item=basename(stripslashes($GLOBALS['__POST']["fname"]));
-		$fname2=get_abs_item($dir, $item);
-		if(!isset($item) || $item=="") 
-		  show_error($GLOBALS["error_msg"]["miscnoname"]);
-		if($fname!=$fname2 && @$GLOBALS['jx_File']->file_exists($fname2)) 
-		  show_error($item.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
-		savefile($fname2);
-		$fname=$fname2;
-		if( !empty( $GLOBALS['__POST']['return_to'])) {
-			$return_to = urldecode($GLOBALS['__POST']['return_to']);
-			mosRedirect( $return_to );
+		$fname = get_abs_item($dir, $item);
+		
+		if(!get_is_file($fname))  {
+			jx_Result::sendResult('edit', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
 		}
-		elseif( !empty( $GLOBALS['__POST']['return_to_dir'])) {
-			mosRedirect( $_SERVER['PHP_SELF'].'?option=com_joomlaxplorer&dir='.$dir, 'The File '.$item.' was saved.');
+		if(!get_show_item($dir, $item)) {
+			jx_Result::sendResult('edit', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);	
 		}
-	}
+		
+		if(isset($GLOBALS['__POST']["dosave"]) && $GLOBALS['__POST']["dosave"]=="yes") {
+			// Save / Save As
+			$item=basename(stripslashes($GLOBALS['__POST']["fname"]));
+			$fname2=get_abs_item($dir, $item);
+			
+			if(!isset($item) || $item=="") {
+				jx_Result::sendResult('edit', false, $GLOBALS["error_msg"]["miscnoname"]);
+			}
+			if($fname!=$fname2 && @$GLOBALS['jx_File']->file_exists($fname2)) {
+				jx_Result::sendResult('edit', false, $item.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
+			}
+			  
+			$this->savefile($fname2);
+			$fname=$fname2;
+			
+			jx_Result::sendResult('edit', true, 'The File '.$item.' was saved.');
+			
+		}
+		
+		// header
+		$s_item=get_rel_item($dir,$item);	if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
+		$s_info = pathinfo( $s_item );
+		$s_extension = str_replace('.', '', $s_info['extension'] );
+	?>
+	<div style="width:auto;">
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	// header
-	$s_item=get_rel_item($dir,$item);	if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
-	show_header($GLOBALS["messages"]["actedit"].": /".$s_item);
+	        <h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actedit"].": /".$s_item ?></h3>
+	        <div id="adminForm">
 	
-	// Form
-	echo "<br/><form name=\"editfrm\" id=\"editfrm\" method=\"post\" action=\"".make_link("edit",$dir,$item)."\">\n";
-	if( !empty( $GLOBALS['__GET']['return_to'])) {
-		$close_action = 'window.location=\''.urldecode($GLOBALS['__GET']['return_to']).'\';';
-		echo "<input type=\"hidden\" name=\"return_to\" value=\"". $GLOBALS['__GET']['return_to']."\" />\n";
-	}
-	else {
-		$close_action = 'window.location=\''. make_link('list',$dir,NULL)."'";
-	}
-	if( $editor_mode == 'codepress' ) {
-		$submit_action = 'document.editfrm.code.value=CodePress.getCode();document.editfrm.submit();';
-	} else {
-		$submit_action = 'document.editfrm.submit();';
-	}
-	echo "
-<table class=\"adminform\">
-	<tr>
-		<td style=\"text-align: center;\">
-			<input type=\"button\" value=\"".$GLOBALS["messages"]["btnsave"]."\" onclick=\"$submit_action\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type=\"reset\" value=\"".$GLOBALS["messages"]["btnreset"]."\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type=\"button\" value=\"".$GLOBALS["messages"]["btnclose"]."\" onclick=\"javascript:$close_action\" />
-		</td>
-	</tr>
-	<tr>
-		<td >
-			<div style=\"width:70%;text-align: center;float:left;\">
-				<input type=\"checkbox\" value=\"1\" name=\"return_to_dir\" id=\"return_to_dir\" />
-				<label for=\"return_to_dir\">".$GLOBALS["messages"]["returndir"]."</label>
-			</div>";
-	if( $editor_mode == 'simple' ) {
-		echo "
-			<div style=\"width: 20%;float:right;\">".$GLOBALS["messages"]["line"]."
-				: <input type=\"text\" name=\"txtLine\" class=\"inputbox\" size=\"6\" onchange=\"setCaretPosition(document.editfrm.code, this.value);return false;\" />&nbsp;&nbsp;&nbsp;".$GLOBALS["messages"]["column"]."
-          		: <input type=\"text\" name=\"txtColumn\" class=\"inputbox\" size=\"6\" readonly=\"readonly\" />
-          </div>";
-	}
-	echo "
-		</td>
-	</tr>
-	<tr><td>";
-
-	echo "<input type=\"hidden\" name=\"dosave\" value=\"yes\" />\n";
-	echo "<input type=\"hidden\" name=\"editor_mode\" value=\"$editor_mode\" />\n";
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>
+	<script src="components/com_joomlaxplorer/scripts/codepress/codepress.js" type="text/javascript"></script>
 	
+	<?php	
 	// Show File In TextArea
 	$content = $GLOBALS['jx_File']->file_get_contents( $fname );
 	if( get_magic_quotes_runtime()) {
 		$content = stripslashes( $content );
 	}
-	$content = htmlspecialchars( $content );
+	//$content = htmlspecialchars( $content );
+		
+	?><script language="JavaScript1.2" type="text/javascript">
+	<!--
+	if(document.editfrm && document.editfrm.code) document.editfrm.code.focus();
+	dialog.setContentSize( 700, 500 );
+	var simple = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'<?php echo make_link("rename",$dir,$item) ?>'
+	});
+	simple.add(
+		new Ext.form.TextField({
+	        fieldLabel: '<?php echo $GLOBALS["messages"]["copyfile"] ?>',
+	        name: 'fname',
+	        value: '<?php echo $item ?>',
+	        width:175,
+		}),
+		
+	    new Ext.form.TextArea({
+	        fieldLabel: 'File Contents',
+	        name: 'code',
+	        id: 'ext_codefield',
+	        value: '<?php echo str_replace(Array("\r", "\n", "'"), Array('\n', '\r',"\'") ,$content) ?>',
+	        width: 500,
+	        height: 300
+	    })
+	);
 	
-	if( $editor_mode == 'simple' ) {
-		echo '[ <strong>'.$GLOBALS['messages']['editor_simple'].'</strong> / <a href="javascript:;" onclick="return toggleEditorMode(\'codepress\');"> '.$GLOBALS['messages']['editor_syntaxhighlight'].'</a> ]';
-		echo '<div id="editorarea">
-		<textarea style="width:95%;" name="code" rows="25" cols="120" wrap="off" onmouseup="updatePosition(this)" onmousedown="updatePosition(this)" onkeyup="updatePosition(this)" onkeydown="updatePosition(this)" onfocus="updatePosition(this)">'
-		. $content 
-		.'</textarea>
-		<textarea name="checkcode" style="display:none;">'.$content.'</textarea>
-		</div><br/>';
-	} else {
-		echo '[<a href="javascript:;" onclick="return toggleEditorMode(\'simple\');"> '.$GLOBALS['messages']['editor_simple'].' </a>/ <strong>'.$GLOBALS['messages']['editor_syntaxhighlight'].'</strong> ]';
-		echo '<code id="codepress" title="'.$dir.'/'.$item.'" class="cp"></code>';
-		echo '<input type="hidden" name="code" value="" />';
-		echo '<textarea name="checkcode" style="display:none;">'.$content.'</textarea>';
+	simple.addButton('<?php echo $GLOBALS["messages"]["btnsave"] ?>', function() {
+	    simple.submit({
+	        //waitMsg: 'Processing Data, please wait...',
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {datastore.reload();Ext.MessageBox.alert('Success!', action.result.message);},
+	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        scope: simple,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_joomlaxplorer', 
+	        		action: 'edit', 
+	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
+	        		item: '<?php echo stripslashes($GLOBALS['__POST']["item"]) ?>', 
+	        		dosave: 'yes'}
+	    });
+	});
+	simple.addButton('<?php echo $GLOBALS["messages"]["btnclose"] ?>', function() { dialog.destroy(); } );
+	simple.render('adminForm');
+	// -->
+	</script><?php
+	
 	}
-	echo "
-	</td>
-	</tr>";
-		if( $editor_mode == 'simple' ) {
-			// Wordwrap (works only in IE)
-			?><script type="text/javascript"><!--
-				function chwrap() {
-					if(document.editfrm.wrap.checked) {
-						document.editfrm.code.wrap="soft";
-					} else {
-						document.editfrm.code.wrap="off";
-					}
-				}
-			// -->
-			</script>
-			<?php
-			echo "	
-		<tr>
-			<td align=\"right\">
-				<label for=\"wrap\">".$GLOBALS["messages"]["wordwrap"].":</label>
-				<input type=\"checkbox\" id=\"wrap\" name=\"wrap\" onclick=\"javascript:chwrap();\" value=\"1\">
-			</td>		
-		</tr>";
+	function savefile($file_name) {			// save edited file
+		if( get_magic_quotes_gpc() ) {
+			$code = stripslashes($GLOBALS['__POST']["code"]);
+		}
+		else {
+			$code = $GLOBALS['__POST']["code"];
 		}
 		
-		echo "
-	<tr>
-		<td align=\"right\">
-			<label for=\"fname\">".$GLOBALS["messages"]["copyfile"]."</label>
-			<input type=\"text\" name=\"fname\" value=\"".$item."\" size=\"40\" />
-		</td>
-	</tr>
-</table>
-<br/>";
-	
-	echo "
-</form>
-<br/>\n";
-	
-?><script language="JavaScript1.2" type="text/javascript">
-<!--
-if(document.editfrm && document.editfrm.code) document.editfrm.code.focus();
-
-function toggleEditorMode( toggleTo ) {
-	if( $('codepress')) {
-		if( CodePress.getCode() != document.editfrm.checkcode.value ) {
-			if( !confirm('You have unsaved changes. Are you sure you want to toggle the Editor Mode?')) {
-				return false;
+		$res = $GLOBALS['jx_File']->file_put_contents( $file_name, $code );
+		
+		if( $res==false || PEAR::isError( $res )) {
+			$err = basename($file_name).": ".$GLOBALS["error_msg"]["savefile"];
+			if( PEAR::isError( $res ) ) {
+				$err .= $res->getMessage();
 			}
+			jx_Result::sendResult( 'edit', false, $err );
 		}
-	} else {
-		if( document.editfrm.code.value != document.editfrm.checkcode.value ) {
-			if( !confirm('You have unsaved changes. Are you sure you want to toggle the Editor Mode?')) {
-				return false;
-			}
-		}
-	}
-	document.editfrm.dosave.value='';
-	document.editfrm.editor_mode.value=toggleTo;
-	document.editfrm.submit();
-}
-
-//http://www.bazon.net/mishoo/home.epl?NEWS_ID=1345
-function doGetCaretPosition (textarea) {
-
-	var txt = textarea.value;
-	var len = txt.length;
-	var erg = txt.split("\n");
-	var pos = -1;
-	if(typeof textarea.selectionStart != "undefined") { // FOR MOZILLA
-		pos = textarea.selectionStart;
-	}
-	else if(typeof document.selection != "undefined") { // FOR MSIE
-		range_sel = document.selection.createRange();
-		range_obj = textarea.createTextRange();
-		range_obj.moveToBookmark(range_sel.getBookmark());
-		range_obj.moveEnd('character',textarea.value.length);
-		pos = len - range_obj.text.length;
-	}
-	if(pos != -1) {
-		var ind = 0;
-		for(;erg.length;ind++) {
-			len = erg[ind].length + 1;
-			if(pos < len)
-			break;
-			pos -= len;
-		}
-		ind++; pos++;
-		return [ind, pos]; // ind = LINE, pos = COLUMN
-
-	}
-}
-/**
-* This function allows us to change the position of the caret
-* (cursor) in the textarea
-* Various workarounds for IE, Firefox and Opera are included
-* Firefox doesn't count empty lines, IE does...
-*/
-function setCaretPosition( textarea, linenum ) {
-	if (isNaN(linenum)) {
-		updatePosition( textarea );
-		return;
-	}
-	var txt = textarea.value;
-	var len = txt.length;
-	var erg = txt.split("\n");
 		
-	var ind = 0;
-	var pos = 0;
-	var nonempty = -1;
-	var empty = -1;
-	for(;ind < linenum;ind++) {
-		/*alert( "Springe zu Zeile: "+linenum
-				+"\naktuelle Zeile: "+ (ind+1) 
-				+ "\naktuelle Position: "+pos 
-				+ "\nText in dieser Zeile: "+erg[ind]);*/
-		if( !erg[ind] && pos < len ) { empty++; pos++; continue; }
-		else if( !erg[ind] ) break;
-		pos += erg[ind].length;
-		nonempty++;
-	}
-	try {
-		pos -= erg[ind-1].length;	
-	} catch(e) {}
-	
-	textarea.focus();
-	
-	if(textarea.setSelectionRange)
-	{
-		pos += nonempty;
-		textarea.setSelectionRange(pos,pos);
-	}
-	else if (textarea.createTextRange) {
-		pos -= empty;
-		var range = textarea.createTextRange();
-		range.collapse(true);
-		range.moveEnd('character', pos);
-		range.moveStart('character', pos);
-		
-		range.select();
-	}
-}
-/** 
-* Updates the Position Indicator fields
-*/
-function updatePosition(textBox) {
-	var posArray = doGetCaretPosition(textBox);
-    document.forms[0].txtLine.value = posArray[0];
-    document.forms[0].txtColumn.value = posArray[1];
-}
-// -->
-$ = function() { return document.getElementById(arguments[0]); }
-</script><?php
-
-	if( $editor_mode == 'codepress') {
-		echo '<script src="'.$mosConfig_live_site.'/administrator/components/com_joomlaxplorer/scripts/codepress/codepress.js" type="text/javascript" id="cp-script" lang="en-us"> </script>';
 	}
 }
 //------------------------------------------------------------------------------

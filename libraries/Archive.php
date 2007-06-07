@@ -573,7 +573,7 @@ class File_Archive
                 preg_match($cacheCondition, $source)) {
                 return File_Archive::cache(File_Archive::read($source));
             } else {
-                return File_Archive::read($source);
+                return File_Archive::read(@$source);
             }
         } else if (is_array($source)) {
             return File_Archive::readMulti($source);

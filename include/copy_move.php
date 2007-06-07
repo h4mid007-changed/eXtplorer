@@ -39,62 +39,13 @@ Comment:
 	
 	Have Fun...
 ------------------------------------------------------------------------------*/
-//------------------------------------------------------------------------------
-function dir_list($dir) {			// make list of directories
-	// this list is used to copy/move items to a specific location
-	$dir_list = Array();
-	
-	$handle = @$GLOBALS['jx_File']->opendir(get_abs_dir($dir));
-	if($handle===false) return;		// unable to open dir
-	
-	while(($new_item=$GLOBALS['jx_File']->readdir($handle))!==false) {
-		//if(!@file_exists(get_abs_item($dir, $new_item))) continue;
-		if(!get_show_item($dir, $new_item)) continue;
-		
-		if( jx_isFTPMode() ) {
-			$new_item_name = $new_item['name'];
-		}
-		else {
-			$new_item_name = $new_item;
-			$new_item = get_abs_item( $dir, $new_item );
-		}
-		if(!get_is_dir( $new_item )) continue;
-		
-		$dir_list[$new_item_name] = $new_item;
-	}
-	
-	// sort
-	if(is_array($dir_list)) ksort($dir_list);
-	return $dir_list;
-}
-//------------------------------------------------------------------------------
-function dir_print($dir_list, $new_dir) {	// print list of directories
-	// this list is used to copy/move items to a specific location
-	
-	// Link to Parent Directory
-	$dir_up = dirname($new_dir);
-	if($dir_up==".") $dir_up = "";
-	
-	echo "<tr><td><a href=\"javascript:NewDir('".$dir_up;
-	echo "');\"><img border=\"0\" width=\"22\" height=\"22\"";
-	echo " align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_up.png\" alt=\"\">&nbsp;..</a></td></tr>\n";
-	
-	// Print List Of Target Directories
-	if(!is_array($dir_list)) return;
-	
-	while(list($new_item,$info) = each($dir_list)) {
-		if( is_array($info))  {
-			$new_item = $info['name'];
-		}
-		$s_item=$new_item;	if(strlen($s_item)>40) $s_item=substr($s_item,0,37)."...";
-		echo "<tr><td><a href=\"javascript:NewDir('".get_rel_item($new_dir,$new_item).
-			"');\"><img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ".
-			"src=\""._QUIXPLORER_URL."/images/dir.png\" alt=\"\">&nbsp;".$s_item."</a></td></tr>\n";
-	}
-}
+
 //------------------------------------------------------------------------------
 function copy_move_items($dir) {		// copy/move file/dir
-	if(($GLOBALS["permissions"]&01)!=01) show_error($GLOBALS["error_msg"]["accessfunc"]);
+	$action = mosGetParam( $_REQUEST, 'action' );
+	if(($GLOBALS["permissions"]&01)!=01){
+		jx_Result::sendResult( $action, false, $GLOBALS["error_msg"]["accessfunc"]);
+	}
 	
 	// Vars
 	$first = $GLOBALS['__POST']["first"];
@@ -102,98 +53,25 @@ function copy_move_items($dir) {		// copy/move file/dir
 	else $new_dir = stripslashes($GLOBALS['__POST']["new_dir"]);
 	if($new_dir==".") $new_dir="";
 	$cnt=count($GLOBALS['__POST']["selitems"]);
-
-	// Copy or Move?
-	if($GLOBALS["action"]!="move") {
-		$images="images/__copy.gif";
-	} else {
-		$images="images/__cut.gif";
-	}
-	
-	// Get New Location & Names
-	if(!isset($GLOBALS['__POST']["confirm"]) || $GLOBALS['__POST']["confirm"]!="true") {
-		show_header(($GLOBALS["action"]!="move"?
-			$GLOBALS["messages"]["actcopyitems"]:
-			$GLOBALS["messages"]["actmoveitems"]
-		));
-		
-		// JavaScript for Form:
-		// Select new target directory / execute action
-?><script language="JavaScript1.2" type="text/javascript">
-<!--
-	function NewDir(newdir) {
-		document.selform.new_dir.value = newdir;
-		document.selform.submit();
-	}
-	
-	function Execute() {
-		document.selform.confirm.value = "true";
-	}
-//-->
-</script><?php
-		
-		// "Copy / Move from .. to .."
-		$s_dir=$dir;		if(strlen($s_dir)>40) $s_dir="...".substr($s_dir,-37);
-		$s_ndir=$new_dir;	if(strlen($s_ndir)>40) $s_ndir="...".substr($s_ndir,-37);
-		echo "<br /><img src=\""._QUIXPLORER_URL.'/images/'.$images."\" align=\"absmiddle\" alt=\"\" />&nbsp;<strong>";
-		echo sprintf(($GLOBALS["action"]!="move"?$GLOBALS["messages"]["actcopyfrom"]:
-			$GLOBALS["messages"]["actmovefrom"]),$s_dir, $s_ndir);
-		echo "</strong><img src=\""._QUIXPLORER_URL."/images/__paste.gif\" align=\"absmiddle\" alt=\"\">\n";
-		
-		// Form for Target Directory & New Names
-		echo "<br /><br /><form name=\"selform\" method=\"post\" action=\"";
-		echo make_link("post",$dir,NULL)."\"><table style=\"width:500px;\" class=\"adminform\">\n";
-		echo "<input type=\"hidden\" name=\"do_action\" value=\"".$GLOBALS["action"]."\">\n";
-		echo "<input type=\"hidden\" name=\"confirm\" value=\"false\">\n";
-		echo "<input type=\"hidden\" name=\"first\" value=\"n\">\n";
-		echo "<input type=\"hidden\" name=\"new_dir\" value=\"".$new_dir."\">\n";
-		
-		// List Directories to select Target
-		dir_print(dir_list($new_dir),$new_dir);
-		echo "</table><br />
-		<table style=\"width:500px;\" class=\"adminform\">\n";
-		
-		// Print Text Inputs to change Names
-		for($i=0;$i<$cnt;++$i) {
-			$selitem=stripslashes($GLOBALS['__POST']["selitems"][$i]);
-			if(isset($GLOBALS['__POST']["newitems"][$i])) {
-				$newitem=stripslashes($GLOBALS['__POST']["newitems"][$i]);
-				if($first=="y") $newitem=$selitem;
-			} else $newitem=$selitem;
-			$s_item=$selitem;	if(strlen($s_item)>50) $s_item=substr($s_item,0,47)."...";
-			echo "<tr><td><img src=\""._QUIXPLORER_URL."/images/_info.gif\" align=\"absmiddle\" alt=\"\">";
-			// old name
-			echo "<input type=\"hidden\" name=\"selitems[]\" value=\"";
-			echo $selitem."\">&nbsp;".$s_item."&nbsp;";
-			// New Name
-			echo "</td><td><input type=\"text\" size=\"25\" name=\"newitems[]\" value=\"";
-			echo $newitem."\"></td></tr>\n";
-		}
-		
-		// Submit & Cancel
-		echo "</table><br /><table><tr>\n<td>";
-		echo "<input type=\"submit\" value=\"";
-		echo ($GLOBALS["action"]!="move"?$GLOBALS["messages"]["btncopy"]:$GLOBALS["messages"]["btnmove"]);
-		echo "\" onclick=\"javascript:Execute();\"></td>\n<td>";
-		echo "<input type=\"button\" value=\"".$GLOBALS["messages"]["btncancel"];
-		echo "\" onclick=\"javascript:location='".make_link("list",$dir,NULL);
-		echo "';\"></td>\n</tr></table><br /></form>\n";
-		return;
-	}
 	
 	// DO COPY/MOVE
 	
 	// ALL OK?
-	if(!@$GLOBALS['jx_File']->file_exists(get_abs_dir($new_dir))) show_error(get_abs_dir($new_dir).": ".$GLOBALS["error_msg"]["targetexist"]);
-	if(!get_show_item($new_dir,"")) show_error($new_dir.": ".$GLOBALS["error_msg"]["accesstarget"]);
-	if(!down_home(get_abs_dir($new_dir))) show_error($new_dir.": ".$GLOBALS["error_msg"]["targetabovehome"]);
-	
+	if(!@$GLOBALS['jx_File']->file_exists(get_abs_dir($new_dir))) {
+		jx_Result::sendResult( $action, false, get_abs_dir($new_dir).": ".$GLOBALS["error_msg"]["targetexist"]);
+	}
+	if(!get_show_item($new_dir,"")) {
+		jx_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["accesstarget"]);
+	}
+	if(!down_home(get_abs_dir($new_dir))) {
+		jx_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["targetabovehome"]);
+	}	
 	
 	// copy / move files
 	$err=false;
 	for($i=0;$i<$cnt;++$i) {
-		$tmp = stripslashes($GLOBALS['__POST']["selitems"][$i]);
-		$new = basename(stripslashes($GLOBALS['__POST']["newitems"][$i]));
+		$tmp = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
+		$new = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
 		
 		if( jx_isFTPMode() ) {
 			$abs_item = get_item_info($dir,$tmp);
@@ -224,7 +102,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 		}
 	
 		// Copy / Move
-		if($GLOBALS["action"]=="copy") {
+		if($action=="copy") {
 			if(@is_link($abs_item) || get_is_file($abs_item)) {
 				// check file-exists to avoid error with 0-size files (PHP 4.3.0)
 				if( jx_isFTPMode() ) $abs_item = '/'.$dir.'/'.$abs_item['name'];
@@ -243,7 +121,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 		}
 		
 		if($ok===false || PEAR::isError( $ok ) ) {
-			$error[$i]=($GLOBALS["action"]=="copy"?
+			$error[$i]=($action=="copy"?
 							$GLOBALS["error_msg"]["copyitem"]:
 							$GLOBALS["error_msg"]["moveitem"]
 						);
@@ -261,12 +139,12 @@ function copy_move_items($dir) {		// copy/move file/dir
 		for($i=0;$i<$cnt;++$i) {
 			if($error[$i]==NULL) continue;
 			
-			$err_msg .= $items[$i]." : ".$error[$i]."<br />\n";
+			$err_msg .= $items[$i]." : ".$error[$i]."\n";
 		}
-		show_error($err_msg);
+		jx_Result::sendResult( $action, false, $err_msg);
 	}
 	
-	header("Location: ".make_link("list",$dir,NULL));
+	jx_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
 }
 //------------------------------------------------------------------------------
 ?>

@@ -40,63 +40,117 @@ Comment:
 	Have Fun...
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-function rename_item($dir, $item) {		// rename directory or file
+class jx_Rename extends jx_Action {
 	
-	if(($GLOBALS["permissions"]&01)!=01) {
-		show_error($GLOBALS["error_msg"]["accessfunc"]);
+	function execAction($dir, $item) {		// rename directory or file
+	
+		if(($GLOBALS["permissions"]&01)!=01) {
+			jx_Result::sendResult('rename', false, $GLOBALS["error_msg"]["accessfunc"]);
+		}
+		
+		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
+			
+			$newitemname=$GLOBALS['__POST']["newitemname"];
+			$newitemname=trim(basename(stripslashes($newitemname)));
+			
+			if($newitemname=='' ) {
+				jx_Result::sendResult('rename', false, $GLOBALS["error_msg"]["miscnoname"]);
+			}
+			if( !jx_isFTPMode()) {
+				$abs_old = get_abs_item($dir,$item);
+				$abs_new = get_abs_item($dir,$newitemname);
+			} else {
+				$abs_old = get_item_info($dir,$item);
+				$abs_new = get_item_info($dir,$newitemname);
+			}
+			
+			if(@$GLOBALS['jx_File']->file_exists($abs_new)) {
+				jx_Result::sendResult('rename', false, $newitemname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
+			}
+			$perms_old = $GLOBALS['jx_File']->fileperms( $abs_old );
+			
+			$ok=$GLOBALS['jx_File']->rename( get_abs_item($dir,$item), get_abs_item($dir,$newitemname) );
+			if( jx_isFTPMode()) {
+				$abs_new = get_item_info($dir,$newitemname);
+			}
+			
+			$GLOBALS['jx_File']->chmod( $abs_new, $perms_old );
+			
+			if($ok===false || PEAR::isError($ok)) {
+				jx_Result::sendResult('rename', false, 'Could not rename '.$dir.'/'.$item.' to '.$newitemname);
+			}
+			
+			$msg = sprintf( $GLOBALS['messages']['success_rename_file'], $item, $newitemname );
+			
+			jx_Result::sendResult('rename', true, $msg );
+		}
+		$is_dir = get_is_dir(jx_isFTPMode() ? get_item_info($dir,$item) : get_abs_item($dir,$item));
+		show_header($GLOBALS['messages']['rename_file']);
+	
+	?>
+	<div style="width:auto;">
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	
+	        <h3 style="margin-bottom:5px;">Rename <?php echo $is_dir ? 'Directory' : 'File' ?></h3>
+	        <div id="adminForm">
+	
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>
+	<script type="text/javascript">
+	var simple = new Ext.form.Form({
+	    labelWidth: 75, // label settings here cascade unless overridden
+	    url:'index.php'
+	});
+	simple.add(
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo $GLOBALS["messages"]["newname"] ?>',
+	        name: 'newitemname',
+	        value: '<?php echo str_replace("'", "\'", stripslashes($GLOBALS['__POST']['item']) ) ?>',
+	        width:175,
+	        allowBlank:false
+	    })
+	    );
+	
+	simple.addButton('Save', function() {
+	    simple.submit({
+	        waitMsg: 'Processing Data, please wait...',
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {
+	        	<?php 
+	        	if( $is_dir ) {
+	        		?>
+	        		parentDir = dirTree.getSelectionModel().getSelectedNode().parentNode;
+	        		parentDir.reload();
+	        		parentDir.select();
+	    		<?php 
+	        	} else {
+		    		?>
+		    		datastore.reload();
+		        	<?php 
+	        	}
+	    		?>
+	    		dialog.hide();
+	        	dialog.destroy();
+	        },
+	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        scope: simple,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_joomlaxplorer', 
+	        		action: 'rename', 
+	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
+	        		item: '<?php echo stripslashes($GLOBALS['__POST']["item"]) ?>', 
+	        		confirm: 'true'}
+	    });
+	});
+	simple.addButton('Cancel', function() { dialog.destroy(); } );
+	simple.render('adminForm');
+	</script>
+	<?php
+	
 	}
-	
-	
-	if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
-		
-		$newitemname=$GLOBALS['__POST']["newitemname"];
-		$newitemname=trim(basename(stripslashes($newitemname)));
-		
-		if($newitemname=='' ) {
-			show_error($GLOBALS["error_msg"]["miscnoname"]);
-		}
-		if( !jx_isFTPMode()) {
-			$abs_old = get_abs_item($dir,$item);
-			$abs_new = get_abs_item($dir,$newitemname);
-		} else {
-			$abs_old = get_item_info($dir,$item);
-			$abs_new = get_item_info($dir,$newitemname);
-		}
-		if(@$GLOBALS['jx_File']->file_exists($abs_new)) {
-			show_error($newitemname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
-		}
-		$perms_old = $GLOBALS['jx_File']->fileperms( $abs_old );
-		
-		$ok=$GLOBALS['jx_File']->rename( get_abs_item($dir,$item), get_abs_item($dir,$newitemname) );
-		if( jx_isFTPMode()) {
-			$abs_new = get_item_info($dir,$newitemname);
-		}
-		
-		$GLOBALS['jx_File']->chmod( $abs_new, $perms_old );
-		
-		if($ok===false || PEAR::isError($ok)) {
-			show_error('Could not rename '.$item.' to '.$newitemname);
-		}
-		
-		$msg = sprintf( $GLOBALS['messages']['success_rename_file'], $item, $newitemname );
-		mosRedirect( make_link("list", $dir, null), $msg );
-	}
-	
-	show_header($GLOBALS['messages']['rename_file']);
-
-
-	// Form
-	echo '<br /><form method="post" action="';
-	echo make_link("rename",$dir,$item) . "\">\n";
-	echo "<input type=\"hidden\" name=\"confirm\" value=\"true\" />\n";	
-	echo "<input type=\"hidden\" name=\"item\" value=\"".stripslashes($GLOBALS['__GET']["item"])."\" />\n";
-
-	// Submit / Cancel
-	echo "<table>\n<tr><tr><td colspan=\"2\">\n";
-	echo "<label for=\"newitemname\">".$GLOBALS["messages"]["newname"].":</label>&nbsp;&nbsp;&nbsp;<input name=\"newitemname\" id=\"newitemname\" type=\"text\" size=\"60\" value=\"".stripslashes($_GET['item'])."\" /><br /><br /><br /></td></tr>\n";
-	echo "<tr><tr><td>\n<input type=\"submit\" value=\"".$GLOBALS["messages"]["btnchange"];
-	echo "\"></td>\n<td><input type=\"button\" value=\"".$GLOBALS["messages"]["btncancel"];
-	echo "\" onclick=\"javascript:location='".make_link("list",$dir,NULL)."';\">\n</td></tr></form></table><br />\n";
 }
-//------------------------------------------------------------------------------
 ?>

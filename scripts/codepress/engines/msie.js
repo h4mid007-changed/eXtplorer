@@ -1,5 +1,5 @@
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.org/
  * 
  * Copyright (C) 2007 Fernando M.A.d.S. <fermads@gmail.com>
  *
@@ -15,63 +15,72 @@
 
 
 CodePress = {
-	language : null,
 	scrolling : false,
-
+	autocomplete : true,
+	
 	// set initial vars and start sh
 	initialize : function() {
-		if(typeof(editor)=='undefined'&&!arguments[0]) return;
+		if(typeof(editor)=='undefined' && !arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
-		editor = document.getElementById('code');
+		editor = document.getElementsByTagName('pre')[0];
 		editor.contentEditable = 'true';
+		document.getElementsByTagName('body')[0].onfocus = function() {editor.focus();}
 		document.attachEvent('onkeydown', this.metaHandler);
 		document.attachEvent('onkeypress', this.keyHandler);
-		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') });
+		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) setTimeout(function(){CodePress.syntaxHighlight('scroll')},1)});
 		completeChars = this.getCompleteChars();
-		parent.CodePress.initialize();
-		this.language = parent.CodePress.language;
+//		CodePress.syntaxHighlight('init');
 		setTimeout(function() { window.scroll(0,0) },50); // scroll IE to top
 	},
 	
 	// treat key bindings
 	keyHandler : function(evt) {
 		charCode = evt.keyCode;
-		if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
+		if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && CodePress.autocomplete) { // auto complete
 			CodePress.complete(String.fromCharCode(charCode))
 		}
 	    else if(chars.indexOf('|'+charCode+'|')!=-1||charCode==13) { // syntax highlighting
 		 	CodePress.syntaxHighlight('generic');
 		}
-		else if(charCode==46||charCode==8) { // save to history when delete or backspace pressed
-		 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
-		}
-		else if((charCode==122||charCode==121||charCode==90) && evt.ctrlKey) { // undo and redo
-			(charCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
-			evt.returnValue = false;
-		}
-		else if(charCode==86 && evt.ctrlKey)  { // paste
-			// TODO: pasted text should be parsed and highlighted
-		}
 	},
 
 	metaHandler : function(evt) {
-		if(evt.keyCode==9 || evt.tabKey) { 
+		keyCode = evt.keyCode;
+		
+		if(keyCode==9 || evt.tabKey) { 
 			CodePress.snippets();
 		}
-		else if(evt.keyCode==34||evt.keyCode==33) { // handle page up/down for IE
-			self.scrollBy(0, (evt.keyCode==34) ? 200 : -200); 
+		else if((keyCode==122||keyCode==121||keyCode==90) && evt.ctrlKey) { // undo and redo
+			(keyCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
 			evt.returnValue = false;
 		}
-		else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && evt.keyCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
-			CodePress.shortcuts(evt.keyCode);
+		else if(keyCode==34||keyCode==33) { // handle page up/down for IE
+			self.scrollBy(0, (keyCode==34) ? 200 : -200); 
 			evt.returnValue = false;
+		}
+		else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
+		 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
+		}
+		else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && keyCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
+			CodePress.shortcuts(keyCode);
+			evt.returnValue = false;
+		}
+		else if(keyCode==86 && evt.ctrlKey)  { // handle paste
+			window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\t/g,'\u2008'));
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);
+		}
+		else if(keyCode==67 && evt.ctrlKey)  { // handle cut
+			// window.clipboardData.setData('Text',x[0]);
+			// code = window.clipboardData.getData('Text');
 		}
 	},
 
 	// put cursor back to its original position after every parsing
+	
+	
 	findString : function() {
-	    range = self.document.body.createTextRange();
+		range = self.document.body.createTextRange();
 		if(range.findText(cc)){
 			range.select();
 			range.text = '';
@@ -99,6 +108,10 @@ CodePress = {
 	syntaxHighlight : function(flag) {
 		if(flag!='init') document.selection.createRange().text = cc;
 		o = editor.innerHTML;
+		if(flag=='paste') { // fix pasted text
+			o = o.replace(/<BR>/g,'\r\n'); 
+			o = o.replace(/\u2008/g,'\t');
+		}
 		o = o.replace(/<P>/g,'\n');
 		o = o.replace(/<\/P>/g,'\r');
 		o = o.replace(/<.*?>/g,'');
@@ -131,10 +144,14 @@ CodePress = {
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
 				content = content.replace(/\n/g,'</P><P>');
-				var pattern = new RegExp(trigger+cc);
+				var pattern = new RegExp(trigger+cc,"gi");
 				this.syntaxHighlight('snippets',pattern,content);
 			}
 		}
+	},
+	
+	readOnly : function() {
+		editor.contentEditable = (arguments[0]) ? 'false' : 'true';
 	},
 	
 	complete : function(trigger) {
@@ -159,7 +176,7 @@ CodePress = {
 		var cCode = arguments[0];
 		if(cCode==13) cCode = '[enter]';
 		else if(cCode==32) cCode = '[space]';
-		else cCode = '['+String.fromCharCode(charCode).toLowerCase()+']';
+		else cCode = '['+String.fromCharCode(keyCode).toLowerCase()+']';
 		for(var i=0;i<Language.shortcuts.length;i++)
 			if(Language.shortcuts[i].input == cCode)
 				this.insertCode(Language.shortcuts[i].output,false);
@@ -168,22 +185,22 @@ CodePress = {
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
-		words = words.replace(/[\s\r\);]/g,"\n").split("\n");
-		return words[words.length-1];
-	},
+		words = words.replace(/[\s\n\r\);\W]/g,'\n').split('\n');
+		return words[words.length-1].replace(/[\W]/gi,'').toLowerCase();
+	}, 
 
 	getRangeAndCaret : function() {	
 		var range = document.selection.createRange();
-		var caret = Math.abs(range.moveStart("character", -1000000)+1);
-		range = parent.CodePress.getCode();
+		var caret = Math.abs(range.moveStart('character', -1000000)+1);
+		range = this.getCode();
 		range = range.replace(/\n\r/gi,'  ');
 		range = range.replace(/\n/gi,'');
 		return [range.toString(),caret];
 	},
 	
 	insertCode : function(code,replaceCursorBefore) {
-		var repdeb = "";
-		var repfin = "";
+		var repdeb = '';
+		var repfin = '';
 		
 		if(replaceCursorBefore) { repfin = code; }
 		else { repdeb = code; }
@@ -196,6 +213,33 @@ CodePress = {
 			range.select();	
 		}	
 	},
+
+	// get code from editor	
+	getCode : function() {
+		var code = editor.innerHTML;
+		code = code.replace(/<br>/g,'\n');
+		code = code.replace(/<\/p>/gi,'\r');
+		code = code.replace(/<p>/i,''); // IE first line fix
+		code = code.replace(/<p>/gi,'\n');
+		code = code.replace(/&nbsp;/gi,'');
+		code = code.replace(/\u2009/g,'');
+		code = code.replace(/<.*?>/g,'');
+		code = code.replace(/&lt;/g,'<');
+		code = code.replace(/&gt;/g,'>');
+		code = code.replace(/&amp;/gi,'&');
+		return code;
+	},
+
+	// put code inside editor
+	setCode : function() {
+		var code = arguments[0];
+		code = code.replace(/\u2009/gi,'');
+		code = code.replace(/&/gi,'&amp;');		
+       	code = code.replace(/</g,'&lt;');
+        code = code.replace(/>/g,'&gt;');
+		editor.innerHTML = '<pre>'+code+'</pre>';
+	},
+
 	
 	// undo and redo methods
 	actions : {
@@ -229,4 +273,3 @@ CodePress = {
 
 Language={};
 window.attachEvent('onload', function() { CodePress.initialize('new');});
-//parent.attachEvent('onresize',function() { parent.CodePress.resizeFullScreen();});

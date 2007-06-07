@@ -41,7 +41,7 @@ Comment:
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
 function load_users() {
-	require _QUIXPLORER_PATH."/config/.htusers.php";
+	require _JX_PATH."/config/.htusers.php";
 }
 //------------------------------------------------------------------------------
 function save_users() {
@@ -63,7 +63,7 @@ function save_users() {
 	$content.="\r\n); ?>";
 	
 	// Write to File
-	$fp = @fopen(_QUIXPLORER_PATH."/config/.htusers.php", "w");
+	$fp = @fopen(_JX_PATH."/config/.htusers.php", "w");
 	if($fp===false) return false;	// Error
 	fputs($fp,$content);
 	fclose($fp);
