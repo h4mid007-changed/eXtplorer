@@ -27,7 +27,7 @@ class jx_File {
 			return $GLOBALS['FTPCONNECTION']->chmod( $item, $mode );
 		}
 		else {
-			return chmod( $item, $mode );
+			return @chmod( $item, $mode );
 		}
 	}
 	
@@ -135,6 +135,14 @@ class jx_File {
 			return readdir( $handle );
 		}
 	}
+	function scandir( $dir ) {
+		if( jx_isFTPMode() ) {
+			return getCachedFTPListing( $dir );
+		}
+		else {
+			return scandir( $dir );
+		}
+	}
 	function closedir( &$handle ) {		
 		if( jx_isFTPMode() ) {
 			return;
@@ -189,7 +197,7 @@ class jx_File {
 			return decoct(bindec(decode_ftp_rights( $perms )));
 		}
 		else {
-			return fileperms( $file);
+			return @fileperms( $file);
 		}		
 	}
 	function filemtime( $file ) {
@@ -378,7 +386,7 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 		$tmp_dir = _QUIXPLORER_FTPTMP_PATH.'/'.uniqid('jx_tmpdir_').'/';
 		$res = $GLOBALS['FTPCONNECTION']->getRecursive( $abs_item, $tmp_dir, true );
 		if( PEAR::isError( $res )) {
-			show_error('Failed to fetch the directory via FTP: '.$res->getMessage() );
+			jx_Result::sendResult( 'list', false, 'Failed to fetch the directory via FTP: '.$res->getMessage() );
 		}
 		return $tmp_dir;
 	}
@@ -387,11 +395,11 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 		$tmp_file = tempnam( _QUIXPLORER_FTPTMP_PATH, 'jx_ftp_dl_' );
 	
 		if( $tmp_file == 'false') {
-			show_error( 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
+			jx_Result::sendResult( 'list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
 		}
 		$res = $GLOBALS['FTPCONNECTION']->get( '/'.$abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {
-			show_error('Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
+			jx_Result::sendResult( 'list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
 		}
 	}
 	else {
@@ -399,7 +407,7 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 	
 		$res = $GLOBALS['FTPCONNECTION']->fget( '/'.$abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {
-			show_error('Failed to fetch the file via FTP: '.$res->getMessage() );
+			jx_Result::sendResult( 'list', false, 'Failed to fetch the file via FTP: '.$res->getMessage() );
 		}
 		rewind( $tmp_file );
 	}
@@ -417,7 +425,7 @@ function &getCachedFTPListing( $dir, $force_refresh=false ) {
 		}
 		$GLOBALS['ftp_ls'][$dir] = $GLOBALS['FTPCONNECTION']->ls( $dir );
 		if( PEAR::isError( $GLOBALS['ftp_ls'][$dir] )) {
-			show_error( $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
+			jx_Result::sendResult( 'list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
 		}
 	}
 	return $GLOBALS['ftp_ls'][$dir];

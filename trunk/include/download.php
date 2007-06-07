@@ -39,93 +39,60 @@ Comment:
 	
 	Have Fun...
 ------------------------------------------------------------------------------*/
-/**
- * Reads a file and sends them in chunks to the browser
- * This should overcome memory problems
- * http://www.php.net/manual/en/function.readfile.php#54295
- *
- * @since 1.4.1
- * @param string $filename
- * @param boolean $retbytes
- * @return mixed
- */
-function readFileChunked($filename,$retbytes=true) {
-	$chunksize = 1*(1024*1024); // how many bytes per chunk
-	$buffer = '';
-	$cnt =0;
-	// $handle = fopen($filename, 'rb');
-	$handle = fopen($filename, 'rb');
-	if ($handle === false) {
-		return false;
-	}
-	while (!feof($handle)) {
-		$buffer = fread($handle, $chunksize);
-		echo $buffer;
-		sleep(1);
-		ob_flush();
-		flush();
-		if ($retbytes) {
-			$cnt += strlen($buffer);
+
+class jx_Download extends jx_Action {
+	
+	function execAction($dir, $item, $unlink=false) {		// download file
+		global $action, $mosConfig_cache_path;
+		// Security Fix:
+		$item=basename($item);
+	
+		while( @ob_end_clean() );
+	    ob_start();
+		
+		if( jx_isFTPMode() ) {
+			$abs_item = $dir.'/'.$item;
 		}
-	}
-	$status = fclose($handle);
-	if ($retbytes && $status) {
-		return $cnt; // return num. bytes delivered like readfile() does.
-	}
-	return $status;
-}
-
-//------------------------------------------------------------------------------
-function download_item($dir, $item, $unlink=false) {		// download file
-	global $action, $mosConfig_cache_path;
-	// Security Fix:
-	$item=basename($item);
-
-	while( @ob_end_clean() );
-    ob_start();
+		else {
+			$abs_item = get_abs_item($dir,$item);
+			if( !strstr( $abs_item, realpath($GLOBALS['home_dir']) ))
+			  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
+		}
+		
+		if(($GLOBALS["permissions"]&01)!=01) jx_Result::sendResult( 'download', false, $GLOBALS["error_msg"]["accessfunc"]);
+		if(!$GLOBALS['jx_File']->file_exists($abs_item)) jx_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
+		if(!get_show_item($dir, $item)) jx_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);
 	
-	if( jx_isFTPMode() ) {
-		$abs_item = $dir.'/'.$item;
-	}
-	else {
-		$abs_item = get_abs_item($dir,$item);
-		if( !strstr( $abs_item, realpath($GLOBALS['home_dir']) ))
-		  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
-	}
+		if( jx_isFTPMode() ) {
 	
-	if(($GLOBALS["permissions"]&01)!=01) show_error($GLOBALS["error_msg"]["accessfunc"]);
-	if(!$GLOBALS['jx_File']->file_exists($abs_item)) show_error($item.": ".$GLOBALS["error_msg"]["fileexist"]);
-	if(!get_show_item($dir, $item)) show_error($item.": ".$GLOBALS["error_msg"]["accessfile"]);
-
-	if( jx_isFTPMode() ) {
-
-		$abs_item = jx_ftp_make_local_copy( $abs_item );
-		$unlink = true;
+			$abs_item = jx_ftp_make_local_copy( $abs_item );
+			$unlink = true;
+		}
+		$browser=id_browser();
+		header('Content-Type: '.(($browser=='IE' || $browser=='OPERA')?
+			'application/octetstream':'application/octet-stream'));
+		header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
+		header('Content-Transfer-Encoding: binary');
+		header('Content-Length: '.filesize(realpath($abs_item)));
+	    //header("Content-Encoding: none");
+		if($browser=='IE') {
+			header('Content-Disposition: attachment; filename="'.$item.'"');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+		} else {
+			header('Content-Disposition: attachment; filename="'.$item.'"');
+			header('Cache-Control: no-cache, must-revalidate');
+			header('Pragma: no-cache');
+		}
+		@set_time_limit( 0 );
+		@readFileChunked($abs_item);
+		
+		if( $unlink==true ) {
+		  	unlink( $abs_item );
+		}
+	    ob_end_flush();
+		jx_exit();
 	}
-	$browser=id_browser();
-	header('Content-Type: '.(($browser=='IE' || $browser=='OPERA')?
-		'application/octetstream':'application/octet-stream'));
-	header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
-	header('Content-Transfer-Encoding: binary');
-	header('Content-Length: '.filesize(realpath($abs_item)));
-    //header("Content-Encoding: none");
-	if($browser=='IE') {
-		header('Content-Disposition: attachment; filename="'.$item.'"');
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header('Pragma: public');
-	} else {
-		header('Content-Disposition: attachment; filename="'.$item.'"');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
-	}
-	@set_time_limit( 0 );
-	@readFileChunked($abs_item);
-	
-	if( $unlink==true ) {
-	  	unlink( $abs_item );
-	}
-    ob_end_flush();
-	exit;
 }
 //------------------------------------------------------------------------------
 ?>

@@ -40,58 +40,62 @@ Comment:
 	Have Fun...
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-function del_items($dir) {		
-	// delete files/dirs
-	if(($GLOBALS["permissions"]&01)!=01) 
-	  show_error($GLOBALS["error_msg"]["accessfunc"]);
+
+class jx_Delete extends jx_Action {
 	
-	$cnt = count($GLOBALS['__POST']["selitems"]);
-	$err = false;
-	
-	// delete files & check for errors
-	for($i=0;$i<$cnt;++$i) {
-		$items[$i] = stripslashes($GLOBALS['__POST']["selitems"][$i]);
-		if( jx_isFTPMode() ) {
-			$abs = get_item_info( $dir,$items[$i]);
-		} else {
-			$abs = get_abs_item($dir,$items[$i]);
-		}
+	function execAction($dir) {
+		// delete files/dirs
+		if(($GLOBALS["permissions"]&01)!=01) 
+		  jx_Result::sendResult('delete', false, $GLOBALS["error_msg"]["accessfunc"]);
 		
-		if(!@$GLOBALS['jx_File']->file_exists( $abs )) {
-			$error[$i] = $GLOBALS["error_msg"]["itemexist"];
-			$err=true;	continue;
-		}
-		if(!get_show_item($dir, $items[$i])) {
-			$error[$i] = $GLOBALS["error_msg"]["accessitem"];
-			$err=true;	continue;
-		}
+		$cnt = count($GLOBALS['__POST']["selitems"]);
+		$err = false;
 		
-		// Delete
-		if( jx_isFTPMode() ) $abs = get_abs_item($dir,$abs);
-		
-		$ok= $GLOBALS['jx_File']->remove( $abs );
-		
-		if($ok===false || PEAR::isError( $ok )) {
-			$error[$i]=$GLOBALS["error_msg"]["delitem"];
-			if( PEAR::isError( $ok ) ) {
-				$error[$i].= ' ['.$ok->getMessage().']';
-			}
-			$err=true;	continue;
-		}
-		
-		$error[$i]=NULL;
-	}
-	
-	if($err) {			// there were errors
-		$err_msg="";
+		// delete files & check for errors
 		for($i=0;$i<$cnt;++$i) {
-			if($error[$i]==NULL) continue;
+			$items[$i] = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
+			if( jx_isFTPMode() ) {
+				$abs = get_item_info( $dir,$items[$i]);
+			} else {
+				$abs = get_abs_item($dir,$items[$i]);
+			}
 			
-			$err_msg .= $items[$i]." : ".$error[$i]."<br/>\n";
+			if(!@$GLOBALS['jx_File']->file_exists( $abs )) {
+				$error[$i] = $GLOBALS["error_msg"]["itemexist"];
+				$err=true;	continue;
+			}
+			if(!get_show_item($dir, $items[$i])) {
+				$error[$i] = $GLOBALS["error_msg"]["accessitem"];
+				$err=true;	continue;
+			}
+			
+			// Delete
+			if( jx_isFTPMode() ) $abs = get_abs_item($dir,$abs);
+			
+			$ok= $GLOBALS['jx_File']->remove( $abs );
+			
+			if($ok===false || PEAR::isError( $ok )) {
+				$error[$i]=$GLOBALS["error_msg"]["delitem"];
+				if( PEAR::isError( $ok ) ) {
+					$error[$i].= ' ['.$ok->getMessage().']';
+				}
+				$err=true;	continue;
+			}
+			
+			$error[$i]=NULL;
 		}
-		show_error($err_msg);
+		
+		if($err) {			// there were errors
+			$err_msg="";
+			for($i=0;$i<$cnt;++$i) {
+				if($error[$i]==NULL) continue;
+				
+				$err_msg .= $items[$i]." : ".$error[$i].".\n";
+			}
+			jx_Result::sendResult('delete', false, $err_msg);
+		}
+		jx_Result::sendResult('delete', true, $GLOBALS['messages']['success_delete_file'] );
 	}
-	mosRedirect( make_link("list", $dir, null), $GLOBALS['messages']['success_delete_file'] );
 }
 //------------------------------------------------------------------------------
 ?>

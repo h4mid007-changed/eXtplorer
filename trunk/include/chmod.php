@@ -40,136 +40,182 @@ Permission-Change Functions
 Have Fun...
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-function chmod_item($dir, $item) {		// change permissions
+class jx_Chmod extends jx_Action {
+	function execAction($dir, $item) {		// change permissions
 
-	if(($GLOBALS["permissions"]&01)!=01) show_error($GLOBALS["error_msg"]["accessfunc"]);
-
-	if( !empty($GLOBALS['__POST']["selitems"])) {
-		$cnt=count($GLOBALS['__POST']["selitems"]);
-
-	}
-	else {
-		$GLOBALS['__POST']["selitems"][]  = $item;
-		$cnt = 1;
-	}
-	if( !empty($GLOBALS['__POST']['do_recurse'])) {
-		$do_recurse = true;
-	}
-	else {
-		$do_recurse = false;
-	}
-
-	// Execute
-	if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
-		$bin='';
-		for($i=0;$i<3;$i++) for($j=0;$j<3;$j++) {
-			$tmp="r_".$i.$j;
-			if(isset($GLOBALS['__POST'][$tmp]) &&$GLOBALS['__POST'][$tmp]=="1" ) {
-				$bin.='1';
-			}
-			else {
-				$bin.='0';
-			}
-		}
-		if( $bin == '0') { // Changing permissions to "none" is not allowed
-			show_error($item.": ".$GLOBALS["error_msg"]["permchange"]);
-		}
-		$old_bin = $bin;
-		for($i=0;$i<$cnt;++$i) {
-			if( jx_isFTPMode() ) {
-				$mode = decoct(bindec($bin));
-			} else {
-				$mode = bindec($bin);
-			}
-			$item = $GLOBALS['__POST']["selitems"][$i];
-			if( jx_isFTPMode() ) {
-				$abs_item = get_item_info( $dir,$item);
-			} else {
-				$abs_item = get_abs_item($dir,$item);
-			}
-			if(!$GLOBALS['jx_File']->file_exists( $abs_item )) {
-				show_error($item.": ".$GLOBALS["error_msg"]["fileexist"]);
-			}
-			if(!get_show_item($dir, $item)) {
-				show_error($item.": ".$GLOBALS["error_msg"]["accessfile"]);
-			}
-			if( $do_recurse ) {
-				$ok = $GLOBALS['jx_File']->chmodRecursive( $abs_item, $mode );
-			}
-			else {
-				if( get_is_dir( $abs_item )) {
-					// when we chmod a directory we must care for the permissions
-					// to prevent that the directory becomes not readable (when the "execute bits" are removed)
-					$bin = substr_replace( $bin, '1', 2, 1 ); // set 1st x bit to 1
-					$bin = substr_replace( $bin, '1', 5, 1 );// set  2nd x bit to 1
-					$bin = substr_replace( $bin, '1', 8, 1 );// set 3rd x bit to 1
-					if( jx_isFTPMode() ) {
-						$mode = decoct(bindec($bin));
-					} else {
-						$mode = bindec($bin);
-					}
-				}
-				$ok = @$GLOBALS['jx_File']->chmod( $abs_item, $mode );
-			}
-
-			$bin = $old_bin;
-		}
-		if(!$ok || PEAR::isError( $ok ) ) {
-			show_error($abs_item.": ".$GLOBALS["error_msg"]["permchange"]);
-		}
-		header("Location: ".make_link("link",$dir,NULL));
-		return;
-	}
-	if( jx_isFTPMode() ) {
-		$abs_item = get_item_info( $dir, $GLOBALS['__POST']["selitems"][0]);
-	} else {
-		$abs_item = get_abs_item( $dir, $GLOBALS['__POST']["selitems"][0]);
-	}
-	$mode = parse_file_perms(get_file_perms( $abs_item ));
-	if($mode===false) {
-		show_error($GLOBALS['__POST']["selitems"][0].": ".$GLOBALS["error_msg"]["permread"]);
-	}
-	$pos = "rwx";
-	$text = "";
-	for($i=0;$i<$cnt;++$i) {
-		$s_item=get_rel_item($dir,$GLOBALS['__POST']["selitems"][$i]);
-		if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
-		$text .= ", ".$s_item;
-	}
-	show_header($GLOBALS["messages"]["actperms"]);
-	echo "<br/><br/><div style=\"max-height: 200px; max-width: 800px;overflow:auto;\">/".$text.'</div>';
-
-	// Form
-	echo '<br /><form method="post" action="'. make_link("chmod",$dir,$item) . "\">
-	<input type=\"hidden\" name=\"confirm\" value=\"true\" />";
-		if( $cnt > 1 || empty( $GLOBALS['__GET']["item"] )) {
-		for($i=0;$i<$cnt;++$i) {
-			echo "<input type=\"hidden\" name=\"selitems[]\" value=\"".stripslashes($GLOBALS['__POST']["selitems"][$i])."\" />\n";
-		}
-	}
-	else {
-		echo "<input type=\"hidden\" name=\"item\" value=\"".stripslashes($GLOBALS['__GET']["item"])."\" />\n";
-	}
-	echo "
-	<table class=\"adminform\" style=\"width:175px;\">\n";
+		if(($GLOBALS["permissions"]&01)!=01) jx_Result::sendResult( 'chmod', false, $GLOBALS["error_msg"]["accessfunc"]);
+		
+		if( !empty($GLOBALS['__POST']["selitems"])) {
+			$cnt=count($GLOBALS['__POST']["selitems"]);
 	
-	// print table with current perms & checkboxes to change
-	for($i=0;$i<3;++$i) {
-		echo "<tr><td>" . $GLOBALS["messages"]["miscchmod"][$i] . "</td>";
-		for($j=0;$j<3;++$j) {
-			echo "<td><label for=\"r_" . $i.$j . "\"\">" . $pos{$j} . "&nbsp;</label><input type=\"checkbox\"";
-			if($mode{(3*$i)+$j} != "-") echo " checked=\"checked\"";
-			echo " name=\"r_" . $i.$j . "\" id=\"r_" . $i.$j . "\" value=\"1\" /></td>";
 		}
-		echo "</tr>\n";
+		else {
+			$GLOBALS['__POST']["selitems"][]  = $item;
+			$cnt = 1;
+		}
+		if( !empty($GLOBALS['__POST']['do_recurse'])) {
+			$do_recurse = true;
+		}
+		else {
+			$do_recurse = false;
+		}
+	
+		// Execute
+		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
+			$bin='';
+			for($i=0;$i<3;$i++) for($j=0;$j<3;$j++) {
+				$tmp="r_".$i.$j;
+				if(!empty($GLOBALS['__POST'][$tmp]) ) {
+					$bin.='1';
+				}
+				else {
+					$bin.='0';
+				}
+			}
+			if( $bin == '0') { // Changing permissions to "none" is not allowed
+				jx_Result::sendResult('chmod', false, $item.": Changing Permissions to <none> is not allowed");
+			}
+			$old_bin = $bin;
+			for($i=0;$i<$cnt;++$i) {
+				if( jx_isFTPMode() ) {
+					$mode = decoct(bindec($bin));
+				} else {
+					$mode = bindec($bin);
+				}
+				$item = $GLOBALS['__POST']["selitems"][$i];
+				if( jx_isFTPMode() ) {
+					$abs_item = get_item_info( $dir,$item);
+				} else {
+					$abs_item = get_abs_item($dir,$item);
+				}
+				if(!$GLOBALS['jx_File']->file_exists( $abs_item )) {
+					jx_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
+				}
+				if(!get_show_item($dir, $item)) {
+					jx_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);
+				}
+				if( $do_recurse ) {
+					$ok = $GLOBALS['jx_File']->chmodRecursive( $abs_item, $mode );
+				}
+				else {
+					if( get_is_dir( $abs_item )) {
+						// when we chmod a directory we must care for the permissions
+						// to prevent that the directory becomes not readable (when the "execute bits" are removed)
+						$bin = substr_replace( $bin, '1', 2, 1 ); // set 1st x bit to 1
+						$bin = substr_replace( $bin, '1', 5, 1 );// set  2nd x bit to 1
+						$bin = substr_replace( $bin, '1', 8, 1 );// set 3rd x bit to 1
+						if( jx_isFTPMode() ) {
+							$mode = decoct(bindec($bin));
+						} else {
+							$mode = bindec($bin);
+						}
+					}
+					$ok = @$GLOBALS['jx_File']->chmod( $abs_item, $mode );
+				}
+	
+				$bin = $old_bin;
+			}
+			if(!$ok || PEAR::isError( $ok ) ) {
+				jx_Result::sendResult('chmod', false, $abs_item.": ".$GLOBALS["error_msg"]["permchange"]);
+			}
+			jx_Result::sendResult('chmod', true, 'Permissions were changed' );
+			return;
+		}
+		if( jx_isFTPMode() ) {
+			$abs_item = get_item_info( $dir, $GLOBALS['__POST']["selitems"][0]);
+		} else {
+			$abs_item = get_abs_item( $dir, $GLOBALS['__POST']["selitems"][0]);
+		}
+		$mode = parse_file_perms(get_file_perms( $abs_item ));
+		if($mode===false) {
+			jx_Result::sendResult('chmod', false, $abs_item.": ".$GLOBALS["error_msg"]["permread"]);
+		}
+		$pos = "rwx";
+		$text = "";
+		for($i=0;$i<$cnt;++$i) {		
+			$s_item=get_rel_item($dir,$GLOBALS['__POST']["selitems"][$i]);
+			if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
+			$text .= $s_item.($i+1<$cnt ? ', ':'');
+		}
+		?>
+	<div style="width:auto;">
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	
+	        <h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actperms"] ?></h3>
+	        <?php echo $text ?>
+	        <div id="adminForm">
+	
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>
+	<script type="text/javascript">
+	var form = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'index.php'
+	});
+	
+	<?php
+		// print table with current perms & checkboxes to change
+		for($i=0;$i<3;++$i) {
+			?>
+			form.column(
+		        {width:70, style:'margin-left:10px', clear:true}
+		    );
+			form.fieldset(
+			        {legend:'<?php echo $GLOBALS["messages"]["miscchmod"][$i] ?>', hideLabels:true},
+			        <?php
+			        for($j=0;$j<3;++$j) {
+			        	?>
+				        new Ext.form.Checkbox({
+				            boxLabel:'<?php echo $pos{$j} ?>',
+				            <?php if($mode{(3*$i)+$j} != "-") echo 'checked:true,' ?>
+				            name:'<?php echo "r_". $i.$j ?>'
+				        })     <?php
+			        	if( $j<2 ) echo ',';
+			        }
+			        ?>   );
+	    	form.end();
+	    <?php 
+		}
+		?>
+	form.column(
+	        {width:400, style:'margin-left:10px', clear:true}
+	    );
+	form.add(new Ext.form.Checkbox({
+		fieldLabel:'<?php echo $GLOBALS["messages"]["recurse_subdirs"] ?>',
+		name:'do_recurse'
+	}));
+	form.end();
+	
+	form.addButton('Save', function() {
+	    form.submit({
+	        waitMsg: 'Applying Permissions, please wait...',
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {
+	        	Ext.MessageBox.alert('Success!', action.result.message);
+	        	datastore.reload();
+	    		dialog.hide();
+	        	dialog.destroy();
+	        },
+	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        scope: form,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_joomlaxplorer', 
+	        		action: 'chmod', 
+	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
+	        		'selitems[]': ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
+	        		confirm: 'true'}
+	    });
+	});
+	form.addButton('Cancel', function() { dialog.hide();dialog.destroy(); } );
+	form.render('adminForm');
+	</script>
+	
+		<?php
 	}
-
-	// Submit / Cancel
-	echo "</table>\n<br/>";
-	echo "<table>\n<tr><tr><td colspan=\"2\">\n<input name=\"do_recurse\" id=\"do_recurse\" type=\"checkbox\" value=\"1\" /><label for=\"do_recurse\">".$GLOBALS["messages"]["recurse_subdirs"]."</label></td></tr>\n";
-	echo "<tr><tr><td>\n<input type=\"submit\" value=\"".$GLOBALS["messages"]["btnchange"];
-	echo "\"></td>\n<td><input type=\"button\" value=\"".$GLOBALS["messages"]["btncancel"];
-	echo "\" onclick=\"javascript:location='".make_link("list",$dir,NULL)."';\">\n</td></tr></form></table><br />\n";
 }
 //------------------------------------------------------------------------------
 ?>

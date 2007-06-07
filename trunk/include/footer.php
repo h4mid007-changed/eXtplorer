@@ -40,14 +40,41 @@ Comment:
 	Have Fun...
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-function show_footer() {			// footer for html-page
-	echo"\n<br style=\"clear:both;\"/>
-	<small>
-	<a class=\"title\" href=\"".$GLOBALS['jx_home']."\" target=\"_blank\">joomlaXplorer</a>
+function show_about() {			// footer for html-page
+	echo "\n<div id=\"jx_footer\" style=\"text-align:center;\">
+	<img src=\""._JX_URL."/images/logo.gif\" align=\"middle\" alt=\"joomlaXplorer Logo\" />
+	<br />
+	Your Version: <a href=\"".$GLOBALS['jx_home']."\" target=\"_blank\">joomlaXplorer {$GLOBALS['jx_version']}</a>
+	<br />
  (<a href=\"http://virtuemart.net/index2.php?option=com_versions&amp;catid=2&amp;myVersion=". $GLOBALS['jx_version'] ."\" onclick=\"javascript:void window.open('http://virtuemart.net/index2.php?option=com_versions&catid=2&myVersion=". $GLOBALS['jx_version'] ."', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no'); return false;\" title=\"".$GLOBALS["messages"]["check_version"]."\">".$GLOBALS["messages"]["check_version"]."</a>)
-	</small>
-	</div>
-	<hr/>";
+	
+	";
+	if(function_exists("disk_free_space")) {
+		$size = disk_free_space($GLOBALS['home_dir']. $GLOBALS['separator']);
+		$free=parse_file_size($size);
+	} 
+	elseif(function_exists("diskfreespace")) {
+		$size = diskfreespace($GLOBALS['home_dir'] . $GLOBALS['separator']);
+		$free=parse_file_size($size);
+	} 
+	else $free = "?";
+	
+	echo '<br />'.$GLOBALS["messages"]["miscfree"].": ".$free." \n";
+	if( extension_loaded( "posix" )) {
+	  	$owner_info = '<br /><br />This script currently runs with the permissions of the following user: ';
+	  	if( jx_isFTPMode() ) {
+	  		$my_user_info = posix_getpwnam( $_SESSION['ftp_login'] );
+	  		$my_group_info = posix_getgrgid( $my_user_info['gid'] );
+	  	} else {
+			$my_user_info = posix_getpwuid( posix_geteuid() );
+			$my_group_info = posix_getgrgid(posix_getegid() );
+	  	}
+		$owner_info .= $my_user_info['name'].' ('. $my_user_info['uid'].'), '. $my_group_info['name'].' ('. $my_group_info['gid'].')'; 
+	  
+		echo $owner_info;
+	}
+	echo "
+	</div>";
 }
 //------------------------------------------------------------------------------
 ?>

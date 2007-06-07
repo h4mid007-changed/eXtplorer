@@ -33,70 +33,95 @@ Author: Soeren Eberhardt
 		2006
 
 ------------------------------------------------------------------------------*/
-//------------------------------------------------------------------------------
-function jx_show_file($dir, $item) {		// show file contents
+class jx_View extends jx_Action {
 	
-	show_header($GLOBALS["messages"]["actview"].": ".$item);
-	$index2_edit_link = str_replace('/index3.php', '/index2.php', make_link('edit', $dir, $item ));
-	echo '<a name="top" class="componentheading" href="javascript:window.close();">[ '._PROMPT_CLOSE.' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	$abs_item = get_abs_item($dir, $item);
-	if( get_is_editable( $abs_item) && $GLOBALS['jx_File']->is_writable( $abs_item )) {
-		// Edit the file in the PopUp
-		echo '<a class="componentheading" href="'.make_link('edit', $dir, $item ).'&amp;return_to='.urlencode($_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'] ).'">[ '.$GLOBALS["messages"]["editlink"].' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		// Edit the file in the parent window
-		//echo '<a class="componentheading" href="javascript:opener.location=\''.$index2_edit_link.'\'; window.close();">[ '.$GLOBALS["messages"]["editlink"].' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	}
-	echo '<a class="componentheading" href="#bottom">[ '._CMN_BOTTOM.' ]</a>';
+	function execAction($dir, $item) {		// show file contents
 	
-	echo '<br /><br />';
-	
-	
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php' );
-	$geshiFile = $GLOBALS['mosConfig_absolute_path'] . '/mambots/content/geshi/geshi.php';
-	
-	if( file_exists( $geshiFile )) {
-		@ini_set( 'memory_limit', '32M'); // GeSHi 1.0.7 is very memory-intensive
-		include_once( $geshiFile );
-		// Create the GeSHi object that renders our source beautiful
-		$geshi = new GeSHi( '', '', dirname( $geshiFile ).'/geshi' );
-		$file = get_abs_item($dir, $item);
-		$pathinfo = pathinfo( $file );
-		if( jx_isFTPMode() ) {
-			$file = jx_ftp_make_local_copy( $file );
+		echo '<div>
+    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	<h3 style="margin-bottom:5px;">'.$GLOBALS["messages"]["actview"].": ".$item.'</h3>';
+       echo '</div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div><hr />';
+		/*$index2_edit_link = str_replace('/index3.php', '/index2.php', make_link('edit', $dir, $item ));
+		echo '<a name="top" class="componentheading" href="javascript:window.close();">[ '._PROMPT_CLOSE.' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$abs_item = get_abs_item($dir, $item);
+		if( get_is_editable( $abs_item) && $GLOBALS['jx_File']->is_writable( $abs_item )) {
+			// Edit the file in the PopUp
+			echo '<a class="componentheading" href="'.make_link('edit', $dir, $item ).'&amp;return_to='.urlencode($_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'] ).'">[ '.$GLOBALS["messages"]["editlink"].' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			// Edit the file in the parent window
+			//echo '<a class="componentheading" href="javascript:opener.location=\''.$index2_edit_link.'\'; window.close();">[ '.$GLOBALS["messages"]["editlink"].' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		}
-		if( is_callable( array( $geshi, 'load_from_file'))) {
-			$geshi->load_from_file( $file );
-		}
-		else {
-			$geshi->set_source( file_get_contents( $file ));
-		}
-		if( is_callable( array($geshi,'getlanguagesuage_name_from_extension'))) {
-			$lang = $geshi->getlanguagesuage_name_from_extension( $pathinfo['extension'] );
-		}
-		else {
-			$pathinfo = pathinfo($item);
-			$lang = $pathinfo['extension'];
+		echo '<a class="componentheading" href="#bottom">[ '._CMN_BOTTOM.' ]</a>';
+		
+		echo '<br /><br />';
+		*/
+		
+		if( @eregi($GLOBALS["images_ext"], $item)) {
+			echo '<img src="'.$GLOBALS['home_url'].'/'.$dir.'/'.$item.'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
 		}
 		
-		$geshi->setlanguagesuage( $lang );
-		$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
-	
-		$text = $geshi->parse_code();
-		
-		if( jx_isFTPMode() ) {
-			unlink( $file );
+		else {
+			
+			if( file_exists($GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php')) {
+				require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php' );
+			} elseif( file_exists( $GLOBALS['mosConfig_absolute_path'] . '/libraries/domit/xml_saxy_shared.php')) {
+				require_once($GLOBALS['mosConfig_absolute_path'] . '/libraries/domit/xml_saxy_shared.php');
+			} else {
+				return;
+			}
+			
+			if( file_exists($GLOBALS['mosConfig_absolute_path'] . '/mambots/content/geshi/geshi.php')) {
+				$geshiFile = $GLOBALS['mosConfig_absolute_path'] . '/mambots/content/geshi/geshi.php';
+			} elseif(file_exists($GLOBALS['mosConfig_absolute_path'] . '/libraries/geshi/geshi.php')) {
+				$geshiFile = $GLOBALS['mosConfig_absolute_path'] . '/libraries/geshi/geshi.php';
+			}	
+			
+			if( file_exists( $geshiFile )) {
+				@ini_set( 'memory_limit', '32M'); // GeSHi 1.0.7 is very memory-intensive
+				include_once( $geshiFile );
+				// Create the GeSHi object that renders our source beautiful
+				$geshi = new GeSHi( '', '', dirname( $geshiFile ).'/geshi' );
+				$file = get_abs_item($dir, $item);
+				$pathinfo = pathinfo( $file );
+				if( jx_isFTPMode() ) {
+					$file = jx_ftp_make_local_copy( $file );
+				}
+				if( is_callable( array( $geshi, 'load_from_file'))) {
+					$geshi->load_from_file( $file );
+				}
+				else {
+					$geshi->set_source( file_get_contents( $file ));
+				}
+				if( is_callable( array($geshi,'getlanguagesuage_name_from_extension'))) {
+					$lang = $geshi->getlanguagesuage_name_from_extension( $pathinfo['extension'] );
+				}
+				else {
+					$pathinfo = pathinfo($item);
+					$lang = $pathinfo['extension'];
+				}
+				
+				$geshi->set_language( $lang );
+				$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
+			
+				$text = $geshi->parse_code();
+				
+				if( jx_isFTPMode() ) {
+					unlink( $file );
+				}
+				echo $text;
+				echo '<hr /><div style="line-height:25px;vertical-align:middle;text-align:center;" class="small">Rendering Time: <strong>'.$geshi->get_time().' Sec.</strong></div>';
+			}
+			else {
+				// When GeSHi is not available, just display the plain file contents
+				echo '<div class="quote" style="text-align:left;">'
+					.nl2br( htmlentities(  $GLOBALS['jx_File']->file_get_contents(get_abs_item($dir, $item) )))
+					.'</div>';
+			}
 		}
-		echo '<div style="text-align:left;">'.$text . '</div>';
-		echo '<div style="line-height:25px;vertical-align:middle;text-align:center;" class="small">Rendering Time: <strong>'.$geshi->get_time().' Sec.</strong></div>';
+		
+		//echo '<a href="#top" name="bottom" class="componentheading">[ '._CMN_TOP.' ]</a><br /><br />';
 	}
-	else {
-		// When GeSHi is not available, just display the plain file contents
-		echo '<div class="quote" style="text-align:left;">'
-			.nl2br( htmlentities(  $GLOBALS['jx_File']->file_get_contents(get_abs_item($dir, $item) )))
-			.'</div>';
-	}
-	
-	echo '<a href="#top" name="bottom" class="componentheading">[ '._CMN_TOP.' ]</a><br /><br />';
 }
-//------------------------------------------------------------------------------
 ?>

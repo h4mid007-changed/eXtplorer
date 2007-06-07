@@ -51,14 +51,14 @@ function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages
 	//if($_dir=="") $_dir=NULL;
 	if($_item=="") $_item=NULL;
 	if($_order==NULL) $_order=$GLOBALS["order"];
-	if($_srt==NULL) $_srt=$GLOBALS["srt"];
+	if($_srt==NULL) $_srt=$GLOBALS["direction"];
 	if($languages==NULL) $languages=(isset($GLOBALS["lang"])?$GLOBALS["lang"]:NULL);
 	
 	$link=$GLOBALS["script_name"]."?option=com_joomlaxplorer&action=".$_action;
 	$link.="&dir=".urlencode($_dir);
 	if($_item!=NULL) $link.="&item=".urlencode($_item);
 	if($_order!=NULL) $link.="&order=".$_order;
-	if($_srt!=NULL) $link.="&srt=".$_srt;
+	if($_srt!=NULL) $link.="&direction=".$_srt;
 	if($languages!=NULL) $link.="&lang=".$languages;
 	
 	return $link;
@@ -295,27 +295,63 @@ function get_show_item($dir, $item) {		// show this file?
 	return true;
 }
 //------------------------------------------------------------------------------
+function get_dir_list( $dir='' ) {
+	$files = mosReadDirectory( get_abs_dir( $dir), '.', false, true );
+	$dirs =array();
+	foreach( $files as $item) {
+		if( get_is_dir($item)) {
+			$index = str_replace( $GLOBALS['home_dir'].$GLOBALS['separator'], '', $item );
+			$dirs[$index]= basename($index);
+		}
+	}
+	return $dirs;
+}
+function get_dir_selects( $dir ) {
+	$dirs = explode( "/", $dir );
+	
+	$subdirs = get_dir_list();
+	if( empty($dirs[0]) ) array_shift($dirs);
+	$dirsCopy = $dirs;
+	$implode = '';
+	$selectedDir = $dirs[0];
+	$dir_links = jx_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="chDir(this.options[this.selectedIndex].value)"' );
+	$i = 2;
+	foreach( $dirs as $directory ) {
+	  	if( $directory != "" ) {
+			$implode .= $directory;
+			$selectedDir .= '/'.next($dirsCopy);
+			$subdirs = get_dir_list( $implode );
+			if( sizeof( $subdirs ) == 1 ) {
+				array_unshift( $subdirs, '-');
+			}
+			$dir_links .= ' / ' .jx_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="chDir(this.options[this.selectedIndex].value)"' );
+			$implode .= '/';
+	  	}
+	}
+	return $dir_links;
+}
+//------------------------------------------------------------------------------
 function copy_dir($source,$dest) {		// copy dir
 	$ok = true;
 	
 	if(!@mkdir($dest,0777)) return false;
-	if(($handle=@opendir($source))===false) 
-	  show_error(basename($source).": ".$GLOBALS["error_msg"]["opendir"]);
+	$itemlist = mosReadDirectory( $source, '.', true, true );
+	if( empty( $itemlist )) return false;
 	
-	while(($file=readdir($handle))!==false) {
+	foreach( $itemlist as $file ) {
 		if(($file==".." || $file==".")) continue;
 		
-		$new_source = $source."/".$file;
-		$new_dest = $dest."/".$file;
-		if(@is_dir($new_source)) {
-			$ok=copy_dir($new_source,$new_dest);
+		$new_dest = str_replace( $source, $dest, $file );
+		if(@is_dir($file)) {
+			@mkdir($new_dest,0777);
 		} else {
-			$ok=@copy($new_source,$new_dest);
+			$ok=@copy($file,$new_dest);
 		}
 	}
-	closedir($handle);
+	
 	return $ok;
 }
+
 //------------------------------------------------------------------------------
 function remove($item) {			// remove file / dir
 	
@@ -328,14 +364,14 @@ function remove($item) {			// remove file / dir
 	elseif( is_dir($item)) {
 		
 		if(($handle= opendir($item))===false) 
-		  show_error(basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
+		  jx_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
 
 		while(($file=readdir($handle))!==false) {
 			if(($file==".." || $file==".")) continue;
 			
 			$new_item = $item."/".$file;
 			if(!file_exists($new_item)) 
-			  show_error(basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
+			  jx_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
 			//if(!get_show_item($item, $new_item)) continue;
 			
 			if( is_dir($new_item)) {
@@ -529,8 +565,9 @@ if( !function_exists('mosToolTip')) {
  * @return string HTML drop-down list
  */	
 function jx_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
+	$html = '';
 	if( !empty( $arr ) ) {
-		$html = "<select class=\"inputbox\" name=\"$name\" size=\"$size\" $multiple $extra>\n";
+		$html = "<select class=\"inputbox\" name=\"$name\" id=\"$name\" size=\"$size\" $multiple $extra>\n";
 
 		while (list($key, $val) = each($arr)) {
 			$selected = "";
@@ -543,6 +580,10 @@ function jx_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
 				if(strtolower($value) == strtolower($key) ) {
 					$selected = "selected=\"selected\"";
 				}
+			}
+			if( $val == '-') {
+				$selected .= ' disabled="disabled"';
+				$val = '- - - - -';
 			}
 			$html .= "<option value=\"$key\" $selected>$val";
 			$html .= "</option>\n";
@@ -565,5 +606,86 @@ function jx_alertBox( $msg ) {
 }
 function jx_docLocation( $url ) {
 	return jx_scriptTag('', 'document.location=\''. $url .'\';' );
+}
+function jx_isXHR() {
+	return strtolower(mosGetParam($_SERVER,'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'
+		|| strtolower(mosGetParam($_POST,'requestType')) == 'xmlhttprequest';
+}
+function jx_exit() {
+	global $mainframe;
+	if( is_callable( array( $mainframe, 'close' ) ) ) {				
+		$mainframe->close();
+	} else {
+		exit;
+	}
+}
+/**
+ * Reads a file and sends them in chunks to the browser
+ * This should overcome memory problems
+ * http://www.php.net/manual/en/function.readfile.php#54295
+ *
+ * @since 1.4.1
+ * @param string $filename
+ * @param boolean $retbytes
+ * @return mixed
+ */
+function readFileChunked($filename,$retbytes=true) {
+	$chunksize = 1*(1024*1024); // how many bytes per chunk
+	$buffer = '';
+	$cnt =0;
+	// $handle = fopen($filename, 'rb');
+	$handle = fopen($filename, 'rb');
+	if ($handle === false) {
+		return false;
+	}
+	while (!feof($handle)) {
+		$buffer = fread($handle, $chunksize);
+		echo $buffer;
+		sleep(1);
+		ob_flush();
+		flush();
+		if ($retbytes) {
+			$cnt += strlen($buffer);
+		}
+	}
+	$status = fclose($handle);
+	if ($retbytes && $status) {
+		return $cnt; // return num. bytes delivered like readfile() does.
+	}
+	return $status;
+}
+//implements file_put_contents function for compartability with mambo on PHP < 4.3
+if ( ! function_exists('file_put_contents') ) {
+	function file_put_contents ( $filename, $filecont ){
+		$handle = fopen( $filename, 'w' );
+		if ( is_array($filecont) ) {
+			$size = 0;
+			foreach ( $filecont as $filestring ) {
+				fwrite( $handle, $filestring );
+				$size += strlen( $filestring );
+			}
+			fclose($handle);
+			return $size;
+		} else {
+			fwrite( $handle, $filecont );
+			fclose($handle);
+			return strlen( $filecont );
+		}
+	}
+}
+if ( ! function_exists('scandir') ) {
+function scandir($dir,$listDirectories=false, $skipDots=true) {
+    $dirArray = array();
+    if ($handle = opendir($dir)) {
+        while (false !== ($file = readdir($handle))) {
+            if (($file != "." && $file != "..") || $skipDots == true) {
+                if($listDirectories == false) { if(is_dir($file)) { continue; } }
+                array_push($dirArray,basename($file));
+            }
+        }
+        closedir($handle);
+    }
+    return $dirArray;
+}
 }
 ?>

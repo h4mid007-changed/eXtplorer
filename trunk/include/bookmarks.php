@@ -39,30 +39,9 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 
 
-//implements file_put_contents function for compartability with mambo on PHP < 4.3
-if ( ! function_exists('file_put_contents') ) {
-	function file_put_contents ( $filename, $filecont ){
-		$handle = fopen( $filename, 'w' );
-		if ( is_array($filecont) ) {
-			$size = 0;
-			foreach ( $filecont as $filestring ) {
-				fwrite( $handle, $filestring );
-				$size += strlen( $filestring );
-			}
-			fclose($handle);
-			return $size;
-		} else {
-			fwrite( $handle, $filecont );
-			fclose($handle);
-			return strlen( $filecont );
-		}
-	}
-}
-
-
 function read_bookmarks() {
 	global $my;
-	$bookmarkfile = _QUIXPLORER_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
+	$bookmarkfile = _JX_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
 	if( file_exists( $bookmarkfile )) {
 		return parse_ini_file( $bookmarkfile );
 	}
@@ -84,7 +63,7 @@ function modify_bookmark( $task, $dir ) {
 	global $my;
 	$alias = substr( mosGetParam($_REQUEST,'alias'), 0, 150 );
 	$bookmarks = read_bookmarks();
-	$bookmarkfile = _QUIXPLORER_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
+	$bookmarkfile = _JX_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
 	while( @ob_end_clean() );
 
 	header( "Status: 200 OK" );

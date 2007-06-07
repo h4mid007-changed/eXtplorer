@@ -40,7 +40,7 @@ Comment:
 	Have Fun...
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-require _QUIXPLORER_PATH."/include/fun_users.php";
+require _JX_PATH."/include/users.php";
 load_users();
 //------------------------------------------------------------------------------
 
@@ -76,7 +76,7 @@ function login() {
 			echo "<input name=\"p_pass\" type=\"password\" size=\"25\"></td></tr>\n";
 			echo "<tr><td>".$GLOBALS["messages"]["misclang"].":</td><td align=\"right\">";
 			echo "<select name=\"lang\">\n";
-			@include _QUIXPLORER_PATH."/languages/_info.php";
+			@include _JX_PATH."/languages/_info.php";
 			echo "</select></td></tr>\n";
 			echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"";
 			echo $GLOBALS["messages"]["btnlogin"]."\"></td></tr>\n</form></table><br>\n";

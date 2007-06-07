@@ -40,43 +40,138 @@ Comment:
 	Have Fun...
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-function make_item($dir) {		// make new directory or file
-	if(($GLOBALS["permissions"]&01)!=01) show_error($GLOBALS["error_msg"]["accessfunc"]);
+class jx_Mkitem extends jx_Action {
 	
-	$mkname=$GLOBALS['__POST']["mkname"];
-	$mktype=$GLOBALS['__POST']["mktype"];
-	$symlink_target = $GLOBALS['__POST']['symlink_target'];
-	
-	$mkname=basename(stripslashes($mkname));
-	if($mkname=="") show_error($GLOBALS["error_msg"]["miscnoname"]);
-	
-	$new = get_abs_item($dir,$mkname);
-
-	if(@$GLOBALS['jx_File']->file_exists($new)) show_error($mkname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
-	
-	if($mktype=="dir") {
-		$ok=@$GLOBALS['jx_File']->mkdir($new, 0777);
-		$err=$GLOBALS["error_msg"]["createdir"];
-	} elseif( $mktype == 'file') {
-		$ok=@$GLOBALS['jx_File']->mkfile($new);
-		$err=$GLOBALS["error_msg"]["createfile"];
-	} elseif( $mktype == 'symlink' ) {
-		if( empty( $symlink_target )) {
-			show_error('Please provide a valid <strong>target</strong> for the symbolic link.');
+	function execAction($dir) {		// make new directory or file
+		if(($GLOBALS["permissions"]&01)!=01) jx_Result::sendResult( 'mkitem', false, $GLOBALS["error_msg"]["accessfunc"]);
+		
+		if( mosGetParam($_POST,'confirm') == 'true') {
+			$mkname=$GLOBALS['__POST']["mkname"];
+			$mktype=$GLOBALS['__POST']["mktype"];
+			$symlink_target = $GLOBALS['__POST']['symlink_target'];
+			
+			$mkname=basename(stripslashes($mkname));
+			if($mkname=="") jx_Result::sendResult( 'mkitem', false,  $GLOBALS["error_msg"]["miscnoname"] );
+			
+			$new = get_abs_item($dir,$mkname);
+		
+			if(@$GLOBALS['jx_File']->file_exists($new)) {
+				jx_Result::sendResult( 'mkitem', false, $mkname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
+			}
+			$err = print_r( $_POST, true );
+			if($mktype=="dir") {
+				$ok=@$GLOBALS['jx_File']->mkdir($new, 0777);
+				$err=$GLOBALS["error_msg"]["createdir"];
+			} elseif( $mktype == 'file') {
+				$ok=@$GLOBALS['jx_File']->mkfile($new);
+				$err=$GLOBALS["error_msg"]["createfile"];
+			} elseif( $mktype == 'symlink' ) {
+				if( empty( $symlink_target )) {
+					jx_Result::sendResult( 'mkitem', false, 'Please provide a valid <strong>target</strong> for the symbolic link.');
+				}
+				if( !file_exists($symlink_target) || !is_readable($symlink_target)) {
+					jx_Result::sendResult( 'mkitem', false, 'The file you wanted to make a symbolic link to does not exist or is not accessible by PHP.');
+				}
+				$ok = symlink( $symlink_target, $new );
+				$err = 'The symbolic link could not be created.';
+			}
+			
+			if($ok==false || PEAR::isError( $ok )) {
+				if( PEAR::isError( $ok ) ) $err.= $ok->getMessage();
+				jx_Result::sendResult( 'mkitem', false, $err);
+			}
+			$result = array('action' => 'The item '.$new.' was created', 
+							'name' => $mkname,
+							'success' => true );
+			$json = new Services_JSON();
+			$jresult = $json->encode($result);
+			print $jresult;
+			return;
 		}
-		if( !file_exists($symlink_target) || !is_readable($symlink_target)) {
-			show_error('The file you wanted to make a symbolic link to does not exist or is not accessible by PHP.');
-		}
-		$ok = symlink( $symlink_target, $new );
-		$err = 'The symbolic link could not be created.';
-	}
+	?>
+		<div>
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	if($ok===false || PEAR::isError( $ok )) {
-		if( PEAR::isError( $ok ) ) $err.= $ok->getMessage();
-		show_error($err);
-	}
+	        <h3 style="margin-bottom:5px;">Create New File/Directory</h3>
+	        <div id="adminForm">
 	
-	header("Location: ".make_link("list",$dir,NULL));
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>
+	<script type="text/javascript">
+	var mktypes = new Ext.data.SimpleStore({
+	    fields: ['mktype', 'type'],
+	    data :  [
+	        ['file', '<?php echo $GLOBALS["mimes"]["file"] ?>'],
+	        ['dir', '<?php echo $GLOBALS["mimes"]["dir"] ?>']
+	        <?php
+	        if( !jx_isFTPMode() && !$GLOBALS['isWindows']) { ?>
+	        	,['symlink', '<?php echo $GLOBALS["mimes"]["symlink"] ?>']
+	        	<?php
+	        } ?>
+	        ]
+	});
+	var simple = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'index.php'
+	});
+	simple.add(
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo $GLOBALS['messages']['nameheader'] ?>',
+	        name: 'mkname',
+	        width:175,
+	        allowBlank:false
+	    }),
+		new Ext.form.ComboBox({
+			fieldLabel: 'Type',
+		    store: mktypes,
+		    displayField:'type',
+		    valueField: 'mktype',
+		    hiddenName: 'mktype',
+		    disableKeyFilter: true,
+		    editable: false,
+		    mode: 'local',
+		    allowBlank: false,
+		    selectOnFocus:true
+		}),
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo $GLOBALS['messages']['symlink_target'] ?>',
+	        name: 'symlink_target',
+	        width:175,
+	        allowBlank:true
+	    })
+	);
+	
+	simple.addButton('<?php echo $GLOBALS["messages"]["btncreate"] ?>', function() {
+	    simple.submit({
+	        waitMsg: 'Processing Data, please wait...',
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {	
+	        	//Ext.MessageBox.alert('Success', action.result.action);
+	        	dirTree.getSelectionModel().getSelectedNode().reload();
+				datastore.reload();
+				dialog.destroy();
+	        },
+	        failure: function(form, action) {
+				Ext.MessageBox.alert('Error!', action.result.error);
+	        },
+	        scope: simple,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_joomlaxplorer', 
+	        		action: 'mkitem', 
+	        		dir: datastore.directory, 
+	        		confirm: 'true'}
+	    })
+	});
+	simple.addButton('Cancel', function() { dialog.destroy(); } );
+	simple.render('adminForm');
+	</script>
+	<?php
+	}
 }
+
 //------------------------------------------------------------------------------
 ?>
