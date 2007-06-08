@@ -31,16 +31,18 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * the provisions above, a recipient may use your version of this file
  * under either the MPL or the GPL."
  * 
- * Layout and Application Logic Functions based on ExtJS
 */
-
+/**
+ * Abstract Action Class
+ * @abstract 
+ */
 class jx_Action {
 	
 	/**
 	 * This function executes the action
 	 *
-	 * @param unknown_type $dir
-	 * @param unknown_type $item
+	 * @param string $dir
+	 * @param string $item
 	 */
 	function execAction( $dir, $item ) {
 		// to be overridden by the child class

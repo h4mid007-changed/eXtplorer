@@ -217,8 +217,11 @@ Ext.onReady(function(){
     
     // render it
     jx_itemgrid.render();
-    
+    // The Quicktips are used for the toolbar and Tree mouseover tooltips!
 	Ext.QuickTips.init();
+	
+	var filter = new Ext.form.TextField( { name: 'filterValue'	});
+	
     var gridHead = jx_itemgrid.getView().getHeaderPanel(true);
     var tb = new Ext.Toolbar(gridHead, [
     	{
@@ -350,7 +353,20 @@ Ext.onReady(function(){
     						loadDir();
     					}
     			}
+    	}), '-',
+    	filter,
+    	new Ext.Toolbar.Button( {
+    		text: 'Filter',
+    		handler: function(btn,e) { 
+    					var filterVal = filter.getValue();
+    					if( filterVal.length > 1 ) {
+    						datastore.filter( 'name', eval('/'+filterVal+'/gi') );
+    					} else {
+    						datastore.clearFilter();
+    					}
+    			}
     	})
+
     ]);
     
     var gridFoot = jx_itemgrid.getView().getFooterPanel(true);
@@ -649,16 +665,22 @@ Ext.onReady(function(){
 		<?php
 	}
 	?>
+	/**
+	* This function is for changing into a specified directory
+	* It updates the tree, the grid and the ContentPanel title
+	*/
     chDir = function( directory ) {    	
     	datastore.directory = directory;
     	datastore.load({params:{start:0, limit:50, dir: directory, option:'com_joomlaxplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
 		 new Ext.data.Connection().request({
 			url: 'index3.php',
-			params: { action:'get_dir_selects', dir: directory, option: 'com_joomlaxplorer' },
+			params: { action:'chdir_event', dir: directory, option: 'com_joomlaxplorer' },
 			callback: function(options, success, response ) {
 				if( success ) {
+					var result = Ext.decode( response.responseText );
 					var gridpanel = layout.getRegion('center').getActivePanel();
-					gridpanel.setTitle( 'Browsing Directory &nbsp;&nbsp;&nbsp;&nbsp;' + response.responseText );
+					gridpanel.setTitle( 'Browsing Directory &nbsp;&nbsp;&nbsp;&nbsp;' + result.dirselects );
+					Ext.get('bookmark_container').update( result.bookmarks );
 				}
 			}
 		});
@@ -690,6 +712,7 @@ Ext.onReady(function(){
 			for( i=0; i<dirs.length; i++ ) {
 				dirpath += '_RRR_'+ dirs[i];
 			}
+			
 			dirpath = dirpath.substr( 5 );
 			
 		

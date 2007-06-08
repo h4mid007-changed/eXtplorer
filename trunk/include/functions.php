@@ -313,7 +313,7 @@ function get_dir_selects( $dir ) {
 	if( empty($dirs[0]) ) array_shift($dirs);
 	$dirsCopy = $dirs;
 	$implode = '';
-	$selectedDir = $dirs[0];
+	$selectedDir = @$dirs[0];
 	$dir_links = jx_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="chDir(this.options[this.selectedIndex].value)"' );
 	$i = 2;
 	foreach( $dirs as $directory ) {
@@ -602,7 +602,7 @@ function jx_scriptTag( $src = '', $script = '') {
 	}
 }
 function jx_alertBox( $msg ) {
-	return jx_scriptTag('', 'alert( \''. @mysql_escape_string( $msg ) .'\' );' );
+	return jx_scriptTag('', 'Ext.Msg.alert( \''.$GLOBALS["error_msg"]['message'].'\', \''. @mysql_escape_string( $msg ) .'\' );' );
 }
 function jx_docLocation( $url ) {
 	return jx_scriptTag('', 'document.location=\''. $url .'\';' );
