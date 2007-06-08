@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------
-joomlaXplorer 1.6.0 - README
+joomlaXplorer 2.0.0 - README
 ----------------------------------------------------------------------------------------------------
 This script is based on QuiXplorer 2.3.1 (available at http://quixplorer.sourceforge.net/).
 This is a Component for Joomla 1.0.x, 1.5.x and Mambo (all versions from 4.5.0 )!
@@ -30,7 +30,7 @@ Security
 
 Layout
   * modified "styles/style.css" to comply with Joomla!'s admin.css
-  * changed icons from 16x16 to 22x22 and from .gif to .png
+  * implemented ExtJS Layout Control
 ----------------------------------------------------------------------------------------------------
 Facts, you should know of:
 * If you're running in trouble, because you don't have permissions to chmod() or
