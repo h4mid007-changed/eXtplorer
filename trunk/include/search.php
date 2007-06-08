@@ -151,7 +151,7 @@ function search_items($dir) {			// search for item
 	<script type="text/javascript">
 	var form = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:\'index.php\'
+	    url:\'index2.php\'
 	});
 	form.add(
 	    new Ext.form.TextField({

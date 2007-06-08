@@ -129,8 +129,10 @@ function list_bookmarks( $dir ) {
 
 
 	$html = $GLOBALS['messages']['quick_jump'].': ';
+	if( $dir[0] == '/' ) {
+		$dir = substr( $dir, 1);
+	}
 	$html .= jx_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 100px;"');
-
 	$img_add = '<img src="'._JX_URL.'/images/bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
 	$img_remove = '<img src="'._JX_URL.'/images/remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
 
@@ -142,7 +144,7 @@ function list_bookmarks( $dir ) {
 		.'function(btn, text){ '
 			.'if (btn == \'ok\') { '
 				.'Ext.get(\'bookmark_container\').load({ '
-					.'url: \'index.php\', '
+					.'url: \'index2.php\', '
 					.'scripts: true, '
 					.'params: { '
 						.'action:\'modify_bookmark\', '
@@ -162,7 +164,7 @@ function list_bookmarks( $dir ) {
 		.'function(btn, text){ '
 			.'if (btn == \'yes\') { '
 				.'Ext.get(\'bookmark_container\').load({ '
-					.'url: \'index.php\', '
+					.'url: \'index2.php\', '
 					.'scripts: true, '
 					.'params: { '
 						.'action:\'modify_bookmark\', '

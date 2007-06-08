@@ -94,6 +94,7 @@
 			<filename>images/publish_x.png</filename>
 			<filename>images/real.png</filename>
 			<filename>images/reload.png</filename>
+			<filename>images/remove.png</filename>
 			<filename>images/run.png</filename>
 			<filename>images/sound.gif</filename>
 			<filename>images/source.png</filename>
@@ -306,7 +307,6 @@
 			<filename>scripts/extjs/ext-all-debug.js</filename>
 			<filename>scripts/extjs/ext-all.js</filename>
 			<filename>scripts/extjs/ext-yui-adapter.js</filename>
-			<filename>scripts/extjs/images/.DS_Store</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/aero-close-over.gif</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/aero-close.gif</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/bg-center.gif</filename>
@@ -365,7 +365,6 @@
 			<filename>scripts/extjs/images/aero/tabs/tab-strip-btm-bg.gif</filename>
 			<filename>scripts/extjs/images/aero/toolbar/bg.gif</filename>
 			<filename>scripts/extjs/images/aero/toolbar/tb-btn-sprite.gif</filename>
-			<filename>scripts/extjs/images/default/.DS_Store</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/btn-arrow.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/btn-sprite.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/close.gif</filename>

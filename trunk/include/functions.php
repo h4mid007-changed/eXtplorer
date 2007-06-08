@@ -299,6 +299,7 @@ function get_dir_list( $dir='' ) {
 	$files = mosReadDirectory( get_abs_dir( $dir), '.', false, true );
 	$dirs =array();
 	foreach( $files as $item) {
+		$item = str_replace( '\\', '/', $item );
 		if( get_is_dir($item)) {
 			$index = str_replace( $GLOBALS['home_dir'].$GLOBALS['separator'], '', $item );
 			$dirs[$index]= basename($index);

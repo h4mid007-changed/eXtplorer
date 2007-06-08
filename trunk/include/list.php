@@ -308,7 +308,7 @@ class jx_List extends jx_Action {
 		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/yui-utilities.js"></script>
 		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/ext-yui-adapter.js"></script>
 		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/ext-all.js"></script>
-		<script type="text/javascript" src="'. $mosConfig_live_site .'/administrator/index.php?option=com_joomlaxplorer&action=include_javascript&file=functions.js"></script>	
+		<script type="text/javascript" src="'. $mosConfig_live_site .'/administrator/index2.php?option=com_joomlaxplorer&action=include_javascript&file=functions.js"></script>	
 		<link rel="stylesheet" href="'. _JX_URL . '/scripts/extjs/css/ext-all.css" />
 		<link rel="stylesheet" href="'. _JX_URL . '/scripts/extjs/css/ytheme-aero.css" />');
 		?>

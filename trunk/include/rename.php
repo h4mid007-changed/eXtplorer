@@ -102,7 +102,7 @@ class jx_Rename extends jx_Action {
 	<script type="text/javascript">
 	var simple = new Ext.form.Form({
 	    labelWidth: 75, // label settings here cascade unless overridden
-	    url:'index.php'
+	    url:'index2.php'
 	});
 	simple.add(
 	    new Ext.form.TextField({

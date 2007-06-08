@@ -115,7 +115,7 @@ class jx_Mkitem extends jx_Action {
 	});
 	var simple = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'index.php'
+	    url:'index2.php'
 	});
 	simple.add(
 	    new Ext.form.TextField({

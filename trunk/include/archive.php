@@ -196,7 +196,7 @@ class jx_Archive extends jx_Action {
 	});
 	var form = new Ext.form.Form({
 		labelWidth: 125, // label settings here cascade unless overridden
-		url:'index.php'
+		url:'index2.php'
 	});
 	var combo = new Ext.form.ComboBox({
 		fieldLabel: '<?php echo $GLOBALS["messages"]["typeheader"] ?>',
