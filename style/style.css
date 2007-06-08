@@ -60,9 +60,6 @@ a:hover, a:active {
 	background-image: url( ../images/_info.gif );
 }
 .x-layout-panel-north, .ytheme-gray .x-layout-panel-north{
-	background-image: url(../images/header.gif);
-	background-repeat: repeat-x;
-	color:#FFF;
 	font:bold 12px verdana, helvetica;
 	overflow:hidden;
 	padding:4px;

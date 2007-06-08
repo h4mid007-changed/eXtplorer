@@ -153,7 +153,7 @@ class jx_Chmod extends jx_Action {
 	<script type="text/javascript">
 	var form = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'index.php'
+	    url:'index2.php'
 	});
 	
 	<?php
