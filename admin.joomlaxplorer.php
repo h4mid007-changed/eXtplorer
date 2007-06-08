@@ -39,6 +39,18 @@ $GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer/';
      the provisions above, a recipient may use your version of this file
      under either the MPL or the GPL."
 ------------------------------------------------------------------------------*/
+/*
+// Needed to keep the filelist in the XML installer file up-to-date
+$path = $mosConfig_absolute_path.'/administrator/components/com_joomlaxplorer';
+$filelist = mosReadDirectory( $path, '.', true, true );
+$contents ='';
+foreach($filelist as $file ) {
+	if( is_dir( $file ) ) continue;
+	$filepath = str_replace( $path.'/', '', $file );
+	$contents .= '<filename>'.$filepath."</filename>\n";
+}
+file_put_contents( 'joomlaxplorer_filelist.txt', $contents );
+*/
 /*------------------------------------------------------------------------------
 Author: soeren, The QuiX project( quix@free.fr, http://www.quix.tk, http://quixplorer.sourceforge.net)
 
@@ -60,7 +72,7 @@ if( defined( 'E_STRICT' )) { // Suppress Strict Standards Warnings
 //------------------------------------------------------------------------------
 umask(0002); // Added to make created files/dirs group writable
 //------------------------------------------------------------------------------
-require _JX_PATH . "/include/init.php";	// Init
+require_once _JX_PATH . "/include/init.php";	// Init
 //------------------------------------------------------------------------------
 
 $action = stripslashes(mosGetParam( $_REQUEST, "action" ));
@@ -83,8 +95,8 @@ if( jx_isXHR() ) {
 	while( @ob_end_clean() );
 }
 
-if( file_exists( _JX_PATH ). '/include/'. strtolower(basename( $action )) .'.php' ) {
-	include_once( _JX_PATH . '/include/'. strtolower(basename( $action )) .'.php');
+if( file_exists( _JX_PATH . '/include/'. strtolower(basename( $action )) .'.php') ) {
+	require_once( _JX_PATH . '/include/'. strtolower(basename( $action )) .'.php');
 }
 $classname = 'jx_'.$action;
 if( class_exists(strtolower($classname))) {
@@ -97,38 +109,38 @@ if( class_exists(strtolower($classname))) {
 	//------------------------------------------------------------------------------
 	  // COPY/MOVE FILE(S)/DIR(S)
 	  case "copy":	case "move":
-		  require _JX_PATH ."/include/copy_move.php";
+		  require_once _JX_PATH ."/include/copy_move.php";
 		  copy_move_items($dir);
 	  break;
 	
 	//------------------------------------------------------------------------------
 	  // SEARCH FOR FILE(S)/DIR(S)
 	  case "search":
-		  require _JX_PATH ."/include/search.php";
+		  require_once _JX_PATH ."/include/search.php";
 		  search_items($dir);
 	  break;
 	
 	//------------------------------------------------------------------------------
 	  // USER-ADMINISTRATION
 	  case "admin":
-		  require _JX_PATH . "/include/admin.php";
+		  require_once _JX_PATH . "/include/admin.php";
 		  show_admin($dir);
 	  break;
 	//------------------------------------------------------------------------------
 	  // joomla System Info
 	  case 'sysinfo':
-		  require _JX_PATH . "/include/system_info.php";
+		  require_once _JX_PATH . "/include/system_info.php";
 	  break;
 	//------------------------------------------------------------------------------
 	  case 'ftp_logout':
-	  	require( _JX_PATH.'/include/ftp_authentication.php' );
+	  	require_once( _JX_PATH.'/include/ftp_authentication.php' );
 	  	ftp_logout();
 	  	break;
 	//------------------------------------------------------------------------------
 		// BOOKMARKS
 	  case 'modify_bookmark':
 	  	$task = mosGetParam( $_REQUEST, 'task' );
-	  	require( _JX_PATH.'/include/bookmarks.php' );
+	  	require_once( _JX_PATH.'/include/bookmarks.php' );
 	  	modify_bookmark( $task, $dir );
 	  	
 	  	break;
@@ -146,7 +158,7 @@ if( class_exists(strtolower($classname))) {
 	//------------------------------------------------------------------------------
 	  // DEFAULT: LIST FILES & DIRS
 	  case "getdircontents":
-	  		require _JX_PATH . "/include/list.php";
+	  		require_once _JX_PATH . "/include/list.php";
 	  		$requestedDir = stripslashes(str_replace( '_RRR_', $GLOBALS['separator'], mosGetParam( $_REQUEST, 'node' )));
 	  		if( empty($requestedDir) || $requestedDir == 'jx_root') {
 	  			$requestedDir = $dir;
@@ -156,9 +168,16 @@ if( class_exists(strtolower($classname))) {
 	  case 'get_dir_selects':
 	  		echo get_dir_selects( $dir );
 	  		break;
-	
+	  case 'chdir_event':
+	  		require_once( _JX_PATH.'/include/bookmarks.php' );
+	  		$response = Array( 'dirselects' => get_dir_selects( $dir ),
+	  							'bookmarks' => list_bookmarks($dir)
+	  						);
+			$json = new Services_JSON();
+			echo $json->encode( $response );
+			break;
 	  default:
-		  require _JX_PATH . "/include/list.php";
+		  require_once _JX_PATH . "/include/list.php";
 		  jx_List::execAction($dir);
 	//------------------------------------------------------------------------------
 	}

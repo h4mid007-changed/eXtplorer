@@ -57,11 +57,8 @@ function show_header($dirlinks='') {
 	//echo "</div>";
 	echo "</td>\n";
 	
-	// Create File / Dir
-	$allow=($GLOBALS["permissions"]&01)==01;
-	if($allow ) {
-		echo "<td width=\"35%\"></td>\n";
-	}
+	echo "<td id=\"bookmark_container\" width=\"35%\"></td>\n";
+	
 	echo '</tr></table>';
 	echo '</div>';
 }

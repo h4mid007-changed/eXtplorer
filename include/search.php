@@ -41,11 +41,25 @@ Comment:
 ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
 function find_item($dir,$pat,&$list,$recur) {	// find items
-	$handle=@opendir(get_abs_dir($dir));
-	if($handle===false) return;		// unable to open dir
+	$homedir = realpath($GLOBALS['home_dir']);
+	$handle = @$GLOBALS['jx_File']->opendir(get_abs_dir($dir));
 	
-	while(($new_item=readdir($handle))!==false) {
-		if(!@file_exists(get_abs_item($dir, $new_item))) continue;
+	if($handle===false && $dir=="") {
+	  	$handle = @$GLOBALS['jx_File']->opendir($homedir . $GLOBALS['separator']);
+	}
+	
+	if($handle===false) {
+		jx_Result::sendResult('search', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
+	}
+	
+	while(($new_item=$GLOBALS['jx_File']->readdir($handle))!==false) {
+		if( is_array( $new_item ))  {
+			$abs_new_item = $new_item;
+		} else {
+			$abs_new_item = get_abs_item($dir, $new_item);
+		}
+		if(!$GLOBALS['jx_File']->file_exists($abs_new_item)) continue;
+		
 		if(!get_show_item($dir, $new_item)) continue;
 		
 		// match?
@@ -57,7 +71,8 @@ function find_item($dir,$pat,&$list,$recur) {	// find items
 		}
 	}
 	
-	closedir($handle);
+	$GLOBALS['jx_File']->closedir($handle);
+	
 }
 //------------------------------------------------------------------------------
 function make_list($dir,$item,$subdir) {	// make list of found items
@@ -70,10 +85,11 @@ function make_list($dir,$item,$subdir) {	// make list of found items
 	return $list;
 }
 //------------------------------------------------------------------------------
-function print_table($list) {			// print table of found items
+function get_result_table($list) {			// print table of found items
 	if(!is_array($list)) return;
 	
 	$cnt = count($list);
+	$response = '';
 	for($i=0;$i<$cnt;++$i) {
 		$dir = $list[$i][0];	$item = $list[$i][1];
 		$s_dir=$dir;	if(strlen($s_dir)>65) $s_dir=substr($s_dir,0,62)."...";
@@ -91,62 +107,114 @@ function print_table($list) {			// print table of found items
 			//}
 		}
 		
-		echo "<tr><td>" . "<img border=\"0\" width=\"22\" height=\"22\" ";
-		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/" . $img . "\" alt=\"\">&nbsp;";
-		/*if($link!="")*/ echo"<a href=\"".$link."\" target=\"".$target."\">";
+		$response .= "<tr><td>" . "<img border=\"0\" width=\"22\" height=\"22\" ";
+		$response .= "align=\"absmiddle\" src=\""._JX_URL."/images/" . $img . "\" alt=\"\">&nbsp;";
+		/*if($link!="")*/ 
+		$response .= "<a href=\"".$link."\" target=\"".$target."\">";
 		//else echo "<a>";
-		echo $s_item."</a></td><td><a href=\"" . make_link("list",$dir,null)."\"> /";
-		echo $s_dir."</a></td></tr>\n";
+		$response .= $s_item."</a></td><td><a href=\"" . make_link("list",$dir,null)."\"> /";
+		$response .= $s_dir."</a></td></tr>\n";
 	}
+	return $response;
 }
 //------------------------------------------------------------------------------
 function search_items($dir) {			// search for item
 	if(isset($GLOBALS['__POST']["searchitem"])) {
 		$searchitem=stripslashes($GLOBALS['__POST']["searchitem"]);
-		$subdir=(isset($GLOBALS['__POST']["subdir"]) && $GLOBALS['__POST']["subdir"]=="y");
+		$subdir= !empty( $GLOBALS['__POST']["subdir"] );
 		$list=make_list($dir,$searchitem,$subdir);
 	} else {
 		$searchitem=NULL;
 		$subdir=true;
 	}
 	
-	$msg=$GLOBALS["messages"]["actsearchresults"];
-	if($searchitem!=NULL) $msg.=": (/" . get_rel_item($dir, $searchitem).")";
-	show_header($msg);
+	
+	if(!empty($searchitem)) {
+		$msg=$GLOBALS["messages"]["actsearchresults"];
+		$msg.=": (/" . get_rel_item($dir, $searchitem).")";
+	} else {
+		$msg = $GLOBALS["messages"]["searchlink"];
+	}
 	
 	// Search Box
-	echo "<br><table><form name=\"searchform\" action=\"".make_link("search",$dir,null);
-	echo "\" method=\"post\">\n<tr><td><input name=\"searchitem\" type=\"text\" size=\"25\" value=\"";
-	echo $searchitem."\"><INPUT type=\"submit\" value=\"".$GLOBALS["messages"]["btnsearch"];
-	echo "\">&nbsp;<input type=\"button\" value=\"".$GLOBALS["messages"]["btnclose"];
-	echo "\" onClick=\"javascript:location='".make_link("list",$dir,NULL);
-	echo "';\"></td></tr><tr><td><input type=\"checkbox\" name=\"subdir\" value=\"y\"";
-	echo ($subdir?" checked>":">").$GLOBALS["messages"]["miscsubdirs"]."</td></tr></form></table>\n";
+	$response = '		<div>
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
+	        <h3 style="margin-bottom:5px;">'.$msg.'</h3>
+	        <div id="adminForm">
+	
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>
+	<script type="text/javascript">
+	var form = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:\'index.php\'
+	});
+	form.add(
+	    new Ext.form.TextField({
+	        fieldLabel: \''. $GLOBALS['messages']['nameheader'] .'\',
+	        name: \'searchitem\',
+	        width:175,
+	        allowBlank:false
+	    }),
+		new Ext.form.Checkbox({
+			fieldLabel: \''.$GLOBALS["messages"]["miscsubdirs"] .'?\',
+			name: \'subdir\',
+			checked: true
+		})
+	);
+	form.addButton(\''.$GLOBALS['messages']['btnsearch'].'\', function() {
+	    form.submit({
+	        waitMsg: \'Searching, please wait...\',
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {
+	    		dialog_panel.setContent( action.result.message );
+	        },
+	        failure: function(form, action) {Ext.MessageBox.alert(\'Error!\', action.result.error);},
+	        scope: form,
+	        // add some vars to the request, similar to hidden fields
+	        params: {
+	        	option: \'com_joomlaxplorer\', 
+	        	action: \'search\', 
+	        	dir: \''.$GLOBALS['__POST']["dir"] .'\'
+	        }
+	    });
+	});
+	form.addButton("Cancel", function() { dialog.hide();dialog.destroy(); } );
+
+	form.render("adminForm");
+	</script>';
+
 	// Results
 	if($searchitem!=NULL) {
-		echo "<table width=\"95%\"><tr><td colspan=\"2\"><hr></td></tr>\n";
+		$response .= "<table width=\"95%\"><tr><td colspan=\"2\"><hr></td></tr>\n";
 		if(count($list)>0) {
 			// table header
-			echo "<tr>\n<td width=\"42%\" class=\"header\"><b>".$GLOBALS["messages"]["nameheader"];
-			echo "</b></td>\n<td width=\"58%\" class=\"header\"><b>".$GLOBALS["messages"]["pathheader"];
-			echo "</b></td></tr>\n<tr><td colspan=\"2\"><hr></td></tr>\n";
+			$response .= "<tr>\n<td width=\"42%\" class=\"header\"><b>".$GLOBALS["messages"]["nameheader"];
+			$response .= "</b></td>\n<td width=\"58%\" class=\"header\"><b>".$GLOBALS["messages"]["pathheader"];
+			$response .= "</b></td></tr>\n<tr><td colspan=\"2\"><hr></td></tr>\n";
 	
 			// make & print table of found items
-			print_table($list);
+			$response .= get_result_table($list);
 
-			echo "<tr><td colspan=\"2\"><hr></td></tr>\n<tr><td class=\"header\">".count($list)." ";
-			echo $GLOBALS["messages"]["miscitems"].".</td><td class=\"header\"></td></tr>\n";
+			$response .= "<tr><td colspan=\"2\"><hr></td></tr>\n<tr><td class=\"header\">".count($list)." ";
+			$response .= $GLOBALS["messages"]["miscitems"].".</td><td class=\"header\"></td></tr>\n";
 		} else {
-			echo "<tr><td>".$GLOBALS["messages"]["miscnoresult"]."</td></tr>";
+			$response .= "<tr><td>".$GLOBALS["messages"]["miscnoresult"]."</td></tr>";
 		}
-		echo "<tr><td colspan=\"2\"><hr></td></tr></table>\n";
+		$response .= "<tr><td colspan=\"2\"><hr></td></tr></table>\n";
 	}
-?><script language="JavaScript1.2" type="text/javascript">
-<!--
-	if(document.searchform) document.searchform.searchitem.focus();
-// -->
-</script><?php
+	if( empty( $searchitem )) {
+		echo $response;
+	} else {
+		while( @ob_end_clean() );
+		jx_Result::sendResult('search', true, $response );
+	}
+
 }
 //------------------------------------------------------------------------------
 ?>

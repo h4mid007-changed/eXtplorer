@@ -39,7 +39,7 @@ Comment:
 	
 	Have Fun...
 ------------------------------------------------------------------------------*/
-require_once( _JX_PATH.'/include/bookmarks.php');
+
 //------------------------------------------------------------------------------
 // HELPER FUNCTIONS (USED BY MAIN FUNCTION 'list_dir', SEE BOTTOM)
 function make_list(&$_list1, &$_list2) {		// make list of files
@@ -78,7 +78,7 @@ function make_list(&$_list1, &$_list2) {		// make list of files
  * @param int $tot_file_size
  * @param int $num_items
  */
-function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items) {						// make table of files in dir
+function get_dircontents($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items) {						// make table of files in dir
 
 	$homedir = realpath($GLOBALS['home_dir']);
 	$tot_file_size = $num_items = 0;
@@ -188,7 +188,7 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 	global $dir_up, $mainframe;
 	
 	// make file & dir tables, & get total filesize & number of items
-	make_tables($dir, $dir_list, $file_list, $tot_file_size, $num_items);
+	get_dircontents($dir, $dir_list, $file_list, $tot_file_size, $num_items);
 	if( $sendWhat == 'files') {
 		$list = $file_list;
 	} elseif( $sendWhat == 'dirs') {
@@ -200,7 +200,8 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 	$i = 0;
 	$toggle = false;
 	$items['totalCount'] = count($list);
-	$items['items'] = Array();
+	$items['items'] = array();
+	$dirlist = array();
 	$list = array_slice( $list, $GLOBALS['start'], $GLOBALS['limit']);
 	while(list($item,$info) = each($list)) {
 		// link to dir / file
@@ -314,7 +315,6 @@ class jx_List extends jx_Action {
 		<div id="dirtree"></div>
 	<div id="dirtree-panel"></div>
 	<div id="item-grid"></div>
-	<!--<div id="quick_jumpto"><?php echo list_bookmarks( $GLOBALS['dir'] ) ?></div>-->
 	
 	<?php
 		// That's the main javascript file to build the Layout & App Logic
