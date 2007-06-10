@@ -146,6 +146,7 @@ if( class_exists(strtolower($classname))) {
 	  	break;
 	  case 'include_javascript':
 	  	while (@ob_end_clean());
+	  	header("Content-type: application/x-javascript; charset=iso-8859-1");
 	  	include( _JX_PATH.'/scripts/'.basename(mosGetParam($_REQUEST, 'file' )).'.php');
 	  	jx_exit();
 	//------------------------------------------------------------------------------
