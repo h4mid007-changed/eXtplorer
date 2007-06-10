@@ -40,7 +40,7 @@ Comment:
 ------------------------------------------------------------------------------*/
 ?>
 <script type="text/javascript">
-Ext.onReady(function(){
+function jx_init(){
 	Ext.BLANK_IMAGE_URL = '<?php echo _JX_URL ?>/scripts/extjs/images/default/s.gif';
     // create the Data Store
     datastore = new Ext.data.Store({
@@ -749,5 +749,11 @@ Ext.onReady(function(){
     		chDir( node.id.replace( /_RRR_/g, '/' ) );
     	}
     } 
-});
+    
+}
+if(Ext.isIE){
+	YAHOO.util.Event.addListener(window, "load", jx_init );
+} else {
+	Ext.onReady( jx_init );
+}
 </script>

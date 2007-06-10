@@ -329,6 +329,7 @@ function get_dir_selects( $dir ) {
 			$implode .= '/';
 	  	}
 	}
+	
 	return $dir_links;
 }
 //------------------------------------------------------------------------------
@@ -614,9 +615,11 @@ function jx_isXHR() {
 }
 function jx_exit() {
 	global $mainframe;
+	
 	if( is_callable( array( $mainframe, 'close' ) ) ) {				
 		$mainframe->close();
 	} else {
+		session_write_close();
 		exit;
 	}
 }

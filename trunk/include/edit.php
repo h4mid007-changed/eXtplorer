@@ -103,9 +103,7 @@ class jx_Edit extends jx_Action {
 	}
 	//$content = htmlspecialchars( $content );
 		
-	?><script language="JavaScript1.2" type="text/javascript">
-	<!--
-	if(document.editfrm && document.editfrm.code) document.editfrm.code.focus();
+	?><script language="JavaScript1.2" type="text/javascript">//<!--
 	dialog.setContentSize( 700, 500 );
 	var simple = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
@@ -116,7 +114,7 @@ class jx_Edit extends jx_Action {
 	        fieldLabel: '<?php echo $GLOBALS["messages"]["copyfile"] ?>',
 	        name: 'fname',
 	        value: '<?php echo $item ?>',
-	        width:175,
+	        width:175
 		}),
 		
 	    new Ext.form.TextArea({
@@ -142,7 +140,8 @@ class jx_Edit extends jx_Action {
 	        		action: 'edit', 
 	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
 	        		item: '<?php echo stripslashes($GLOBALS['__POST']["item"]) ?>', 
-	        		dosave: 'yes'}
+	        		dosave: 'yes'
+	        }
 	    });
 	});
 	simple.addButton('<?php echo $GLOBALS["messages"]["btnclose"] ?>', function() { dialog.destroy(); } );

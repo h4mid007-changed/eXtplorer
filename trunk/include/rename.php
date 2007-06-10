@@ -85,14 +85,13 @@ class jx_Rename extends jx_Action {
 			jx_Result::sendResult('rename', true, $msg );
 		}
 		$is_dir = get_is_dir(jx_isFTPMode() ? get_item_info($dir,$item) : get_abs_item($dir,$item));
-		show_header($GLOBALS['messages']['rename_file']);
 	
 	?>
 	<div style="width:auto;">
 	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	        <h3 style="margin-bottom:5px;">Rename <?php echo $is_dir ? 'Directory' : 'File' ?></h3>
+	        <h3 style="margin-bottom:5px;"><?php echo $GLOBALS['messages']['rename_file'] ?></h3>
 	        <div id="adminForm">
 	
 	        </div>

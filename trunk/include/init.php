@@ -182,8 +182,9 @@ if($GLOBALS["require_login"]) {	// LOGIN
 if( !isset( $_REQUEST['dir'] ) ) {
 
 	$GLOBALS["dir"] = $dir = mosGetParam( $_SESSION,'jx_'.$GLOBALS['file_mode'].'dir', '' );
+	$dir = @$dir[0] == '/' ? substr( $dir, 1 ) : $dir;
 	$try_this = jx_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
-	if( !$GLOBALS['jx_File']->file_exists( $try_this )) {
+	if( !empty( $dir ) && !$GLOBALS['jx_File']->file_exists( $try_this )) {
 		$dir = '';
 	}
 }

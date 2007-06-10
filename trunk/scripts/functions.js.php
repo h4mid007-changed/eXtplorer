@@ -76,7 +76,7 @@ function openActionDialog( caller, action ) {
 			selectedRows = Array( dirTree.getSelectionModel().getSelectedNode().id.replace( /_RRR_/g, '/' ) );
 		}
 	}
-	var dontNeedSelection = { new:1, get_about:1, ftp_authentication:1, upload:1, search:1 };
+	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1 };
 	if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
 		Ext.MessageBox.alert( '<?php echo $GLOBALS['error_msg']['error']."','".addslashes($GLOBALS['error_msg']['miscselitems']) ?>');
 		return false;
@@ -96,7 +96,7 @@ function openActionDialog( caller, action ) {
 		case 'ftp_authentication':
 		case 'get_about':
 			requestParams = getRequestParams();
-			requestParams.action = action, 
+			requestParams.action = action;
 									
             dialog = new Ext.LayoutDialog("action-dlg", { 
                     autoCreate: true,
