@@ -11,7 +11,7 @@ $GLOBALS["editable_ext"]=array(
 );
 //------------------------------------------------------------------------------
 // image files:
-$GLOBALS["images_ext"]="\.png$|\.bmp$|\.jpg$|\.jpeg$|\.gif$";
+$GLOBALS["images_ext"]="\.png$|\.bmp$|\.jpg$|\.jpeg$|\.gif$|\.ico$";
 //------------------------------------------------------------------------------
 // mime types: (description,image,extension)
 $GLOBALS["super_mimes"]=array(
