@@ -305,6 +305,7 @@ class jx_List extends jx_Action {
 		show_header();
 		
 		$GLOBALS['mainframe']->addcustomheadtag( '
+		<script type="text/javascript" src="'. _JX_URL . '/scripts/codepress/codepress.js"></script>
 		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/yui-utilities.js"></script>
 		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/ext-yui-adapter.js"></script>
 		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/ext-all.js"></script>

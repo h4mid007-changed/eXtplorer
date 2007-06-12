@@ -189,7 +189,7 @@ if( !isset( $_REQUEST['dir'] ) ) {
 	}
 }
 else {
-	$GLOBALS["dir"] = $dir = $_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = stripslashes(mosGetParam( $_REQUEST, "dir" ));
+	$GLOBALS["dir"] = $dir = $_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = urldecode(stripslashes(mosGetParam( $_REQUEST, "dir" )));
 }
 if( $dir == 'jx_root') {
 	$GLOBALS["dir"] = $dir = '';
