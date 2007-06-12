@@ -139,6 +139,8 @@ require _JX_PATH."/include/result.class.php";
 
 //------------------------------------------------------------------------------
 
+// Raise Memory Limit
+jx_RaiseMemoryLimit( '8M' );
 
 $GLOBALS['jx_File'] = new jx_File();
 
@@ -189,7 +191,7 @@ if( !isset( $_REQUEST['dir'] ) ) {
 	}
 }
 else {
-	$GLOBALS["dir"] = $dir = $_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = urldecode(stripslashes(mosGetParam( $_REQUEST, "dir" )));
+	$GLOBALS["dir"] = $dir = urldecode(stripslashes(mosGetParam( $_REQUEST, "dir" )));
 }
 if( $dir == 'jx_root') {
 	$GLOBALS["dir"] = $dir = '';
@@ -215,5 +217,7 @@ if(!down_home($abs_dir)) {
 if(!get_is_dir($abs_dir))
   if(!get_is_dir($abs_dir.$GLOBALS["separator"]))
 	jx_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
+	
+$_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = $dir;
 //------------------------------------------------------------------------------
 ?>

@@ -39,10 +39,8 @@ $item = mosGetParam( $_REQUEST, 'item', '');
 // Here we allow *download* and *directory listing*, nothing more, nothing less
 switch( $action ) {
 	case 'download':
-		require _QUIXPLORER_PATH . "/include/fun_down.php";
-	  	@ob_end_clean(); // get rid of cached unwanted output
-	  	download_item($dir, $item);
-	  	ob_start(false); // prevent unwanted output
+		require _JX_PATH . "/include/download.php";
+	  	jx_Download::execAction($dir, $item);
 	  	exit;
 	case 'list':
 	default:

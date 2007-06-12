@@ -628,6 +628,33 @@ function jx_exit() {
 	}
 }
 /**
+ * Raise the memory limit when it is lower than the needed value
+ *
+ * @param string $setLimit Example: 16M
+ */
+function jx_RaiseMemoryLimit( $setLimit ) {
+	
+	$memLimit = @ini_get('memory_limit');
+	
+	if( stristr( $memLimit, 'k') ) {
+		$memLimit = str_replace( 'k', '', str_replace( 'K', '', $memLimit )) * 1024;
+	}
+	elseif( stristr( $memLimit, 'm') ) {
+		$memLimit = str_replace( 'm', '', str_replace( 'M', '', $memLimit )) * 1024 * 1024;
+	}
+	
+	if( stristr( $setLimit, 'k') ) {
+		$setLimitB = str_replace( 'k', '', str_replace( 'K', '', $setLimit )) * 1024;
+	}
+	elseif( stristr( $setLimit, 'm') ) {
+		$setLimitB = str_replace( 'm', '', str_replace( 'M', '', $setLimit )) * 1024 * 1024;
+	}
+	
+	if( $memLimit < $setLimitB ) {
+		@ini_set('memory_limit', $setLimit );
+	}	
+}
+/**
  * Reads a file and sends them in chunks to the browser
  * This should overcome memory problems
  * http://www.php.net/manual/en/function.readfile.php#54295
