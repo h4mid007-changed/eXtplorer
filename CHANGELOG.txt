@@ -1,8 +1,8 @@
 ****************************
 Changelog for joomlaXplorer
 ****************************
-
-
+- fixed the "symlink points to target which can't be accessed" problem
+- fixed "out of memory" problems
 - directory names changed (no directories starting with a '.' anymore now)
 - completely changed layout: directory tree, file grid with renaming, context menu, drag&drop
 - added the ExtJS 1.0.1a library
