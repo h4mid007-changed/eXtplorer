@@ -80,16 +80,16 @@ function jx_init(){
     datastore.paramNames['dir'] = 'direction';
     datastore.paramNames['sort'] = 'order';
     
-    datastore.on('loadexception', function(httpProxy, o, response ) {
-    								if( response && response.responseText ) {
-    									var json = Ext.decode( response.responseText );
-    									if( json ) {
-    										Ext.MessageBox.alert('Error', json.error );
-    									}
-    								} else {
-    									//alert('An error occured while loading the data.' );
-    								}
-    							} );
+    function checkLoggedOut( response ) {
+    	var re = /(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/ig;
+    
+		var match;
+    	while(match = re.exec(response.responseText)){
+            if(match[2] && match[2].length > 0){
+               eval(match[2]);
+            }
+        }
+	}
     datastore.on('beforeload', function(ds, options) {
     								options.params.dir = options.params.dir ? options.params.dir : ds.directory;
     								options.params.option = 'com_joomlaxplorer';
@@ -396,14 +396,15 @@ function jx_init(){
 	    ddGroup : 'TreeDD'
     });
     dirTree.on('contextmenu', dirContext );
+    /*
     dirTree.loader.on('load', function(loader, o, response ) {
     									if( response && response.responseText ) {
 	    									var json = Ext.decode( response.responseText );
 	    									if( json && json.error ) {
-	    										Ext.MessageBox.alert('Error', json.error );
+	    										Ext.Msg.alert('Error', json.error +'onLoad');
 	    									}
 	    								}
-    });
+    });*/
     dirTree.on('beforenodedrop', function(e){
     	dropEvent = e;
     	copymoveCtx(e);
@@ -566,7 +567,7 @@ function jx_init(){
     		id: 'remove',
     		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
     		text: '<?php echo $GLOBALS["messages"]["btnremove"] ?>',
-    		handler: function() { dirCtxMenu.hide();var num = 1; Ext.MessageBox.confirm('Confirm', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", function() { deleteDir( dirCtxMenu.node ) }); }
+    		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", function() { deleteDir( dirCtxMenu.node ) }); }
     	},'-',
     	{
     		id: 'reload',
@@ -677,6 +678,7 @@ function jx_init(){
 			params: { action:'chdir_event', dir: directory, option: 'com_joomlaxplorer' },
 			callback: function(options, success, response ) {
 				if( success ) {
+					checkLoggedOut( response ); // Check if current user is logged off. If yes, Joomla! sends a document.location redirect, which will be eval'd here
 					var result = Ext.decode( response.responseText );
 					var gridpanel = layout.getRegion('center').getActivePanel();
 					gridpanel.setTitle( 'Browsing Directory &nbsp;&nbsp;&nbsp;&nbsp;' + result.dirselects );
@@ -752,8 +754,11 @@ function jx_init(){
     
 }
 if(Ext.isIE){
-	YAHOO.util.Event.addListener(window, "load", jx_init );
+	// As this file is included inline (because otherwise it would throw Element not found JS errors in IE)
+	// we need to run the init function onLoad, not onDocumentReady in IE
+	Ext.EventManager.addListener(window, "load", jx_init );
 } else {
+	// Other Browsers eat onReady
 	Ext.onReady( jx_init );
 }
 </script>

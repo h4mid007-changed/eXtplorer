@@ -79,7 +79,9 @@ CodePress = function(obj) {
 		var cn = self.editor.body.className;
 		self.editor.body.className = (cn==''||cn=='show-line-numbers') ? 'hide-line-numbers' : 'show-line-numbers';
 	}
-	
+	self.isActive = function() {
+		return self.textarea.disabled;
+	}
 	self.toggleEditor = function() {
 		if(self.textarea.disabled) {
 			self.textarea.value = self.getCode();

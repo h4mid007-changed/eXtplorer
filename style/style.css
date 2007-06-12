@@ -60,6 +60,7 @@ a:hover, a:active {
 	background-image: url( ../images/_info.gif );
 }
 .x-layout-panel-north, .ytheme-gray .x-layout-panel-north{
+	background-image: url( ../scripts/extjs/images/vista/layout/panel-title-light-bg.gif );
 	font:bold 12px verdana, helvetica;
 	overflow:hidden;
 	padding:4px;

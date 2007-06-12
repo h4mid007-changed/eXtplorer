@@ -81,19 +81,58 @@ class jx_Edit extends jx_Action {
 		$s_item=get_rel_item($dir,$item);	if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
 		$s_info = pathinfo( $s_item );
 		$s_extension = str_replace('.', '', $s_info['extension'] );
+		switch (strtolower($s_extension)) {
+			case 'txt':
+				$cp_lang = 'text'; break;
+			case 'cs':
+				$cp_lang = 'csharp'; break;
+			case 'css':
+				$cp_lang = 'css'; break;
+			case 'html':
+			case 'htm':
+			case 'xml':
+			case 'xhtml':
+				$cp_lang = 'html'; break;
+			case 'java':
+				$cp_lang = 'java'; break;
+			case 'js':
+				$cp_lang = 'javascript'; break;
+			case 'pl': 
+				$cp_lang = 'perl'; break;
+			case 'ruby': 
+				$cp_lang = 'ruby'; break;
+			case 'sql':
+				$cp_lang = 'sql'; break;
+			case 'vb':
+			case 'vbs':
+				$cp_lang = 'vbscript'; break;
+			case 'php':
+				$cp_lang = 'php'; break;
+			default: 
+				$cp_lang = 'generic';
+		}
 	?>
 	<div style="width:auto;">
 	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	        <h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actedit"].": /".$s_item ?></h3>
+	        <h3 style="margin-bottom:5px;"><?php 
+	        	echo $GLOBALS["messages"]["actedit"].": /".$s_item .'&nbsp;&nbsp;&nbsp;&nbsp;';
+	        	echo '[<a href="javascript:;" onclick="Ext.get(\'positionIndicator\').toggle(); ext_codefield.toggleEditor();return false;">'.$GLOBALS['messages']['editor_simple'].' / '.$GLOBALS['messages']['editor_syntaxhighlight'].'</a>]';
+	        	?></h3>
+	    <div id="positionIndicator">
+		<?php echo $GLOBALS["messages"]["line"] ?>: <input type="text" value="" name="txtLine" id="txtLine" class="inputbox" size="6" onchange="setCaretPosition( codetextarea, this.value);return false;" />&nbsp;&nbsp;&nbsp;
+		<?php echo $GLOBALS["messages"]["column"] ?>: <input type="text" value="" name="txtColumn" id="txtColumn" class="inputbox" size="6" readonly="readonly" />
+		</div>
+    <br />
+
+
 	        <div id="adminForm">
 	
 	        </div>
 	    </div></div></div>
 	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 	</div>
-	<script src="components/com_joomlaxplorer/scripts/codepress/codepress.js" type="text/javascript"></script>
 	
 	<?php	
 	// Show File In TextArea
@@ -103,49 +142,76 @@ class jx_Edit extends jx_Action {
 	}
 	//$content = htmlspecialchars( $content );
 		
-	?><script language="JavaScript1.2" type="text/javascript">//<!--
+	?><script type="text/javascript">//<!--
 	dialog.setContentSize( 700, 500 );
-	var simple = new Ext.form.Form({
-	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'<?php echo make_link("rename",$dir,$item) ?>'
+	simple = new Ext.form.Form({
+	    labelAlign: 'top',
+	    url:'index2.php'
 	});
-	simple.add(
+	simple.add(		
+	    new Ext.form.TextArea({
+	        fieldLabel: 'File Contents',
+	        name: 'code',
+	        id: 'ext_codefield',
+	        fieldClass: 'codepress <?php echo $cp_lang ?> x-form-field',
+	        value: '<?php echo str_replace(Array("\r", "\n", "'", '<', '>'), Array('\n', '\r',"\'", '&lt;', '&gt;') ,$content) ?>',
+	        width: 650,
+	        height: 300
+	    })		
+	);
+	simple.column( {width: 250 }, 
 		new Ext.form.TextField({
 	        fieldLabel: '<?php echo $GLOBALS["messages"]["copyfile"] ?>',
 	        name: 'fname',
 	        value: '<?php echo $item ?>',
 	        width:175
-		}),
-		
-	    new Ext.form.TextArea({
-	        fieldLabel: 'File Contents',
-	        name: 'code',
-	        id: 'ext_codefield',
-	        value: '<?php echo str_replace(Array("\r", "\n", "'"), Array('\n', '\r',"\'") ,$content) ?>',
-	        width: 500,
-	        height: 300
-	    })
+		})
 	);
-	
+	simple.column( {width: 250, style:'margin-left:10px', clear:true }, 
+		new Ext.form.Checkbox({
+	        fieldLabel: '<?php echo $GLOBALS["messages"]["returndir"] ?>',
+	        name: 'return_to_dir',
+	        width:175
+		})
+	);
 	simple.addButton('<?php echo $GLOBALS["messages"]["btnsave"] ?>', function() {
+
 	    simple.submit({
 	        //waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
 	        reset: false,
-	        success: function(form, action) {datastore.reload();Ext.MessageBox.alert('Success!', action.result.message);},
-	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        success: function(form, action) {
+	        	datastore.reload();
+	        	Ext.MessageBox.alert('Success!', action.result.message);
+	        	if( simple.findField('return_to_dir').getValue() ) {
+	        		dialog.hide();dialog.destroy();
+	        	}
+	        },
+	        failure: function(form, action) {
+	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields
 	        params: {option: 'com_joomlaxplorer', 
 	        		action: 'edit', 
+	        		code: ext_codefield.getCode(),
 	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
 	        		item: '<?php echo stripslashes($GLOBALS['__POST']["item"]) ?>', 
 	        		dosave: 'yes'
 	        }
 	    });
 	});
+	
 	simple.addButton('<?php echo $GLOBALS["messages"]["btnclose"] ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
+	simple.findField('code').setValue(simple.findField( 'code').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
+	CodePress.run();
+	//Ext.get('positionIndicator').setVisibilityMode(Element.DISPLAY);
+	//Ext.get('positionIndicator').setDisplayed('none');
+	Ext.get('positionIndicator').hide();
+	codetextarea = ext_codefield.textarea;
+	Ext.EventManager.addListener( codetextarea, 'keyup', function() { updatePosition( codetextarea ) } );
+	Ext.EventManager.addListener( codetextarea, 'click', function() { updatePosition( codetextarea ) } );
 	// -->
 	</script><?php
 	
@@ -165,7 +231,7 @@ class jx_Edit extends jx_Action {
 			if( PEAR::isError( $res ) ) {
 				$err .= $res->getMessage();
 			}
-			jx_Result::sendResult( 'edit', false, $err );
+			jx_Result::sendResult( 'edit', false, $err.print_r( $_POST, true ) );
 		}
 		
 	}

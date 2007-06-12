@@ -315,17 +315,21 @@ function get_dir_selects( $dir ) {
 	$dirsCopy = $dirs;
 	$implode = '';
 	$selectedDir = @$dirs[0];
-	$dir_links = jx_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="chDir(this.options[this.selectedIndex].value)"' );
+	$dir_links = jx_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
 	$i = 2;
 	foreach( $dirs as $directory ) {
 	  	if( $directory != "" ) {
 			$implode .= $directory;
-			$selectedDir .= '/'.next($dirsCopy);
+			$next = next($dirsCopy);
 			$subdirs = get_dir_list( $implode );
-			if( sizeof( $subdirs ) == 1 ) {
-				array_unshift( $subdirs, '-');
+			if( $next !== false ) {
+				$selectedDir .= '/'.$next;
+			} else {
+				if( sizeof( $subdirs ) > 0) {
+					$subdirs = array_merge(Array('jx_disabled' => '-'), $subdirs );
+				}
 			}
-			$dir_links .= ' / ' .jx_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="chDir(this.options[this.selectedIndex].value)"' );
+			$dir_links .= ' / ' .jx_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
 			$implode .= '/';
 	  	}
 	}
@@ -584,7 +588,7 @@ function jx_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
 				}
 			}
 			if( $val == '-') {
-				$selected .= ' disabled="disabled"';
+				//$selected .= ' disabled="disabled"';
 				$val = '- - - - -';
 			}
 			$html .= "<option value=\"$key\" $selected>$val";

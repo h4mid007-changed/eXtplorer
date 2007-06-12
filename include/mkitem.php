@@ -151,7 +151,9 @@ class jx_Mkitem extends jx_Action {
 	        reset: false,
 	        success: function(form, action) {	
 	        	//Ext.MessageBox.alert('Success', action.result.action);
-	        	dirTree.getSelectionModel().getSelectedNode().reload();
+	        	try{ 
+	        		dirTree.getSelectionModel().getSelectedNode().reload(); 
+	        	} catch(e) {}
 				datastore.reload();
 				dialog.destroy();
 	        },

@@ -53,16 +53,17 @@ class jx_Upload extends jx_Action {
 		
 		// Execute
 		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {	
+			
 			$cnt=count($GLOBALS['__FILES']['userfile']['name']);
 			$err=false;
-			$err_avaliable=isset($GLOBALS['__FILES']['userfile']['error']);
+			$err_available=isset($GLOBALS['__FILES']['userfile']['error']);
 		
 			// upload files & check for errors
 			for($i=0;$i<$cnt;$i++) {
 				$errors[$i]=NULL;
 				$tmp = $GLOBALS['__FILES']['userfile']['tmp_name'][$i];
 				$items[$i] = stripslashes($GLOBALS['__FILES']['userfile']['name'][$i]);
-				if($err_avaliable) $up_err = $GLOBALS['__FILES']['userfile']['error'][$i];
+				if($err_available) $up_err = $GLOBALS['__FILES']['userfile']['error'][$i];
 				else $up_err=(file_exists($tmp)?0:4);
 				$abs = get_abs_item($dir,$items[$i]);
 			
@@ -86,7 +87,6 @@ class jx_Upload extends jx_Action {
 				
 				// Upload
 				$ok = @$GLOBALS['jx_File']->move_uploaded_file($tmp, $abs);
-				
 				if($ok===false || PEAR::isError( $ok )) {
 					$errors[$i]=$GLOBALS["error_msg"]["uploadfile"];
 					if( PEAR::isError( $ok ) ) $errors[$i].= ' ['.$ok->getMessage().']';
@@ -138,7 +138,7 @@ class jx_Upload extends jx_Action {
 		for($i=0;$i<10;$i++) {
 		    echo "new Ext.form.TextField({
 		        fieldLabel: '{$GLOBALS["messages"]["newname"]}',
-		        name: 'userfile[]',
+		        name: 'userfile[$i]',
 		        width:275,
 		        inputType: 'file'
 		    }),";
@@ -153,7 +153,7 @@ class jx_Upload extends jx_Action {
 	
 	simple.addButton('Save', function() {
 	    simple.submit({
-	        waitMsg: 'Processing Data, please wait...',
+	        waitMsg: 'Processing Upload, please wait...',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {
@@ -161,12 +161,14 @@ class jx_Upload extends jx_Action {
 	    		dialog.hide();
 	        	dialog.destroy();
 	        },
-	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        failure: function(form, action) {
+	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields
 	        params: {option: 'com_joomlaxplorer', 
 	        		action: 'upload', 
-	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
+	        		dir: datastore.directory,
 	        		requestType: 'xmlhttprequest',
 	        		confirm: 'true'}
 	    });

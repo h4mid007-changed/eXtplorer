@@ -78,7 +78,7 @@ function openActionDialog( caller, action ) {
 	}
 	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1 };
 	if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
-		Ext.MessageBox.alert( '<?php echo $GLOBALS['error_msg']['error']."','".addslashes($GLOBALS['error_msg']['miscselitems']) ?>');
+		Ext.Msg.alert( '<?php echo $GLOBALS['error_msg']['error']."','".addslashes($GLOBALS['error_msg']['miscselitems']) ?>');
 		return false;
 	}
 
@@ -128,7 +128,7 @@ function openActionDialog( caller, action ) {
 											if( oResponse && oResponse.responseText ) {
 											try{ json = Ext.decode( oResponse.responseText );
 												if( json.error != '' && typeof json.error != 'xml' ) {													
-													Ext.MessageBox.alert( '<?php echo $GLOBALS['error_msg']['error'] ?>', json.error );
+													Ext.Msg.alert( '<?php echo $GLOBALS['error_msg']['error'] ?>', json.error );
 													dialog.destroy();
 												}
 											} catch(e) {}
@@ -145,10 +145,10 @@ function openActionDialog( caller, action ) {
             
 		case 'delete':
 			var num = selectedRows.length;
-			Ext.MessageBox.confirm('<?php echo $GLOBALS['messages']['dellink'] ?>?', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", deleteFiles);
+			Ext.Msg.confirm('<?php echo $GLOBALS['messages']['dellink'] ?>?', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", deleteFiles);
 			break;
 		case 'extract':
-			Ext.MessageBox.confirm('<?php echo $GLOBALS['messages']['extractlink'] ?>?', "<?php echo $GLOBALS['messages']['extract_warning'] ?>", extractArchive);
+			Ext.Msg.confirm('<?php echo $GLOBALS['messages']['extractlink'] ?>?', "<?php echo $GLOBALS['messages']['extract_warning'] ?>", extractArchive);
 			break;
 		case 'download':
 			document.location = 'index3.php?option=com_joomlaxplorer&action=download&item='+ encodeURIComponent(jx_itemgrid.getSelectionModel().getSelected().get('name')) + '&dir=' + encodeURIComponent( datastore.directory );
@@ -165,7 +165,7 @@ function handleCallback(requestParams, node) {
 			if( success ) {
 				json = Ext.decode( response.responseText );
 				if( json.success ) {
-					Ext.MessageBox.alert( 'Success', json.message );
+					Ext.Msg.alert( 'Success', json.message );
 					try { 
 						if( dropEvent) {
 							dropEvent.target.parentNode.reload();
@@ -181,11 +181,11 @@ function handleCallback(requestParams, node) {
 						}
 					} catch(e) { datastore.reload(); }
 				} else {
-					Ext.MessageBox.alert( 'Failure', json.error );
+					Ext.Msg.alert( 'Failure', json.error );
 				}
 			}
 			else {
-				Ext.MessageBox.alert( 'Error', 'Failed to connect to the server.');
+				Ext.Msg.alert( 'Error', 'Failed to connect to the server.');
 			}
 		}
 	});
@@ -270,3 +270,96 @@ function var_dump(obj) {
       	return "Type: "+typeof(obj)+"\n" + vartext;
 	}
 }//end function var_dump
+
+//http://www.bazon.net/mishoo/home.epl?NEWS_ID=1345
+function doGetCaretPosition (textarea) {
+
+	var txt = textarea.value;
+	var len = txt.length;
+	var erg = txt.split("\n");
+	var pos = -1;
+	if(typeof textarea.selectionStart != "undefined") { // FOR MOZILLA
+		pos = textarea.selectionStart;
+	}
+	else if(typeof document.selection != "undefined") { // FOR MSIE
+		range_sel = document.selection.createRange();
+		range_obj = textarea.createTextRange();
+		range_obj.moveToBookmark(range_sel.getBookmark());
+		range_obj.moveEnd('character',textarea.value.length);
+		pos = len - range_obj.text.length;
+	}
+	if(pos != -1) {
+		var ind = 0;
+		for(;erg.length;ind++) {
+			len = erg[ind].length + 1;
+			if(pos < len)
+			break;
+			pos -= len;
+		}
+		ind++; pos++;
+		return [ind, pos]; // ind = LINE, pos = COLUMN
+
+	}
+}
+/**
+* This function allows us to change the position of the caret
+* (cursor) in the textarea
+* Various workarounds for IE, Firefox and Opera are included
+* Firefox doesn't count empty lines, IE does...
+*/
+function setCaretPosition( textarea, linenum ) {
+	if (isNaN(linenum)) {
+		updatePosition( textarea );
+		return;
+	}
+	var txt = textarea.value;
+	var len = txt.length;
+	var erg = txt.split("\n");
+		
+	var ind = 0;
+	var pos = 0;
+	var nonempty = -1;
+	var empty = -1;
+	for(;ind < linenum;ind++) {
+		/*alert( "Springe zu Zeile: "+linenum
+				+"\naktuelle Zeile: "+ (ind+1) 
+				+ "\naktuelle Position: "+pos 
+				+ "\nText in dieser Zeile: "+erg[ind]);*/
+		if( !erg[ind] && pos < len ) { empty++; pos++; continue; }
+		else if( !erg[ind] ) break;
+		pos += erg[ind].length;
+		nonempty++;
+	}
+	try {
+		pos -= erg[ind-1].length;	
+	} catch(e) {}
+	
+	textarea.focus();
+	
+	if(textarea.setSelectionRange)
+	{
+		pos += nonempty;
+		textarea.setSelectionRange(pos,pos);
+	}
+	else if (textarea.createTextRange) {
+		pos -= empty;
+		var range = textarea.createTextRange();
+		range.collapse(true);
+		range.moveEnd('character', pos);
+		range.moveStart('character', pos);
+		
+		range.select();
+	}
+}
+/** 
+* Updates the Position Indicator fields
+*/
+function updatePosition(textBox) {
+	var posArray = doGetCaretPosition(textBox);
+	if( posArray[0] ) {
+	    Ext.fly( 'txtLine' ).set( { value: posArray[0] } );
+	}
+	if( posArray[1] ) {
+	    Ext.fly( 'txtColumn' ).set( { value: posArray[1] } );
+	}
+}
