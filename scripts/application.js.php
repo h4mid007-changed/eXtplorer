@@ -670,11 +670,14 @@ function jx_init(){
 	* This function is for changing into a specified directory
 	* It updates the tree, the grid and the ContentPanel title
 	*/
-    chDir = function( directory ) {    	
+    chDir = function( directory ) {
+    	if( datastore.directory == directory ) {
+    		return;
+    	}
     	datastore.directory = directory;
     	datastore.load({params:{start:0, limit:50, dir: directory, option:'com_joomlaxplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
 		 new Ext.data.Connection().request({
-			url: 'index3.php',
+			url: 'index2.php',
 			params: { action:'chdir_event', dir: directory, option: 'com_joomlaxplorer' },
 			callback: function(options, success, response ) {
 				if( success ) {
@@ -707,18 +710,20 @@ function jx_init(){
 		}
 	}
 	function expandNode( node, dir ) {
+		var fulldirpath, dirpath;
+	
 		var dirs = dir.split('/');
 		if( dirs[0] == '') { dirs.shift(); }
 		if( dirs.length > 0 ) {
-			var dirpath = '';
+			fulldirpath = '';
 			for( i=0; i<dirs.length; i++ ) {
-				dirpath += '_RRR_'+ dirs[i];
+				fulldirpath += '_RRR_'+ dirs[i];
 			}
-			
-			dirpath = dirpath.substr( 5 );
-			
+			if( node.id.substr( 0, 5 ) != '_RRR_' ) {
+				fulldirpath = fulldirpath.substr( 5 );
+			}
 		
-			if( node.id != dirpath ) {
+			if( node.id != fulldirpath ) {
 				dirpath = '';
 		
 				var nodedirs = node.id.split('_RRR_');
@@ -733,14 +738,13 @@ function jx_init(){
 						if( !nextnode ) { alert( dirpath + 'not found!' ); return; }
 						if( nextnode.isExpanded() ) { expandNode( nextnode, dir ); return;}
 						nextnode.on( 'load', function() { expandNode( nextnode, dir ) } );	
-						if( nextnode.id == dirpath ) {
-							nextnode.select();
-						}
+
 						nextnode.expand();
 						break;
 					}
 				}
-			} else {
+			}
+			else {
 				node.select();
 			}
 			
