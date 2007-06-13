@@ -5,7 +5,7 @@
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren@virtuemart.net</authorEmail>
-    <authorUrl>http://developer.joomla.org/sf/projects/joomlaxplorer</authorUrl>
+    <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
     <version>2.0.0 beta1</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_joomlaxplorer/images/joomlaXplorer.png" alt="joomlaXplorer Logo" /></div>
@@ -15,9 +15,9 @@
 	  <ul><li>Browsing Directories & Files,</li>
 	  <li>Editing, Copying, Moving and Deleting files,</li>
 	  <li>Searching, Uploading and Downloading files,</li>
-	  <li>Creating new files and directories,</li>
-	  <li>Creating and Unpacking archives of files and directories,</li>
-	  <li>Changing file permissions (chmod)</li></ul><br/>and many more.<br/><br/>
+	  <li>Creating new Files and Directories,</li>
+	  <li>Creating and Extracting Archives with Files and Directories,</li>
+	  <li>Changing file permissions (chmod)</li></ul><br/>and much more.<br/><br/>
 	  <strong>By default restricted to Superadministrators!</strong>
 	]]></description>
     <files><!-- Frontend Files! -->
