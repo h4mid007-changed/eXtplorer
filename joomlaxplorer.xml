@@ -302,10 +302,10 @@
 			<filename>scripts/codepress/languages/vbscript.js</filename>
 			<filename>scripts/codepress/license.txt</filename>
 			<filename>scripts/extjs/css/ext-all.css</filename>
+			<filename>scripts/extjs/css/index.html</filename>
 			<filename>scripts/extjs/css/ytheme-aero.css</filename>
 			<filename>scripts/extjs/css/ytheme-gray.css</filename>
 			<filename>scripts/extjs/css/ytheme-vista.css</filename>
-			<filename>scripts/extjs/ext-all-debug.js</filename>
 			<filename>scripts/extjs/ext-all.js</filename>
 			<filename>scripts/extjs/ext-yui-adapter.js</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/aero-close-over.gif</filename>
@@ -320,6 +320,7 @@
 			<filename>scripts/extjs/images/aero/basic-dialog/expand-over.gif</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/expand.gif</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/hd-sprite.gif</filename>
+			<filename>scripts/extjs/images/aero/basic-dialog/index.html</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/s-handle.gif</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/se-handle.gif</filename>
 			<filename>scripts/extjs/images/aero/basic-dialog/w-handle.gif</filename>
@@ -328,13 +329,16 @@
 			<filename>scripts/extjs/images/aero/grid/grid-hrow.gif</filename>
 			<filename>scripts/extjs/images/aero/grid/grid-split.gif</filename>
 			<filename>scripts/extjs/images/aero/grid/grid-vista-hd.gif</filename>
+			<filename>scripts/extjs/images/aero/grid/index.html</filename>
 			<filename>scripts/extjs/images/aero/grid/pspbrwse.jbf</filename>
 			<filename>scripts/extjs/images/aero/grid/sort-col-bg.gif</filename>
 			<filename>scripts/extjs/images/aero/grid/sort_asc.gif</filename>
 			<filename>scripts/extjs/images/aero/grid/sort_desc.gif</filename>
+			<filename>scripts/extjs/images/aero/index.html</filename>
 			<filename>scripts/extjs/images/aero/layout/collapse.gif</filename>
 			<filename>scripts/extjs/images/aero/layout/expand.gif</filename>
 			<filename>scripts/extjs/images/aero/layout/gradient-bg.gif</filename>
+			<filename>scripts/extjs/images/aero/layout/index.html</filename>
 			<filename>scripts/extjs/images/aero/layout/ns-collapse.gif</filename>
 			<filename>scripts/extjs/images/aero/layout/ns-expand.gif</filename>
 			<filename>scripts/extjs/images/aero/layout/panel-close.gif</filename>
@@ -343,9 +347,11 @@
 			<filename>scripts/extjs/images/aero/layout/tab-close-on.gif</filename>
 			<filename>scripts/extjs/images/aero/layout/tab-close.gif</filename>
 			<filename>scripts/extjs/images/aero/qtip/bg.gif</filename>
+			<filename>scripts/extjs/images/aero/qtip/index.html</filename>
 			<filename>scripts/extjs/images/aero/s.gif</filename>
 			<filename>scripts/extjs/images/aero/sizer/e-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/aero/sizer/e-handle.gif</filename>
+			<filename>scripts/extjs/images/aero/sizer/index.html</filename>
 			<filename>scripts/extjs/images/aero/sizer/ne-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/aero/sizer/ne-handle.gif</filename>
 			<filename>scripts/extjs/images/aero/sizer/nw-handle-dark.gif</filename>
@@ -356,6 +362,7 @@
 			<filename>scripts/extjs/images/aero/sizer/se-handle.gif</filename>
 			<filename>scripts/extjs/images/aero/sizer/sw-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/aero/sizer/sw-handle.gif</filename>
+			<filename>scripts/extjs/images/aero/tabs/index.html</filename>
 			<filename>scripts/extjs/images/aero/tabs/tab-btm-inactive-left-bg.gif</filename>
 			<filename>scripts/extjs/images/aero/tabs/tab-btm-inactive-right-bg.gif</filename>
 			<filename>scripts/extjs/images/aero/tabs/tab-btm-left-bg.gif</filename>
@@ -365,6 +372,7 @@
 			<filename>scripts/extjs/images/aero/tabs/tab-strip-bg.png</filename>
 			<filename>scripts/extjs/images/aero/tabs/tab-strip-btm-bg.gif</filename>
 			<filename>scripts/extjs/images/aero/toolbar/bg.gif</filename>
+			<filename>scripts/extjs/images/aero/toolbar/index.html</filename>
 			<filename>scripts/extjs/images/aero/toolbar/tb-btn-sprite.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/btn-arrow.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/btn-sprite.gif</filename>
@@ -373,12 +381,14 @@
 			<filename>scripts/extjs/images/default/basic-dialog/e-handle.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/expand.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/hd-sprite.gif</filename>
+			<filename>scripts/extjs/images/default/basic-dialog/index.html</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/progress.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/progress2.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/s-handle.gif</filename>
 			<filename>scripts/extjs/images/default/basic-dialog/se-handle.gif</filename>
 			<filename>scripts/extjs/images/default/box/corners-blue.gif</filename>
 			<filename>scripts/extjs/images/default/box/corners.gif</filename>
+			<filename>scripts/extjs/images/default/box/index.html</filename>
 			<filename>scripts/extjs/images/default/box/l-blue.gif</filename>
 			<filename>scripts/extjs/images/default/box/l.gif</filename>
 			<filename>scripts/extjs/images/default/box/r-blue.gif</filename>
@@ -388,9 +398,11 @@
 			<filename>scripts/extjs/images/default/dd/drop-add.gif</filename>
 			<filename>scripts/extjs/images/default/dd/drop-no.gif</filename>
 			<filename>scripts/extjs/images/default/dd/drop-yes.gif</filename>
+			<filename>scripts/extjs/images/default/dd/index.html</filename>
 			<filename>scripts/extjs/images/default/form/date-trigger.gif</filename>
 			<filename>scripts/extjs/images/default/form/error-tip-corners.gif</filename>
 			<filename>scripts/extjs/images/default/form/exclamation.gif</filename>
+			<filename>scripts/extjs/images/default/form/index.html</filename>
 			<filename>scripts/extjs/images/default/form/text-bg.gif</filename>
 			<filename>scripts/extjs/images/default/form/trigger.gif</filename>
 			<filename>scripts/extjs/images/default/gradient-bg.gif</filename>
@@ -417,6 +429,7 @@
 			<filename>scripts/extjs/images/default/grid/hmenu-lock.png</filename>
 			<filename>scripts/extjs/images/default/grid/hmenu-unlock.gif</filename>
 			<filename>scripts/extjs/images/default/grid/hmenu-unlock.png</filename>
+			<filename>scripts/extjs/images/default/grid/index.html</filename>
 			<filename>scripts/extjs/images/default/grid/invalid_line.gif</filename>
 			<filename>scripts/extjs/images/default/grid/loading.gif</filename>
 			<filename>scripts/extjs/images/default/grid/mso-hd.gif</filename>
@@ -434,9 +447,11 @@
 			<filename>scripts/extjs/images/default/grid/sort_asc.gif</filename>
 			<filename>scripts/extjs/images/default/grid/sort_desc.gif</filename>
 			<filename>scripts/extjs/images/default/grid/wait.gif</filename>
+			<filename>scripts/extjs/images/default/index.html</filename>
 			<filename>scripts/extjs/images/default/layout/collapse.gif</filename>
 			<filename>scripts/extjs/images/default/layout/expand.gif</filename>
 			<filename>scripts/extjs/images/default/layout/gradient-bg.gif</filename>
+			<filename>scripts/extjs/images/default/layout/index.html</filename>
 			<filename>scripts/extjs/images/default/layout/ns-collapse.gif</filename>
 			<filename>scripts/extjs/images/default/layout/ns-expand.gif</filename>
 			<filename>scripts/extjs/images/default/layout/panel-close.gif</filename>
@@ -448,22 +463,26 @@
 			<filename>scripts/extjs/images/default/layout/tab-close.gif</filename>
 			<filename>scripts/extjs/images/default/menu/checked.gif</filename>
 			<filename>scripts/extjs/images/default/menu/group-checked.gif</filename>
+			<filename>scripts/extjs/images/default/menu/index.html</filename>
 			<filename>scripts/extjs/images/default/menu/menu-parent.gif</filename>
 			<filename>scripts/extjs/images/default/menu/menu.gif</filename>
 			<filename>scripts/extjs/images/default/menu/unchecked.gif</filename>
 			<filename>scripts/extjs/images/default/qtip/bg.gif</filename>
 			<filename>scripts/extjs/images/default/qtip/close.gif</filename>
+			<filename>scripts/extjs/images/default/qtip/index.html</filename>
 			<filename>scripts/extjs/images/default/qtip/tip-sprite.gif</filename>
 			<filename>scripts/extjs/images/default/s.gif</filename>
 			<filename>scripts/extjs/images/default/shadow-c.png</filename>
 			<filename>scripts/extjs/images/default/shadow-lr.png</filename>
 			<filename>scripts/extjs/images/default/shadow.png</filename>
 			<filename>scripts/extjs/images/default/shared/calendar.gif</filename>
+			<filename>scripts/extjs/images/default/shared/index.html</filename>
 			<filename>scripts/extjs/images/default/shared/left-btn.gif</filename>
 			<filename>scripts/extjs/images/default/shared/right-btn.gif</filename>
 			<filename>scripts/extjs/images/default/shared/warning.gif</filename>
 			<filename>scripts/extjs/images/default/sizer/e-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/default/sizer/e-handle.gif</filename>
+			<filename>scripts/extjs/images/default/sizer/index.html</filename>
 			<filename>scripts/extjs/images/default/sizer/ne-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/default/sizer/ne-handle.gif</filename>
 			<filename>scripts/extjs/images/default/sizer/nw-handle-dark.gif</filename>
@@ -475,6 +494,7 @@
 			<filename>scripts/extjs/images/default/sizer/square.gif</filename>
 			<filename>scripts/extjs/images/default/sizer/sw-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/default/sizer/sw-handle.gif</filename>
+			<filename>scripts/extjs/images/default/tabs/index.html</filename>
 			<filename>scripts/extjs/images/default/tabs/tab-btm-inactive-left-bg.gif</filename>
 			<filename>scripts/extjs/images/default/tabs/tab-btm-inactive-right-bg.gif</filename>
 			<filename>scripts/extjs/images/default/tabs/tab-btm-left-bg.gif</filename>
@@ -484,6 +504,7 @@
 			<filename>scripts/extjs/images/default/toolbar/btn-arrow.gif</filename>
 			<filename>scripts/extjs/images/default/toolbar/btn-over-bg.gif</filename>
 			<filename>scripts/extjs/images/default/toolbar/gray-bg.gif</filename>
+			<filename>scripts/extjs/images/default/toolbar/index.html</filename>
 			<filename>scripts/extjs/images/default/toolbar/tb-bg.gif</filename>
 			<filename>scripts/extjs/images/default/toolbar/tb-btn-sprite.gif</filename>
 			<filename>scripts/extjs/images/default/tree/drop-add.gif</filename>
@@ -505,6 +526,7 @@
 			<filename>scripts/extjs/images/default/tree/elbow.gif</filename>
 			<filename>scripts/extjs/images/default/tree/folder-open.gif</filename>
 			<filename>scripts/extjs/images/default/tree/folder.gif</filename>
+			<filename>scripts/extjs/images/default/tree/index.html</filename>
 			<filename>scripts/extjs/images/default/tree/leaf.gif</filename>
 			<filename>scripts/extjs/images/default/tree/loading.gif</filename>
 			<filename>scripts/extjs/images/default/tree/s.gif</filename>
@@ -514,13 +536,17 @@
 			<filename>scripts/extjs/images/gray/basic-dialog/e-handle.gif</filename>
 			<filename>scripts/extjs/images/gray/basic-dialog/expand.gif</filename>
 			<filename>scripts/extjs/images/gray/basic-dialog/hd-sprite.gif</filename>
+			<filename>scripts/extjs/images/gray/basic-dialog/index.html</filename>
 			<filename>scripts/extjs/images/gray/basic-dialog/s-handle.gif</filename>
 			<filename>scripts/extjs/images/gray/basic-dialog/se-handle.gif</filename>
 			<filename>scripts/extjs/images/gray/gradient-bg.gif</filename>
 			<filename>scripts/extjs/images/gray/grid/grid-hrow.gif</filename>
+			<filename>scripts/extjs/images/gray/grid/index.html</filename>
+			<filename>scripts/extjs/images/gray/index.html</filename>
 			<filename>scripts/extjs/images/gray/layout/collapse.gif</filename>
 			<filename>scripts/extjs/images/gray/layout/expand.gif</filename>
 			<filename>scripts/extjs/images/gray/layout/gradient-bg.gif</filename>
+			<filename>scripts/extjs/images/gray/layout/index.html</filename>
 			<filename>scripts/extjs/images/gray/layout/ns-collapse.gif</filename>
 			<filename>scripts/extjs/images/gray/layout/ns-expand.gif</filename>
 			<filename>scripts/extjs/images/gray/layout/panel-close.gif</filename>
@@ -531,14 +557,17 @@
 			<filename>scripts/extjs/images/gray/layout/tab-close.gif</filename>
 			<filename>scripts/extjs/images/gray/menu/checked.gif</filename>
 			<filename>scripts/extjs/images/gray/menu/group-checked.gif</filename>
+			<filename>scripts/extjs/images/gray/menu/index.html</filename>
 			<filename>scripts/extjs/images/gray/menu/menu-parent.gif</filename>
 			<filename>scripts/extjs/images/gray/menu/menu.gif</filename>
 			<filename>scripts/extjs/images/gray/menu/unchecked.gif</filename>
 			<filename>scripts/extjs/images/gray/qtip/bg.gif</filename>
+			<filename>scripts/extjs/images/gray/qtip/index.html</filename>
 			<filename>scripts/extjs/images/gray/qtip/tip-sprite.gif</filename>
 			<filename>scripts/extjs/images/gray/s.gif</filename>
 			<filename>scripts/extjs/images/gray/sizer/e-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/gray/sizer/e-handle.gif</filename>
+			<filename>scripts/extjs/images/gray/sizer/index.html</filename>
 			<filename>scripts/extjs/images/gray/sizer/ne-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/gray/sizer/ne-handle.gif</filename>
 			<filename>scripts/extjs/images/gray/sizer/nw-handle-dark.gif</filename>
@@ -549,13 +578,16 @@
 			<filename>scripts/extjs/images/gray/sizer/se-handle.gif</filename>
 			<filename>scripts/extjs/images/gray/sizer/sw-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/gray/sizer/sw-handle.gif</filename>
+			<filename>scripts/extjs/images/gray/tabs/index.html</filename>
 			<filename>scripts/extjs/images/gray/tabs/tab-btm-inactive-left-bg.gif</filename>
 			<filename>scripts/extjs/images/gray/tabs/tab-btm-inactive-right-bg.gif</filename>
 			<filename>scripts/extjs/images/gray/tabs/tab-btm-left-bg.gif</filename>
 			<filename>scripts/extjs/images/gray/tabs/tab-btm-right-bg.gif</filename>
 			<filename>scripts/extjs/images/gray/tabs/tab-sprite.gif</filename>
 			<filename>scripts/extjs/images/gray/toolbar/gray-bg.gif</filename>
+			<filename>scripts/extjs/images/gray/toolbar/index.html</filename>
 			<filename>scripts/extjs/images/gray/toolbar/tb-btn-sprite.gif</filename>
+			<filename>scripts/extjs/images/index.html</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/bg-center.gif</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/bg-left.gif</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/bg-right.gif</filename>
@@ -565,15 +597,19 @@
 			<filename>scripts/extjs/images/vista/basic-dialog/e-handle.gif</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/expand.gif</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/hd-sprite.gif</filename>
+			<filename>scripts/extjs/images/vista/basic-dialog/index.html</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/s-handle.gif</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/se-handle.gif</filename>
 			<filename>scripts/extjs/images/vista/basic-dialog/w-handle.gif</filename>
 			<filename>scripts/extjs/images/vista/gradient-bg.gif</filename>
 			<filename>scripts/extjs/images/vista/grid/grid-split.gif</filename>
 			<filename>scripts/extjs/images/vista/grid/grid-vista-hd.gif</filename>
+			<filename>scripts/extjs/images/vista/grid/index.html</filename>
+			<filename>scripts/extjs/images/vista/index.html</filename>
 			<filename>scripts/extjs/images/vista/layout/collapse.gif</filename>
 			<filename>scripts/extjs/images/vista/layout/expand.gif</filename>
 			<filename>scripts/extjs/images/vista/layout/gradient-bg.gif</filename>
+			<filename>scripts/extjs/images/vista/layout/index.html</filename>
 			<filename>scripts/extjs/images/vista/layout/ns-collapse.gif</filename>
 			<filename>scripts/extjs/images/vista/layout/ns-expand.gif</filename>
 			<filename>scripts/extjs/images/vista/layout/panel-close.gif</filename>
@@ -583,10 +619,12 @@
 			<filename>scripts/extjs/images/vista/layout/tab-close-on.gif</filename>
 			<filename>scripts/extjs/images/vista/layout/tab-close.gif</filename>
 			<filename>scripts/extjs/images/vista/qtip/bg.gif</filename>
+			<filename>scripts/extjs/images/vista/qtip/index.html</filename>
 			<filename>scripts/extjs/images/vista/qtip/tip-sprite.gif</filename>
 			<filename>scripts/extjs/images/vista/s.gif</filename>
 			<filename>scripts/extjs/images/vista/sizer/e-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/vista/sizer/e-handle.gif</filename>
+			<filename>scripts/extjs/images/vista/sizer/index.html</filename>
 			<filename>scripts/extjs/images/vista/sizer/ne-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/vista/sizer/ne-handle.gif</filename>
 			<filename>scripts/extjs/images/vista/sizer/nw-handle-dark.gif</filename>
@@ -597,13 +635,16 @@
 			<filename>scripts/extjs/images/vista/sizer/se-handle.gif</filename>
 			<filename>scripts/extjs/images/vista/sizer/sw-handle-dark.gif</filename>
 			<filename>scripts/extjs/images/vista/sizer/sw-handle.gif</filename>
+			<filename>scripts/extjs/images/vista/tabs/index.html</filename>
 			<filename>scripts/extjs/images/vista/tabs/tab-btm-inactive-left-bg.gif</filename>
 			<filename>scripts/extjs/images/vista/tabs/tab-btm-inactive-right-bg.gif</filename>
 			<filename>scripts/extjs/images/vista/tabs/tab-btm-left-bg.gif</filename>
 			<filename>scripts/extjs/images/vista/tabs/tab-btm-right-bg.gif</filename>
 			<filename>scripts/extjs/images/vista/tabs/tab-sprite.gif</filename>
 			<filename>scripts/extjs/images/vista/toolbar/gray-bg.gif</filename>
+			<filename>scripts/extjs/images/vista/toolbar/index.html</filename>
 			<filename>scripts/extjs/images/vista/toolbar/tb-btn-sprite.gif</filename>
+			<filename>scripts/extjs/index.html</filename>
 			<filename>scripts/extjs/yui-utilities.js</filename>
 			<filename>scripts/functions.js.php</filename>
 			<filename>scripts/index.html</filename>
