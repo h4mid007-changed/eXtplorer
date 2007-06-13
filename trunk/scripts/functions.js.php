@@ -121,7 +121,7 @@ function openActionDialog( caller, action ) {
 									fitToFrame: true
 								});
 
-			dialog_panel.load( { url: 'index3.php', 
+			dialog_panel.load( { url: 'index2.php', 
 								params: Ext.urlEncode( requestParams ),
 								scripts: true,
 								callback: function(oElement, bSuccess, oResponse) {

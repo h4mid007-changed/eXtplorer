@@ -154,7 +154,7 @@ class jx_Edit extends jx_Action {
 	        name: 'code',
 	        id: 'ext_codefield',
 	        fieldClass: 'codepress <?php echo $cp_lang ?> x-form-field',
-	        value: '<?php echo str_replace(Array("\r", "\n", "'", '<', '>'), Array('\n', '\r',"\'", '&lt;', '&gt;') ,$content) ?>',
+	        value: '<?php echo str_replace(Array("\r", "\n", '<', '>'), Array('\r', '\n', '&lt;', '&gt;') , addslashes($content)) ?>',
 	        width: 650,
 	        height: 300
 	    })		

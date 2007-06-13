@@ -6,9 +6,9 @@
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren@virtuemart.net</authorEmail>
     <authorUrl>http://developer.joomla.org/sf/projects/joomlaxplorer</authorUrl>
-    <version>2.0.0 alpha</version>
+    <version>2.0.0 beta1</version>
     <description><![CDATA[
-	<div align="left"><img src="components/com_joomlaxplorer/images/logo.gif" alt="joomlaXplorer Logo" /></div>
+	<div align="left"><img src="components/com_joomlaxplorer/images/joomlaXplorer.png" alt="joomlaXplorer Logo" /></div>
 	<h2>Successfully installed joomlaXplorer&nbsp;</h2>
 	joomlaXplorer is a powerful File- and FTP Manager script. 
 	<br/>It allows 
