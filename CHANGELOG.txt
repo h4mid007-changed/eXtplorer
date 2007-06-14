@@ -1,6 +1,13 @@
 ****************************
 Changelog for joomlaXplorer
 ****************************
+
+- fixed node context menu displaying outside of view
+- added the fetchscript.php file to bundle and compress javascript and stylesheet files
+  Sending compressed js and css files significantly reduces the download size for ExtJS
+
+--- version 2.0.0 beta1 released ----
+
 - fixed the "symlink points to target which can't be accessed" problem
 - fixed "out of memory" problems
 - directory names changed (no directories starting with a '.' anymore now)

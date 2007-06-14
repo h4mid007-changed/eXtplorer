@@ -513,11 +513,8 @@ function jx_init(){
 		dirCtxMenu.items.get('chmod')[node.attributes.is_chmodable ? 'enable' : 'disable']();
 		
 		dirCtxMenu.node = node;
-		if( node.id == 'jx_root' ) {
-			dirCtxMenu.showAt( e.getXY() );
-		} else {
-			dirCtxMenu.show(node.getUI().getEl(), 't-b?' );
-		}
+		dirCtxMenu.show(e.getTarget(), 't-b?' );
+		
 	}
 	
     function copymove( action ) {
