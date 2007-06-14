@@ -305,13 +305,13 @@ class jx_List extends jx_Action {
 		show_header();
 		
 		$GLOBALS['mainframe']->addcustomheadtag( '
-		<script type="text/javascript" src="'. _JX_URL . '/scripts/codepress/codepress.js"></script>
-		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/yui-utilities.js"></script>
-		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/ext-yui-adapter.js"></script>
-		<script type="text/javascript" src="'. _JX_URL . '/scripts/extjs/ext-all.js"></script>
+		<script type="text/javascript" src="'. _JX_URL . '/fetchscript.php?'
+			.'subdir[0]=scripts/codepress/&amp;file[0]=codepress.js'
+			.'&amp;subdir[1]=scripts/extjs/&amp;file[1]=yui-utilities.js'
+			.'&amp;subdir[2]=scripts/extjs/&amp;file[2]=ext-yui-adapter.js'
+			.'&amp;subdir[3]=scripts/extjs/&amp;file[3]=ext-all.js&amp;gzip='.$GLOBALS['mosConfig_gzip'].'"></script>
 		<script type="text/javascript" src="'. $mosConfig_live_site .'/administrator/index2.php?option=com_joomlaxplorer&amp;action=include_javascript&amp;file=functions.js"></script>	
-		<link rel="stylesheet" href="'. _JX_URL . '/scripts/extjs/css/ext-all.css" />
-		<link rel="stylesheet" href="'. _JX_URL . '/scripts/extjs/css/ytheme-aero.css" />');
+		<link rel="stylesheet" href="'. _JX_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=ytheme-aero.css&amp;gzip='.$GLOBALS['mosConfig_gzip'].'" />');
 		?>
 		<div id="dirtree"></div>
 	<div id="dirtree-panel"></div>
