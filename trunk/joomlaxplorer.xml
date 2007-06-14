@@ -42,6 +42,7 @@
 			<filename>config/conf.php</filename>
 			<filename>config/index.html</filename>
 			<filename>config/mimes.php</filename>
+			<filename>fetchscript.php</filename>
 			<filename>ftp_tmp/index.html</filename>
 			<filename>images/_.gif</filename>
 			<filename>images/_admin.gif</filename>
