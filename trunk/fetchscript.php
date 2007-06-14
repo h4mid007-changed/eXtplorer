@@ -125,6 +125,7 @@ function cssUrl( $ref, $subdir ) {
 	}
 	chdir( dirname( __FILE__ ).'/'.$subdir );
 	$ref = str_replace( dirname( __FILE__ ), '', realpath( $ref ));
+	$ref = str_replace( "\\", '/', $ref );
 	return 'url( "'. substr( $ref, 1 ).'" )';
 
 }

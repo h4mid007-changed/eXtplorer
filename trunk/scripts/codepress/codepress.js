@@ -119,12 +119,8 @@ CodePress.languages = {
 
 
 CodePress.run = function() {
-	s = document.getElementsByTagName('script');
-	for(var i=0,n=s.length;i<n;i++) {
-		if(s[i].src.match('codepress.js')) {
-			CodePress.path = s[i].src.replace('codepress.js','');
-		}
-	}
+	CodePress.path = 'components/com_joomlaxplorer/scripts/codepress/';
+	
 	t = document.getElementsByTagName('textarea');
 	for(var i=0,n=t.length;i<n;i++) {
 		if(t[i].className.match('codepress')) {
