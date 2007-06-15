@@ -1,45 +1,38 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
+/**
+ * @version $Id: $
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * 
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+ * File-Search Functions
+ */
 
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is fun_search.php, released on 2003-03-31.
-
-     The Initial Developer of the Original Code is The QuiX project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: The QuiX project
-	quix@free.fr
-	http://www.quix.tk
-	http://quixplorer.sourceforge.net
-
-Comment:
-	QuiXplorer Version 2.3
-	File-Search Functions
-	
-	Have Fun...
-------------------------------------------------------------------------------*/
-//------------------------------------------------------------------------------
 function find_item($dir,$pat,&$list,$recur) {	// find items
 	$homedir = realpath($GLOBALS['home_dir']);
 	$handle = @$GLOBALS['jx_File']->opendir(get_abs_dir($dir));
@@ -155,18 +148,18 @@ function search_items($dir) {			// search for item
 	});
 	form.add(
 	    new Ext.form.TextField({
-	        fieldLabel: \''. $GLOBALS['messages']['nameheader'] .'\',
+	        fieldLabel: \''. jx_Lang::msg( 'nameheader', true ) .'\',
 	        name: \'searchitem\',
 	        width:175,
 	        allowBlank:false
 	    }),
 		new Ext.form.Checkbox({
-			fieldLabel: \''.$GLOBALS["messages"]["miscsubdirs"] .'?\',
+			fieldLabel: \''.jx_Lang::msg( 'miscsubdirs', true ) .'?\',
 			name: \'subdir\',
 			checked: true
 		})
 	);
-	form.addButton(\''.$GLOBALS['messages']['btnsearch'].'\', function() {
+	form.addButton(\''.jx_Lang::msg( 'btnsearch', true ).'\', function() {
 	    form.submit({
 	        waitMsg: \'Searching, please wait...\',
 	        //reset: true,
@@ -184,7 +177,7 @@ function search_items($dir) {			// search for item
 	        }
 	    });
 	});
-	form.addButton("Cancel", function() { dialog.hide();dialog.destroy(); } );
+	form.addButton("'. jx_Lang::msg( 'btncancel', true ) .'", function() { dialog.hide();dialog.destroy(); } );
 
 	form.render("adminForm");
 	</script>';

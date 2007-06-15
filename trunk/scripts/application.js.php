@@ -1,43 +1,40 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
+/**
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @license
+ * @version $Id: $
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+*/
 
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
+/**
+ * Layout and Application Logic Functions based on ExtJS
+ */
 
-     The Original Code is application.js.php, created on 06.06.2007
-
-     The Initial Developer of the Original Code is The joomlaXplorer project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: The QuiX project
-	quix@free.fr
-	http://www.quix.tk
-	http://quixplorer.sourceforge.net
-
-Comment:
-	QuiXplorer Version 2.3
-	Layout and Application Logic Functions based on ExtJS
-	
-------------------------------------------------------------------------------*/
 ?>
 <script type="text/javascript">
 function jx_init(){
@@ -109,7 +106,7 @@ function jx_init(){
     // the data store
     var cm = new Ext.grid.ColumnModel([{
            id: 'name', // id assigned so we can apply custom css (e.g. .x-grid-col-topic b { color:#333 })
-           header: "<?php echo $GLOBALS["messages"]["nameheader"] ?>",
+           header: "<?php echo jx_Lang::msg('nameheader', true ) ?>",
            dataIndex: 'name',
            width: 250,
            renderer: renderFileName,
@@ -118,25 +115,25 @@ function jx_init(){
            })),
            css: 'white-space:normal;'
         },{
-           header: "<?php echo $GLOBALS["messages"]["sizeheader"] ?>",
+           header: "<?php echo jx_Lang::msg('sizeheader', true ) ?>",
            dataIndex: 'size',
            width: 50
         },{
-           header: "<?php echo $GLOBALS["messages"]["typeheader"] ?>",
+           header: "<?php echo jx_Lang::msg('typeheader', true ) ?>",
            dataIndex: 'type',
            width: 70,
            align: 'right',
            renderer: renderType
         },{
-           header: "<?php echo $GLOBALS["messages"]["modifheader"] ?>",
+           header: "<?php echo jx_Lang::msg('modifheader', true ) ?>",
            dataIndex: 'modified',
            width: 150
         },{
-           header: "<?php echo $GLOBALS["messages"]["permheader"] ?>",
+           header: "<?php echo jx_Lang::msg('permheader', true ) ?>",
            dataIndex: 'perms',
            width: 100
         },{
-           header: "<?php echo $GLOBALS["messages"]["miscowner"] ?>",
+           header: "<?php echo jx_Lang::msg('miscowner', true ) ?>",
            dataIndex: 'owner',
            width: 100,
            sortable: false
@@ -227,16 +224,16 @@ function jx_init(){
     	{
     		id: 'tb_home',
     		icon: '<?php echo _JX_URL ?>/images/home.png',
-    		text: '<?php echo $GLOBALS["messages"]["homelink"] ?>',
-    		tooltip: '<?php echo $GLOBALS["messages"]["homelink"] ?>',
+    		text: '<?php echo jx_Lang::msg('homelink', true ) ?>',
+    		tooltip: '<?php echo jx_Lang::msg('homelink', true ) ?>',
     		cls:'x-btn-text-icon',
     		handler: function() { chDir('') }
     	},
     	{
     		id: 'tb_reload',
     		icon: '<?php echo _JX_URL ?>/images/reload.png',
-    		text: '<?php echo $GLOBALS["messages"]["reloadlink"] ?>',
-    		tooltip: '<?php echo $GLOBALS["messages"]["reloadlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
+    		tooltip: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
     		cls:'x-btn-text-icon',
     		handler: loadDir
     	},
@@ -244,8 +241,8 @@ function jx_init(){
     	{
     		id: 'tb_search',
     		icon: '<?php echo _JX_URL ?>/images/filefind.png',
-    		text: '<?php echo $GLOBALS["messages"]["searchlink"] ?>',
-    		tooltip: '<?php echo $GLOBALS["messages"]["searchlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('searchlink', true ) ?>',
+    		tooltip: '<?php echo jx_Lang::msg('searchlink', true ) ?>',
     		cls:'x-btn-text-icon',
     		handler: function() { openActionDialog(this, 'search'); }
     	},
@@ -254,7 +251,7 @@ function jx_init(){
     	{
     		id: 'tb_new',
     		icon: '<?php echo _JX_URL ?>/images/filenew.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["newlink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('newlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'mkitem'); }
@@ -262,7 +259,7 @@ function jx_init(){
     	{
     		id: 'tb_edit',
     		icon: '<?php echo _JX_URL ?>/images/edit.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["editlink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('editlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'edit'); }
@@ -270,7 +267,7 @@ function jx_init(){
     	{
     		id: 'tb_delete',
     		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["dellink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('dellink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'delete'); }
@@ -278,7 +275,7 @@ function jx_init(){
     	{
     		id: 'tb_rename',
     		icon: '<?php echo _JX_URL ?>/images/fonts.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["renamelink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'rename'); }
@@ -286,7 +283,7 @@ function jx_init(){
     	{
     		id: 'tb_chmod',
     		icon: '<?php echo _JX_URL ?>/images/chmod.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["chmodlink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'chmod'); }
@@ -295,14 +292,14 @@ function jx_init(){
     	{
     		id: 'tb_view',
     		icon: '<?php echo _JX_URL ?>/images/view.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["viewlink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('viewlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'tb_download',
     		icon: '<?php echo _JX_URL ?>/images/down.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["downlink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('downlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this,'download'); }
@@ -311,7 +308,7 @@ function jx_init(){
     	{
     		id: 'tb_upload',
     		icon: '<?php echo _JX_URL ?>/images/up.png',
-    		tooltip: '<?php echo $GLOBALS["messages"]["uploadlink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('uploadlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow && ini_get('file_uploads') ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'upload'); }
@@ -320,7 +317,7 @@ function jx_init(){
 	    	{
     			id: 'tb_archive',
 	    		icon: '<?php echo _JX_URL ?>/images/archive.png',
-	    		tooltip: '<?php echo $GLOBALS["messages"]["comprlink"] ?>',
+	    		tooltip: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
     			cls:'x-btn-icon',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
@@ -328,7 +325,7 @@ function jx_init(){
     	{
     		id: 'tb_extract',
     		icon: '<?php echo _JX_URL ?>/images/extract.gif',
-    		tooltip: '<?php echo $GLOBALS["messages"]["extractlink"] ?>',
+    		tooltip: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'extract'); }
     	},'-',
@@ -451,38 +448,38 @@ function jx_init(){
         items: [{
     		id: 'gc_edit',
     		icon: '<?php echo _JX_URL ?>/images/edit.png',
-    		text: '<?php echo $GLOBALS["messages"]["editlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('editlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'edit'); }
     	},
     	{
     		id: 'gc_delete',
     		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
-    		text: '<?php echo $GLOBALS["messages"]["dellink"] ?>',
+    		text: '<?php echo jx_Lang::msg('dellink', true ) ?>',
     		handler: function() { openActionDialog(this, 'delete'); }
     	},
     	{
     		id: 'gc_rename',
     		icon: '<?php echo _JX_URL ?>/images/fonts.png',
-    		text: '<?php echo $GLOBALS["messages"]["renamelink"] ?>',
+    		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
     		handler: function() { openActionDialog(this, 'rename'); }
     	},
     	{
     		id: 'gc_chmod',
     		icon: '<?php echo _JX_URL ?>/images/chmod.png',
-    		text: '<?php echo $GLOBALS["messages"]["chmodlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'chmod'); }
     	},
     	'-',
     	{
     		id: 'gc_view',
     		icon: '<?php echo _JX_URL ?>/images/view.png',
-    		text: '<?php echo $GLOBALS["messages"]["viewlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('viewlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'gc_download',
     		icon: '<?php echo _JX_URL ?>/images/down.png',
-    		text: '<?php echo $GLOBALS["messages"]["downlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('downlink', true ) ?>',
     		handler: function() { openActionDialog(this,'download'); }
     	},
     	'-',
@@ -490,14 +487,14 @@ function jx_init(){
 	    	{
     			id: 'gc_archive',
 	    		icon: '<?php echo _JX_URL ?>/images/archive.png',
-	    		text: '<?php echo $GLOBALS["messages"]["comprlink"] ?>',
+	    		text: '<?php echo jx_Lang::msg('comprlink"', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
     	<?php } ?>
     	{
     		id: 'gc_extract',
     		icon: '<?php echo _JX_URL ?>/images/extract.gif',
-    		text: '<?php echo $GLOBALS["messages"]["extractlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'extract'); }
     	}]
     });
@@ -545,37 +542,37 @@ function jx_init(){
         items: [    	{
         	id: 'new',
     		icon: '<?php echo _JX_URL ?>/images/folder_new.png',
-    		text: '<?php echo $GLOBALS["messages"]["newlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('newlink', true ) ?>',
     		handler: function() {dirCtxMenu.hide();openActionDialog(this, 'mkitem');}
     	},
     	{
     		id: 'rename',
     		icon: '<?php echo _JX_URL ?>/images/fonts.png',
-    		text: '<?php echo $GLOBALS["messages"]["renamelink"] ?>',
+    		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'rename'); }
     	},
     	{
     		id: 'chmod',
     		icon: '<?php echo _JX_URL ?>/images/chmod.png',
-    		text: '<?php echo $GLOBALS["messages"]["chmodlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'chmod'); }
     	},
     	{
     		id: 'remove',
     		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
-    		text: '<?php echo $GLOBALS["messages"]["btnremove"] ?>',
+    		text: '<?php echo jx_Lang::msg('btnremove', true ) ?>',
     		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", function() { deleteDir( dirCtxMenu.node ) }); }
     	},'-',
     	{
     		id: 'reload',
     		icon: '<?php echo _JX_URL ?>/images/reload.png',
-    		text: '<?php echo $GLOBALS["messages"]["reloadlink"] ?>',
+    		text: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();dirCtxMenu.node.reload(); }
     	},'-', 
 		{
 			id: 'cancel',
     		icon: '<?php echo _JX_URL ?>/images/cancel.png',
-    		text: '<?php echo $GLOBALS["messages"]["btncancel"] ?>',
+    		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
     		handler: function() { dirCtxMenu.hide(); }
     	}
 	]
@@ -585,19 +582,19 @@ function jx_init(){
         items: [    	{
         	id: 'copy',
     		icon: '<?php echo _JX_URL ?>/images/editcopy.png',
-    		text: '<?php echo $GLOBALS["messages"]["copylink"] ?>',
+    		text: '<?php echo jx_Lang::msg('copylink', true ) ?>',
     		handler: function() {copymoveCtxMenu.hide();copymove('copy');}
     	},
     	{
     		id: 'move',
     		icon: '<?php echo _JX_URL ?>/images/move.png',
-    		text: '<?php echo $GLOBALS["messages"]["movelink"] ?>',
+    		text: '<?php echo jx_Lang::msg('movelink', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide();copymove('move'); }
     	},'-', 
 		{
 			id: 'cancel',
     		icon: '<?php echo _JX_URL ?>/images/cancel.png',
-    		text: '<?php echo $GLOBALS["messages"]["btncancel"] ?>',
+    		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide(); }
     	}
 	]

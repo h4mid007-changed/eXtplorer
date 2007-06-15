@@ -2,7 +2,7 @@
 /**
 * @version $Id$
 * @package joomlaXplorer
-* @copyright (C) 2005-2006 Soeren
+* @copyright (C) 2005-2007 Soeren
 * @license GNU / GPL
 * @author soeren
 * joomlaXplorer is Free Software

@@ -1,45 +1,40 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
-
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is fun_mkdir.php, released on 2003-03-31.
-
-     The Initial Developer of the Original Code is The QuiX project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: The QuiX project
-	quix@free.fr
-	http://www.quix.tk
-	http://quixplorer.sourceforge.net
-
-Comment:
-	QuiXplorer Version 2.3
-	Make Dir/File Functions
-	
-	Have Fun...
-------------------------------------------------------------------------------*/
-//------------------------------------------------------------------------------
+/**
+ * @version $Id: $
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * 
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+ */
+/**
+ * Allows to create dirs, files and symlinks on a server
+ *
+ */
 class jx_Mkitem extends jx_Action {
 	
 	function execAction($dir) {		// make new directory or file
@@ -104,11 +99,11 @@ class jx_Mkitem extends jx_Action {
 	var mktypes = new Ext.data.SimpleStore({
 	    fields: ['mktype', 'type'],
 	    data :  [
-	        ['file', '<?php echo $GLOBALS["mimes"]["file"] ?>'],
-	        ['dir', '<?php echo $GLOBALS["mimes"]["dir"] ?>']
+	        ['file', '<?php echo jx_Lang::mime( 'file', true ) ?>'],
+	        ['dir', '<?php echo jx_Lang::mime( 'dir', true ) ?>']
 	        <?php
 	        if( !jx_isFTPMode() && !$GLOBALS['isWindows']) { ?>
-	        	,['symlink', '<?php echo $GLOBALS["mimes"]["symlink"] ?>']
+	        	,['symlink', '<?php echo jx_Lang::mime( 'symlink', true ) ?>']
 	        	<?php
 	        } ?>
 	        ]
@@ -119,7 +114,7 @@ class jx_Mkitem extends jx_Action {
 	});
 	simple.add(
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo $GLOBALS['messages']['nameheader'] ?>',
+	        fieldLabel: '<?php echo jx_Lang::msg( 'nameheader', true ) ?>',
 	        name: 'mkname',
 	        width:175,
 	        allowBlank:false
@@ -137,14 +132,14 @@ class jx_Mkitem extends jx_Action {
 		    selectOnFocus:true
 		}),
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo $GLOBALS['messages']['symlink_target'] ?>',
+	        fieldLabel: '<?php echo jx_Lang::msg( 'symlink_target', true ) ?>',
 	        name: 'symlink_target',
 	        width:175,
 	        allowBlank:true
 	    })
 	);
 	
-	simple.addButton('<?php echo $GLOBALS["messages"]["btncreate"] ?>', function() {
+	simple.addButton('<?php echo jx_Lang::msg( 'btncreate', true ) ?>', function() {
 	    simple.submit({
 	        waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
@@ -168,7 +163,7 @@ class jx_Mkitem extends jx_Action {
 	        		confirm: 'true'}
 	    })
 	});
-	simple.addButton('Cancel', function() { dialog.destroy(); } );
+	simple.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 	</script>
 	<?php
