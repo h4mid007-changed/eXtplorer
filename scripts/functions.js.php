@@ -1,40 +1,38 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
-
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is application.js.php, created on 06.06.2007
-
-     The Initial Developer of the Original Code is The joomlaXplorer project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: joomlaXplorer Project
-
-Comment:
-	joomlaXplorer Version 2.0.0
-	Layout and Application Logic Functions based on ExtJS
-	
-------------------------------------------------------------------------------*/
+/**
+ * @version $Id: $
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+*/
+/**
+ * Layout and Application Logic Functions based on ExtJS
+ */
 ?>
 function showLoadingIndicator( el, replaceContent ) {
 	if( !el ) return;
@@ -78,7 +76,7 @@ function openActionDialog( caller, action ) {
 	}
 	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1 };
 	if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
-		Ext.Msg.alert( '<?php echo $GLOBALS['error_msg']['error']."','".addslashes($GLOBALS['error_msg']['miscselitems']) ?>');
+		Ext.Msg.alert( '<?php echo jx_Lang::err('error', true )."','".jx_Lang::err('miscselitems', true ) ?>');
 		return false;
 	}
 
@@ -128,7 +126,7 @@ function openActionDialog( caller, action ) {
 											if( oResponse && oResponse.responseText ) {
 											try{ json = Ext.decode( oResponse.responseText );
 												if( json.error != '' && typeof json.error != 'xml' ) {													
-													Ext.Msg.alert( '<?php echo $GLOBALS['error_msg']['error'] ?>', json.error );
+													Ext.Msg.alert( '<?php echo jx_Lang::err('error', true ) ?>', json.error );
 													dialog.destroy();
 												}
 											} catch(e) {}
@@ -145,10 +143,10 @@ function openActionDialog( caller, action ) {
             
 		case 'delete':
 			var num = selectedRows.length;
-			Ext.Msg.confirm('<?php echo $GLOBALS['messages']['dellink'] ?>?', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", deleteFiles);
+			Ext.Msg.confirm('<?php echo jx_Lang::msg('dellink', true ) ?>?', "<?php echo jx_Lang::err('miscdelitems', true ) ?>", deleteFiles);
 			break;
 		case 'extract':
-			Ext.Msg.confirm('<?php echo $GLOBALS['messages']['extractlink'] ?>?', "<?php echo $GLOBALS['messages']['extract_warning'] ?>", extractArchive);
+			Ext.Msg.confirm('<?php echo jx_Lang::msg('extractlink', true ) ?>?', "<?php echo jx_Lang::msg('extract_warning', true ) ?>", extractArchive);
 			break;
 		case 'download':
 			document.location = 'index3.php?option=com_joomlaxplorer&action=download&item='+ encodeURIComponent(jx_itemgrid.getSelectionModel().getSelected().get('name')) + '&dir=' + encodeURIComponent( datastore.directory );

@@ -1,45 +1,40 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-The contents of this file are subject to the Mozilla Public License
-Version 1.1 (the "License"); you may not use this file except in
-compliance with the License. You may obtain a copy of the License at
-http://www.mozilla.org/MPL/
+/**
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @license
+ * @version $Id: $
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+*/
 
-Software distributed under the License is distributed on an "AS IS"
-basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-License for the specific language governing rights and limitations
-under the License.
-
-The Original Code is fun_archive.php, released on 2003-03-31.
-
-The Initial Developer of the Original Code is The QuiX project.
-
-Alternatively, the contents of this file may be used under the terms
-of the GNU General Public License Version 2 or later (the "GPL"), in
-which case the provisions of the GPL are applicable instead of
-those above. If you wish to allow use of your version of this file only
-under the terms of the GPL and not to allow others to use
-your version of this file under the MPL, indicate your decision by
-deleting  the provisions above and replace  them with the notice and
-other provisions required by the GPL.  If you do not delete
-the provisions above, a recipient may use your version of this file
-under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: The QuiX project
-quix@free.fr
-http://www.quix.tk
-http://quixplorer.sourceforge.net
-
-Comment:
-QuiXplorer Version 2.3
-Zip & TarGzip Functions
-
-Have Fun...
-------------------------------------------------------------------------------*/
-
+/**
+ * Zip & TarGzip Functions
+ *
+ */
 class jx_Archive extends jx_Action {
 
 	function execAction( $dir ) {
@@ -184,14 +179,14 @@ class jx_Archive extends jx_Action {
 	var comprTypes = new Ext.data.SimpleStore({
 		fields: ['type', 'typename'],
 		data :  [
-		['zip', 'Zip (<?php echo $GLOBALS["messages"]['normal_compression'] ?>)'],
-		['tgz', 'Tar/Gz (<?php echo $GLOBALS["messages"]['good_compression']?>)'],
+		['zip', 'Zip (<?php echo jx_Lang::msg('normal_compression', true ) ?>)'],
+		['tgz', 'Tar/Gz (<?php echo jx_Lang::msg('good_compression', true ) ?>)'],
 		<?php
 		if(extension_loaded("bz2")) {
-			echo "['tbz', 'Tar/Bzip2 ({$GLOBALS["messages"]['best_compression']})'],";
+			echo "['tbz', 'Tar/Bzip2 (".jx_Lang::msg('best_compression', true ).")'],";
 		}
 		?>
-		['tar', 'Tar (<?php echo $GLOBALS["messages"]['no_compression'] ?>)']
+		['tar', 'Tar (<?php echo jx_Lang::msg('no_compression', true ) ?>)']
 		]
 	});
 	var form = new Ext.form.Form({
@@ -199,7 +194,7 @@ class jx_Archive extends jx_Action {
 		url:'index2.php'
 	});
 	var combo = new Ext.form.ComboBox({
-		fieldLabel: '<?php echo $GLOBALS["messages"]["typeheader"] ?>',
+		fieldLabel: '<?php echo jx_Lang::msg('typeheader', true ) ?>',
 		store: comprTypes,
 		displayField:'typename',
 		valueField: 'type',
@@ -213,19 +208,19 @@ class jx_Archive extends jx_Action {
 		width: 200
 	});
 	form.add( new Ext.form.TextField({
-		fieldLabel: '<?php echo $GLOBALS['messages']['archive_name'] ?>',
+		fieldLabel: '<?php echo jx_Lang::msg('archive_name', true ) ?>',
 		name: 'name',
 		width: 200
 	}),
 	combo,
 	new Ext.form.TextField({
-		fieldLabel: '<?php echo $GLOBALS['messages']['archive_saveToDir'] ?>',
+		fieldLabel: '<?php echo jx_Lang::msg('archive_saveToDir', true ) ?>',
 		name: 'saveToDir',
 		value: '<?php echo str_replace("'", "\'", $dir ) ?>',
 		width: 200
 	}),
 	new Ext.form.Checkbox({
-		fieldLabel: '<?php echo $GLOBALS["messages"]["downlink"] ?>?',
+		fieldLabel: '<?php echo jx_Lang::msg('downlink', true ) ?>?',
 		name: 'download',
 		checked: true
 	})
@@ -240,14 +235,14 @@ class jx_Archive extends jx_Action {
 		}
 	});
 
-	form.addButton('Save', function() { formSubmit(0) });
-	form.addButton('Cancel', function() { dialog.hide();dialog.destroy(); } );
+	form.addButton('<?php echo jx_Lang::msg( 'btncreate', true ) ?>', function() { formSubmit(0) });
+	form.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.hide();dialog.destroy(); } );
 
 	form.render('adminForm');
 
 	function formSubmit( startfrom ) {
 		form.submit({
-			waitMsg: 'Creating Archive, please wait...',
+			waitMsg: '<?php echo jx_Lang::msg( 'creating_archive', true ) ?>',
 			//reset: true,
 			reset: false,
 			success: function(form, action) {
