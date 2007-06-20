@@ -45,15 +45,15 @@ class jx_Edit extends jx_Action {
 		$editor_mode = mosGetParam($_REQUEST,'editor_mode', 'simple');
 		
 		if(($GLOBALS["permissions"]&01)!=01) {
-			jx_Result::sendResult('edit', false, $GLOBALS["error_msg"]["accessfunc"]);
+			jx_Result::sendResult('edit', false, jx_Lang::err('accessfunc' ));
 		}
 		$fname = get_abs_item($dir, $item);
 		
 		if(!get_is_file($fname))  {
-			jx_Result::sendResult('edit', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
+			jx_Result::sendResult('edit', false, $item.": ".jx_Lang::err('fileexist' ));
 		}
 		if(!get_show_item($dir, $item)) {
-			jx_Result::sendResult('edit', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);	
+			jx_Result::sendResult('edit', false, $item.": ".jx_Lang::err('accessfile' ));	
 		}
 		
 		if(isset($GLOBALS['__POST']["dosave"]) && $GLOBALS['__POST']["dosave"]=="yes") {
@@ -62,10 +62,10 @@ class jx_Edit extends jx_Action {
 			$fname2=get_abs_item($dir, $item);
 			
 			if(!isset($item) || $item=="") {
-				jx_Result::sendResult('edit', false, $GLOBALS["error_msg"]["miscnoname"]);
+				jx_Result::sendResult('edit', false, jx_Lang::err('miscnoname' ));
 			}
 			if($fname!=$fname2 && @$GLOBALS['jx_File']->file_exists($fname2)) {
-				jx_Result::sendResult('edit', false, $item.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
+				jx_Result::sendResult('edit', false, $item.": ".jx_Lang::err('itemdoesexist' ));
 			}
 			  
 			$this->savefile($fname2);
@@ -225,7 +225,7 @@ class jx_Edit extends jx_Action {
 		$res = $GLOBALS['jx_File']->file_put_contents( $file_name, $code );
 		
 		if( $res==false || PEAR::isError( $res )) {
-			$err = basename($file_name).": ".$GLOBALS["error_msg"]["savefile"];
+			$err = basename($file_name).": ".jx_Lang::err('savefile' );
 			if( PEAR::isError( $res ) ) {
 				$err .= $res->getMessage();
 			}

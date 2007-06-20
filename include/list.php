@@ -244,8 +244,8 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 			$id = $dir. $GLOBALS['separator'].$item;
 			$id = str_replace( $GLOBALS['separator'], '_RRR_', $id );
 
-			$qtip ="<strong>Directory</strong><br /><strong>Permissions:</strong> ".$perms."<br />";
-			$qtip.='<strong>Owner:</strong> '.$items['items'][$i]['owner'];
+			$qtip ="<strong>".jx_Lang::mime('dir',true)."</strong><br /><strong>".jx_Lang::msg('miscperms',true).":</strong> ".$perms."<br />";
+			$qtip.='<strong>'.jx_Lang::msg('miscowner',true).':</strong> '.$items['items'][$i]['owner'];
 			$dirlist[] = array('text' => htmlspecialchars($item),
 								'id' => $id,
 								'qtip' => $qtip,

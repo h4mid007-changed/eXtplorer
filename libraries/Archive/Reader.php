@@ -157,7 +157,7 @@ class File_Archive_Reader
      */
     function getMime()
     {
-        require_once "File/Archive/Reader/MimeList.php";
+        require_once dirname(__FILE__)."/Reader/MimeList.php";
         return File_Archive_Reader_GetMime($this->getFilename());
     }
 
@@ -354,7 +354,7 @@ class File_Archive_Reader
      */
     function makeAppendWriter()
     {
-        require_once "File/Archive/Predicate/False.php";
+        require_once dirname(__FILE__)."/Predicate/False.php";
         return $this->makeWriterRemoveFiles(new File_Archive_Predicate_False());
     }
 
@@ -379,7 +379,7 @@ class File_Archive_Reader
      */
     function makeWriterRemove()
     {
-        require_once "File/Archive/Predicate/Current.php";
+        require_once dirname(__FILE__).'/Predicate/Current.php';
         return $this->makeWriterRemoveFiles(new File_Archive_Predicate_Current());
     }
 

@@ -91,7 +91,8 @@ function jx_init(){
     								options.params.dir = options.params.dir ? options.params.dir : ds.directory;
     								options.params.option = 'com_joomlaxplorer';
     								options.params.action = 'getdircontents';
-    							} );
+    								}
+    							 );
 
     // pluggable renders
     function renderFileName(value,p, record){
@@ -158,8 +159,9 @@ function jx_init(){
         ddGroup : 'TreeDD',
         enableDragDrop: true,
         selModel: new Ext.grid.RowSelectionModel(),
-        enableColLock:false,
-        loadMask: true
+        //loadMask: true,
+        enableColLock:false
+        
     });
 	jx_itemgrid.on('afteredit', function(e) {
 									if( e.value == e.originalValue ) return true;
@@ -320,15 +322,15 @@ function jx_init(){
 	    		tooltip: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
     			cls:'x-btn-icon',
 	    		handler: function() { openActionDialog(this, 'archive'); }
-	    	},
-    	<?php } ?>
-    	{
+	    	},{
     		id: 'tb_extract',
     		icon: '<?php echo _JX_URL ?>/images/extract.gif',
     		tooltip: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'extract'); }
-    	},'-',
+    		},
+    	<?php } ?>
+    	'-',
     	{
     		id: 'tb_info',
     		icon: '<?php echo _JX_URL ?>/images/help.png',
@@ -487,16 +489,24 @@ function jx_init(){
 	    	{
     			id: 'gc_archive',
 	    		icon: '<?php echo _JX_URL ?>/images/archive.png',
-	    		text: '<?php echo jx_Lang::msg('comprlink"', true ) ?>',
+	    		text: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
+	    	{
+	    		id: 'gc_extract',
+	    		icon: '<?php echo _JX_URL ?>/images/extract.gif',
+	    		text: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
+	    		handler: function() { openActionDialog(this, 'extract'); }
+	    	},
     	<?php } ?>
-    	{
-    		id: 'gc_extract',
-    		icon: '<?php echo _JX_URL ?>/images/extract.gif',
-    		text: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
-    		handler: function() { openActionDialog(this, 'extract'); }
-    	}]
+    	'-',
+		{
+			id: 'cancel',
+    		icon: '<?php echo _JX_URL ?>/images/cancel.png',
+    		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
+    		handler: function() { gridCtxMenu.hide(); }
+    	}
+    	]
     });
     	
 	function dirContext(node, e ) {
@@ -563,12 +573,21 @@ function jx_init(){
     		text: '<?php echo jx_Lang::msg('btnremove', true ) ?>',
     		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", function() { deleteDir( dirCtxMenu.node ) }); }
     	},'-',
+    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
+	    	{
+    			id: 'gc_archive',
+	    		icon: '<?php echo _JX_URL ?>/images/archive.png',
+	    		text: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
+	    		handler: function() { openActionDialog(this, 'archive'); }
+	    	},
+    	<?php } ?>
     	{
     		id: 'reload',
     		icon: '<?php echo _JX_URL ?>/images/reload.png',
     		text: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();dirCtxMenu.node.reload(); }
-    	},'-', 
+    	},
+    	'-', 
 		{
 			id: 'cancel',
     		icon: '<?php echo _JX_URL ?>/images/cancel.png',

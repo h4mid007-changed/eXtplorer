@@ -128,7 +128,7 @@ function list_bookmarks( $dir ) {
 
 
 	$html = $GLOBALS['messages']['quick_jump'].': ';
-	if( $dir[0] == '/' ) {
+	if( @$dir[0] == '/' ) {
 		$dir = substr( $dir, 1);
 	}
 	$html .= jx_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 100px;"');

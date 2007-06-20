@@ -105,11 +105,11 @@ function openActionDialog( caller, action ) {
                     minWidth:300,
                     minHeight:300,
                     proxyDrag: true,
+                    //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
+					title: 'Website Dialog',
                     center: {
                         autoScroll:true
-                    },
-                    //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
-					title: action
+                    }
 					
             });
             dialog.addKeyListener(27, dialog.hide, dialog);
@@ -139,11 +139,12 @@ function openActionDialog( caller, action ) {
             layout.endUpdate();
             
             dialog.show();
+            dialog.on('hide', function() { Ext.QuickTips.init() } );
             break;
             
 		case 'delete':
 			var num = selectedRows.length;
-			Ext.Msg.confirm('<?php echo jx_Lang::msg('dellink', true ) ?>?', "<?php echo jx_Lang::err('miscdelitems', true ) ?>", deleteFiles);
+			Ext.Msg.confirm('<?php echo jx_Lang::msg('dellink', true ) ?>?', String.format("<?php echo jx_Lang::err('miscdelitems', true ) ?>", num ), deleteFiles);
 			break;
 		case 'extract':
 			Ext.Msg.confirm('<?php echo jx_Lang::msg('extractlink', true ) ?>?', "<?php echo jx_Lang::msg('extract_warning', true ) ?>", extractArchive);

@@ -64,7 +64,7 @@ class jx_Archive extends jx_Action {
 
 			}
 
-			$files_per_step = 500;
+			$files_per_step = 2500;
 
 			$cnt=count($GLOBALS['__POST']["selitems"]);
 			$abs_dir=get_abs_dir($dir);
@@ -90,11 +90,6 @@ class jx_Archive extends jx_Action {
 				}
 			}
 
-			// Tar/Gz and Tar/Bzip2 Archives must be treated as Tar first, after adding files has been finished we pack the files
-			if( $GLOBALS['__POST']["type"] == 'tgz' || $GLOBALS['__POST']["type"] == 'tbz') {
-				$archive_name = $fileinfo['dirname'].$GLOBALS["separator"].$fileinfo['basename'] . '.tar';
-			}
-
 			for($i=0;$i<$cnt;$i++) {
 
 				$selitem=stripslashes($GLOBALS['__POST']["selitems"][$i]);
@@ -102,7 +97,7 @@ class jx_Archive extends jx_Action {
 				if( is_dir( $abs_dir ."/". $selitem )) {
 					$items = mosReadDirectory($abs_dir ."/".  $selitem, '.', true, true );
 					foreach ( $items as $item ) {
-						if( is_dir( $item ) || !is_readable( $item )) continue;
+						if( is_dir( $item ) || !is_readable( $item ) || $item == $archive_name ) continue;
 						$v_list[] = $item;
 					}
 				}
@@ -145,13 +140,9 @@ class jx_Archive extends jx_Action {
 				);
 			}
 			else {
+				
 				if( $GLOBALS['__POST']["type"] == 'tgz' || $GLOBALS['__POST']["type"] == 'tbz') {
-					$compressed_archive_name = $fileinfo['dirname'].$GLOBALS["separator"].basename($archive_name, '.'.$GLOBALS['__POST']["type"].'.tar').'.'.$GLOBALS['__POST']["type"];
-					$source = File_Archive::read($archive_name . '/' );
-					File_Archive::extract( $source, $compressed_archive_name );
-					unlink( $archive_name );
-					chmod( $compressed_archive_name, 0644 );
-					$archive_name = $compressed_archive_name;
+					chmod( $archive_name, 0644 );
 				}
 				$response = Array( 'action' => 'archive',
 				'success' => true,
@@ -175,7 +166,7 @@ class jx_Archive extends jx_Action {
     </div></div></div>
     <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 </div>
-	<script type="text/javascript">
+	<script type="text/javascript">	
 	var comprTypes = new Ext.data.SimpleStore({
 		fields: ['type', 'typename'],
 		data :  [
@@ -240,14 +231,16 @@ class jx_Archive extends jx_Action {
 
 	form.render('adminForm');
 
-	function formSubmit( startfrom ) {
+	function formSubmit( startfrom, msg ) {
 		form.submit({
-			waitMsg: '<?php echo jx_Lang::msg( 'creating_archive', true ) ?>',
+			waitMsg: msg ? msg : '<?php echo jx_Lang::msg( 'creating_archive', true ) ?>',
 			//reset: true,
 			reset: false,
 			success: function(form, action) {
-				if( action.result.startfrom ) {
-					formSubmit( startfrom );
+				if( !action.result ) return;
+				
+				if( action.result.startfrom > 0 ) {
+					formSubmit( action.result.startfrom, action.result.message );
 					return
 				} else {
 
@@ -262,11 +255,14 @@ class jx_Archive extends jx_Action {
 						dialog.hide();
 						dialog.destroy();
 					}
-					alert( location.href );
 					return;
 				}
 			},
-			failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+			failure: function(form, action) {
+				if( action.result ) {
+					Ext.MessageBox.alert('Error!', action.result.error);
+				}
+			},
 			scope: form,
 			// add some vars to the request, similar to hidden fields
 			params: {option: 'com_joomlaxplorer',
