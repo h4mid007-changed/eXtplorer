@@ -88,7 +88,7 @@ if( $action != "arch" && $action != "download" ) {
 // Empty the output buffer if this is a XMLHttpRequest
 //while( @ob_end_clean() );echo 'HTTP_X_REQUESTED_WITH: '.$_SERVER['HTTP_X_REQUESTED_WITH'];jx_exit();
 if( jx_isXHR() ) {
-	error_reporting(0);
+	//error_reporting(0);
 	while( @ob_end_clean() );
 }
 

@@ -43,7 +43,7 @@ class jx_Extract extends jx_Action {
 		global $mosConfig_absolute_path;
 	
 		if( !jx_isArchive( $item )) {
-			jx_Result::sendResult('archive', false, $GLOBALS["error_msg"]["extract_noarchive"]);
+			jx_Result::sendResult('archive', false, jx_Lang::err('extract_noarchive'));
 		}
 		else {
 	
@@ -64,10 +64,10 @@ class jx_Extract extends jx_Action {
 			$archive_name .= '/';
 			$result = File_Archive::extract( $archive_name, $extract_dir );
 			if( PEAR::isError( $result )) {
-				jx_Result::sendResult('extract', false, $GLOBALS["error_msg"]["extract_failure"].': '.$result->getMessage() );
+				jx_Result::sendResult('extract', false, jx_Lang::err('extract_failure').': '.$result->getMessage() );
 			}
 			
-			jx_Result::sendResult('extract', true, $GLOBALS["messages"]["extract_success"] );
+			jx_Result::sendResult('extract', true, jx_Lang::msg('extract_success') );
 	
 		}
 	}
