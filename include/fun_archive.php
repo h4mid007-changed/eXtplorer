@@ -149,14 +149,13 @@ function archive_items( $dir ) {
 		jx_exit();
 	}
 	?>
-	<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>
 	<script type="text/javascript" src="components/com_joomlaxplorer/scripts/functions.js"></script>
 	<script type="text/javascript">
 	function doArchiving( url ) {
 		showLoadingIndicator( $('loadingindicator'), true );
 		$('loadingindicator').style.display = '';
 		
-		var controller = new ajax( url, { 	postBody: $('adminform'),
+		var controller = new Ajax( url, { 	postBody: $('adminform'),
 											evalScripts: true,
 											update: 'statustext' 
 											} 
