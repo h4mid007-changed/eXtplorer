@@ -85,7 +85,6 @@ function modify_bookmark( $task, $dir ) {
 	$alias = substr( mosGetParam($_REQUEST,'alias'), 0, 150 );
 	$bookmarks = read_bookmarks();
 	$bookmarkfile = _QUIXPLORER_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
-	while( @ob_end_clean() );
 
 	header( "Status: 200 OK" );
 
@@ -125,7 +124,7 @@ function modify_bookmark( $task, $dir ) {
 
 	echo $msg;
 	echo list_bookmarks($dir);
-	exit;
+	jx_exit();
 }
 
 /**
@@ -159,10 +158,10 @@ function list_bookmarks( $dir ) {
 	$addlink=$removelink='';
 
 	if( !isset( $bookmarks[$dir] ) && $dir != '' && $dir != '/' ) {
-		$addlink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=add" onclick="var alias = prompt(\''.$GLOBALS['messages']['enter_alias_name'].':\', \''.$dir.'\');if( alias==\'\' || alias == null )return false; adder = new ajax(\''.make_link('modify_bookmark', $dir ).'&task=add&alias=\' + alias, { method: \'get\', postBody: \'action=modify_bookmark&task=add&dir='.$dir.'&alias=\' + alias + \'&option=com_joomlaxplorer\', evalScripts:true, update: \'quick_jumpto\' } );adder.request(); return false;" title="'.$GLOBALS['messages']['lbl_add_bookmark'].'" >'.$img_add.'</a>';
+		$addlink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=add" onclick="var alias = prompt(\''.$GLOBALS['messages']['enter_alias_name'].':\', \''.$dir.'\');if( alias==\'\' || alias == null )return false; adder = new Ajax(\''.make_link('modify_bookmark', $dir ).'&task=add&alias=\' + alias, { method: \'get\', postBody: \'action=modify_bookmark&task=add&dir='.$dir.'&alias=\' + alias + \'&option=com_joomlaxplorer\', evalScripts:true, update: \'quick_jumpto\' } );adder.request(); return false;" title="'.$GLOBALS['messages']['lbl_add_bookmark'].'" >'.$img_add.'</a>';
 	}
 	elseif( $dir != '' && $dir != '/' ) {
-		$removelink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=remove" onclick="remover = new ajax(\''.make_link('modify_bookmark', $dir ).'&task=remove\', { method: \'get\', update: \'quick_jumpto\', postBody: \'action=modify_bookmark&task=remove&dir='.$dir.'&option=com_joomlaxplorer\', evalScripts:true } );remover.request(); return false;"  title="'.$GLOBALS['messages']['lbl_remove_bookmark'].'">'.$img_remove.'</a>';
+		$removelink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=remove" onclick="remover = new Ajax(\''.make_link('modify_bookmark', $dir ).'&task=remove\', { method: \'get\', update: \'quick_jumpto\', postBody: \'action=modify_bookmark&task=remove&dir='.$dir.'&option=com_joomlaxplorer\', evalScripts:true } );remover.request(); return false;"  title="'.$GLOBALS['messages']['lbl_remove_bookmark'].'">'.$img_remove.'</a>';
 	}
 
 	$html .= $addlink .'&nbsp;'.$removelink;

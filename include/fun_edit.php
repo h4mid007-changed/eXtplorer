@@ -1,44 +1,42 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
-
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is fun_edit.php, released on 2003-03-31.
-
-     The Initial Developer of the Original Code is The QuiX project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: The QuiX project
-	quix@free.fr
-	http://www.quix.tk
-	http://quixplorer.sourceforge.net
-
-Comment:
-	QuiXplorer Version 2.3
-	File-Edit Functions
+/**
+ * @version $Id: $
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * 
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+ * 
+ */
 	
-	Have Fun...
-------------------------------------------------------------------------------*/
+/**
+ * File-Edit Functions
+ *
+ */
 //------------------------------------------------------------------------------
 function savefile($file_name) {			// save edited file
 	if( get_magic_quotes_gpc() ) {
@@ -62,8 +60,6 @@ function savefile($file_name) {			// save edited file
 //------------------------------------------------------------------------------
 function edit_file($dir, $item) {		// edit file
 	global $mainframe, $mosConfig_live_site;
-	
-	$editor_mode = mosGetParam($_REQUEST,'editor_mode', 'simple');
 	
 	if(($GLOBALS["permissions"]&01)!=01) 
 	  show_error($GLOBALS["error_msg"]["accessfunc"]);
@@ -94,9 +90,42 @@ function edit_file($dir, $item) {		// edit file
 	
 	// header
 	$s_item=get_rel_item($dir,$item);	if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
-	show_header($GLOBALS["messages"]["actedit"].": /".$s_item);
+	show_header( $GLOBALS["messages"]["actedit"].": /".$s_item );
 	
+	$s_info = pathinfo( $s_item );
+	$s_extension = str_replace('.', '', $s_info['extension'] );
+	switch (strtolower($s_extension)) {
+		case 'txt':
+			$cp_lang = 'text'; break;
+		case 'cs':
+			$cp_lang = 'csharp'; break;
+		case 'css':
+			$cp_lang = 'css'; break;
+		case 'html':
+		case 'htm':
+		case 'xml':
+		case 'xhtml':
+			$cp_lang = 'html'; break;
+		case 'java':
+			$cp_lang = 'java'; break;
+		case 'js':
+			$cp_lang = 'javascript'; break;
+		case 'pl': 
+			$cp_lang = 'perl'; break;
+		case 'ruby': 
+			$cp_lang = 'ruby'; break;
+		case 'sql':
+			$cp_lang = 'sql'; break;
+		case 'vb':
+		case 'vbs':
+			$cp_lang = 'vbscript'; break;
+		case 'php':
+			$cp_lang = 'php'; break;
+		default: 
+			$cp_lang = 'generic';
+	}
 	// Form
+	echo '<script type="text/javascript" src="components/com_joomlaxplorer/scripts/codepress/codepress.js"></script>';
 	echo "<br/><form name=\"editfrm\" id=\"editfrm\" method=\"post\" action=\"".make_link("edit",$dir,$item)."\">\n";
 	if( !empty( $GLOBALS['__GET']['return_to'])) {
 		$close_action = 'window.location=\''.urldecode($GLOBALS['__GET']['return_to']).'\';';
@@ -105,11 +134,8 @@ function edit_file($dir, $item) {		// edit file
 	else {
 		$close_action = 'window.location=\''. make_link('list',$dir,NULL)."'";
 	}
-	if( $editor_mode == 'codepress' ) {
-		$submit_action = 'document.editfrm.code.value=CodePress.getCode();document.editfrm.submit();';
-	} else {
-		$submit_action = 'document.editfrm.submit();';
-	}
+	$submit_action = 'document.editfrm.code.value=codearea.getCode();document.editfrm.submit();';
+	
 	echo "
 <table class=\"adminform\">
 	<tr>
@@ -121,24 +147,21 @@ function edit_file($dir, $item) {		// edit file
 	</tr>
 	<tr>
 		<td >
+			<div id=\"positionIndicator\" style=\"width: 20%;float:left;\">"
+			.$GLOBALS["messages"]["line"].": <input type=\"text\" name=\"txtLine\" class=\"inputbox\" size=\"6\" onchange=\"setCaretPosition(document.editfrm.code, this.value);return false;\" />&nbsp;&nbsp;&nbsp;"
+			.$GLOBALS["messages"]["column"].": <input type=\"text\" name=\"txtColumn\" class=\"inputbox\" size=\"6\" readonly=\"readonly\" />
+          </div>
 			<div style=\"width:70%;text-align: center;float:left;\">
 				<input type=\"checkbox\" value=\"1\" name=\"return_to_dir\" id=\"return_to_dir\" />
 				<label for=\"return_to_dir\">".$GLOBALS["messages"]["returndir"]."</label>
 			</div>";
-	if( $editor_mode == 'simple' ) {
-		echo "
-			<div style=\"width: 20%;float:right;\">".$GLOBALS["messages"]["line"]."
-				: <input type=\"text\" name=\"txtLine\" class=\"inputbox\" size=\"6\" onchange=\"setCaretPosition(document.editfrm.code, this.value);return false;\" />&nbsp;&nbsp;&nbsp;".$GLOBALS["messages"]["column"]."
-          		: <input type=\"text\" name=\"txtColumn\" class=\"inputbox\" size=\"6\" readonly=\"readonly\" />
-          </div>";
-	}
+	
 	echo "
 		</td>
 	</tr>
 	<tr><td>";
 
 	echo "<input type=\"hidden\" name=\"dosave\" value=\"yes\" />\n";
-	echo "<input type=\"hidden\" name=\"editor_mode\" value=\"$editor_mode\" />\n";
 	
 	// Show File In TextArea
 	$content = $GLOBALS['jx_File']->file_get_contents( $fname );
@@ -146,45 +169,17 @@ function edit_file($dir, $item) {		// edit file
 		$content = stripslashes( $content );
 	}
 	$content = htmlspecialchars( $content );
-	
-	if( $editor_mode == 'simple' ) {
-		echo '[ <strong>'.$GLOBALS['messages']['editor_simple'].'</strong> / <a href="javascript:;" onclick="return toggleEditorMode(\'codepress\');"> '.$GLOBALS['messages']['editor_syntaxhighlight'].'</a> ]';
+
+		echo '[<a href="javascript:;" onclick="positionIndicator.toggle(); codearea.toggleEditor();return false;">'.$GLOBALS['messages']['editor_simple'].' / '.$GLOBALS['messages']['editor_syntaxhighlight'].'</a>]';
 		echo '<div id="editorarea">
-		<textarea style="width:95%;" name="code" rows="25" cols="120" wrap="off" onmouseup="updatePosition(this)" onmousedown="updatePosition(this)" onkeyup="updatePosition(this)" onkeydown="updatePosition(this)" onfocus="updatePosition(this)">'
+		<textarea class="codepress '.$cp_lang.'" style="width:95%;" name="codearea" id="codearea" rows="25" cols="120" wrap="off" onmouseup="updatePosition(this)" onmousedown="updatePosition(this)" onkeyup="updatePosition(this)" onkeydown="updatePosition(this)" onfocus="updatePosition(this)">'
 		. $content 
 		.'</textarea>
-		<textarea name="checkcode" style="display:none;">'.$content.'</textarea>
+		<input type="hidden" name="code" value="" />
 		</div><br/>';
-	} else {
-		echo '[<a href="javascript:;" onclick="return toggleEditorMode(\'simple\');"> '.$GLOBALS['messages']['editor_simple'].' </a>/ <strong>'.$GLOBALS['messages']['editor_syntaxhighlight'].'</strong> ]';
-		echo '<code id="codepress" title="'.$dir.'/'.$item.'" class="cp"></code>';
-		echo '<input type="hidden" name="code" value="" />';
-		echo '<textarea name="checkcode" style="display:none;">'.$content.'</textarea>';
-	}
 	echo "
 	</td>
 	</tr>";
-		if( $editor_mode == 'simple' ) {
-			// Wordwrap (works only in IE)
-			?><script type="text/javascript"><!--
-				function chwrap() {
-					if(document.editfrm.wrap.checked) {
-						document.editfrm.code.wrap="soft";
-					} else {
-						document.editfrm.code.wrap="off";
-					}
-				}
-			// -->
-			</script>
-			<?php
-			echo "	
-		<tr>
-			<td align=\"right\">
-				<label for=\"wrap\">".$GLOBALS["messages"]["wordwrap"].":</label>
-				<input type=\"checkbox\" id=\"wrap\" name=\"wrap\" onclick=\"javascript:chwrap();\" value=\"1\">
-			</td>		
-		</tr>";
-		}
 		
 		echo "
 	<tr>
@@ -200,28 +195,11 @@ function edit_file($dir, $item) {		// edit file
 </form>
 <br/>\n";
 	
-?><script language="JavaScript1.2" type="text/javascript">
+?><script type="text/javascript">
 <!--
 if(document.editfrm && document.editfrm.code) document.editfrm.code.focus();
 
-function toggleEditorMode( toggleTo ) {
-	if( $('codepress')) {
-		if( CodePress.getCode() != document.editfrm.checkcode.value ) {
-			if( !confirm('You have unsaved changes. Are you sure you want to toggle the Editor Mode?')) {
-				return false;
-			}
-		}
-	} else {
-		if( document.editfrm.code.value != document.editfrm.checkcode.value ) {
-			if( !confirm('You have unsaved changes. Are you sure you want to toggle the Editor Mode?')) {
-				return false;
-			}
-		}
-	}
-	document.editfrm.dosave.value='';
-	document.editfrm.editor_mode.value=toggleTo;
-	document.editfrm.submit();
-}
+positionIndicator = new Fx.Slide( 'positionIndicator' ).hide();
 
 //http://www.bazon.net/mishoo/home.epl?NEWS_ID=1345
 function doGetCaretPosition (textarea) {
@@ -312,12 +290,8 @@ function updatePosition(textBox) {
     document.forms[0].txtColumn.value = posArray[1];
 }
 // -->
-$ = function() { return document.getElementById(arguments[0]); }
 </script><?php
 
-	if( $editor_mode == 'codepress') {
-		echo '<script src="'.$mosConfig_live_site.'/administrator/components/com_joomlaxplorer/scripts/codepress/codepress.js" type="text/javascript" id="cp-script" lang="en-us"> </script>';
-	}
 }
 //------------------------------------------------------------------------------
 ?>

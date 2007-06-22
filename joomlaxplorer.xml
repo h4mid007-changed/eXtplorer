@@ -2,11 +2,11 @@
 <mosinstall type="component">
     <name>joomlaXplorer</name>
     <creationDate>21.02.2007</creationDate>
-    <author>QuiX Project; Soeren Eberhardt</author>
-    <copyright>QuiX Project, Adaption for Joomla!: Soeren Eberhardt</copyright>
+    <author>soeren, QuiX Project</author>
+    <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren@virtuemart.net</authorEmail>
-    <authorUrl>http://developer.joomla.org/sf/projects/joomlaxplorer</authorUrl>
-    <version>1.6.0</version>
+    <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
+    <version>1.6.1</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_joomlaxplorer/images/logo.gif" alt="joomlaXplorer Logo" /></div>
 	<h2>Successfully installed joomlaXplorer&nbsp;</h2>
@@ -15,9 +15,9 @@
 	  <ul><li>Browsing Directories & Files,</li>
 	  <li>Editing, Copying, Moving and Deleting files,</li>
 	  <li>Searching, Uploading and Downloading files,</li>
-	  <li>Creating new files and directories,</li>
-	  <li>Creating and Unpacking archives of files and directories,</li>
-	  <li>Changing file permissions (chmod)</li></ul><br/>and many more.<br/><br/>
+	  <li>Creating new Files and Directories,</li>
+	  <li>Creating and Extracting Archives with Files and Directories,</li>
+	  <li>Changing file permissions (chmod)</li></ul><br/>and much more.<br/><br/>
 	  <strong>By default restricted to Superadministrators!</strong>
 	]]></description>
     <files><!-- Frontend Files! -->
@@ -137,25 +137,26 @@
 			<filename>scripts/functions.js</filename>
 			<filename>scripts/index.html</filename>
 			<filename>scripts/mootools.ajax.js</filename>
+			<filename>scripts/codepress/codepress.css</filename>
+			<filename>scripts/codepress/codepress.html</filename>
 			<filename>scripts/codepress/codepress.js</filename>
-			<filename>scripts/codepress/index.html</filename>
-			<filename>scripts/codepress/license.txt</filename>
-			<filename>scripts/codepress/content/en-us.js</filename>
-			<filename>scripts/codepress/content/fr-fr.js</filename>
-			<filename>scripts/codepress/content/index.html</filename>
-			<filename>scripts/codepress/content/pt-br.js</filename>
 			<filename>scripts/codepress/engines/gecko.js</filename>
-			<filename>scripts/codepress/engines/index.html</filename>
 			<filename>scripts/codepress/engines/khtml.js</filename>
 			<filename>scripts/codepress/engines/msie.js</filename>
+			<filename>scripts/codepress/engines/older.js</filename>
 			<filename>scripts/codepress/engines/opera.js</filename>
+			<filename>scripts/codepress/images/line-numbers.png</filename>
+			<filename>scripts/codepress/index.html</filename>
+			<filename>scripts/codepress/languages/asp.css</filename>
+			<filename>scripts/codepress/languages/asp.js</filename>
+			<filename>scripts/codepress/languages/csharp.css</filename>
+			<filename>scripts/codepress/languages/csharp.js</filename>
 			<filename>scripts/codepress/languages/css.css</filename>
 			<filename>scripts/codepress/languages/css.js</filename>
 			<filename>scripts/codepress/languages/generic.css</filename>
 			<filename>scripts/codepress/languages/generic.js</filename>
 			<filename>scripts/codepress/languages/html.css</filename>
 			<filename>scripts/codepress/languages/html.js</filename>
-			<filename>scripts/codepress/languages/index.html</filename>
 			<filename>scripts/codepress/languages/java.css</filename>
 			<filename>scripts/codepress/languages/java.js</filename>
 			<filename>scripts/codepress/languages/javascript.css</filename>
@@ -164,24 +165,15 @@
 			<filename>scripts/codepress/languages/perl.js</filename>
 			<filename>scripts/codepress/languages/php.css</filename>
 			<filename>scripts/codepress/languages/php.js</filename>
+			<filename>scripts/codepress/languages/ruby.css</filename>
+			<filename>scripts/codepress/languages/ruby.js</filename>
 			<filename>scripts/codepress/languages/sql.css</filename>
 			<filename>scripts/codepress/languages/sql.js</filename>
 			<filename>scripts/codepress/languages/text.css</filename>
 			<filename>scripts/codepress/languages/text.js</filename>
-			<filename>scripts/codepress/modules/codepress.asp</filename>
-			<filename>scripts/codepress/modules/codepress.php</filename>
-			<filename>scripts/codepress/modules/codepress.pl</filename>
-			<filename>scripts/codepress/modules/codepress.py</filename>
-			<filename>scripts/codepress/modules/codepress.rb</filename>
-			<filename>scripts/codepress/modules/index.html</filename>
-			<filename>scripts/codepress/themes/default/codepress.css</filename>
-			<filename>scripts/codepress/themes/default/codepress-editor.css</filename>
-			<filename>scripts/codepress/themes/default/index.html</filename>
-			<filename>scripts/codepress/themes/default/linenumbers.png</filename>
-			<filename>scripts/codepress/themes/default/menu-arrow-down.gif</filename>
-			<filename>scripts/codepress/themes/default/menu-arrow-up.gif</filename>
-			<filename>scripts/codepress/themes/default/menu-icon-languages.gif</filename>
-			<filename>scripts/codepress/themes/default/menu-icon-options.gif</filename>
+			<filename>scripts/codepress/languages/vbscript.css</filename>
+			<filename>scripts/codepress/languages/vbscript.js</filename>
+			<filename>scripts/codepress/license.txt</filename>
 			<filename>languages/brazilian_portuguese.php</filename>
 			<filename>languages/brazilian_portuguese_mimes.php</filename>
 			<filename>languages/bulgarian.php</filename>
@@ -232,7 +224,6 @@
 			<filename>libraries/Archive/Predicate/Eregi.php</filename>
 			<filename>libraries/Archive/Predicate/Extension.php</filename>
 			<filename>libraries/Archive/Predicate/False.php</filename>
-			<filename>libraries/Archive/Predicate/index.html</filename>
 			<filename>libraries/Archive/Predicate/Index.php</filename>
 			<filename>libraries/Archive/Predicate/MIME.php</filename>
 			<filename>libraries/Archive/Predicate/MaxDepth.php</filename>
@@ -241,6 +232,7 @@
 			<filename>libraries/Archive/Predicate/Not.php</filename>
 			<filename>libraries/Archive/Predicate/Or.php</filename>
 			<filename>libraries/Archive/Predicate/True.php</filename>
+			<filename>libraries/Archive/Predicate/index.html</filename>
 			<filename>libraries/Archive/Reader.php</filename>
 			<filename>libraries/Archive/Reader/Ar.php</filename>
 			<filename>libraries/Archive/Reader/Archive.php</filename>
@@ -252,7 +244,6 @@
 			<filename>libraries/Archive/Reader/File.php</filename>
 			<filename>libraries/Archive/Reader/Filter.php</filename>
 			<filename>libraries/Archive/Reader/Gzip.php</filename>
-			<filename>libraries/Archive/Reader/index.html</filename>
 			<filename>libraries/Archive/Reader/Memory.php</filename>
 			<filename>libraries/Archive/Reader/MimeList.php</filename>
 			<filename>libraries/Archive/Reader/Multi.php</filename>
@@ -261,6 +252,7 @@
 			<filename>libraries/Archive/Reader/Tar.php</filename>
 			<filename>libraries/Archive/Reader/Uncompress.php</filename>
 			<filename>libraries/Archive/Reader/Zip.php</filename>
+			<filename>libraries/Archive/Reader/index.html</filename>
 			<filename>libraries/Archive/Writer.php</filename>
 			<filename>libraries/Archive/Writer/AddBaseName.php</filename>
 			<filename>libraries/Archive/Writer/Ar.php</filename>

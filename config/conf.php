@@ -1,11 +1,11 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
 //------------------------------------------------------------------------------
 // Configuration Variables
 	global $mosConfig_absolute_path,$mosConfig_live_site;
-	// login to use QuiXplorer: (true/false)
+	// login to use joomlaXplorer: (true/false)
 	$GLOBALS["require_login"] = false;
 	
 	$GLOBALS["language"] = $mosConfig_lang;

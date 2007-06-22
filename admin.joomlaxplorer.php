@@ -1,57 +1,65 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-
-/** joomlaXplorer
-* This is a component with full access to the filesystem of your joomla Site
-* I wouldn't recommend to let in Managers
-* allowed: Superadministrator
+/**
+ * MAIN FILE! (formerly known as index.php)
+ * 
+ * @version $Id: $
+ * 
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+ *
+ * This is a component with full access to the filesystem of your joomla Site
+ * I wouldn't recommend to let in Managers
+ * allowed: Superadministrator
 **/
 if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 // The joomlaXplorer version number
 $GLOBALS['jx_version'] = '1.6.1';
-$GLOBALS['jx_home'] = 'http://developer.joomla.org/sf/projects/joomlaxplorer';
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
+$GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer/';
 
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
+/*
+// Needed to keep the filelist in the XML installer file up-to-date
+$path = $mosConfig_absolute_path.'/administrator/components/com_joomlaxplorer';
+$filelist = mosReadDirectory( $path, '.', true, true );
+$contents ='';
+foreach($filelist as $file ) {
+	if( is_dir( $file ) ) continue;
+	$filepath = str_replace( $path.'/', '', $file );
+	$contents .= '<filename>'.$filepath."</filename>\n";
+}
+file_put_contents( 'joomlaxplorer_filelist.txt', $contents );
+*/
 
-     The Original Code is index.php, released on 2003-04-02.
-
-     The Initial Developer of the Original Code is The QuiX project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: soeren, The QuiX project( quix@free.fr, http://www.quix.tk, http://quixplorer.sourceforge.net)
-
-Comment:
-	joomlaXplorer 1.5.0
-	Main File
-	
-	Have Fun...
-------------------------------------------------------------------------------*/
 define ( "_QUIXPLORER_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer" );
 define ( "_QUIXPLORER_FTPTMP_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer/ftp_tmp" );
 define ( "_QUIXPLORER_URL", $mosConfig_live_site."/administrator/components/com_joomlaxplorer" );
-global $action, $item;
 
 //------------------------------------------------------------------------------
 if( defined( 'E_STRICT' )) { // Suppress Strict Standards Warnings
@@ -64,33 +72,23 @@ umask(0002); // Added to make created files/dirs group writable
 require _QUIXPLORER_PATH . "/include/init.php";	// Init
 //------------------------------------------------------------------------------
 
-if( !isset( $_REQUEST['dir'] ) ) {
-
-	$dir = mosGetParam( $_SESSION,'jx_'.$GLOBALS['file_mode'].'dir', '' );
-	$try_this = jx_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
-	if( !$GLOBALS['jx_File']->file_exists( $try_this )) {
-		$dir = '';
-	}
-}
-else {
-	$dir = $_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = mosGetParam( $_REQUEST, "dir" );
-}
-
-if( jx_isFTPMode() && $dir != '' ) {
-	$GLOBALS['FTPCONNECTION']->cd( $dir );
-}
-
 $action = stripslashes(mosGetParam( $_REQUEST, "action" ));
 if( $action == "post" )
   $action = mosGetParam( $_REQUEST, "do_action" );
 elseif( empty( $action ))
   $action = "list";
 
-if( $action != "arch" && $action != "download" ) {
+if( is_callable( array( $mainframe, 'addcustomheadtag')) ) {
 	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/style/opacity.js"></script>' );
-	if( $action == "archive") {
-		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>' );
-	}	
+	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>' );
+} else {
+	echo '<script type="text/javascript" src="components/com_joomlaxplorer/style/opacity.js"></script>'
+		.'<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>';
+}
+
+if( jx_isXHR() ) {
+	error_reporting(0);
+	while( @ob_end_clean() );
 }
 
 switch($action) {		// Execute action
@@ -99,13 +97,7 @@ switch($action) {		// Execute action
   case "edit":
 	  require _QUIXPLORER_PATH . "/include/fun_edit.php";
 	  edit_file($dir, $item);
-	break;
-	
-  // Send Source Code for CodePress Editor
-  case 'getSource':  	
-	  require _QUIXPLORER_PATH . "/scripts/codepress/modules/codepress.php";
-	  send_codepress($dir, $item);
-	break;  
+	break; 
   
   // VIEW FILE
   case 'view':
@@ -223,6 +215,10 @@ show_footer();
 // Disconnect from ftp server
 if( jx_isFTPMode() ) {
 	$GLOBALS['FTPCONNECTION']->disconnect();
+}
+// Empty the output buffer if this is a XMLHttpRequest
+if( jx_isXHR() ) {
+	jx_exit();
 }
 //------------------------------------------------------------------------------
 ?>

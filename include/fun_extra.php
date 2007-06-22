@@ -1,47 +1,40 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
+/**
+ * @version $Id: $
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * 
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+ */
 
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is fun_extra.php, released on 2003-03-31.
-
-     The Initial Developer of the Original Code is The QuiX project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: The QuiX project
-	quix@free.fr
-	http://www.quix.tk
-	http://quixplorer.sourceforge.net
-
-Comment:
-	QuiXplorer Version 2.3
-	(Extra) Functions
-	
-	Have Fun...
-------------------------------------------------------------------------------*/
-//------------------------------------------------------------------------------
-// THESE ARE NUMEROUS HELPER FUNCTIONS FOR THE OTHER INCLUDE FILES
-//------------------------------------------------------------------------------
+/**
+ * THESE ARE NUMEROUS HELPER FUNCTIONS FOR THE OTHER INCLUDE FILES
+ */
 
 $GLOBALS['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
 
@@ -295,27 +288,69 @@ function get_show_item($dir, $item) {		// show this file?
 	return true;
 }
 //------------------------------------------------------------------------------
+function get_dir_list( $dir='' ) {
+	$files = mosReadDirectory( get_abs_dir( $dir), '.', false, true );
+	$dirs =array();
+	foreach( $files as $item) {
+		$item = str_replace( '\\', '/', $item );
+		if( get_is_dir($item)) {
+			$index = str_replace( $GLOBALS['home_dir'].$GLOBALS['separator'], '', $item );
+			$dirs[$index]= basename($index);
+		}
+	}
+	return $dirs;
+}
+function get_dir_selects( $dir ) {
+	$dirs = explode( "/", $dir );
+	
+	$subdirs = get_dir_list();
+	if( empty($dirs[0]) ) array_shift($dirs);
+	$dirsCopy = $dirs;
+	$implode = '';
+	$selectedDir = @$dirs[0];
+	$dir_links = jx_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
+	$i = 2;
+	foreach( $dirs as $directory ) {
+	  	if( $directory != "" ) {
+			$implode .= $directory;
+			$next = next($dirsCopy);
+			$subdirs = get_dir_list( $implode );
+			if( $next !== false ) {
+				$selectedDir .= '/'.$next;
+			} else {
+				if( sizeof( $subdirs ) > 0) {
+					$subdirs = array_merge(Array('jx_disabled' => '-'), $subdirs );
+				}
+			}
+			$dir_links .= ' / ' .jx_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
+			$implode .= '/';
+	  	}
+	}
+	
+	return $dir_links;
+}
+//------------------------------------------------------------------------------
 function copy_dir($source,$dest) {		// copy dir
 	$ok = true;
 	
 	if(!@mkdir($dest,0777)) return false;
-	if(($handle=@opendir($source))===false) 
-	  show_error(basename($source).": ".$GLOBALS["error_msg"]["opendir"]);
+	$itemlist = mosReadDirectory( $source, '.', true, true );
+	if( empty( $itemlist )) return false;
 	
-	while(($file=readdir($handle))!==false) {
+	foreach( $itemlist as $file ) {
 		if(($file==".." || $file==".")) continue;
 		
-		$new_source = $source."/".$file;
-		$new_dest = $dest."/".$file;
-		if(@is_dir($new_source)) {
-			$ok=copy_dir($new_source,$new_dest);
+		$new_dest = str_replace( $source, $dest, $file );
+		if(@is_dir($file)) {
+			@mkdir($new_dest,0777);
 		} else {
-			$ok=@copy($new_source,$new_dest);
+			$ok=@copy($file,$new_dest);
 		}
 	}
-	closedir($handle);
+	
 	return $ok;
 }
+
 //------------------------------------------------------------------------------
 function remove($item) {			// remove file / dir
 	
@@ -529,8 +564,9 @@ if( !function_exists('mosToolTip')) {
  * @return string HTML drop-down list
  */	
 function jx_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
+	$html = '';
 	if( !empty( $arr ) ) {
-		$html = "<select class=\"inputbox\" name=\"$name\" size=\"$size\" $multiple $extra>\n";
+		$html = "<select class=\"inputbox\" name=\"$name\" id=\"$name\" size=\"$size\" $multiple $extra>\n";
 
 		while (list($key, $val) = each($arr)) {
 			$selected = "";
@@ -543,6 +579,10 @@ function jx_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
 				if(strtolower($value) == strtolower($key) ) {
 					$selected = "selected=\"selected\"";
 				}
+			}
+			if( $val == '-') {
+				//$selected .= ' disabled="disabled"';
+				$val = '- - - - -';
 			}
 			$html .= "<option value=\"$key\" $selected>$val";
 			$html .= "</option>\n";
@@ -565,5 +605,115 @@ function jx_alertBox( $msg ) {
 }
 function jx_docLocation( $url ) {
 	return jx_scriptTag('', 'document.location=\''. $url .'\';' );
+}
+function jx_isXHR() {
+	return strtolower(mosGetParam($_SERVER,'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'
+		|| strtolower(mosGetParam($_POST,'requestType')) == 'xmlhttprequest';
+}
+function jx_exit() {
+	global $mainframe;
+	
+	if( is_callable( array( $mainframe, 'close' ) ) ) {				
+		$mainframe->close();
+	} else {
+		session_write_close();
+		exit;
+	}
+}
+/**
+ * Raise the memory limit when it is lower than the needed value
+ *
+ * @param string $setLimit Example: 16M
+ */
+function jx_RaiseMemoryLimit( $setLimit ) {
+	
+	$memLimit = @ini_get('memory_limit');
+	
+	if( stristr( $memLimit, 'k') ) {
+		$memLimit = str_replace( 'k', '', str_replace( 'K', '', $memLimit )) * 1024;
+	}
+	elseif( stristr( $memLimit, 'm') ) {
+		$memLimit = str_replace( 'm', '', str_replace( 'M', '', $memLimit )) * 1024 * 1024;
+	}
+	
+	if( stristr( $setLimit, 'k') ) {
+		$setLimitB = str_replace( 'k', '', str_replace( 'K', '', $setLimit )) * 1024;
+	}
+	elseif( stristr( $setLimit, 'm') ) {
+		$setLimitB = str_replace( 'm', '', str_replace( 'M', '', $setLimit )) * 1024 * 1024;
+	}
+	
+	if( $memLimit < $setLimitB ) {
+		@ini_set('memory_limit', $setLimit );
+	}	
+}
+/**
+ * Reads a file and sends them in chunks to the browser
+ * This should overcome memory problems
+ * http://www.php.net/manual/en/function.readfile.php#54295
+ *
+ * @since 1.4.1
+ * @param string $filename
+ * @param boolean $retbytes
+ * @return mixed
+ */
+function readFileChunked($filename,$retbytes=true) {
+	$chunksize = 1*(1024*1024); // how many bytes per chunk
+	$buffer = '';
+	$cnt =0;
+	// $handle = fopen($filename, 'rb');
+	$handle = fopen($filename, 'rb');
+	if ($handle === false) {
+		return false;
+	}
+	while (!feof($handle)) {
+		$buffer = fread($handle, $chunksize);
+		echo $buffer;
+		sleep(1);
+		ob_flush();
+		flush();
+		if ($retbytes) {
+			$cnt += strlen($buffer);
+		}
+	}
+	$status = fclose($handle);
+	if ($retbytes && $status) {
+		return $cnt; // return num. bytes delivered like readfile() does.
+	}
+	return $status;
+}
+//implements file_put_contents function for compartability with mambo on PHP < 4.3
+if ( ! function_exists('file_put_contents') ) {
+	function file_put_contents ( $filename, $filecont ){
+		$handle = fopen( $filename, 'w' );
+		if ( is_array($filecont) ) {
+			$size = 0;
+			foreach ( $filecont as $filestring ) {
+				fwrite( $handle, $filestring );
+				$size += strlen( $filestring );
+			}
+			fclose($handle);
+			return $size;
+		} else {
+			fwrite( $handle, $filecont );
+			fclose($handle);
+			return strlen( $filecont );
+		}
+	}
+}
+if ( ! function_exists('scandir') ) {
+function scandir($dir,$listDirectories=false, $skipDots=true) {
+    $dirArray = array();
+    if ($handle = opendir($dir)) {
+        while (false !== ($file = readdir($handle))) {
+            if (($file != "." && $file != "..") || $skipDots == true) {
+                if($listDirectories == false) { if(is_dir($file)) { continue; } }
+                array_push($dirArray,basename($file));
+            }
+        }
+        closedir($handle);
+    }
+    return $dirArray;
+}
 }
 ?>

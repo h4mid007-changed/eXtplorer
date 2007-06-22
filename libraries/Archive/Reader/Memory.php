@@ -204,7 +204,7 @@ class File_Archive_Reader_Memory extends File_Archive_Reader
      */
     function makeWriterRemoveBlocks($blocks, $seek = 0)
     {
-        require_once "File/Archive/Writer/Memory.php";
+        require_once dirname(__FILE__)."/../Writer/Memory.php";
         $data = substr($this->memory, 0, $this->offset + $seek);
         $this->memory = substr($this->memory, $this->offset + $seek);
 

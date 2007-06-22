@@ -1,44 +1,39 @@
 <?php
-/** ensure this file is being included by a parent file */
+// ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
-/*------------------------------------------------------------------------------
-     The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
+/**
+ * @package joomlaXplorer
+ * @copyright soeren 2007
+ * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @license
+ * @version $Id: $
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License Version 2 or later (the "GPL"), in
+ * which case the provisions of the GPL are applicable instead of
+ * those above. If you wish to allow use of your version of this file only
+ * under the terms of the GPL and not to allow others to use
+ * your version of this file under the MPL, indicate your decision by
+ * deleting  the provisions above and replace  them with the notice and
+ * other provisions required by the GPL.  If you do not delete
+ * the provisions above, a recipient may use your version of this file
+ * under either the MPL or the GPL."
+ * 
+*/
 
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is fun_archive.php, released on 2003-03-31.
-
-     The Initial Developer of the Original Code is The QuiX project.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the GNU General Public License Version 2 or later (the "GPL"), in
-     which case the provisions of the GPL are applicable instead of
-     those above. If you wish to allow use of your version of this file only
-     under the terms of the GPL and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the GPL.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the GPL."
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
-Author: The QuiX project
-	quix@free.fr
-	http://www.quix.tk
-	http://quixplorer.sourceforge.net
-
-Comment:
-	QuiXplorer Version 2.3
-	Zip & TarGzip Functions
-	
-	Have Fun...
-------------------------------------------------------------------------------*/
+/**
+ * Zip & TarGzip Functions
+ */
 
 
 function archive_items( $dir ) {
@@ -66,13 +61,13 @@ function archive_items( $dir ) {
 		
 		if( !in_array(strtolower( $GLOBALS['__POST']["type"] ), $allowed_types )) {
 			echo('Unknown Archive Format: '.htmlspecialchars($GLOBALS['__POST']["type"]));
-			die();
+			jx_exit();
 		}
 		while( @ob_end_clean() );
 		header('Status: 200 OK');
 		echo '<?xml version="1.0" ?>'."\n";
 		
-		$files_per_step = 500;		
+		$files_per_step = 2500;
 		
 		$cnt=count($GLOBALS['__POST']["selitems"]);
 		$abs_dir=get_abs_dir($dir);
@@ -93,10 +88,6 @@ function archive_items( $dir ) {
 				$archive_name .= ".".$ext;
 			}
 		}
-		// Tar/Gz and Tar/Bzip2 Archives must be treated as Tar first, after adding files has been finished we pack the files
-		if( $GLOBALS['__POST']["type"] == 'tgz' || $GLOBALS['__POST']["type"] == 'tbz') {
-			$archive_name = $fileinfo['dirname'].$GLOBALS["separator"].$fileinfo['basename'] . '.tar';
-		}
 		
 		for($i=0;$i<$cnt;$i++) {
 			
@@ -105,7 +96,7 @@ function archive_items( $dir ) {
 			if( is_dir( $abs_dir ."/". $selitem )) {
 				$items = mosReadDirectory($abs_dir ."/".  $selitem, '.', true, true );
 				foreach ( $items as $item ) {
-					if( is_dir( $item ) || !is_readable( $item )) continue;
+					if( is_dir( $item ) || !is_readable( $item ) || $item == $archive_name ) continue;
 					$v_list[] = $item;
 				}
 			}
@@ -114,7 +105,7 @@ function archive_items( $dir ) {
 			}
 		}
 		$cnt_filelist = count( $v_list );
-		$remove_path = $GLOBALS["home_dir"].$GLOBALS['separator'];
+		$remove_path = $GLOBALS["home_dir"];
 		if( $dir ) {
 			$remove_path .= $dir.$GLOBALS['separator'];
 		}
@@ -136,7 +127,7 @@ function archive_items( $dir ) {
 		
 		if( PEAR::isError( $result ) ) {
 			echo $name.": Failed saving Archive File. Error: ".$result->getMessage();
-			die();
+			jx_exit();
 		}
 		
 		if( $cnt_filelist > $startfrom+$files_per_step ) {
@@ -146,11 +137,7 @@ function archive_items( $dir ) {
 		}
 		else {
 			if( $GLOBALS['__POST']["type"] == 'tgz' || $GLOBALS['__POST']["type"] == 'tbz') {
-				$compressed_archive_name = $fileinfo['dirname'].$GLOBALS["separator"].$fileinfo['basename'] .'.'. $GLOBALS['__POST']["type"];
-				$source = File_Archive::read($archive_name . '/' );
-				File_Archive::extract( $source, $compressed_archive_name );
-				unlink( $archive_name );
-				$archive_name = $compressed_archive_name;
+				chmod( $archive_name, 0644 );
 			}
 		  	if( $download=="y" ) {
 				echo '<script type="text/javascript">document.location=\''.make_link( 'download', dirname($archive_name), basename($archive_name) ).'\';</script>';
@@ -159,7 +146,7 @@ function archive_items( $dir ) {
 		  		echo '<script type="text/javascript">document.location=\''.str_replace("index3.php", "index2.php", make_link("list",$dir,NULL)).'&mosmsg=The%20Archive%20File%20has%20been%20created\';</script>';
 		  	}
 		}
-		die();
+		jx_exit();
 	}
 	?>
 	<script type="text/javascript" src="components/com_joomlaxplorer/scripts/mootools.ajax.js"></script>
@@ -248,57 +235,28 @@ function extract_item( $dir, $item ) {
 	show_error($GLOBALS["error_msg"]["extract_noarchive"]);
   }
   else {
-	  
-	  $archive_name = realpath(get_abs_item($dir,$item));
-	  
-	  $file_info = pathinfo($archive_name);
-	  
-	  if( empty( $dir )) {
-	  	$extract_dir = realpath($GLOBALS['home_dir']);
-	  }
-	  else {
-	  	$extract_dir = realpath( $GLOBALS['home_dir']."/".$dir );
-	  }
-		
-	  $ext = $file_info["extension"];
-	  
-	  switch( $ext ) {
-		case "zip":
-		
-		  require_once( $mosConfig_absolute_path."/administrator/includes/pcl/pclzip.lib.php" );
-		  require_once( $mosConfig_absolute_path . "/administrator/includes/pcl/pclerror.lib.php" );
-		  $zip = new PclZip($archive_name);
-		  $res = $zip->extract( PCLZIP_OPT_PATH, $extract_dir );
-		  if( $res < 1 ) {
-			show_error( $GLOBALS["messages"]["extract_failure"]." (". $zip->error_string.")" );
-		  }
-		  else
-			$_REQUEST['mosmsg'] = $GLOBALS["messages"]["extract_success"];
-		  
-		break;
-		
-		case "gz":  // a
-		case "bz": // lot
-		case "bz2": // of
-		case "bzip2": // fallthroughs,
-		case "tbz": // don't
-		case "tar": // wonder
-		  require_once(_QUIXPLORER_PATH . "/libraries/Tar.php");
-		  $archive = new Archive_Tar($archive_name, $type);
-		  if( $archive->extract( $extract_dir ) )
-			$_REQUEST['mosmsg'] = $GLOBALS["messages"]["extract_success"];
-		  else
+		$archive_name = realpath(get_abs_item($dir,$item));
+
+		$file_info = pathinfo($archive_name);
+
+		if( empty( $dir )) {
+			$extract_dir = realpath($GLOBALS['home_dir']);
+		}
+		else {
+			$extract_dir = realpath( $GLOBALS['home_dir']."/".$dir );
+		}
+
+		$ext = $file_info["extension"];
+
+		require_once(_QUIXPLORER_PATH . "/libraries/Archive.php");
+		$archive_name .= '/';
+		$result = File_Archive::extract( $archive_name, $extract_dir );
+		if( PEAR::isError( $result )) {
 			show_error($GLOBALS["error_msg"]["extract_failure"]);
-		break;
-		
-		default: 
-			show_error($GLOBALS["error_msg"]["extract_unknowntype"]);
-		
-		break;
+		}
 	  }
   
-	  mosRedirect( make_link("list", $dir, null), $_REQUEST['mosmsg'] );
-  }
+	  mosRedirect( make_link("list", $dir, null), $GLOBALS['messages']['extract_success'] );
 }
 //------------------------------------------------------------------------------
 ?>
