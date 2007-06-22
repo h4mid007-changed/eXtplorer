@@ -272,7 +272,7 @@ class File_Archive_Reader_Ar extends File_Archive_Reader_Archive
      */
     function makeWriterRemoveFiles($pred)
     {
-        require_once "File/Archive/Writer/Ar.php";
+        require_once dirname(__FILE__)."/../Writer/Ar.php";
 
         $blocks = array();
         $seek = null;
@@ -367,7 +367,7 @@ class File_Archive_Reader_Ar extends File_Archive_Reader_Archive
      */
     function makeAppendWriter()
     {
-        require_once "File/Archive/Writer/Ar.php";
+        require_once dirname(__FILE__)."/../Writer/Ar.php";
 
         while (($error = $this->next()) === true) { }
         if (PEAR::isError($error)) {

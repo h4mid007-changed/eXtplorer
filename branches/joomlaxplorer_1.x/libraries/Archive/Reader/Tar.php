@@ -239,7 +239,7 @@ class File_Archive_Reader_Tar extends File_Archive_Reader_Archive
      */
     function makeWriterRemoveFiles($pred)
     {
-        require_once "File/Archive/Writer/Tar.php";
+        require_once dirname(__FILE__)."/../Writer/Tar.php";
 
         $blocks = array();
         $seek = null;

@@ -117,7 +117,7 @@ class File_Archive_Writer_Memory extends File_Archive_Writer
      */
     function makeReader($filename = null, $stat = null, $mime = null)
     {
-        require_once "File/Archive/Reader/Memory.php";
+        require_once dirname(__FILE__)."/../Reader/Memory.php";
         return new File_Archive_Reader_Memory(
             $this->data,
             $filename === null ? $this->filename : $filename,

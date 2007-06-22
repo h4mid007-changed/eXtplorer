@@ -194,7 +194,7 @@ class File_Archive_Reader_Bzip2 extends File_Archive_Reader_Archive
      */
     function makeWriterRemoveBlocks($blocks, $seek = 0)
     {
-        require_once "File/Archive/Writer/Bzip2.php";
+        require_once dirname(__FILE__)."/../Writer/Bzip2.php";
 
         if ($this->nbRead == 0) {
             return PEAR::raiseError('No file selected');

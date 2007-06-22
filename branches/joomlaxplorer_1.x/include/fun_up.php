@@ -85,7 +85,7 @@ function upload_items($dir) {		// upload file
 				$err=true;	continue;
 			}
 			else {
-				$mode = jx_isFTPMode() ? 755 : 0755;
+				$mode = jx_isFTPMode() ? 644 : 0644;
 			  	@$GLOBALS['jx_File']->chmod( $abs, $mode );
 			}
 		}

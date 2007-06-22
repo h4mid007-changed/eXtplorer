@@ -2,7 +2,7 @@
 /** ensure this file is being included by a parent file */
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
-$GLOBALS['jx_home'] = 'http://developer.joomla.org/sf/projects/joomlaxplorer';
+$GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer';
 
 define ( "_QUIXPLORER_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer" );
 define ( "_QUIXPLORER_URL", $mosConfig_live_site."/administrator/components/com_joomlaxplorer" );
@@ -87,6 +87,7 @@ require _QUIXPLORER_PATH."/include/footer.php";
 require _QUIXPLORER_PATH."/include/error.php";
 
 //------------------------------------------------------------------------------
+$GLOBALS['jx_File'] = new jx_File();
 
 $abs_dir=get_abs_dir($GLOBALS["dir"]);
 if(!file_exists($GLOBALS["home_dir"])) {

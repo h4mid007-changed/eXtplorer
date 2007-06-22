@@ -27,7 +27,7 @@ class jx_File {
 			return $GLOBALS['FTPCONNECTION']->chmod( $item, $mode );
 		}
 		else {
-			return chmod( $item, $mode );
+			return @chmod( $item, $mode );
 		}
 	}
 	
@@ -135,6 +135,14 @@ class jx_File {
 			return readdir( $handle );
 		}
 	}
+	function scandir( $dir ) {
+		if( jx_isFTPMode() ) {
+			return getCachedFTPListing( $dir );
+		}
+		else {
+			return scandir( $dir );
+		}
+	}
 	function closedir( &$handle ) {		
 		if( jx_isFTPMode() ) {
 			return;
@@ -189,7 +197,7 @@ class jx_File {
 			return decoct(bindec(decode_ftp_rights( $perms )));
 		}
 		else {
-			return fileperms( $file);
+			return @fileperms( $file);
 		}		
 	}
 	function filemtime( $file ) {
