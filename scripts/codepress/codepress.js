@@ -1,5 +1,5 @@
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.org/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
  * 
  * Copyright (C) 2006 Fernando M.A.d.S. <fermads@gmail.com>
  *
@@ -8,129 +8,190 @@
  * 
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  */
+ 
+$ = function() { return document.getElementById(arguments[0]); }
+var cpPath = $('cp-script').src.replace('codepress.js','');
+var jPath = $('cp-script').src.replace('components/com_joomlaxplorer/scripts/codepress/codepress.js','');
+document.write('<link type="text/css" href="'+cpPath+'themes/default/codepress-editor.css" rel="stylesheet" />');
+ 
+CodePress = {
+	initialize : function() {
+		cpWindow = $('cp-window');
+		cpEditor = $('cp-editor');
+		cpBody = cpEditor.contentWindow;
+		cpBody.CodePress.syntaxHighlight('init');
+		if(onLoadEdit) { onLoadEdit=false; this.edit(this.fileName,pgCode); }
+	},
+	
+	detect : function() {
+		cpEngine = 'older';
+		var ua = navigator.userAgent;
+		if(ua.match('MSIE')) cpEngine = 'msie';
+		else if(ua.match('KHTML')) cpEngine = 'khtml'; 
+		else if(ua.match('Opera')) cpEngine = 'opera'; 
+		else if(ua.match('Gecko')) cpEngine = 'gecko';
+	},
+	
+	setFileName : function() {
+		$('cp-filename').innerHTML = this.fileName = (arguments[0]) ? arguments[0] : Content.menu.untitledFile;
+	},
 
-CodePress = function(obj) {
-	var self = document.createElement('iframe');
-	self.textarea = obj;
-	self.textarea.disabled = true;
-	self.textarea.style.overflow = 'hidden';
-	self.style.height = self.textarea.clientHeight +'px';
-	self.style.width = self.textarea.clientWidth +'px';
-	self.textarea.style.overflow = 'auto';
-	self.style.border = '1px solid gray';
-	self.frameBorder = 0; // remove IE internal iframe border
-	self.style.visibility = 'hidden';
-	self.style.position = 'absolute';
-	self.options = self.textarea.className;
-	
-	self.initialize = function() {
-		self.editor = self.contentWindow.CodePress;
-		self.editor.body = self.contentWindow.document.getElementsByTagName('body')[0];
-		self.editor.setCode(self.textarea.value);
-		self.setOptions();
-		self.editor.syntaxHighlight('init');
-		self.textarea.style.display = 'none';
-		self.style.position = 'static';
-		self.style.visibility = 'visible';
-		self.style.display = 'inline';
-	}
-	
-	// obj can by a textarea id or a string (code)
-	self.edit = function(obj,language) {
-		if(obj) self.textarea.value = document.getElementById(obj) ? document.getElementById(obj).value : obj;
-		if(!self.textarea.disabled) return;
-		self.language = language ? language : self.getLanguage();
-		self.src = CodePress.path+'codepress.html?language='+self.language+'&ts='+(new Date).getTime();
-		if(self.attachEvent) self.attachEvent('onload',self.initialize);
-		else self.addEventListener('load',self.initialize,false);
-	}
-
-	self.getLanguage = function() {
-		for (language in CodePress.languages) 
-			if(self.options.match('\\b'+language+'\\b')) 
-				return CodePress.languages[language] ? language : 'generic';
-	}
-	
-	self.setOptions = function() {
-		if(self.options.match('autocomplete-off')) self.toggleAutoComplete();
-		if(self.options.match('readonly-on')) self.toggleReadOnly();
-		if(self.options.match('linenumbers-off')) self.toggleLineNumbers();
-	}
-	
-	self.getCode = function() {
-		return self.textarea.disabled ? self.editor.getCode() : self.textarea.value;
-	}
-
-	self.setCode = function(code) {
-		self.textarea.disabled ? self.editor.setCode(code) : self.textarea.value = code;
-	}
-
-	self.toggleAutoComplete = function() {
-		self.editor.autocomplete = (self.editor.autocomplete) ? false : true;
-	}
-	
-	self.toggleReadOnly = function() {
-		self.textarea.readOnly = (self.textarea.readOnly) ? false : true;
-		if(self.style.display != 'none') // prevent exception on FF + iframe with display:none
-			self.editor.readOnly(self.textarea.readOnly ? true : false);
-	}
-	
-	self.toggleLineNumbers = function() {
-		var cn = self.editor.body.className;
-		self.editor.body.className = (cn==''||cn=='show-line-numbers') ? 'hide-line-numbers' : 'show-line-numbers';
-	}
-	self.isActive = function() {
-		return self.textarea.disabled;
-	}
-	self.toggleEditor = function() {
-		if(self.textarea.disabled) {
-			self.textarea.value = self.getCode();
-			self.textarea.disabled = false;
-			self.style.display = 'none';
-			self.textarea.style.display = 'inline';
+	getLanguage : function() {
+		var extension = this.fileName.replace(/.*\.([^\.]+)$/,'$1');
+		for(lang in Content.languages) {
+			extensions = ','+Content.languages[lang].extensions+',';
+			if(extensions.match(','+extension+',')) return lang;
 		}
-		else {
-			self.textarea.disabled = true;
-			self.setCode(self.textarea.value);
-			self.editor.syntaxHighlight('init');
-			self.style.display = 'inline';
-			self.textarea.style.display = 'none';
-		}
-	}
+		return 'generic';
+	},
 
-	self.edit();
-	return self;
-}
-
-CodePress.languages = {	
-	csharp : 'C#', 
-	css : 'CSS', 
-	generic : 'Generic',
-	html : 'HTML',
-	java : 'Java', 
-	javascript : 'JavaScript', 
-	perl : 'Perl', 
-	ruby : 'Ruby',	
-	php : 'PHP', 
-	text : 'Text', 
-	sql : 'SQL',
-	vbscript : 'VBScript'
-}
-
-
-CodePress.run = function() {
-	CodePress.path = 'components/com_joomlaxplorer/scripts/codepress/';
+	loadScript : function(target, src, callback) {
+		var node = target.createElement("script");
+		if (node.addEventListener) node.addEventListener("load", callback, false);
+		else node.onreadystatechange = function() { if (this.readyState == "loaded") { callback.call(this);} }
+		node.src = src;
+		target.getElementsByTagName("head").item(0).appendChild(node);
+		node = null;
+	},
 	
-	t = document.getElementsByTagName('textarea');
-	for(var i=0,n=t.length;i<n;i++) {
-		if(t[i].className.match('codepress')) {
-			id = t[i].id;
-			t[i].id = id+'_cp';
-			eval(id+' = new CodePress(t[i])');
-			t[i].parentNode.insertBefore(eval(id), t[i]);
-		} 
+	setLanguage : function(reload) {
+		this.language = (typeof(Content.languages[arguments[0]])!='undefined') ? arguments[0] : this.getLanguage();
+		$('cp-language-name').innerHTML = Content.languages[this.language].name;
+		$('language-'+this.language).checked = true;
+		this.hideAllMenu();
+		if(reload) {
+			if(cpBody.document.designMode=='on') cpBody.document.designMode = 'off';
+			this.loadScript(cpBody.document, '../languages/'+this.language+'.js', function () { cpBody.CodePress.syntaxHighlight('init'); })
+			cpBody.document.getElementById('cp-lang-style').href = '../languages/'+this.language+'.css';
+		}
+	},
+	
+	hideAllMenu : function() {
+		$('cp-options-menu').className = $('cp-languages-menu').className = 'hide';
+		$('cp-arrow-languages').src = $('cp-arrow-options').src = cpPath+'themes/default/menu-arrow-up.gif' ;		
+	},
+	
+	toogleMenu : function(item) {
+		$('cp-'+item+'-menu').className = ($('cp-'+item+'-menu').className=='show') ? 'hide' : 'show' ;
+		$('cp-arrow-'+item).src = ($('cp-'+item+'-menu').className=='show') ? cpPath+'themes/default/menu-arrow-down.gif' : cpPath+'themes/default/menu-arrow-up.gif' ;
+	},
+	
+	toggleComplete : function() {
+		this.complete = $('cp-complete').checked ? true : false ;
+		this.hideAllMenu();
+	},
+
+	toggleLineNumbers : function() {
+	    cpBody.document.getElementsByTagName('body')[0].className = ($('cp-linenumbers').checked) ? 'show-line-numbers' : 'hide-line-numbers';
+		this.hideAllMenu();
+	},
+	
+	resizeFullScreen : function() {
+		if($('cp-fullscreen').checked) {
+			cH = self.innerHeight ? self.innerHeight : document.documentElement.clientHeight;
+			cW = self.innerWidth ? self.innerWidth : document.documentElement.clientWidth;
+			cpEditor.style.height = cH-22 + 'px';
+			cpWindow.style.height = cH-2 + 'px';
+			cpWindow.style.width = cW-2 + 'px';
+			if(cpWindow.offsetParent.offsetTop!=0||cpWindow.offsetParent.offsetLeft!=0) {
+				cpWindow.style.top = - cpWindow.offsetParent.offsetTop-3 +'px';
+				cpWindow.style.left = - cpWindow.offsetParent.offsetLeft-3 +'px';
+			}
+
+		}
+	},
+	
+	toggleFullScreen : function() {
+	    if($('cp-fullscreen').checked) {
+			cpWindow.className = 'fullscreen-on';
+			document.getElementsByTagName('html')[0].style.overflow = 'hidden';
+			self.scrollTo(0,0); 
+			this.resizeFullScreen();
+	    }
+	    else {
+			cpWindow.className = 'fullscreen-off';
+			document.getElementsByTagName('html')[0].style.overflow = 'auto';
+			cpWindow.style.width = '100%';
+			cpWindow.style.height = cpWindowHeight+'px';
+			cpEditor.style.height = cpEditorHeight+'px';
+			if(cpWindow.offsetParent.offsetTop!=0||cpWindow.offsetParent.offsetLeft!=0) 
+			cpWindow.style.top = cpWindow.style.left = 'auto'
+	    }
+		this.hideAllMenu();
+	},
+
+	edit : function() {
+		this.setFileName(arguments[0]);
+		if(!arguments[1]||arguments[1]=='') { // file name of the source code (to open from server)
+			this.setLanguage();
+			cpEditor.src = jPath+'index2.php?option=com_joomlaxplorer&action=getSource&item='+this.fileName+'&language='+this.language+'&engine='+cpEngine
+			
+			return;
+		}
+		this.setLanguage('reload');
+		if($(arguments[1])) CodePress.setCode($(arguments[1]).firstChild.nodeValue); // id name of the source code
+		else if(arguments[1].match(/\w/)) CodePress.setCode(arguments[1]);  // text of the source code
+		else if(typeof(arguments[1])=='Object') CodePress.setCode(arguments[1].firstChild.nodeValue); // object of the source code
+	},
+
+	setContent : function() {
+		var allLanguages = '';
+		for(lang in Content.languages) 
+			allLanguages += '<input type=radio name=lang id="language-'+lang+'" onclick="CodePress.setLanguage(\''+lang+'\')"><label for="language-'+lang+'">'+Content.languages[lang].name+'</label><br />';
+		
+		pgCode = ($('codepress').firstChild) ? $('codepress').firstChild.nodeValue : '';
+		this.fileName = $('codepress').title;
+		this.language = this.getLanguage();
+		this.complete = true;
+		onLoadEdit = (pgCode.match(/\w/)) ? true : false ;
+
+		cpWindowHeight = $('codepress').clientHeight;
+		cpEditorHeight = ($('codepress').className.match('hideMenu')) ? cpWindowHeight : cpWindowHeight-20 ;
+		if(cpWindowHeight==0) { setTimeout(function(){CodePress.setContent();},10); return; } // if css is not loaded yet, try again
+		
+		$('codepress').innerHTML = '<div id="cp-window">'+
+			'<iframe id="cp-editor" src="'+jPath+'index2.php?option=com_joomlaxplorer&action=getSource&engine='+cpEngine+'&item='+ (onLoadEdit ? 'null' : this.fileName) +'&language='+this.language+'" style="height:'+ cpEditorHeight +'px"></iframe>'+
+			'<div id="cp-menu">'+
+				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.toogleMenu(\'options\')"><img src="'+cpPath+'themes/default/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="'+cpPath+'themes/default/menu-arrow-up.gif" align="top" id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.toogleMenu(\'languages\')"><img src="'+cpPath+'themes/default/menu-icon-languages.gif" align="top" /> <span id="cp-language-name">'+Content.languages.generic.name+'</span> <img src="'+cpPath+'themes/default/menu-arrow-up.gif" align=top id="cp-arrow-languages" /></span>'+
+			'</div>'+
+			'<div id="cp-options-menu" class="hide">'+
+    			'<input type="checkbox" id="cp-fullscreen" onclick="CodePress.toggleFullScreen()"><label for="cp-fullscreen">'+Content.menu.fullScreen+'</label><br><input type=checkbox id="cp-linenumbers" onclick="CodePress.toggleLineNumbers()" checked="checked"><label for="cp-linenumbers">'+Content.menu.lineNumbers+'</label><br><input type=checkbox id="cp-complete" onclick="CodePress.toggleComplete()" checked="checked"><label for="cp-complete">'+Content.menu.autoComplete+'</label>'+
+			'</div>'+
+			'<div id="cp-languages-menu" class="hide">'+allLanguages+'</div>'+
+		'</div>';
+		
+		this.setLanguage(); 
+		this.setFileName(this.fileName); 
+	},
+
+	// transform syntax highlighted code to original code
+	getCode : function() {
+		var code = cpBody.editor.innerHTML;
+		code = code.replace(/<br>/g,'\n');
+		code = code.replace(/<\/p>/gi,'\r');
+		code = code.replace(/<p>/i,''); // IE first line fix
+		code = code.replace(/<p>/gi,'\n');
+		code = code.replace(/&nbsp;/gi,'');
+		code = code.replace(/\u2009/g,'');
+		code = code.replace(/<.*?>/g,'');
+		code = code.replace(/&lt;/g,'<');
+		code = code.replace(/&gt;/g,'>');
+		code = code.replace(/&amp;/gi,'&');
+		return code;
+	},
+
+	// put some code inside editor
+	setCode : function() {
+		var code = arguments[0];
+		code = code.replace(/\u2009/gi,'');
+		code = code.replace(/&/gi,'&amp;');		
+       	code = code.replace(/</g,'&lt;');
+        code = code.replace(/>/g,'&gt;');
+		cpBody.document.getElementById("code").innerHTML = "<pre>"+code+"</pre>";
 	}
 }
 
-if(window.attachEvent) window.attachEvent('onload',CodePress.run);
-else window.addEventListener('DOMContentLoaded',CodePress.run,false);
+CodePress.detect();
+Content={};
+CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); }); 
+onresize = function() { CodePress.resizeFullScreen(); };

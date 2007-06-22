@@ -59,14 +59,3 @@ a:hover, a:active {
   	background-color: #f1f3f5;
 	background-image: url( ../images/_info.gif );
 }
-.x-layout-panel-north, .ytheme-gray .x-layout-panel-north{
-	background-image: url( ../scripts/extjs/images/vista/layout/panel-title-light-bg.gif );
-	font:bold 12px verdana, helvetica;
-	overflow:hidden;
-	padding:4px;
-	border:0px none;
-	border-bottom:2px solid #c3daf9;
-}
-.ytheme-gray .x-layout-panel-north{
-	border-bottom:2px solid #f3f2e7;
-}

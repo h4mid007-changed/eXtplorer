@@ -34,7 +34,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 function make_list($_list1, $_list2) {		// make list of files
 	$list = array();
 
-	if($GLOBALS["direction"]=="ASC") {
+	if($GLOBALS["srt"]=="yes") {
 		$list1 = $_list1;
 		$list2 = $_list2;
 	} else {
@@ -70,7 +70,7 @@ function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items
 	}
 	
 	if($handle===false)
-	  jx_Result::sendResult('', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
+	  show_error($dir.": ".$GLOBALS["error_msg"]["opendir"]);
 	
 	// Read directory
 	while(($new_item = readdir($handle))!==false) {
@@ -78,7 +78,7 @@ function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items
 		$abs_new_item = get_abs_item($dir, $new_item);
 		
 		if ($new_item == "." || $new_item == "..") continue;
-		if(!file_exists($abs_new_item)) //jx_Result::sendResult('', false, $dir."/$abs_new_item: ".$GLOBALS["error_msg"]["readdir"]);
+		if(!file_exists($abs_new_item)) //show_error($dir."/$abs_new_item: ".$GLOBALS["error_msg"]["readdir"]);
 		if(!get_show_item($dir, $new_item)) continue;
 		
 		$new_file_size = @filesize($abs_new_item);
@@ -112,10 +112,10 @@ function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items
 	// sort
 	if(is_array($dir_list)) {
 		if($GLOBALS["order"]=="mod") {
-			if($GLOBALS["direction"]=="ASC") arsort($dir_list);
+			if($GLOBALS["srt"]=="yes") arsort($dir_list);
 			else asort($dir_list);
 		} else {	// order == "size", "type" or "name"
-			if($GLOBALS["direction"]=="ASC") ksort($dir_list);
+			if($GLOBALS["srt"]=="yes") ksort($dir_list);
 			else krsort($dir_list);
 		}
 	}
@@ -123,13 +123,13 @@ function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items
 	// sort
 	if(is_array($file_list)) {
 		if($GLOBALS["order"]=="mod") {
-			if($GLOBALS["direction"]=="ASC") arsort($file_list);
+			if($GLOBALS["srt"]=="yes") arsort($file_list);
 			else asort($file_list);
 		} elseif($GLOBALS["order"]=="size" || $GLOBALS["order"]=="type") {
-			if($GLOBALS["direction"]=="ASC") asort($file_list);
+			if($GLOBALS["srt"]=="yes") asort($file_list);
 			else arsort($file_list);
 		} else {	// order == "name"
-			if($GLOBALS["direction"]=="ASC") ksort($file_list);
+			if($GLOBALS["srt"]=="yes") ksort($file_list);
 			else krsort($file_list);
 		}
 	}
@@ -138,9 +138,9 @@ function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items
 function print_table($dir, $list, $allow) {	// print table of files
 	global $dir_up;
 	if(!is_array($list)) return;
-	if( $dir != "" || strstr( $dir, _JX_PATH ) ) {
+	if( $dir != "" || strstr( $dir, _QUIXPLORER_PATH ) ) {
 	  echo "<tr class=\"sectiontableentry1\"><td valign=\"baseline\"><a href=\"".make_link("list",$dir_up,NULL)."\">";
-	  echo "<img border=\"0\" align=\"absmiddle\" src=\""._JX_URL."/images/_up.png\" ";
+	  echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_up.png\" ";
 	  echo "alt=\"".$GLOBALS["messages"]["uplink"]."\" title=\"".$GLOBALS["messages"]["uplink"]."\"/>&nbsp;&nbsp;..</a></td>\n";
 	  echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 	  echo "</tr>";
@@ -181,8 +181,8 @@ function print_table($dir, $list, $allow) {	// print table of files
 			echo ">";
 		}
 		//else echo "<A>";
-		echo "<img border=\"0\" ";
-		echo "align=\"absmiddle\" vspace=\"5\" hspace=\"5\" src=\""._JX_URL."/images/".get_mime_type($abs_item, "img")."\" alt=\"\">&nbsp;";
+		echo "<img border=\"0\" width=\"22\" height=\"22\" ";
+		echo "align=\"absmiddle\" vspace=\"5\" hspace=\"5\" src=\""._QUIXPLORER_URL."/images/".get_mime_type($abs_item, "img")."\" alt=\"\">&nbsp;";
 		$s_item=$item;	
 		if(strlen($s_item)>50) $s_item=substr($s_item,0,47)."...";
 		$s_item = htmlspecialchars($s_item);
@@ -219,7 +219,7 @@ function list_dir($dir) {			// list directory contents
 	$dir_up = dirname($dir);
 	if($dir_up==".") $dir_up = "";
 	
-	if(!get_show_item($dir_up,basename($dir))) jx_Result::sendResult('', false, $dir." : ".$GLOBALS["error_msg"]["accessdir"]);
+	if(!get_show_item($dir_up,basename($dir))) show_error($dir." : ".$GLOBALS["error_msg"]["accessdir"]);
 	
 	// make file & dir tables, & get total filesize & number of items
 	make_tables($dir, $dir_list, $file_list, $tot_file_size, $num_items);
@@ -237,11 +237,11 @@ function list_dir($dir) {			// list directory contents
 	echo '<div class="componentheading">'.$GLOBALS["messages"]["actdir"].": ".$dir_links.'</div>';
 	
 	// Sorting of items
-	$images = "&nbsp;<img width=\"10\" height=\"10\" border=\"0\" align=\"absmiddle\" src=\""._JX_URL."/images/";
-	if($GLOBALS["direction"]=="ASC") {
-		$_srt = "DESC";	$images .= "_arrowup.gif\" alt=\"^\">";
+	$images = "&nbsp;<img width=\"10\" height=\"10\" border=\"0\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/";
+	if($GLOBALS["srt"]=="yes") {
+		$_srt = "no";	$images .= "_arrowup.gif\" alt=\"^\">";
 	} else {
-		$_srt = "ASC";	$images .= "_arrowdown.gif\" alt=\"v\">";
+		$_srt = "yes";	$images .= "_arrowdown.gif\" alt=\"v\">";
 	}
 	
 	// Toolbar
@@ -251,21 +251,21 @@ function list_dir($dir) {			// list directory contents
 	echo "<td>";
 	if( $dir != "" ) {
 	  echo "<a href=\"".make_link("list",$dir_up,NULL)."\">";
-	  echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._JX_URL."/images/_up.png\" ";
+	  echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_up.png\" ";
 	  echo "alt=\"".$GLOBALS["messages"]["uplink"]."\" title=\"".$GLOBALS["messages"]["uplink"]."\"></a>";
 	}
 	echo "</td>\n";
 	// HOME DIR
 	echo "<td><a href=\"".make_link("list",NULL,NULL)."\">";
-	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._JX_URL."/images/_home.gif\" ";
+	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_home.gif\" ";
 	echo "alt=\"".$GLOBALS["messages"]["homelink"]."\" title=\"".$GLOBALS["messages"]["homelink"]."\"></a></td>\n";
 	// RELOAD
 	echo "<td><a href=\"javascript:location.reload();\"><img border=\"0\" width=\"22\" height=\"22\" ";
-	echo "align=\"absmiddle\" src=\""._JX_URL."/images/_refresh.gif\" alt=\"".$GLOBALS["messages"]["reloadlink"];
+	echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_refresh.gif\" alt=\"".$GLOBALS["messages"]["reloadlink"];
 	echo "\" title=\"".$GLOBALS["messages"]["reloadlink"]."\"></A></td>\n";
 	// SEARCH
 	echo "<td><a href=\"".make_link("search",$dir,NULL)."\">";
-	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._JX_URL."/images/_search.gif\" ";
+	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_search.gif\" ";
 	echo "alt=\"".$GLOBALS["messages"]["searchlink"]."\" title=\"".$GLOBALS["messages"]["searchlink"];
 	echo "\"></a></td>\n";
 	
@@ -273,7 +273,7 @@ function list_dir($dir) {			// list directory contents
 	
 	// Joomla Sysinfo
 	echo "<td><a href=\"".make_link("sysinfo",$dir,NULL)."\">";
-	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._JX_URL."/images/systeminfo.gif\" ";
+	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/systeminfo.gif\" ";
 	echo "alt=\"" . $GLOBALS['messages']['mossysinfolink'] . "\" title=\"" .$GLOBALS['messages']['mossysinfolink'] . "\"></a></td>\n";
 	
 	echo "<td><img src=\"images/menu_divider.png\" height=\"22\" width=\"2\" border=\"0\" alt=\"|\" /></td>";
@@ -281,52 +281,52 @@ function list_dir($dir) {			// list directory contents
 	if($allow) {
 		// COPY
 		echo "<td><a href=\"javascript:Copy();\"><img border=\"0\" width=\"22\" height=\"22\" ";
-		echo "align=\"absmiddle\" src=\""._JX_URL."/images/_copy.gif\" alt=\"".$GLOBALS["messages"]["copylink"];
+		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_copy.gif\" alt=\"".$GLOBALS["messages"]["copylink"];
 		echo "\" title=\"".$GLOBALS["messages"]["copylink"]."\"></a></td>\n";
 		// MOVE
 		echo "<td><a href=\"javascript:Move();\"><img border=\"0\" width=\"22\" height=\"22\" ";
-		echo "align=\"absmiddle\" src=\""._JX_URL."/images/_move.gif\" alt=\"".$GLOBALS["messages"]["movelink"];
+		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_move.gif\" alt=\"".$GLOBALS["messages"]["movelink"];
 		echo "\" title=\"".$GLOBALS["messages"]["movelink"]."\"></A></td>\n";
 		// DELETE
 		echo "<td><a href=\"javascript:Delete();\"><img border=\"0\" width=\"22\" height=\"22\" ";
-		echo "align=\"absmiddle\" src=\""._JX_URL."/images/_delete.gif\" alt=\"".$GLOBALS["messages"]["dellink"];
+		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_delete.gif\" alt=\"".$GLOBALS["messages"]["dellink"];
 		echo "\" title=\"".$GLOBALS["messages"]["dellink"]."\"></A></td>\n";
 		// CHMOD
 		echo "<td><a href=\"javascript:Chmod();\"><img border=\"0\" width=\"22\" height=\"22\" ";
-		echo "align=\"absmiddle\" src=\""._JX_URL."/images/_chmod.gif\" alt=\"chmod\" title=\"" . $GLOBALS['messages']['chmodlink'] . "\"></a></td>\n";
+		echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_chmod.gif\" alt=\"chmod\" title=\"" . $GLOBALS['messages']['chmodlink'] . "\"></a></td>\n";
 		// UPLOAD
 		if(ini_get("file_uploads")) {
 			echo "<td><a href=\"".make_link("upload",$dir,NULL)."\">";
 			echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-			echo "src=\""._JX_URL."/images/_upload.gif\" alt=\"".$GLOBALS["messages"]["uploadlink"];
+			echo "src=\""._QUIXPLORER_URL."/images/_upload.gif\" alt=\"".$GLOBALS["messages"]["uploadlink"];
 			echo "\" title=\"".$GLOBALS["messages"]["uploadlink"]."\"></A></td>\n";
 		} else {
 			echo "<td><img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-			echo "src=\""._JX_URL."/images/_upload_.gif\" alt=\"".$GLOBALS["messages"]["uploadlink"];
+			echo "src=\""._QUIXPLORER_URL."/images/_upload_.gif\" alt=\"".$GLOBALS["messages"]["uploadlink"];
 			echo "\" title=\"".$GLOBALS["messages"]["uploadlink"]."\"></td>\n";
 		}
 		// ARCHIVE
 		if($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) {
 			echo "<td><a href=\"javascript:Archive();\"><img border=\"0\" width=\"22\" height=\"22\" ";
-			echo "align=\"absmiddle\" src=\""._JX_URL."/images/_archive.gif\" alt=\"".$GLOBALS["messages"]["comprlink"];
+			echo "align=\"absmiddle\" src=\""._QUIXPLORER_URL."/images/_archive.gif\" alt=\"".$GLOBALS["messages"]["comprlink"];
 			echo "\" title=\"".$GLOBALS["messages"]["comprlink"]."\"></A></td>\n";
 		}
 	} else {
 		// COPY
 		echo "<td><img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-		echo "src=\""._JX_URL."/images/_copy_.gif\" alt=\"".$GLOBALS["messages"]["copylink"]."\" title=\"";
+		echo "src=\""._QUIXPLORER_URL."/images/_copy_.gif\" alt=\"".$GLOBALS["messages"]["copylink"]."\" title=\"";
 		echo $GLOBALS["messages"]["copylink"]."\"></td>\n";
 		// MOVE
 		echo "<td><img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-		echo "src=\""._JX_URL."/images/_move_.gif\" alt=\"".$GLOBALS["messages"]["movelink"]."\" title=\"";
+		echo "src=\""._QUIXPLORER_URL."/images/_move_.gif\" alt=\"".$GLOBALS["messages"]["movelink"]."\" title=\"";
 		echo $GLOBALS["messages"]["movelink"]."\"></td>\n";
 		// DELETE
 		echo "<td><img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-		echo "src=\""._JX_URL."/images/_delete_.gif\" alt=\"".$GLOBALS["messages"]["dellink"]."\" title=\"";
+		echo "src=\""._QUIXPLORER_URL."/images/_delete_.gif\" alt=\"".$GLOBALS["messages"]["dellink"]."\" title=\"";
 		echo $GLOBALS["messages"]["dellink"]."\"></td>\n";
 		// UPLOAD
 		echo "<td><img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-		echo "src=\""._JX_URL."/images/_upload_.gif\" alt=\"".$GLOBALS["messages"]["uplink"];
+		echo "src=\""._QUIXPLORER_URL."/images/_upload_.gif\" alt=\"".$GLOBALS["messages"]["uplink"];
 		echo "\" title=\"".$GLOBALS["messages"]["uplink"]."\"></td>\n";
 	}
 
@@ -337,20 +337,20 @@ function list_dir($dir) {			// list directory contents
 		if($admin) {
 			echo "<td><a href=\"".make_link("admin",$dir,NULL)."\">";
 			echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-			echo "src=\""._JX_URL."/images/_admin.gif\" alt=\"".$GLOBALS["messages"]["adminlink"]."\" title=\"";
+			echo "src=\""._QUIXPLORER_URL."/images/_admin.gif\" alt=\"".$GLOBALS["messages"]["adminlink"]."\" title=\"";
 			echo $GLOBALS["messages"]["adminlink"]."\"></A></td>\n";
 		}
 		// LOGOUT
 		echo "<td><a href=\"".make_link("logout",NULL,NULL)."\">";
 		echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
-		echo "src=\""._JX_URL."/images/_logout.gif\" alt=\"".$GLOBALS["messages"]["logoutlink"]."\" title=\"";
+		echo "src=\""._QUIXPLORER_URL."/images/_logout.gif\" alt=\"".$GLOBALS["messages"]["logoutlink"]."\" title=\"";
 		echo $GLOBALS["messages"]["logoutlink"]."\"></a></td>\n";
 	}
 	// Logo
 	echo "<td style=\"padding-left:10px;\">";
 	//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
 	echo "<a href=\"".$GLOBALS['jx_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\"><img border=\"0\" align=\"absmiddle\" id=\"jx_logo\" style=\"filter:alpha(opacity=10);-moz-opacity:.10;opacity:.10;\" onmouseover=\"opacity('jx_logo', 60, 99, 500);\" onmouseout=\"opacity('jx_logo', 100, 60, 500);\" ";
-	echo "src=\""._JX_URL."/images/logo.gif\" align=\"right\" alt=\"" . $GLOBALS['messages']['logolink'] . "\"></a>";
+	echo "src=\""._QUIXPLORER_URL."/images/logo.gif\" align=\"right\" alt=\"" . $GLOBALS['messages']['logolink'] . "\"></a>";
 	//echo "</div>";
 	echo "</td>\n";
 	

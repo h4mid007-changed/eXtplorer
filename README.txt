@@ -1,39 +1,17 @@
 ----------------------------------------------------------------------------------------------------
-joomlaXplorer 2.0.0 - README
+joomlaXplorer 1.6.0 - README
 ----------------------------------------------------------------------------------------------------
-
-Requirements:
--------------------
-* PHP > 4.3
-* Joomla! >= 1.0.0
-* Mambo >= 4.5 1.0.9
-
-Supported Browsers:
--------------------
-* Internet Explorer >= 6.0
-* Firefox >= 1.5
-
-Opera should work - except Context Menus and Dialogs.
-Safari and Konqueror are untested.
-
-
+This script is based on QuiXplorer 2.3.1 (available at http://quixplorer.sourceforge.net/).
+This is a Component for Joomla 1.0.x, 1.5.x and Mambo (all versions from 4.5.0 )!
+----------------------------------------------------------------------------------------------------
 Installation:
--------------------
-	1. Download the latest version of joomlaXplorer from http://joomlacode.org/gf/project/joomlaxplorer/.
+	1. Download the latest version of joomlaXplorer from http://forge.joomla.net/projects/joomlaXplorer/.
 	2. Login to Joomla!'s Administration Backend /administrator
 	3. Go to Components, Install/Uninstall.
 	4. Browse to the local com_joomlaXplorer_xx.tar.gz file and click on Upload File & Install.
 	
   Done.
   You can now access joomlaXplorer through "Components" => "joomlaXplorer"
-
-
-Credits:
---------------------
-joomlaXplorer is based on QuiXplorer 2.3.1 (available at http://quixplorer.sourceforge.net/).
-
-joomlaXplorer makes use of the fabulous ExtJS Javascript Library by Jack Slocum, Ext JS, LCC (http://extjs.com/)
-
 
 ----------------------------------------------------------------------------------------------------
 Changes to the original script:
@@ -52,7 +30,7 @@ Security
 
 Layout
   * modified "styles/style.css" to comply with Joomla!'s admin.css
-  * implemented ExtJS Layout Control
+  * changed icons from 16x16 to 22x22 and from .gif to .png
 ----------------------------------------------------------------------------------------------------
 Facts, you should know of:
 * If you're running in trouble, because you don't have permissions to chmod() or
@@ -108,4 +86,6 @@ Languages:
 ----------------------------------------------------------------------------------------------------
 adapted for Joomla!: 	Soeren Eberhardt <soeren@virtuemart.net>
 original author:	the QuiX project
+e-mail:				quix@free.fr
+www:				http://www.quix.tk, http://quixplorer.sourceforge.net
 ----------------------------------------------------------------------------------------------------

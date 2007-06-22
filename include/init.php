@@ -1,5 +1,5 @@
 <?php
-// ensure this file is being included by a parent file
+/** ensure this file is being included by a parent file */
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
@@ -66,13 +66,20 @@ if( !empty( $GLOBALS['__POST']["selitems"] )) {
 }
 
 // Get Sort
-$GLOBALS["order"]=mosGetParam( $_REQUEST, 'order', 'name');
-// Get Sortorder
-$GLOBALS["direction"]=mosGetParam( $_REQUEST, 'direction', 'ASC');
-$GLOBALS["start"]=mosGetParam( $_REQUEST, 'start', 0);
-$GLOBALS["limit"]=mosGetParam( $_REQUEST, 'limit', 50);
+if(isset($GLOBALS['__GET']["order"])) 
+  $GLOBALS["order"]=stripslashes($GLOBALS['__GET']["order"]);
+else 
+  $GLOBALS["order"]="name";
+if($GLOBALS["order"]=="") 
+  $GLOBALS["order"]=="name";
 
-
+// Get Sortorder (yes==up)
+if(isset($GLOBALS['__GET']["srt"])) 
+  $GLOBALS["srt"]=stripslashes($GLOBALS['__GET']["srt"]);
+else 
+  $GLOBALS["srt"]="yes";
+if($GLOBALS["srt"]=="") 
+  $GLOBALS["srt"]=="yes";
 // Get Language
 if(isset($GLOBALS['__GET']["lang"])) 
   $GLOBALS["lang"]=$GLOBALS["language"]=$GLOBALS['__GET']["lang"];
@@ -103,29 +110,26 @@ else {
 
 // Necessary files
 
-require _JX_PATH."/config/conf.php";
-if( file_exists(_JX_PATH."/languages/".$GLOBALS["language"].".php")) {
-	require _JX_PATH."/languages/".$GLOBALS["language"].".php";
+require _QUIXPLORER_PATH."/config/conf.php";
+if( file_exists(_QUIXPLORER_PATH."/languages/".$GLOBALS["language"].".php")) {
+	require _QUIXPLORER_PATH."/languages/".$GLOBALS["language"].".php";
 }
 else {
-	require _JX_PATH."/languages/english.php";
+	require _QUIXPLORER_PATH."/languages/english.php";
 }
-if( file_exists(_JX_PATH."/languages/".$GLOBALS["language"]."_mimes.php")) {
-	require _JX_PATH."/languages/".$GLOBALS["language"]."_mimes.php";
+if( file_exists(_QUIXPLORER_PATH."/languages/".$GLOBALS["language"]."_mimes.php")) {
+	require _QUIXPLORER_PATH."/languages/".$GLOBALS["language"]."_mimes.php";
 }
 else {
-	require _JX_PATH."/languages/english_mimes.php";
+	require _QUIXPLORER_PATH."/languages/english_mimes.php";
 }
 
-require _JX_PATH . '/application.php';
-require _JX_PATH."/config/mimes.php";
-
-require _JX_PATH . '/libraries/JSON.php';
-require _JX_PATH."/libraries/File_Operations.php";
-require _JX_PATH."/include/functions.php";
-require _JX_PATH."/include/header.php";
-require _JX_PATH."/include/footer.php";
-require _JX_PATH."/include/result.class.php";
+require _QUIXPLORER_PATH."/config/mimes.php";
+require _QUIXPLORER_PATH."/libraries/File_Operations.php";
+require _QUIXPLORER_PATH."/include/fun_extra.php";
+require _QUIXPLORER_PATH."/include/header.php";
+require _QUIXPLORER_PATH."/include/footer.php";
+require _QUIXPLORER_PATH."/include/error.php";
 
 
 //------------------------------------------------------------------------------
@@ -163,7 +167,7 @@ if( jx_isFTPMode() ) {
 //------------------------------------------------------------------------------
 if($GLOBALS["require_login"]) {	// LOGIN
 
-	require _JX_PATH."/include/login.php";
+	require _QUIXPLORER_PATH."/include/login.php";
 	
 	if($GLOBALS["action"]=="logout") {
 		logout();
@@ -201,15 +205,13 @@ if(!file_exists($GLOBALS["home_dir"])) {
 			$GLOBALS["messages"]["btnlogout"]."</A>";
 	} 
 	else $extra=NULL;
-	jx_Result::sendResult('', false, $GLOBALS["error_msg"]["home"]." (".$GLOBALS["home_dir"].")",$extra);
+	show_error($GLOBALS["error_msg"]["home"]." (".$GLOBALS["home_dir"].")",$extra);
   }
 }
-if(!down_home($abs_dir)) {
-	jx_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
-}
+if(!down_home($abs_dir)) show_error($GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
 if(!get_is_dir($abs_dir))
   if(!get_is_dir($abs_dir.$GLOBALS["separator"]))
-	jx_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
+	show_error($abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
 	
 $_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = $dir;
 //------------------------------------------------------------------------------

@@ -1,21 +1,17 @@
-****************************
-Changelog for joomlaXplorer
-Version $Id: $
-****************************
+*********************************
+Changelog for joomlaXplorer 1.x
+*********************************
 
-- added new jx_Lang class to be able to escape quotes and line endings for using it in JavaScript Strings
-- fixed node context menu displaying outside of view
-- added the fetchscript.php file to bundle and compress javascript and stylesheet files
-  Sending compressed js and css files significantly reduces the download size for ExtJS
 
---- version 2.0.0 beta1 released ----
-
+- update to MooTools 1.11
+- fixed Frontend File Browsing (nearly blank screen, just table headers)
 - fixed the "symlink points to target which can't be accessed" problem
 - fixed "out of memory" problems
 - directory names changed (no directories starting with a '.' anymore now)
-- completely changed layout: directory tree, file grid with renaming, context menu, drag&drop
-- added the ExtJS 1.0.1a library
-
+- updated CodePress to version 0.9.5.
+- reintroduced the direct file link (very helpful for viewing images) for those directories which are located inside the Joomla! installation joomlaXplorer is used in
+- using correct encoding (urlencode) now for file links, so files with special characters can be modified, deleted or downloaded as well
+- fixed the "...foreach..." error in the "show_error" page
 
 --- version 1.6.0 released ----
 

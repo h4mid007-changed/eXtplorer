@@ -1,5 +1,5 @@
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.org/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
  * 
  * Copyright (C) 2007 Fernando M.A.d.S. <fermads@gmail.com>
  *
@@ -15,20 +15,21 @@
 
 
 CodePress = {
+	language : null,
 	scrolling : false,
-	autocomplete : true,
 
 	// set initial vars and start sh
 	initialize : function() {
-		if(typeof(editor)=='undefined' && !arguments[0]) return;
+		if(typeof(editor)=='undefined'&&!arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
-		editor = document.getElementsByTagName('body')[0];
+		editor = document.getElementById('code');
 		document.designMode = 'on';
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCompleteChars();
-//		CodePress.syntaxHighlight('init');
+		parent.CodePress.initialize();
+		this.language = parent.CodePress.language;
 	},
 
 	// treat key bindings
@@ -39,7 +40,7 @@ CodePress = {
 		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			CodePress.shortcuts(charCode?charCode:keyCode);
 		}
-		else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && CodePress.autocomplete) { // auto complete
+		else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
 			CodePress.complete(String.fromCharCode(charCode));
 		}
 	    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
@@ -55,13 +56,9 @@ CodePress = {
 			(charCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
 			evt.preventDefault();
 		}
-		else if(charCode==118 && evt.ctrlKey)  { // handle paste
-		 	top.setTimeout(function(){CodePress.syntaxHighlight('generic');},100);
+		else if(keyCode==86 && evt.ctrlKey)  { // paste
+			// TODO: pasted text should be parsed and highlighted
 		}
-		else if(charCode==99 && evt.ctrlKey)  { // handle cut
-		 	//alert(window.getSelection().getRangeAt(0).toString().replace(/\t/g,'FFF'));
-		}
-
 	},
 
 	// put cursor back to its original position after every parsing
@@ -89,7 +86,7 @@ CodePress = {
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
-		//if(document.designMode=='off') document.designMode='on'
+		if(document.designMode=='off') document.designMode='on'
 		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
 
 		o = editor.innerHTML;
@@ -103,15 +100,14 @@ CodePress = {
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
-		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x); 
+		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.replace(z,x);
 		if(flag!='init') this.findString();
 	},
-	
+
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
-		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
-		words = words.replace(/[\s\n\r\);\W]/g,'\n').split('\n');
-		return words[words.length-1].replace(/[\W]/gi,'').toLowerCase();
+		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
+		return words[words.length-1].replace(/_/g,'');
 	},
 	
 	snippets : function(evt) {
@@ -124,15 +120,11 @@ CodePress = {
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
 				content = content.replace(/\n/g,'<br>');
-				var pattern = new RegExp(trigger+cc,'gi');
+				var pattern = new RegExp(trigger+cc,"g");
 				evt.preventDefault(); // prevent the tab key from being added
 				this.syntaxHighlight('snippets',pattern,content);
 			}
 		}
-	},
-	
-	readOnly : function() {
-		document.designMode = (arguments[0]) ? 'off' : 'on';
 	},
 
 	complete : function(trigger) {
@@ -188,28 +180,6 @@ CodePress = {
 		selct.removeAllRanges();
 		selct.addRange(range2);
 	},
-	
-	// get code from editor
-	getCode : function() {
-		var code = editor.innerHTML;
-		code = code.replace(/<br>/g,'\n');
-		code = code.replace(/\u2009/g,'');
-		code = code.replace(/<.*?>/g,'');
-		code = code.replace(/&lt;/g,'<');
-		code = code.replace(/&gt;/g,'>');
-		code = code.replace(/&amp;/gi,'&');
-		return code;
-	},
-
-	// put code inside editor
-	setCode : function() {
-		var code = arguments[0];
-		code = code.replace(/\u2009/gi,'');
-		code = code.replace(/&/gi,'&amp;');
-       	code = code.replace(/</g,'&lt;');
-        code = code.replace(/>/g,'&gt;');
-		editor.innerHTML = code;
-	},
 
 	// undo and redo methods
 	actions : {
@@ -243,3 +213,4 @@ CodePress = {
 
 Language={};
 window.addEventListener('load', function() { CodePress.initialize('new'); }, true);
+//parent.window.addEventListener('resize', function() { parent.CodePress.resizeFullScreen(); }, true);

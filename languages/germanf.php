@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id:germanf.php 13 2007-05-13 07:10:43Z soeren $
+* @version $Id$
 * @package joomlaXplorer
 * @copyright (C) 2005 Quix project, Soeren
 * @license http://www.mozilla.org/MPL/
@@ -66,8 +66,8 @@ $GLOBALS["error_msg"] = array(
 	"miscfilepart"		=> "Datei wurde nur zum Teil hochgeladen.",
 	"miscnoname"		=> "Sie m&uuml;ssen einen Namen eintragen",
 	"miscselitems"		=> "Sie haben keine Objekt(e) ausgewählt.",
-	"miscdelitems"		=> "Sollen die {0} markierten Objekt(e) gelöscht werden?",
-	"miscdeluser"		=> "Soll der Benutzer {0} gel&ouml;scht werden?",
+	"miscdelitems"		=> "Sollen die \"+num+\" markierten Objekt(e) gelöscht werden?",
+	"miscdeluser"		=> "Soll der Benutzer '\"+user+\"' gel&ouml;scht werden?",
 	"miscnopassdiff"	=> "Das neue und das heutige Passwort sind nicht verschieden.",
 	"miscnopassmatch"	=> "Passw&ouml;rter sind nicht gleich.",
 	"miscfieldmissed"	=> "Sie haben ein wichtiges Eingabefeld vergessen auszuf&uuml;llen",

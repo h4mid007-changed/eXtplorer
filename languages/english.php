@@ -1,5 +1,5 @@
 <?php
-// $Id: $
+
 // English Language Module for v2.3 (translated by the QuiX project)
 global $_VERSION;
 
@@ -8,8 +8,8 @@ $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to le
 $GLOBALS["date_fmt"] = "Y/m/d H:i";
 $GLOBALS["error_msg"] = array(
 	// error
-	"error"			=> "Error(s)",
-	"message"			=> "Message(s)",
+	"error"			=> "ERROR(S)",
+	"message"			=> "MESSAGE(S)",
 	"back"			=> "Go Back",
 
 	// root
@@ -39,7 +39,7 @@ $GLOBALS["error_msg"] = array(
 
 	// actions
 	"permread"		=> "Getting permissions failed.",
-	"permchange"		=> "CHMOD Failure (mostly this is because of a file ownership problem - e.g. if the HTTP user ('wwwrun' or 'nobody') and the FTP user are not the same)",
+	"permchange"		=> "CHMOD Failure:",
 	"openfile"		=> "File opening failed.",
 	"savefile"		=> "File saving failed.",
 	"createfile"		=> "File creation failed.",
@@ -60,8 +60,8 @@ $GLOBALS["error_msg"] = array(
 	"miscfilepart"		=> "File was only partially uploaded.",
 	"miscnoname"		=> "You must supply a name.",
 	"miscselitems"		=> "You haven't selected any item(s).",
-	"miscdelitems"		=> "Are you sure you want to delete these {0} item(s)?",
-	"miscdeluser"		=> "Are you sure you want to delete user {0}'?",
+	"miscdelitems"		=> "Are you sure you want to delete these \"+num+\" item(s)?",
+	"miscdeluser"		=> "Are you sure you want to delete user '\"+user+\"'?",
 	"miscnopassdiff"	=> "New password doesn't differ from current.",
 	"miscnopassmatch"	=> "Passwords don't match.",
 	"miscfieldmissed"	=> "You missed an important field.",
@@ -74,20 +74,20 @@ $GLOBALS["error_msg"] = array(
 );
 $GLOBALS["messages"] = array(
 	// links
-	"permlink"		=> "Change Permissions",
-	"editlink"		=> "Edit",
-	"downlink"		=> "Download",
-	"uplink"		=> "Up",
-	"homelink"		=> "Home",
-	"reloadlink"		=> "Reload",
-	"copylink"		=> "Copy",
-	"movelink"		=> "Move",
-	"dellink"		=> "Delete",
-	"comprlink"		=> "Archive",
-	"adminlink"		=> "Admin",
-	"logoutlink"		=> "Logout",
-	"uploadlink"		=> "Upload",
-	"searchlink"		=> "Search",
+	"permlink"		=> "CHANGE PERMISSIONS",
+	"editlink"		=> "EDIT",
+	"downlink"		=> "DOWNLOAD",
+	"uplink"		=> "UP",
+	"homelink"		=> "HOME",
+	"reloadlink"		=> "RELOAD",
+	"copylink"		=> "COPY",
+	"movelink"		=> "MOVE",
+	"dellink"		=> "DELETE",
+	"comprlink"		=> "ARCHIVE",
+	"adminlink"		=> "ADMIN",
+	"logoutlink"		=> "LOGOUT",
+	"uploadlink"		=> "UPLOAD",
+	"searchlink"		=> "SEARCH",
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'Change (chmod) Rights (Folder/File(s))', // new mic
 	'mossysinfolink'	=> $_VERSION->PRODUCT.' System Information ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
@@ -120,7 +120,7 @@ $GLOBALS["messages"] = array(
 	"btnremove"		=> "Remove",
 	
 	// user messages, new in joomlaXplorer 1.3.0
-	'renamelink'	=> 'Rename',
+	'renamelink'	=> 'RENAME',
 	'confirm_delete_file' => 'Are you sure you want to delete this file? \\n%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',
 	'success_rename_file' => 'The directory/file %s was successfully renamed to %s.',
@@ -273,8 +273,6 @@ $GLOBALS["messages"] = array(
 	'archive_saveToDir' 	=> 'Save the Archive in this directory',
 	
 	'editor_simple'	=> 'Simple Editor Mode',
-	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode',
-
-	'newlink'	=> 'New File/Directory'
+	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode'
 );
 ?>

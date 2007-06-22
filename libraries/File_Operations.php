@@ -386,7 +386,7 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 		$tmp_dir = _QUIXPLORER_FTPTMP_PATH.'/'.uniqid('jx_tmpdir_').'/';
 		$res = $GLOBALS['FTPCONNECTION']->getRecursive( $abs_item, $tmp_dir, true );
 		if( PEAR::isError( $res )) {
-			jx_Result::sendResult( 'list', false, 'Failed to fetch the directory via FTP: '.$res->getMessage() );
+			show_error('Failed to fetch the directory via FTP: '.$res->getMessage() );
 		}
 		return $tmp_dir;
 	}
@@ -395,11 +395,11 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 		$tmp_file = tempnam( _QUIXPLORER_FTPTMP_PATH, 'jx_ftp_dl_' );
 	
 		if( $tmp_file == 'false') {
-			jx_Result::sendResult( 'list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
+			show_error( 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
 		}
 		$res = $GLOBALS['FTPCONNECTION']->get( '/'.$abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {
-			jx_Result::sendResult( 'list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
+			show_error('Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
 		}
 	}
 	else {
@@ -407,7 +407,7 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 	
 		$res = $GLOBALS['FTPCONNECTION']->fget( '/'.$abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {
-			jx_Result::sendResult( 'list', false, 'Failed to fetch the file via FTP: '.$res->getMessage() );
+			show_error('Failed to fetch the file via FTP: '.$res->getMessage() );
 		}
 		rewind( $tmp_file );
 	}
@@ -425,7 +425,7 @@ function &getCachedFTPListing( $dir, $force_refresh=false ) {
 		}
 		$GLOBALS['ftp_ls'][$dir] = $GLOBALS['FTPCONNECTION']->ls( $dir );
 		if( PEAR::isError( $GLOBALS['ftp_ls'][$dir] )) {
-			jx_Result::sendResult( 'list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
+			show_error( $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
 		}
 	}
 	return $GLOBALS['ftp_ls'][$dir];

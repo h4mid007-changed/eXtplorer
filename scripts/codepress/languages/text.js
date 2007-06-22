@@ -2,7 +2,7 @@
  * CodePress regular expressions for Text syntax highlighting
  */
 
-// plain text
+// do nothing, as expected 
 Language.syntax = []
 Language.snippets = []
 Language.complete = []
