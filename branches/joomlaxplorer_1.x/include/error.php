@@ -1,6 +1,6 @@
 <?php
 /** ensure this file is being included by a parent file */
-if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 /*------------------------------------------------------------------------------
      The contents of this file are subject to the Mozilla Public License
      Version 1.1 (the "License"); you may not use this file except in
@@ -47,11 +47,10 @@ function empty_messages() {
 	$_SESSION['jx_message'] = array();
 }
 function count_messages() {
-	
-	if( empty($_SESSION['jx_message'])) {
+	$count = 0;
+	if( empty( $_SESSION['jx_message'] )) {
 		return 0;
 	}
-	$count = 0;
 	foreach( $_SESSION['jx_message'] as $type ) {
 		if( !empty( $type ) && is_array( $type )) {
 			$count += sizeof( $type );
@@ -67,6 +66,10 @@ function empty_errors() {
 }
 function count_errors() {
 	$count = 0;
+	
+	if( empty( $_SESSION['jx_error'] )) {
+		return 0;
+	}
 	foreach( $_SESSION['jx_error'] as $type ) {
 		if( !empty( $type ) && is_array( $type )) {
 			$count += sizeof( $type );
@@ -88,10 +91,15 @@ function show_error($error,$extra=NULL) {		// show error-message
 	}
 	else {
 		show_header($GLOBALS["error_msg"]["error"]);
-		
+		$errors = count_errors();
+		$messages = count_messages();
 		echo '<div class="quote">';
-		echo '<a href="#errors">'.count_errors() .' '.$GLOBALS["error_msg"]["error"].'</a>, ';
-		echo '<a href="#messages">'.count_messages() .' '.$GLOBALS["error_msg"]["message"].'</a><br />';
+		if( $errors ) {
+			echo '<a href="#errors">'. $errors.' '.$GLOBALS["error_msg"]["error"].'</a><br />';
+		}
+		if( $messages ) {
+			echo '<a href="#messages">'.$messages .' '.$GLOBALS["error_msg"]["message"].'</a><br />';
+		}
 		echo "</div>\n";
 		
 		if( !empty( $_SESSION['jx_message'])) {
