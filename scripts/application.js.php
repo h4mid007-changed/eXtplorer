@@ -111,9 +111,6 @@ function jx_init(){
            dataIndex: 'name',
            width: 250,
            renderer: renderFileName,
-	   		editor: new Ext.grid.GridEditor(new Ext.form.TextField({
-               allowBlank: false
-           })),
            css: 'white-space:normal;'
         },{
            header: "<?php echo jx_Lang::msg('sizeheader', true ) ?>",
@@ -153,28 +150,16 @@ function jx_init(){
     cm.defaultSortable = true;
 
     // create the editor grid
-    jx_itemgrid = new Ext.grid.EditorGrid('item-grid', {
+    jx_itemgrid = new Ext.grid.Grid('item-grid', {
         ds: datastore,
         cm: cm,
         ddGroup : 'TreeDD',
         enableDragDrop: true,
         selModel: new Ext.grid.RowSelectionModel(),
-        //loadMask: true,
+        loadMask: true,
         enableColLock:false
         
     });
-	jx_itemgrid.on('afteredit', function(e) {
-									if( e.value == e.originalValue ) return true;
-									var requestParams = getRequestParams();
-									requestParams.newitemname = e.value;
-									requestParams.item = e.originalValue ;
-									
-									requestParams.confirm = 'true';
-									requestParams.action = 'rename';
-									handleCallback(requestParams);
-									return true;
-								}	
-					);
     
 	var gsm = jx_itemgrid.getSelectionModel();
     gsm.on('rowselect', handleRowClick );
@@ -395,6 +380,22 @@ function jx_init(){
 	    ddGroup : 'TreeDD'
     });
     dirTree.on('contextmenu', dirContext );
+
+	dirTree.on('textchange', function(node, text, oldText) {
+						if( text == oldText ) return true;
+						var requestParams = getRequestParams();
+						var dir = node.parentNode.id.replace( /_RRR_/g, '/' );
+						if( dir == 'jx_root' ) dir = '';
+						requestParams.dir = dir;
+						requestParams.newitemname = text;
+						requestParams.item = oldText;
+						
+						requestParams.confirm = 'true';
+						requestParams.action = 'rename';
+						handleCallback(requestParams);
+						return true;
+					}	
+				);
     /*
     dirTree.loader.on('load', function(loader, o, response ) {
     									if( response && response.responseText ) {
