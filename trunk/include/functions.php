@@ -393,7 +393,7 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 	elseif(@is_dir($item)) {
 		if(($handle=@opendir($item))===false) {
 			
-			add_error(basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
+			jx_Result::add_error(basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
 			return false; 
 		}
 
@@ -402,17 +402,17 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 			
 			$new_item = $item."/".$file;
 			if(!@file_exists($new_item)) {
-				add_error(basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
+				jx_Result::add_error(basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
 				continue; 
 			}
 			//if(!get_show_item($item, $new_item)) continue;
 			
 			if(@is_dir($new_item)) {
 				$ok=chmod_recursive($new_item, $mode);
-				if($ok) add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+				if($ok) jx_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
 			} else {
 				$ok=@chmod($new_item, $mode);
-				if($ok) add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+				if($ok) jx_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
 			}
 		}
 		closedir($handle);
@@ -426,7 +426,7 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 			$mode = bindec( $bin ); 
 		}
 		$ok=@chmod( $item, $mode );
-		if($ok) add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+		if($ok) jx_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
 	}
 	return $ok;
 }
