@@ -42,8 +42,6 @@ class jx_Edit extends jx_Action {
 	function execAction($dir, $item) {		// edit file
 		global $mainframe, $mosConfig_live_site;
 		
-		$editor_mode = mosGetParam($_REQUEST,'editor_mode', 'simple');
-		
 		if(($GLOBALS["permissions"]&01)!=01) {
 			jx_Result::sendResult('edit', false, jx_Lang::err('accessfunc' ));
 		}
