@@ -713,11 +713,15 @@ function jx_init(){
 	* It updates the tree, the grid and the ContentPanel title
 	*/
     chDir = function( directory ) {
-    	if( datastore.directory == directory ) {
+   
+    	if( datastore.directory.replace( /\//g, '' ) == directory.replace( /\//g, '' ) ) {
     		return;
     	}
     	datastore.directory = directory;
-    	datastore.load({params:{start:0, limit:50, dir: directory, option:'com_joomlaxplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
+    	var conn = datastore.proxy.getConnection();
+    	if( conn && !conn.isLoading() ) {
+    		datastore.load({params:{start:0, limit:50, dir: directory, option:'com_joomlaxplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
+    	}
 		 new Ext.data.Connection().request({
 			url: 'index2.php',
 			params: { action:'chdir_event', dir: directory, option: 'com_joomlaxplorer' },
