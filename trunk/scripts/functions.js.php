@@ -186,6 +186,7 @@ function handleCallback(requestParams, node) {
 			else {
 				Ext.Msg.alert( 'Error', 'Failed to connect to the server.');
 			}
+			
 		}
 	});
 }
