@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <mosinstall type="component">
     <name>joomlaXplorer</name>
-    <creationDate>23.06.2007</creationDate>
+    <creationDate>26.06.2007</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren@virtuemart.net</authorEmail>

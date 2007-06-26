@@ -483,12 +483,6 @@ function jx_init(){
     		handler: function() { openActionDialog(this, 'edit'); }
     	},
     	{
-    		id: 'gc_delete',
-    		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
-    		text: '<?php echo jx_Lang::msg('dellink', true ) ?>',
-    		handler: function() { openActionDialog(this, 'delete'); }
-    	},
-    	{
     		id: 'gc_rename',
     		icon: '<?php echo _JX_URL ?>/images/fonts.png',
     		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
@@ -499,6 +493,12 @@ function jx_init(){
     		icon: '<?php echo _JX_URL ?>/images/chmod.png',
     		text: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'chmod'); }
+    	},
+    	{
+    		id: 'gc_delete',
+    		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
+    		text: '<?php echo jx_Lang::msg('dellink', true ) ?>',
+    		handler: function() { openActionDialog(this, 'delete'); }
     	},
     	'-',
     	{
