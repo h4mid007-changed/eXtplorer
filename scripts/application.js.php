@@ -105,12 +105,17 @@ function jx_init(){
     // the column model has information about grid columns
     // dataIndex maps the column to the specific data field in
     // the data store
+    var gridEditor = new Ext.grid.GridEditor(new Ext.form.TextField({
+               									allowBlank: false
+           									})
+           					);
     var cm = new Ext.grid.ColumnModel([{
            id: 'name', // id assigned so we can apply custom css (e.g. .x-grid-col-topic b { color:#333 })
            header: "<?php echo jx_Lang::msg('nameheader', true ) ?>",
            dataIndex: 'name',
            width: 250,
            renderer: renderFileName,
+           editor: gridEditor,
            css: 'white-space:normal;'
         },{
            header: "<?php echo jx_Lang::msg('sizeheader', true ) ?>",
@@ -150,7 +155,7 @@ function jx_init(){
     cm.defaultSortable = true;
 
     // create the editor grid
-    jx_itemgrid = new Ext.grid.Grid('item-grid', {
+    jx_itemgrid = new Ext.grid.EditorGrid('item-grid', {
         ds: datastore,
         cm: cm,
         ddGroup : 'TreeDD',
@@ -165,6 +170,23 @@ function jx_init(){
     gsm.on('rowselect', handleRowClick );
     gsm.on('selectionchange', handleRowClick );
     jx_itemgrid.on('rowcontextmenu', rowContextMenu);
+    jx_itemgrid.on('rowdblclick', rowContextMenu);
+    jx_itemgrid.on('celldblclick', rowContextMenu);
+    jx_itemgrid.on('validateedit', function(e) {
+						if( e.value == e.originalValue ) return true;
+						var requestParams = getRequestParams();
+						requestParams.newitemname = e.value;
+						requestParams.item = e.originalValue;
+						
+						requestParams.confirm = 'true';
+						requestParams.action = 'rename';
+						handleCallback(requestParams);
+						return true;
+					}	
+				);
+    
+    // Unregister the default double click action (which makes the name field editable - we want this when the user clicks "Rename" in the menu)
+    jx_itemgrid.un('celldblclick', jx_itemgrid.onCellDblClick);
     
     function handleRowClick(sm, rowIndex) {
     	var selections = sm.getSelections();
@@ -393,6 +415,7 @@ function jx_init(){
 						requestParams.confirm = 'true';
 						requestParams.action = 'rename';
 						handleCallback(requestParams);
+						jx_itemgrid.stopEditing();
 						return true;
 					}	
 				);
@@ -420,8 +443,13 @@ function jx_init(){
         selectOnFocus:true
     });
     
-    function rowContextMenu(grid, rowIndex, e) {
-    	e.preventDefault();
+    function rowContextMenu(grid, rowIndex, e, f) {
+    	if( typeof e == 'object') {
+    		e.preventDefault();
+    	} else {
+    		e = f;
+    	}
+    	gsm.clickedRow = rowIndex;
     	var selections = gsm.getSelections();
     	if( selections.length > 1 ) {
     		gridCtxMenu.items.get('gc_edit').disable();
@@ -464,7 +492,7 @@ function jx_init(){
     		id: 'gc_rename',
     		icon: '<?php echo _JX_URL ?>/images/fonts.png',
     		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
-    		handler: function() { openActionDialog(this, 'rename'); }
+    		handler: function() { jx_itemgrid.onCellDblClick( jx_itemgrid, gsm.clickedRow, 0 ); gsm.clickedRow = null; }
     	},
     	{
     		id: 'gc_chmod',
