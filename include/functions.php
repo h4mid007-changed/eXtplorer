@@ -335,7 +335,7 @@ function copy_dir($source,$dest) {		// copy dir
 	
 	if(!@mkdir($dest,0777)) return false;
 	$itemlist = mosReadDirectory( $source, '.', true, true );
-	if( empty( $itemlist )) return false;
+	if( empty( $itemlist )) return true;
 	
 	foreach( $itemlist as $file ) {
 		if(($file==".." || $file==".")) continue;

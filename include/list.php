@@ -194,7 +194,18 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 	$items['totalCount'] = count($list);
 	$items['items'] = array();
 	$dirlist = array();
-	$list = array_slice( $list, $GLOBALS['start'], $GLOBALS['limit']);
+	
+	// Replaced array_splice, because it resets numeric indexes (like files or dirs with a numeric name)
+	// Here we reduce the list to the range of $limit beginning at $start 
+	$a = 0;
+	foreach( $list as $key => $value ) {
+		if( $a >= $GLOBALS['start'] && ($a - $GLOBALS['start'] < $GLOBALS['limit'] )) {
+			$output_array[$key] = $value;
+		}
+		$a++;
+	}
+	$list = $output_array;
+	
 	while(list($item,$info) = each($list)) {
 		// link to dir / file
 		if( is_array( $info )) {
@@ -303,7 +314,7 @@ class jx_List extends jx_Action {
 			.'&amp;subdir[2]=scripts/extjs/&amp;file[2]=ext-yui-adapter.js'
 			.'&amp;subdir[3]=scripts/extjs/&amp;file[3]=ext-all.js&amp;gzip='.$GLOBALS['mosConfig_gzip'].'"></script>
 		<script type="text/javascript" src="'. $mosConfig_live_site .'/administrator/index2.php?option=com_joomlaxplorer&amp;action=include_javascript&amp;file=functions.js"></script>	
-		<link rel="stylesheet" href="'. _JX_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=ytheme-aero.css&amp;gzip='.$GLOBALS['mosConfig_gzip'].'" />');
+		<link rel="stylesheet" href="'. _JX_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip='.$GLOBALS['mosConfig_gzip'].'" />');
 		?>
 		<div id="dirtree"></div>
 	<div id="dirtree-panel"></div>

@@ -270,6 +270,8 @@ $GLOBALS["messages"] = array(
 	'archive_saveToDir' 	=> 'Speichere das Archiv in foldendem Verzeichnis',
 	
 	'editor_simple'	=> 'Einfacher Editormodus',
-	'editor_syntaxhighlight'	=> 'Syntax-Hervorhebungsmodus'
+	'editor_syntaxhighlight'	=> 'Syntax-Hervorhebungsmodus',
+
+	'newlink'	=> 'New File/Directory'
 );
 ?>

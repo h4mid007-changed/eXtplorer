@@ -271,6 +271,8 @@ $GLOBALS["messages"] = array(
 	'archive_saveToDir' 	=> 'Save the Archive in this directory',
 	
 	'editor_simple'	=> 'Simple Editor Mode',
-	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode'
+	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode',
+
+	'newlink'	=> 'New File/Directory'
 );
 ?>
