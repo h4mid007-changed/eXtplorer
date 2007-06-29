@@ -395,6 +395,7 @@ function jx_init(){
 	    //rootVisible: false,
 	    loader: new Ext.tree.TreeLoader({
 	        dataUrl:'index2.php',
+	        requestMethod: 'GET',
 	        baseParams: {option:'com_joomlaxplorer', action:'getdircontents', dir: '',sendWhat: 'dirs'} // custom http params
 	    }),
 	    containerScroll: true,
@@ -714,7 +715,9 @@ function jx_init(){
 	*/
     chDir = function( directory ) {
    
-    	if( datastore.directory.replace( /\//g, '' ) == directory.replace( /\//g, '' ) ) {
+    	if( datastore.directory.replace( /\//g, '' ) == directory.replace( /\//g, '' )
+    		&& datastore.getTotalCount() > 0 ) {
+    		// Prevent double loading
     		return;
     	}
     	datastore.directory = directory;
