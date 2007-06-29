@@ -3,6 +3,10 @@ Changelog for joomlaXplorer
 Version $Id: $
 ****************************
 
+- fixed a critical error which caused deletion of directories although "Cancel" was clicked
+- fixed an error which prevented correct listing of numeric directories/files
+
+--- version 2.0.0 beta2 released ----
 - added double-click action which opens the Context Menu in the grid (Opera and Konqueror don't allow custom right-click menus)
 - applied patches to ExtJS to allow usage with Konqueror
 - added new jx_Lang class to be able to escape quotes and line endings for using it in JavaScript Strings

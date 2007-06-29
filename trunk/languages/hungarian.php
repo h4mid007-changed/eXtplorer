@@ -273,6 +273,8 @@ $GLOBALS["messages"] = array(
 	'archive_saveToDir' 	=> 'Az archívum mentése a könyvtárban',
 	
 	'editor_simple'	=> 'Egyszerû szerkesztõ mód',
-	'editor_syntaxhighlight'	=> 'Szintaxis-kiemeléses mód'
+	'editor_syntaxhighlight'	=> 'Szintaxis-kiemeléses mód',
+
+	'newlink'	=> 'New File/Directory'
 );
 ?>

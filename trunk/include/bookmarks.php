@@ -131,7 +131,7 @@ function list_bookmarks( $dir ) {
 	if( @$dir[0] == '/' ) {
 		$dir = substr( $dir, 1);
 	}
-	$html .= jx_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 100px;"');
+	$html .= jx_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 200px;"');
 	$img_add = '<img src="'._JX_URL.'/images/bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
 	$img_remove = '<img src="'._JX_URL.'/images/remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
 

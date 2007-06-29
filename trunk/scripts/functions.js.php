@@ -139,7 +139,6 @@ function openActionDialog( caller, action ) {
             layout.endUpdate();
             
             dialog.show();
-            dialog.on('hide', function() { Ext.QuickTips.init() } );
             break;
             
 		case 'delete':
@@ -246,7 +245,10 @@ function extractArchive(btn) {
 	requestParams.action = 'extract';
 	handleCallback(requestParams);
 }
-function deleteDir( node ) {
+function deleteDir( btn, node ) {
+	if( btn != 'yes') {
+		return;
+	}
 	requestParams = getRequestParams();
 	requestParams.dir = datastore.directory.substring( 0, datastore.directory.lastIndexOf('/'));
 	requestParams.selitems = Array( node.id.replace( /_RRR_/g, '/' ) );

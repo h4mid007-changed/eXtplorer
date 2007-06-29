@@ -432,6 +432,7 @@ function jx_init(){
     	dropEvent = e;
     	copymoveCtx(e);
     });
+    dirTree.on('beforemove', function() { return false; });
     
     var tsm = dirTree.getSelectionModel();
     tsm.on('selectionchange', handleNodeClick );
@@ -568,7 +569,6 @@ function jx_init(){
 			requestParams = getRequestParams();
 			requestParams.dir = datastore.directory.substring( 0, datastore.directory.lastIndexOf('/'));
 			requestParams.new_dir = dropEvent.target.id.replace( /_RRR_/g, '/' );
-			//alert( var_dump( dropEvent.data ));return;
 			requestParams.selitems = Array( dropEvent.data.node.id.replace( /_RRR_/g, '/' ) );
 			requestParams.confirm = 'true';
 			requestParams.action = action;
@@ -600,7 +600,7 @@ function jx_init(){
     		id: 'remove',
     		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
     		text: '<?php echo jx_Lang::msg('btnremove', true ) ?>',
-    		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', "<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", function() { deleteDir( dirCtxMenu.node ) }); }
+    		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', String.format("<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", num ), function(btn) { deleteDir( btn, dirCtxMenu.node ) }); }
     	},'-',
     	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
 	    	{
@@ -781,7 +781,7 @@ function jx_init(){
 						dirpath += '_RRR_'+ dirs[i];
 						//dirpath = dirpath.substr( 5 );
 						var nextnode = dirTree.getNodeById( dirpath );
-						if( !nextnode ) { alert( dirpath + 'not found!' ); return; }
+						if( !nextnode ) { return; }
 						if( nextnode.isExpanded() ) { expandNode( nextnode, dir ); return;}
 						nextnode.on( 'load', function() { expandNode( nextnode, dir ) } );	
 

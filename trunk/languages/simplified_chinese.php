@@ -273,6 +273,8 @@ $GLOBALS["messages"] = array(
 	'archive_saveToDir' 	=> '在本目录中保存存档文件',
 	
 	'editor_simple'	=> '简化编辑器模式',
-	'editor_syntaxhighlight'	=> '语法高亮提示模式'
+	'editor_syntaxhighlight'	=> '语法高亮提示模式',
+
+	'newlink'	=> 'New File/Directory'
 );
 ?>
