@@ -332,15 +332,17 @@ function get_dir_selects( $dir ) {
 //------------------------------------------------------------------------------
 function copy_dir($source,$dest) {		// copy dir
 	$ok = true;
-	
+	$source = str_replace( '\\', '/', $source );
+	$dest = str_replace( '\\', '/', $dest );
 	if(!@mkdir($dest,0777)) return false;
 	$itemlist = mosReadDirectory( $source, '.', true, true );
 	if( empty( $itemlist )) return true;
 	
 	foreach( $itemlist as $file ) {
 		if(($file==".." || $file==".")) continue;
-		
+		$file = str_replace( '\\', '/', $file );
 		$new_dest = str_replace( $source, $dest, $file );
+		
 		if(@is_dir($file)) {
 			@mkdir($new_dest,0777);
 		} else {
