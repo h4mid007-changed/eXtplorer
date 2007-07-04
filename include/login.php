@@ -117,6 +117,7 @@ function login() {
 		    store: languages,
 		    displayField:'langname',
 		    valueField: 'language',
+		    value: 'english',
 		    hiddenName: 'lang',
 		    disableKeyFilter: true,
 		    editable: false,
@@ -153,7 +154,7 @@ function login() {
 	simple.addButton('<?php echo jx_Lang::msg( 'btnreset', true ) ?>', function() { simple.reset(); } );
 	simple.render('adminForm');
 	Ext.get( 'formContainer').center();
-	if(document.login) document.login.p_user.focus();
+	simple.findField('p_user').focus();
 
 </script><?php
 			show_footer();
@@ -163,10 +164,9 @@ function login() {
 }
 //------------------------------------------------------------------------------
 function logout() {
-	unset( $GLOBALS['__SESSION']["s_user"] );
-	unset( $GLOBALS['__SESSION']["s_pass"] );
+	session_destroy();
 	session_write_close();
-	header("location: ".$GLOBALS["script_name"].$GLOBALS['__SESSION']["s_user"]);
+	header("location: ".$GLOBALS["script_name"]);
 }
 //------------------------------------------------------------------------------
 ?>

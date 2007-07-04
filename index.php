@@ -48,14 +48,14 @@ header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 
-echo '<?xml version="1.0" encoding="utf-8">';
+echo '<?xml version="1.0" encoding="'. $GLOBALS["charset"].'">';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<?php echo $mainframe->getHead(); ?>
 		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
-		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+		<meta http-equiv="Content-Type" content="text/html; <?php echo $GLOBALS["charset"]; ?>" />
 		<meta name="robots" content="noindex, nofollow" />
 	</head>
 	<body>
