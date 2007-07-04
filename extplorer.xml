@@ -8,7 +8,7 @@
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
     <version>2.0.0 beta3</version>
     <description><![CDATA[
-	<div align="left"><img src="components/com_extplorer/images/joomlaXplorer.png" alt="joomlaXplorer Logo" /></div>
+	<div align="left"><img src="components/com_extplorer/images/logo.gif" alt="joomlaXplorer Logo" /></div>
 	<h2>Successfully installed joomlaXplorer&nbsp;</h2>
 	joomlaXplorer is a powerful File- and FTP Manager script. 
 	<br/>It allows 
@@ -42,6 +42,7 @@
 			<filename>config/conf.php</filename>
 			<filename>config/index.html</filename>
 			<filename>config/mimes.php</filename>
+			<filename>extplorer.ico</filename>
 			<filename>fetchscript.php</filename>
 			<filename>ftp_tmp/index.html</filename>
 			<filename>images/_.gif</filename>
@@ -81,11 +82,12 @@
 			<filename>images/info.png</filename>
 			<filename>images/java_jar.png</filename>
 			<filename>images/joomla_x_icon.png</filename>
-			<filename>images/extplorer.png</filename>
+			<filename>images/eXtplorer.gif</filename>
 			<filename>images/js.gif</filename>
 			<filename>images/js.png</filename>
 			<filename>images/log_error.png</filename>
 			<filename>images/logo.gif</filename>
+			<filename>images/logout.png</filename>
 			<filename>images/midi.png</filename>
 			<filename>images/move.png</filename>
 			<filename>images/multimedia.png</filename>
@@ -251,16 +253,33 @@
 			<filename>libraries/Archive/Writer/Zip.php</filename>
 			<filename>libraries/Archive/Writer/index.html</filename>
 			<filename>libraries/Archive/index.html</filename>
+			<filename>libraries/compat.php41x.php</filename>
+			<filename>libraries/compat.php42x.php</filename>
+			<filename>libraries/compat.php50x.php</filename>
 			<filename>libraries/FTP.php</filename>
 			<filename>libraries/FTP/Observer.php</filename>
 			<filename>libraries/FTP/Socket.php</filename>
 			<filename>libraries/FTP/index.html</filename>
 			<filename>libraries/File_Operations.php</filename>
+			<filename>libraries/geshi/geshi.php</filename>
+			<filename>libraries/geshi/index.html</filename>
+			<filename>libraries/geshi/geshi/css.php</filename>
+			<filename>libraries/geshi/geshi/html4strict.php</filename>
+			<filename>libraries/geshi/geshi/ini.php</filename>
+			<filename>libraries/geshi/geshi/javascript.php</filename>
+			<filename>libraries/geshi/geshi/mysql.php</filename>
+			<filename>libraries/geshi/geshi/php.php</filename>
+			<filename>libraries/geshi/geshi/php-brief.php</filename>
+			<filename>libraries/geshi/geshi/sql.php</filename>
+			<filename>libraries/geshi/geshi/xml.php</filename>
+			<filename>libraries/geshi/geshi/index.html</filename>
+			<filename>libraries/inputfilter.php</filename>
 			<filename>libraries/JSON.php</filename>
 			<filename>libraries/MIME/Parameter.php</filename>
 			<filename>libraries/MIME/Type.php</filename>
 			<filename>libraries/MIME/index.html</filename>
 			<filename>libraries/PEAR.php</filename>
+			<filename>libraries/standalone.php</filename>
 			<filename>libraries/Tar.php</filename>
 			<filename>libraries/index.html</filename>
 			<filename>libraries/lib_zip.php</filename>

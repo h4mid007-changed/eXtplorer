@@ -82,7 +82,7 @@ function activate_user($user,$pass) {
 	// Set Login
 	$GLOBALS['__SESSION']["s_user"]	= $data[0];
 	$GLOBALS['__SESSION']["s_pass"]	= $data[1];
-	$GLOBALS["home_dir"]	= $data[2];
+	$GLOBALS["home_dir"]	= str_replace( '\\', '/', $data[2] );
 	$GLOBALS["home_url"]	= $data[3];
 	$GLOBALS["show_hidden"]	= $data[4];
 	$GLOBALS["no_access"]	= $data[5];
@@ -134,4 +134,12 @@ function num_users($active=true) {
 }
 */
 //------------------------------------------------------------------------------
+function get_session_name() {
+
+	$remote_addr 	= explode('.',$_SERVER['REMOTE_ADDR']);
+	$ip				= $remote_addr[0] .'.'. $remote_addr[1] .'.'. $remote_addr[2];
+	$value 			= md5( $_SERVER['SERVER_ADDR'] . $id . $ip . $browser );
+
+	return $value;
+}
 ?>
