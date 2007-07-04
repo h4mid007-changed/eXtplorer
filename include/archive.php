@@ -49,7 +49,7 @@ class jx_Archive extends jx_Action {
 		$allowed_types = array( 'zip', 'tgz', 'tbz', 'tar' );
 
 		// If we have something to archive, let's do it now
-		if(mosGetParam($_POST, 'confirm' ) == 'true' ) {
+		if(extGetParam($_POST, 'confirm' ) == 'true' ) {
 			$saveToDir = $GLOBALS['__POST']['saveToDir'];
 			if( !file_exists( get_abs_dir($saveToDir ) )) {
 				jx_Result::sendResult('archive', false, 'The Save-To Directory you have specified does not exist.');
@@ -57,7 +57,7 @@ class jx_Archive extends jx_Action {
 			if( !is_writable( get_abs_dir($saveToDir ) )) {
 				jx_Result::sendResult('archive', false, 'Please specify a writable directory to save the archive to.');
 			}
-			require_once( _JX_PATH .'/libraries/Archive.php' );
+			require_once( _EXT_PATH .'/libraries/Archive.php' );
 
 			if( !in_array(strtolower( $GLOBALS['__POST']["type"] ), $allowed_types )) {
 				jx_Result::sendResult('archive', false, 'Unknown Archive Format: '.htmlspecialchars($GLOBALS['__POST']["type"]));
@@ -73,8 +73,8 @@ class jx_Archive extends jx_Action {
 				jx_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnoname"]);
 			}
 
-			$download = mosGetParam( $_REQUEST, 'download', "n" );
-			$startfrom = mosGetParam( $_REQUEST, 'startfrom', 0 );
+			$download = extGetParam( $_REQUEST, 'download', "n" );
+			$startfrom = extGetParam( $_REQUEST, 'startfrom', 0 );
 
 			$archive_name = get_abs_item($saveToDir,$name);
 			$fileinfo = pathinfo( $archive_name );
@@ -182,7 +182,7 @@ class jx_Archive extends jx_Action {
 	});
 	var form = new Ext.form.Form({
 		labelWidth: 125, // label settings here cascade unless overridden
-		url:'index2.php'
+		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
 	var combo = new Ext.form.ComboBox({
 		fieldLabel: '<?php echo jx_Lang::msg('typeheader', true ) ?>',
@@ -190,6 +190,7 @@ class jx_Archive extends jx_Action {
 		displayField:'typename',
 		valueField: 'type',
 		name: 'type',
+	    triggerAction: 'all',
 		hiddenName: 'type',
 		disableKeyFilter: true,
 		editable: false,
@@ -265,7 +266,7 @@ class jx_Archive extends jx_Action {
 			},
 			scope: form,
 			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_joomlaxplorer',
+			params: {option: 'com_extplorer',
 			action: 'archive',
 			dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>',
 			'selitems[]':  [ '<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>' ],

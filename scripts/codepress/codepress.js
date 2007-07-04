@@ -119,7 +119,11 @@ CodePress.languages = {
 
 
 CodePress.run = function() {
-	CodePress.path = 'components/com_joomlaxplorer/scripts/codepress/';
+	if( document.location.href.indexOf( 'com_extplorer' ) && !document.location.href.indexOf( 'com_extplorer/index.php' )) {
+		CodePress.path = 'components/com_extplorer/scripts/codepress/';
+	} else {
+		CodePress.path = 'scripts/codepress/';
+	}
 	
 	t = document.getElementsByTagName('textarea');
 	for(var i=0,n=t.length;i<n;i++) {

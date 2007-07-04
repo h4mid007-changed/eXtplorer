@@ -38,22 +38,26 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 $GLOBALS['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
 
-function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages=NULL) {
+function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages=NULL, $extra=null) {
 	// make link to next page
 	if($_action=="" || $_action==NULL) $_action="list";
-	//if($_dir=="") $_dir=NULL;
+	
 	if($_item=="") $_item=NULL;
 	if($_order==NULL) $_order=$GLOBALS["order"];
 	if($_srt==NULL) $_srt=$GLOBALS["direction"];
 	if($languages==NULL) $languages=(isset($GLOBALS["lang"])?$GLOBALS["lang"]:NULL);
 	
-	$link=$GLOBALS["script_name"]."?option=com_joomlaxplorer&action=".$_action;
-	$link.="&dir=".urlencode($_dir);
+	$link=$GLOBALS["script_name"]."?option=com_extplorer&action=".$_action;
+	if(!is_null($_dir )) {
+		$link.="&dir=".urlencode($_dir);
+	}
 	if($_item!=NULL) $link.="&item=".urlencode($_item);
 	if($_order!=NULL) $link.="&order=".$_order;
 	if($_srt!=NULL) $link.="&direction=".$_srt;
 	if($languages!=NULL) $link.="&lang=".$languages;
-	
+	if(!is_null($extra)) {
+		$link .= $extra;
+	}
 	return $link;
 }
 //------------------------------------------------------------------------------
@@ -151,6 +155,16 @@ function get_file_perms( $item) {		// file permissions
 		return $perms;
 	}
 	return @decoct(@fileperms( $item ) & 0777);
+}
+
+function get_languages() {
+	$langfiles = extReadDirectory( _EXT_PATH.'/languages' );
+	$langs = array();
+	foreach( $langfiles as $lang ) {
+		if( stristr( $lang, '_mimes')) continue;
+		$langs[basename( $lang, '.php' )] = ucwords(str_replace( '_', ' ', basename( $lang, '.php' )));
+	}
+	return $langs;
 }
 //------------------------------------------------------------------------------
 function parse_file_perms($mode) {		// parsed file permisions
@@ -289,12 +303,12 @@ function get_show_item($dir, $item) {		// show this file?
 }
 //------------------------------------------------------------------------------
 function get_dir_list( $dir='' ) {
-	$files = mosReadDirectory( get_abs_dir( $dir), '.', false, true );
+	$files = extReadDirectory( get_abs_dir( $dir), '.', false, true );
 	$dirs =array();
 	foreach( $files as $item) {
 		$item = str_replace( '\\', '/', $item );
 		if( get_is_dir($item)) {
-			$index = str_replace( $GLOBALS['home_dir'].$GLOBALS['separator'], '', $item );
+			$index = str_replace( get_abs_dir($GLOBALS['home_dir']).$GLOBALS['separator'], '', $item );
 			$dirs[$index]= basename($index);
 		}
 	}
@@ -322,7 +336,7 @@ function get_dir_selects( $dir ) {
 					$subdirs = array_merge(Array('jx_disabled' => '-'), $subdirs );
 				}
 			}
-			$dir_links .= ' / ' .jx_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
+			$dir_links .= ' / '.jx_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
 			$implode .= '/';
 	  	}
 	}
@@ -335,7 +349,7 @@ function copy_dir($source,$dest) {		// copy dir
 	$source = str_replace( '\\', '/', $source );
 	$dest = str_replace( '\\', '/', $dest );
 	if(!@mkdir($dest,0777)) return false;
-	$itemlist = mosReadDirectory( $source, '.', true, true );
+	$itemlist = extReadDirectory( $source, '.', true, true );
 	if( empty( $itemlist )) return true;
 	
 	foreach( $itemlist as $file ) {
@@ -609,8 +623,8 @@ function jx_docLocation( $url ) {
 	return jx_scriptTag('', 'document.location=\''. $url .'\';' );
 }
 function jx_isXHR() {
-	return strtolower(mosGetParam($_SERVER,'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'
-		|| strtolower(mosGetParam($_POST,'requestType')) == 'xmlhttprequest';
+	return strtolower(extGetParam($_SERVER,'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'
+		|| strtolower(extGetParam($_POST,'requestType')) == 'xmlhttprequest';
 }
 function jx_exit() {
 	global $mainframe;
@@ -718,4 +732,482 @@ function scandir($dir,$listDirectories=false, $skipDots=true) {
     return $dirArray;
 }
 }
+
+/**
+ * Page generation time
+ * @package Joomla
+ */
+class extProfiler {
+	/** @var int Start time stamp */
+	var $start=0;
+	/** @var string A prefix for mark messages */
+	var $prefix='';
+
+	/**
+	 * Constructor
+	 * @param string A prefix for mark messages
+	 */
+	function extProfiler( $prefix='' ) {
+		$this->start = $this->getmicrotime();
+		$this->prefix = $prefix;
+	}
+
+	/**
+	 * @return string A format message of the elapsed time
+	 */
+	function mark( $label ) {
+		return sprintf ( "\n<div class=\"profiler\">$this->prefix %.3f $label</div>", $this->getmicrotime() - $this->start );
+	}
+
+	/**
+	 * @return float The current time in milliseconds
+	 */
+	function getmicrotime(){
+		list($usec, $sec) = explode(" ",microtime());
+		return ((float)$usec + (float)$sec);
+	}
+}
+/**
+* Utility class for all HTML drawing classes
+* @package Joomla
+*/
+class extHTML {
+	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
+		$obj = new stdClass;
+		$obj->$value_name = $value;
+		$obj->$text_name = trim( $text ) ? $text : $value;
+		return $obj;
+	}
+
+  function writableCell( $folder, $relative=1, $text='', $visible=1 ) {
+	$writeable 		= '<b><font color="green">Writeable</font></b>';
+	$unwriteable 	= '<b><font color="red">Unwriteable</font></b>';
+
+  	echo '<tr>';
+  	echo '<td class="item">';
+	echo $text;
+	if ( $visible ) {
+		echo $folder . '/';
+	}
+	echo '</td>';
+  	echo '<td align="left">';
+	if ( $relative ) {
+		echo is_writable( "../$folder" ) 	? $writeable : $unwriteable;
+	} else {
+		echo is_writable( "$folder" ) 		? $writeable : $unwriteable;
+	}
+	echo '</td>';
+  	echo '</tr>';
+  }
+
+	/**
+	* Generates an HTML select list
+	* @param array An array of objects
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param string The name of the object variable for the option value
+	* @param string The name of the object variable for the option text
+	* @param mixed The key that is selected
+	* @returns string HTML for the select list
+	*/
+	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL ) {
+		// check if array
+		if ( is_array( $arr ) ) {
+			reset( $arr );
+		}
+
+		$html 	= "\n<select name=\"$tag_name\" $tag_attribs>";
+		$count 	= count( $arr );
+
+		for ($i=0, $n=$count; $i < $n; $i++ ) {
+			$k = $arr[$i]->$key;
+			$t = $arr[$i]->$text;
+			$id = ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
+
+			$extra = '';
+			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
+			if (is_array( $selected )) {
+				foreach ($selected as $obj) {
+					$k2 = $obj->$key;
+					if ($k == $k2) {
+						$extra .= " selected=\"selected\"";
+						break;
+					}
+				}
+			} else {
+				$extra .= ($k == $selected ? " selected=\"selected\"" : '');
+			}
+			$html .= "\n\t<option value=\"".$k."\"$extra>" . $t . "</option>";
+		}
+		$html .= "\n</select>\n";
+
+		return $html;
+	}
+
+	/**
+	* Writes a select list of integers
+	* @param int The start integer
+	* @param int The end integer
+	* @param int The increment
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @param string The printf format to be applied to the number
+	* @returns string HTML for the select list
+	*/
+	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" ) {
+		$start 	= intval( $start );
+		$end 	= intval( $end );
+		$inc 	= intval( $inc );
+		$arr 	= array();
+
+		for ($i=$start; $i <= $end; $i+=$inc) {
+			$fi = $format ? sprintf( "$format", $i ) : "$i";
+			$arr[] = extHTML::makeOption( $fi, $fi );
+		}
+
+		return extHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+	}
+
+	/**
+	* Writes a select list of month names based on Language settings
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @returns string HTML for the select list values
+	*/
+	function monthSelectList( $tag_name, $tag_attribs, $selected ) {
+		$arr = array(
+			extHTML::makeOption( '01', _JAN ),
+			extHTML::makeOption( '02', _FEB ),
+			extHTML::makeOption( '03', _MAR ),
+			extHTML::makeOption( '04', _APR ),
+			extHTML::makeOption( '05', _MAY ),
+			extHTML::makeOption( '06', _JUN ),
+			extHTML::makeOption( '07', _JUL ),
+			extHTML::makeOption( '08', _AUG ),
+			extHTML::makeOption( '09', _SEP ),
+			extHTML::makeOption( '10', _OCT ),
+			extHTML::makeOption( '11', _NOV ),
+			extHTML::makeOption( '12', _DEC )
+		);
+
+		return extHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+	}
+
+	/**
+	* Writes a yes/no select list
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @returns string HTML for the select list values
+	*/
+	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes=_CMN_YES, $no=_CMN_NO ) {
+		$arr = array(
+		extHTML::makeOption( '0', $no ),
+		extHTML::makeOption( '1', $yes ),
+		);
+
+		return extHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+	}
+
+	/**
+	* Generates an HTML radio list
+	* @param array An array of objects
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @param string The name of the object variable for the option value
+	* @param string The name of the object variable for the option text
+	* @returns string HTML for the select list
+	*/
+	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text' ) {
+		reset( $arr );
+		$html = "";
+		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
+			$k = $arr[$i]->$key;
+			$t = $arr[$i]->$text;
+			$id = ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
+
+			$extra = '';
+			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
+			if (is_array( $selected )) {
+				foreach ($selected as $obj) {
+					$k2 = $obj->$key;
+					if ($k == $k2) {
+						$extra .= " selected=\"selected\"";
+						break;
+					}
+				}
+			} else {
+				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
+			}
+			$html .= "\n\t<input type=\"radio\" name=\"$tag_name\" id=\"$tag_name$k\" value=\"".$k."\"$extra $tag_attribs />";
+			$html .= "\n\t<label for=\"$tag_name$k\">$t</label>";
+		}
+		$html .= "\n";
+
+		return $html;
+	}
+
+	/**
+	* Writes a yes/no radio list
+	* @param string The value of the HTML name attribute
+	* @param string Additional HTML attributes for the <select> tag
+	* @param mixed The key that is selected
+	* @returns string HTML for the radio list
+	*/
+	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes=_CMN_YES, $no=_CMN_NO ) {
+		$arr = array(
+			extHTML::makeOption( '0', $no ),
+			extHTML::makeOption( '1', $yes )
+		);
+
+		return extHTML::radioList( $arr, $tag_name, $tag_attribs, $selected );
+	}
+
+	/**
+	* Cleans text of all formating and scripting code
+	*/
+	function cleanText ( &$text ) {
+		$text = preg_replace( "'<script[^>]*>.*?</script>'si", '', $text );
+		$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text );
+		$text = preg_replace( '/<!--.+?-->/', '', $text );
+		$text = preg_replace( '/{.+?}/', '', $text );
+		$text = preg_replace( '/&nbsp;/', ' ', $text );
+		$text = preg_replace( '/&amp;/', ' ', $text );
+		$text = preg_replace( '/&quot;/', ' ', $text );
+		$text = strip_tags( $text );
+		$text = htmlspecialchars( $text );
+
+		return $text;
+	}
+}
+/**
+ * Utility function to return a value from a named array or a specified default
+ * @param array A named array
+ * @param string The key to search for
+ * @param mixed The default value to give if no key found
+ * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
+ */
+define( "_ext_NOTRIM", 0x0001 );
+define( "_ext_ALLOWHTML", 0x0002 );
+define( "_ext_ALLOWRAW", 0x0004 );
+function extGetParam( &$arr, $name, $def=null, $mask=0 ) {
+	static $noHtmlFilter 	= null;
+	static $safeHtmlFilter 	= null;
+
+	$return = null;
+	if (isset( $arr[$name] )) {
+		$return = $arr[$name];
+
+		if (is_string( $return )) {
+			// trim data
+			if (!($mask&_ext_NOTRIM)) {
+				$return = trim( $return );
+			}
+
+			if ($mask&_ext_ALLOWRAW) {
+				// do nothing
+			} else if ($mask&_ext_ALLOWHTML) {
+				// do nothing - compatibility mode
+			} else {
+				// send to inputfilter
+				if (is_null( $noHtmlFilter )) {
+					$noHtmlFilter = new InputFilter( /* $tags, $attr, $tag_method, $attr_method, $xss_auto */ );
+				}
+				$return = $noHtmlFilter->process( $return );
+
+				if (empty($return) && is_numeric($def)) {
+				// if value is defined and default value is numeric set variable type to integer
+					$return = intval($return);
+				}
+			}
+
+			// account for magic quotes setting
+			if (!get_magic_quotes_gpc()) {
+				$return = addslashes( $return );
+			}
+		}
+
+		return $return;
+	} else {
+		return $def;
+	}
+}
+
+/**
+ * Strip slashes from strings or arrays of strings
+ * @param mixed The input string or array
+ * @return mixed String or array stripped of slashes
+ */
+function extStripslashes( &$value ) {
+	$ret = '';
+	if (is_string( $value )) {
+		$ret = stripslashes( $value );
+	} else {
+		if (is_array( $value )) {
+			$ret = array();
+			foreach ($value as $key => $val) {
+				$ret[$key] = extStripslashes( $val );
+			}
+		} else {
+			$ret = $value;
+		}
+	}
+	return $ret;
+}
+
+
+/**
+* Utility function to read the files in a directory
+* @param string The file system path
+* @param string A filter for the names
+* @param boolean Recurse search into sub-directories
+* @param boolean True if to prepend the full path to the file name
+*/
+function extReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
+	$arr = array();
+	if (!@is_dir( $path )) {
+		return $arr;
+	}
+	$handle = opendir( $path );
+
+	while ($file = readdir($handle)) {
+		$dir = extPathName( $path.'/'.$file, false );
+		$isDir = is_dir( $dir );
+		if (($file != ".") && ($file != "..")) {
+			if (preg_match( "/$filter/", $file )) {
+				if ($fullpath) {
+					$arr[] = trim( extPathName( $path.'/'.$file, false ) );
+				} else {
+					$arr[] = trim( $file );
+				}
+			}
+			if ($recurse && $isDir) {
+				$arr2 = extReadDirectory( $dir, $filter, $recurse, $fullpath );
+				$arr = array_merge( $arr, $arr2 );
+			}
+		}
+	}
+	closedir($handle);
+	asort($arr);
+	return $arr;
+}
+/**
+* Function to strip additional / or \ in a path name
+* @param string The path
+* @param boolean Add trailing slash
+*/
+function extPathName($p_path,$p_addtrailingslash = true) {
+	$retval = "";
+
+	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
+
+	if ($isWin)	{
+		$retval = str_replace( '/', '\\', $p_path );
+		if ($p_addtrailingslash) {
+			if (substr( $retval, -1 ) != '\\') {
+				$retval .= '\\';
+			}
+		}
+
+		// Check if UNC path
+		$unc = substr($retval,0,2) == '\\\\' ? 1 : 0;
+
+		// Remove double \\
+		$retval = str_replace( '\\\\', '\\', $retval );
+
+		// If UNC path, we have to add one \ in front or everything breaks!
+		if ( $unc == 1 ) {
+			$retval = '\\'.$retval;
+		}
+	} else {
+		$retval = str_replace( '\\', '/', $p_path );
+		if ($p_addtrailingslash) {
+			if (substr( $retval, -1 ) != '/') {
+				$retval .= '/';
+			}
+		}
+
+		// Check if UNC path
+		$unc = substr($retval,0,2) == '//' ? 1 : 0;
+
+		// Remove double //
+		$retval = str_replace('//','/',$retval);
+
+		// If UNC path, we have to add one / in front or everything breaks!
+		if ( $unc == 1 ) {
+			$retval = '/'.$retval;
+		}
+	}
+
+	return $retval;
+}
+/**
+* Utility function redirect the browser location to another url
+*
+* Can optionally provide a message.
+* @param string The file system path
+* @param string A filter for the names
+*/
+function extRedirect( $url, $msg='' ) {
+
+   global $mainframe;
+
+    // specific filters
+	$iFilter = new InputFilter();
+	$url = $iFilter->process( $url );
+	if (!empty($msg)) {
+		$msg = $iFilter->process( $msg );
+	}
+
+	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
+		$url = $GLOBALS['home_dir'];
+	}
+
+	if (trim( $msg )) {
+	 	if (strpos( $url, '?' )) {
+			$url .= '&extmsg=' . urlencode( $msg );
+		} else {
+			$url .= '?extmsg=' . urlencode( $msg );
+		}
+	}
+
+	if (headers_sent()) {
+		echo "<script>document.location.href='$url';</script>\n";
+	} else {
+		@ob_end_clean(); // clear output buffer
+		header( 'HTTP/1.1 301 Moved Permanently' );
+		header( "Location: ". $url );
+	}
+	exit();
+}
+
+if (!function_exists('html_entity_decode')) {
+	/**
+	* html_entity_decode function for backward compatability in PHP
+	* @param string
+	* @param string
+	*/
+	function html_entity_decode ($string, $opt = ENT_COMPAT) {
+
+		$trans_tbl = get_html_translation_table (HTML_ENTITIES);
+		$trans_tbl = array_flip ($trans_tbl);
+
+		if ($opt & 1) { // Translating single quotes
+			// Add single quote to translation table;
+			// doesn't appear to be there by default
+			$trans_tbl["&apos;"] = "'";
+		}
+
+		if (!($opt & 2)) { // Not translating double quotes
+			// Remove double quote from translation table
+			unset($trans_tbl["&quot;"]);
+		}
+
+		return strtr ($string, $trans_tbl);
+	}
+}
+
 ?>

@@ -38,14 +38,14 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 ?>
 <script type="text/javascript">
 function jx_init(){
-	Ext.BLANK_IMAGE_URL = '<?php echo _JX_URL ?>/scripts/extjs/images/default/s.gif';
+	Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
     // create the Data Store
     datastore = new Ext.data.Store({
         proxy: new Ext.data.HttpProxy({
-            url: '<?php echo $mosConfig_live_site ?>/administrator/index2.php',
+            url: '<?php echo $GLOBALS['script_name'] ?>',
             directory: '/',
             method: 'GET',
-            params:{start:0, limit:50, dir: this.directory, option:'com_joomlaxplorer', action:'getdircontents' }
+            params:{start:0, limit:50, dir: this.directory, option:'com_extplorer', action:'getdircontents' }
         }),
 		directory: '/',
 		sendWhat: 'files',
@@ -89,7 +89,7 @@ function jx_init(){
 	}
     datastore.on('beforeload', function(ds, options) {
     								options.params.dir = options.params.dir ? options.params.dir : ds.directory;
-    								options.params.option = 'com_joomlaxplorer';
+    								options.params.option = 'com_extplorer';
     								options.params.action = 'getdircontents';
     								}
     							 );
@@ -232,7 +232,7 @@ function jx_init(){
     var tb = new Ext.Toolbar(gridHead, [
     	{
     		id: 'tb_home',
-    		icon: '<?php echo _JX_URL ?>/images/home.png',
+    		icon: '<?php echo _EXT_URL ?>/images/home.png',
     		text: '<?php echo jx_Lang::msg('homelink', true ) ?>',
     		tooltip: '<?php echo jx_Lang::msg('homelink', true ) ?>',
     		cls:'x-btn-text-icon',
@@ -240,7 +240,7 @@ function jx_init(){
     	},
     	{
     		id: 'tb_reload',
-    		icon: '<?php echo _JX_URL ?>/images/reload.png',
+    		icon: '<?php echo _EXT_URL ?>/images/reload.png',
     		text: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
     		tooltip: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
     		cls:'x-btn-text-icon',
@@ -249,7 +249,7 @@ function jx_init(){
     	<?php if( !jx_isFTPMode() ) { ?>
     	{
     		id: 'tb_search',
-    		icon: '<?php echo _JX_URL ?>/images/filefind.png',
+    		icon: '<?php echo _EXT_URL ?>/images/filefind.png',
     		text: '<?php echo jx_Lang::msg('searchlink', true ) ?>',
     		tooltip: '<?php echo jx_Lang::msg('searchlink', true ) ?>',
     		cls:'x-btn-text-icon',
@@ -259,7 +259,7 @@ function jx_init(){
     	new Ext.Toolbar.Separator(),
     	{
     		id: 'tb_new',
-    		icon: '<?php echo _JX_URL ?>/images/filenew.png',
+    		icon: '<?php echo _EXT_URL ?>/images/filenew.png',
     		tooltip: '<?php echo jx_Lang::msg('newlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -267,7 +267,7 @@ function jx_init(){
     	},
     	{
     		id: 'tb_edit',
-    		icon: '<?php echo _JX_URL ?>/images/edit.png',
+    		icon: '<?php echo _EXT_URL ?>/images/edit.png',
     		tooltip: '<?php echo jx_Lang::msg('editlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -275,7 +275,7 @@ function jx_init(){
     	},
     	{
     		id: 'tb_delete',
-    		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
+    		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
     		tooltip: '<?php echo jx_Lang::msg('dellink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -283,7 +283,7 @@ function jx_init(){
     	},
     	{
     		id: 'tb_rename',
-    		icon: '<?php echo _JX_URL ?>/images/fonts.png',
+    		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
     		tooltip: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -291,7 +291,7 @@ function jx_init(){
     	},
     	{
     		id: 'tb_chmod',
-    		icon: '<?php echo _JX_URL ?>/images/chmod.png',
+    		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
     		tooltip: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -300,14 +300,14 @@ function jx_init(){
     	new Ext.Toolbar.Separator(),
     	{
     		id: 'tb_view',
-    		icon: '<?php echo _JX_URL ?>/images/view.png',
+    		icon: '<?php echo _EXT_URL ?>/images/view.png',
     		tooltip: '<?php echo jx_Lang::msg('viewlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'tb_download',
-    		icon: '<?php echo _JX_URL ?>/images/down.png',
+    		icon: '<?php echo _EXT_URL ?>/images/down.png',
     		tooltip: '<?php echo jx_Lang::msg('downlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -316,7 +316,7 @@ function jx_init(){
     	new Ext.Toolbar.Separator(),
     	{
     		id: 'tb_upload',
-    		icon: '<?php echo _JX_URL ?>/images/up.png',
+    		icon: '<?php echo _EXT_URL ?>/images/up.png',
     		tooltip: '<?php echo jx_Lang::msg('uploadlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow && ini_get('file_uploads') ? 'false' : 'true' ?>,
@@ -325,13 +325,13 @@ function jx_init(){
     	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
 	    	{
     			id: 'tb_archive',
-	    		icon: '<?php echo _JX_URL ?>/images/archive.png',
+	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
 	    		tooltip: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
     			cls:'x-btn-icon',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},{
     		id: 'tb_extract',
-    		icon: '<?php echo _JX_URL ?>/images/extract.gif',
+    		icon: '<?php echo _EXT_URL ?>/images/extract.gif',
     		tooltip: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'extract'); }
@@ -340,7 +340,7 @@ function jx_init(){
     	'-',
     	{
     		id: 'tb_info',
-    		icon: '<?php echo _JX_URL ?>/images/help.png',
+    		icon: '<?php echo _EXT_URL ?>/images/help.png',
     		tooltip: 'About joomlaXplorer',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'get_about'); }
@@ -387,16 +387,16 @@ function jx_init(){
 
     // trigger the data store load
     function loadDir() {
-    	datastore.load({params:{start:0, limit:50, dir: datastore.directory, option:'com_joomlaxplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
+    	datastore.load({params:{start:0, limit:50, dir: datastore.directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
     }
 	
     dirTree = new Ext.tree.TreePanel('dirtree', {
 	    animate:true, 
 	    //rootVisible: false,
 	    loader: new Ext.tree.TreeLoader({
-	        dataUrl:'index2.php',
+	        dataUrl:'<?php echo basename( $GLOBALS['script_name']) ?>',
 	        requestMethod: 'GET',
-	        baseParams: {option:'com_joomlaxplorer', action:'getdircontents', dir: '',sendWhat: 'dirs'} // custom http params
+	        baseParams: {option:'com_extplorer', action:'getdircontents', dir: '',sendWhat: 'dirs'} // custom http params
 	    }),
 	    containerScroll: true,
 	    enableDD:true,
@@ -480,38 +480,38 @@ function jx_init(){
     
         items: [{
     		id: 'gc_edit',
-    		icon: '<?php echo _JX_URL ?>/images/edit.png',
+    		icon: '<?php echo _EXT_URL ?>/images/edit.png',
     		text: '<?php echo jx_Lang::msg('editlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'edit'); }
     	},
     	{
     		id: 'gc_rename',
-    		icon: '<?php echo _JX_URL ?>/images/fonts.png',
+    		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
     		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
     		handler: function() { jx_itemgrid.onCellDblClick( jx_itemgrid, gsm.clickedRow, 0 ); gsm.clickedRow = null; }
     	},
     	{
     		id: 'gc_chmod',
-    		icon: '<?php echo _JX_URL ?>/images/chmod.png',
+    		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
     		text: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'chmod'); }
     	},
     	{
     		id: 'gc_delete',
-    		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
+    		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
     		text: '<?php echo jx_Lang::msg('dellink', true ) ?>',
     		handler: function() { openActionDialog(this, 'delete'); }
     	},
     	'-',
     	{
     		id: 'gc_view',
-    		icon: '<?php echo _JX_URL ?>/images/view.png',
+    		icon: '<?php echo _EXT_URL ?>/images/view.png',
     		text: '<?php echo jx_Lang::msg('viewlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'gc_download',
-    		icon: '<?php echo _JX_URL ?>/images/down.png',
+    		icon: '<?php echo _EXT_URL ?>/images/down.png',
     		text: '<?php echo jx_Lang::msg('downlink', true ) ?>',
     		handler: function() { openActionDialog(this,'download'); }
     	},
@@ -519,13 +519,13 @@ function jx_init(){
     	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
 	    	{
     			id: 'gc_archive',
-	    		icon: '<?php echo _JX_URL ?>/images/archive.png',
+	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
 	    		text: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
 	    	{
 	    		id: 'gc_extract',
-	    		icon: '<?php echo _JX_URL ?>/images/extract.gif',
+	    		icon: '<?php echo _EXT_URL ?>/images/extract.gif',
 	    		text: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'extract'); }
 	    	},
@@ -533,7 +533,7 @@ function jx_init(){
     	'-',
 		{
 			id: 'cancel',
-    		icon: '<?php echo _JX_URL ?>/images/cancel.png',
+    		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
     		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
     		handler: function() { gridCtxMenu.hide(); }
     	}
@@ -581,46 +581,46 @@ function jx_init(){
         id:'dirCtxMenu',
         items: [    	{
         	id: 'new',
-    		icon: '<?php echo _JX_URL ?>/images/folder_new.png',
+    		icon: '<?php echo _EXT_URL ?>/images/folder_new.png',
     		text: '<?php echo jx_Lang::msg('newlink', true ) ?>',
     		handler: function() {dirCtxMenu.hide();openActionDialog(this, 'mkitem');}
     	},
     	{
     		id: 'rename',
-    		icon: '<?php echo _JX_URL ?>/images/fonts.png',
+    		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
     		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'rename'); }
     	},
     	{
     		id: 'chmod',
-    		icon: '<?php echo _JX_URL ?>/images/chmod.png',
+    		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
     		text: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'chmod'); }
     	},
     	{
     		id: 'remove',
-    		icon: '<?php echo _JX_URL ?>/images/editdelete.png',
+    		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
     		text: '<?php echo jx_Lang::msg('btnremove', true ) ?>',
     		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', String.format("<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", num ), function(btn) { deleteDir( btn, dirCtxMenu.node ) }); }
     	},'-',
     	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
 	    	{
     			id: 'gc_archive',
-	    		icon: '<?php echo _JX_URL ?>/images/archive.png',
+	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
 	    		text: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
     	<?php } ?>
     	{
     		id: 'reload',
-    		icon: '<?php echo _JX_URL ?>/images/reload.png',
+    		icon: '<?php echo _EXT_URL ?>/images/reload.png',
     		text: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();dirCtxMenu.node.reload(); }
     	},
     	'-', 
 		{
 			id: 'cancel',
-    		icon: '<?php echo _JX_URL ?>/images/cancel.png',
+    		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
     		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
     		handler: function() { dirCtxMenu.hide(); }
     	}
@@ -630,19 +630,19 @@ function jx_init(){
         id:'copyCtx',
         items: [    	{
         	id: 'copy',
-    		icon: '<?php echo _JX_URL ?>/images/editcopy.png',
+    		icon: '<?php echo _EXT_URL ?>/images/editcopy.png',
     		text: '<?php echo jx_Lang::msg('copylink', true ) ?>',
     		handler: function() {copymoveCtxMenu.hide();copymove('copy');}
     	},
     	{
     		id: 'move',
-    		icon: '<?php echo _JX_URL ?>/images/move.png',
+    		icon: '<?php echo _EXT_URL ?>/images/move.png',
     		text: '<?php echo jx_Lang::msg('movelink', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide();copymove('move'); }
     	},'-', 
 		{
 			id: 'cancel',
-    		icon: '<?php echo _JX_URL ?>/images/cancel.png',
+    		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
     		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide(); }
     	}
@@ -689,14 +689,24 @@ function jx_init(){
             titlebar: true,
             autoScroll:true,
             closeOnTab: true
+        },
+        south: {
+            initialSize: 22,
+            titlebar: false,
+            collapsible: false,
         }
     });
-
+	// initialize the statusbar
+    statusPanel = new Ext.ContentPanel('jx_statusbar');
+    statusPanel.getEl().addClass('done');
+    statusPanel.setContent('Done.');
+    
     layout.beginUpdate();
     layout.add('north', new Ext.ContentPanel('jx_header', {closable: false}));
-    layout.add('west', new Ext.ContentPanel('dirtree', {title: 'Directory Tree <img src="components/com_joomlaxplorer/images/reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="dirTree.getRootNode().reload();" alt="Reload" align="middle" />', closable: false}));
-    layout.add('center', new Ext.GridPanel(jx_itemgrid, {}));
-
+    layout.add('west', new Ext.ContentPanel('dirtree', {title: 'Directory Tree <img src="<?php echo _EXT_URL ?>/images/reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="dirTree.getRootNode().reload();" alt="Reload" align="middle" />', closable: false}));
+    layout.add('center', new Ext.GridPanel(jx_itemgrid, {}));    
+    layout.add('south', statusPanel);
+    
     layout.endUpdate();
 	<?php
 	if( !jx_isFTPMode() && empty( $_SESSION['ftp_login'])) {
@@ -723,16 +733,17 @@ function jx_init(){
     	datastore.directory = directory;
     	var conn = datastore.proxy.getConnection();
     	if( conn && !conn.isLoading() ) {
-    		datastore.load({params:{start:0, limit:50, dir: directory, option:'com_joomlaxplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
+    		datastore.load({params:{start:0, limit:50, dir: directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
     	}
 		 new Ext.data.Connection().request({
-			url: 'index2.php',
-			params: { action:'chdir_event', dir: directory, option: 'com_joomlaxplorer' },
+			url: '<?php echo basename( $GLOBALS['script_name']) ?>',
+			params: { action:'chdir_event', dir: directory, option: 'com_extplorer' },
 			callback: function(options, success, response ) {
 				if( success ) {
 					checkLoggedOut( response ); // Check if current user is logged off. If yes, Joomla! sends a document.location redirect, which will be eval'd here
 					var result = Ext.decode( response.responseText );
 					var gridpanel = layout.getRegion('center').getActivePanel();
+					document.title = 'eXtplorer - ' + datastore.directory;
 					gridpanel.setTitle( 'Browsing Directory &nbsp;&nbsp;&nbsp;&nbsp;' + result.dirselects );
 					Ext.get('bookmark_container').update( result.bookmarks );
 				}

@@ -107,8 +107,7 @@ function doGzip() {
 		ob_end_flush();
 	}
 }
-//chdir( '/opt/lampp/htdocs/joomla_1.5/administrator/components/com_joomlaxplorer/scripts/extjs/css' );
-//die( 'Quark'. realpath('../images/default/box/tb-blue.gif'));
+
 /**
 * This function fixes the URLs used in the CSS file
 * This is necessary, because this file is (usually) located somewhere else than the CSS file! That makes

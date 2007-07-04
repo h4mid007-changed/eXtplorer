@@ -61,27 +61,15 @@ class jx_View extends jx_Action {
 		*/
 		
 		if( @eregi($GLOBALS["images_ext"], $item)) {
-			echo '<img src="'.$GLOBALS['home_url'].'/'.$dir.'/'.$item.'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
+			echo '<img src="'.make_link( 'get_image', $dir, $item).'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
 		}
 		
 		else {
 			
-			if( file_exists($GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php')) {
-				require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php' );
-			} elseif( file_exists( $GLOBALS['mosConfig_absolute_path'] . '/libraries/domit/xml_saxy_shared.php')) {
-				require_once($GLOBALS['mosConfig_absolute_path'] . '/libraries/domit/xml_saxy_shared.php');
-			} else {
-				return;
-			}
-			
-			if( file_exists($GLOBALS['mosConfig_absolute_path'] . '/mambots/content/geshi/geshi.php')) {
-				$geshiFile = $GLOBALS['mosConfig_absolute_path'] . '/mambots/content/geshi/geshi.php';
-			} elseif(file_exists($GLOBALS['mosConfig_absolute_path'] . '/libraries/geshi/geshi.php')) {
-				$geshiFile = $GLOBALS['mosConfig_absolute_path'] . '/libraries/geshi/geshi.php';
-			}	
+			$geshiFile = _EXT_PATH . '/libraries/geshi/geshi.php';
 			
 			if( file_exists( $geshiFile )) {
-				@ini_set( 'memory_limit', '32M'); // GeSHi 1.0.7 is very memory-intensive
+				jx_RaiseMemoryLimit('32M'); // GeSHi 1.0.7 is very memory-intensive
 				include_once( $geshiFile );
 				// Create the GeSHi object that renders our source beautiful
 				$geshi = new GeSHi( '', '', dirname( $geshiFile ).'/geshi' );
@@ -124,6 +112,32 @@ class jx_View extends jx_Action {
 		}
 		
 		//echo '<a href="#top" name="bottom" class="componentheading">[ '._CMN_TOP.' ]</a><br /><br />';
+	}
+	function sendImage( $dir, $item ) {
+		$abs_item = get_abs_item( $dir, $item );
+		if( $GLOBALS['jx_File']->file_exists( $abs_item )) {
+  			if(!@eregi($GLOBALS["images_ext"], $item)) return;
+  			while( @ob_end_clean() );
+  			
+  			$pathinfo = pathinfo( $item );
+	  			
+			switch(strtolower($pathinfo['extension'])) {
+				case ".gif":
+					header ("Content-type: image/gif");
+					break;
+				case ".jpg":
+				case ".jpeg":
+					header ("Content-type: image/jpeg");
+					break;
+				case ".png":
+					header ("Content-type: image/png");
+		  			break;
+	  		}
+	  		
+			echo $GLOBALS['jx_File']->file_get_contents( $abs_item );
+			
+		}
+		exit;
 	}
 }
 ?>

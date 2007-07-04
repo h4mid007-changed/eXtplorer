@@ -150,7 +150,7 @@ class jx_Chmod extends jx_Action {
 	<script type="text/javascript">
 	var form = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'index2.php'
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
 	
 	<?php
@@ -187,20 +187,23 @@ class jx_Chmod extends jx_Action {
 	form.end();
 	
 	form.addButton('<?php echo jx_Lang::msg( 'btnsave', true ) ?>', function() {
+		statusBarMessage( 'Applying Permissions, please wait...', true );
 	    form.submit({
-	        waitMsg: 'Applying Permissions, please wait...',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {
-	        	Ext.MessageBox.alert('Success!', action.result.message);
+	        	statusBarMessage( action.result.message, false, true );
 	        	datastore.reload();
 	    		dialog.hide();
 	        	dialog.destroy();
 	        },
-	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        failure: function(form, action) {
+	        	statusBarMessage( action.result.error, false, false );
+	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        },
 	        scope: form,
 	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_joomlaxplorer', 
+	        params: {option: 'com_extplorer', 
 	        		action: 'chmod', 
 	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
 	        		'selitems[]': ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 

@@ -40,7 +40,7 @@ class jx_Mkitem extends jx_Action {
 	function execAction($dir) {		// make new directory or file
 		if(($GLOBALS["permissions"]&01)!=01) jx_Result::sendResult( 'mkitem', false, $GLOBALS["error_msg"]["accessfunc"]);
 		
-		if( mosGetParam($_POST,'confirm') == 'true') {
+		if( extGetParam($_POST,'confirm') == 'true') {
 			$mkname=$GLOBALS['__POST']["mkname"];
 			$mktype=$GLOBALS['__POST']["mktype"];
 			$symlink_target = $GLOBALS['__POST']['symlink_target'];
@@ -75,12 +75,8 @@ class jx_Mkitem extends jx_Action {
 				if( PEAR::isError( $ok ) ) $err.= $ok->getMessage();
 				jx_Result::sendResult( 'mkitem', false, $err);
 			}
-			$result = array('action' => 'The item '.$new.' was created', 
-							'name' => $mkname,
-							'success' => true );
-			$json = new Services_JSON();
-			$jresult = $json->encode($result);
-			print $jresult;
+			jx_Result::sendResult( 'mkitem', true, 'The item '.$new.' was created' );
+			
 			return;
 		}
 	?>
@@ -110,7 +106,7 @@ class jx_Mkitem extends jx_Action {
 	});
 	var simple = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'index2.php'
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
 	simple.add(
 	    new Ext.form.TextField({
@@ -127,6 +123,7 @@ class jx_Mkitem extends jx_Action {
 		    hiddenName: 'mktype',
 		    disableKeyFilter: true,
 		    editable: false,
+		    triggerAction: 'all',
 		    mode: 'local',
 		    allowBlank: false,
 		    selectOnFocus:true
@@ -140,12 +137,12 @@ class jx_Mkitem extends jx_Action {
 	);
 	
 	simple.addButton('<?php echo jx_Lang::msg( 'btncreate', true ) ?>', function() {
+		statusBarMessage( 'Please wait...', true );
 	    simple.submit({
-	        waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {	
-	        	//Ext.MessageBox.alert('Success', action.result.action);
+	        	statusBarMessage( action.result.message, false, true );
 	        	try{ 
 	        		dirTree.getSelectionModel().getSelectedNode().reload(); 
 	        	} catch(e) {}
@@ -153,11 +150,13 @@ class jx_Mkitem extends jx_Action {
 				dialog.destroy();
 	        },
 	        failure: function(form, action) {
+	        	if( !action.result ) return;
 				Ext.MessageBox.alert('Error!', action.result.error);
+				statusBarMessage( action.result.error, false, true );
 	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_joomlaxplorer', 
+	        params: {option: 'com_extplorer', 
 	        		action: 'mkitem', 
 	        		dir: datastore.directory, 
 	        		confirm: 'true'}

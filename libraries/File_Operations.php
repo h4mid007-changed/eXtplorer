@@ -383,7 +383,7 @@ class jx_File {
 function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 
 	if( get_is_dir( $abs_item )) {
-		$tmp_dir = _QUIXPLORER_FTPTMP_PATH.'/'.uniqid('jx_tmpdir_').'/';
+		$tmp_dir = _EXT_FTPTMP_PATH.'/'.uniqid('jx_tmpdir_').'/';
 		$res = $GLOBALS['FTPCONNECTION']->getRecursive( $abs_item, $tmp_dir, true );
 		if( PEAR::isError( $res )) {
 			jx_Result::sendResult( 'list', false, 'Failed to fetch the directory via FTP: '.$res->getMessage() );
@@ -392,7 +392,7 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 	}
 	
 	if( !$use_filehandle ) {
-		$tmp_file = tempnam( _QUIXPLORER_FTPTMP_PATH, 'jx_ftp_dl_' );
+		$tmp_file = tempnam( _EXT_FTPTMP_PATH, 'jx_ftp_dl_' );
 	
 		if( $tmp_file == 'false') {
 			jx_Result::sendResult( 'list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');

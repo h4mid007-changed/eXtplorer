@@ -68,7 +68,7 @@ Version $Id: $
 	it's just a directory browser, no descriptions, no download counter!)
 	!DISABLED BY DEFAULT!
 	Enable by editing the file
-	/components/com_joomlaxplorer/configuration.jx.php
+	/components/com_extplorer/configuration.jx.php
 
 --- version 1.3.3 released ---
 

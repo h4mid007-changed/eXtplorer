@@ -142,7 +142,7 @@ class jx_Edit extends jx_Action {
 	dialog.setContentSize( 700, 500 );
 	simple = new Ext.form.Form({
 	    labelAlign: 'top',
-	    url:'index2.php'
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
 	simple.add(		
 	    new Ext.form.TextArea({
@@ -171,16 +171,16 @@ class jx_Edit extends jx_Action {
 		})
 	);
 	simple.addButton('<?php echo jx_Lang::msg('btnsave', true ) ?>', function() {
-
+		statusBarMessage( 'Saving File...', true );
 	    simple.submit({
 	        //waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {
 	        	datastore.reload();
-	        	Ext.MessageBox.alert('Success!', action.result.message);
+	        	statusBarMessage( action.result.message, false, true );
 	        	if( simple.findField('return_to_dir').getValue() ) {
-	        		dialog.hide();dialog.destroy();
+	        		dialog.destroy();
 	        	}
 	        },
 	        failure: function(form, action) {
@@ -188,7 +188,7 @@ class jx_Edit extends jx_Action {
 	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_joomlaxplorer', 
+	        params: {option: 'com_extplorer', 
 	        		action: 'edit', 
 	        		code: ext_codefield.getCode(),
 	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 

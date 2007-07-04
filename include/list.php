@@ -230,7 +230,7 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 		$items['items'][$i]['is_deletable'] = $is_deletable = @$GLOBALS['jx_File']->is_deletable( $abs_item );
 		$items['items'][$i]['is_editable'] = get_is_editable($abs_item);
 		
-		$items['items'][$i]['icon'] = _JX_URL."/images/".get_mime_type($abs_item, "img");
+		$items['items'][$i]['icon'] = _EXT_URL."/images/".get_mime_type($abs_item, "img");
 		$items['items'][$i]['size'] = parse_file_size(get_file_size( $abs_item));
 	// type
 		$items['items'][$i]['type'] = get_mime_type( $abs_item, "type");
@@ -308,21 +308,22 @@ class jx_List extends jx_Action {
 		show_header();
 		
 		$GLOBALS['mainframe']->addcustomheadtag( '
-		<script type="text/javascript" src="'. _JX_URL . '/fetchscript.php?'
+		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
 			.'subdir[0]=scripts/codepress/&amp;file[0]=codepress.js'
 			.'&amp;subdir[1]=scripts/extjs/&amp;file[1]=yui-utilities.js'
 			.'&amp;subdir[2]=scripts/extjs/&amp;file[2]=ext-yui-adapter.js'
-			.'&amp;subdir[3]=scripts/extjs/&amp;file[3]=ext-all.js&amp;gzip='.$GLOBALS['mosConfig_gzip'].'"></script>
-		<script type="text/javascript" src="'. $mosConfig_live_site .'/administrator/index2.php?option=com_joomlaxplorer&amp;action=include_javascript&amp;file=functions.js"></script>	
-		<link rel="stylesheet" href="'. _JX_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip='.$GLOBALS['mosConfig_gzip'].'" />');
+			.'&amp;subdir[3]=scripts/extjs/&amp;file[3]=ext-all.js&amp;gzip=1"></script>
+		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>	
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip=1" />');
 		?>
 		<div id="dirtree"></div>
 	<div id="dirtree-panel"></div>
 	<div id="item-grid"></div>
+	<div id="jx_statusbar" class="jx_statusbar"></div>
 	
 	<?php
 		// That's the main javascript file to build the Layout & App Logic
-		include( _JX_PATH.'/scripts/application.js.php' );
+		include( _EXT_PATH.'/scripts/application.js.php' );
 		
 	}
 

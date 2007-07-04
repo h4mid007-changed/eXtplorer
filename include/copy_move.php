@@ -37,7 +37,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * File/Directory Copy & Move Functions
  */
 function copy_move_items($dir) {		// copy/move file/dir
-	$action = mosGetParam( $_REQUEST, 'action' );
+	$action = extGetParam( $_REQUEST, 'action' );
 	if(($GLOBALS["permissions"]&01)!=01){
 		jx_Result::sendResult( $action, false, $GLOBALS["error_msg"]["accessfunc"]);
 	}
