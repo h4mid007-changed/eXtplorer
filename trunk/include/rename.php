@@ -96,7 +96,7 @@ class jx_Rename extends jx_Action {
 	<script type="text/javascript">
 	var simple = new Ext.form.Form({
 	    labelWidth: 75, // label settings here cascade unless overridden
-	    url:'index2.php'
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
 	simple.add(
 	    new Ext.form.TextField({
@@ -109,8 +109,8 @@ class jx_Rename extends jx_Action {
 	    );
 	
 	simple.addButton('<?php echo jx_Lang::msg( 'btnsave', true ) ?>', function() {
+		statusBarMessage( 'Please wait...', true );
 	    simple.submit({
-	        waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {
@@ -127,13 +127,17 @@ class jx_Rename extends jx_Action {
 		        	<?php 
 	        	}
 	    		?>
-	    		dialog.hide();
+	    		statusBarMessage( action.result.message, false, true );
 	        	dialog.destroy();
 	        },
-	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        failure: function(form, action) {	        	
+	        	if( !action.result ) return;
+	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	statusBarMessage( action.result.error, false, false );
+	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_joomlaxplorer', 
+	        params: {option: 'com_extplorer', 
 	        		action: 'rename', 
 	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
 	        		item: '<?php echo stripslashes($GLOBALS['__POST']["item"]) ?>', 

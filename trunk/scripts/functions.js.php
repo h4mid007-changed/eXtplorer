@@ -36,7 +36,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 ?>
 function showLoadingIndicator( el, replaceContent ) {
 	if( !el ) return;
-	var loadingimg = 'components/com_joomlaxplorer/images/indicator.gif';
+	var loadingimg = 'components/com_extplorer/images/indicator.gif';
 	var imgtag = '<img src="'+ loadingimg + '" alt="Loading..." border="0" name="Loading" align="absmiddle" />';
 	
 	if( replaceContent ) {
@@ -109,17 +109,24 @@ function openActionDialog( caller, action ) {
 					title: 'Website Dialog',
                     center: {
                         autoScroll:true
+                    },
+                    south: {
+			            initialSize: 22,
+			            titlebar: false,
+			            collapsible: false,
+			            resizable: false
                     }
 					
             });
             dialog.addKeyListener(27, dialog.hide, dialog);
 			dialog_panel = new Ext.ContentPanel('dialog-center', {
 									autoCreate: true,
-									autoScroll:true,
 									fitToFrame: true
 								});
-
-			dialog_panel.load( { url: 'index2.php', 
+			dialog_status = new Ext.ContentPanel('dialog-status', { autoCreate: true } );
+			dialog_status.getEl().addClass(['jx_statusbar', 'done']);
+			
+			dialog_panel.load( { url: '<?php echo basename($GLOBALS['script_name']) ?>', 
 								params: Ext.urlEncode( requestParams ),
 								scripts: true,
 								callback: function(oElement, bSuccess, oResponse) {
@@ -136,7 +143,10 @@ function openActionDialog( caller, action ) {
             var layout = dialog.getLayout();
             layout.beginUpdate();
             layout.add('center', dialog_panel );
+            layout.add('south', dialog_status );
             layout.endUpdate();
+            
+            dialog.on( 'hide', function() { dialog_panel.destroy(); dialog_status.destroy(); dialog.destroy(); } );
             
             dialog.show();
             break;
@@ -149,7 +159,7 @@ function openActionDialog( caller, action ) {
 			Ext.Msg.confirm('<?php echo jx_Lang::msg('extractlink', true ) ?>?', "<?php echo jx_Lang::msg('extract_warning', true ) ?>", extractArchive);
 			break;
 		case 'download':
-			document.location = 'index3.php?option=com_joomlaxplorer&action=download&item='+ encodeURIComponent(jx_itemgrid.getSelectionModel().getSelected().get('name')) + '&dir=' + encodeURIComponent( datastore.directory );
+			document.location = '<?php echo basename($GLOBALS['script_name']) ?>?option=com_extplorer&action=download&item='+ encodeURIComponent(jx_itemgrid.getSelectionModel().getSelected().get('name')) + '&dir=' + encodeURIComponent( datastore.directory );
 			break;
 	}
 }
@@ -157,13 +167,13 @@ function handleCallback(requestParams, node) {
 	var conn = new Ext.data.Connection();
 	
 	conn.request({
-		url: 'index3.php',
+		url: '<?php echo basename($GLOBALS['script_name']) ?>',
 		params: requestParams,
 		callback: function(options, success, response ) {
 			if( success ) {
 				json = Ext.decode( response.responseText );
 				if( json.success ) {
-					Ext.Msg.alert( 'Success', json.message );
+					statusBarMessage( json.message, false, true );
 					try { 
 						if( dropEvent) {
 							dropEvent.target.parentNode.reload();
@@ -219,7 +229,7 @@ function getRequestParams() {
 	}
 
 	var requestParams = { 
-		option: 'com_joomlaxplorer', 
+		option: 'com_extplorer', 
 		dir: dir,
 		item: selitems.length > 0 ? selitems[0]:'',
 		'selitems[]': selitems
@@ -254,6 +264,24 @@ function deleteDir( btn, node ) {
 	requestParams.selitems = Array( node.id.replace( /_RRR_/g, '/' ) );
 	requestParams.action = 'delete';
 	handleCallback(requestParams, node);
+}
+function statusBarMessage( msg, isLoading, success ) {
+	if( isLoading ) {
+		statusPanel.getEl().removeClass('done');
+		try { dialog_status.getEl().removeClass('done') } catch(e){};
+	}
+	else {
+		try { dialog_status.getEl().addClass('done'); } catch(e){}
+		statusPanel.getEl().addClass('done');
+	}
+	if( success ) {
+		msg = '<span class="success">Success: </span>' + msg;
+	} else if( success != null ) {
+		msg = '<span class="error">Error: </span>' + msg;
+	}
+	statusPanel.setContent( msg );
+	try { dialog_status.setContent( msg );  } catch(e){}
+    
 }
 
 /**

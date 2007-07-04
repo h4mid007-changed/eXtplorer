@@ -99,7 +99,7 @@ class MIME_Type {
         $this->media = $this->getMedia($type);
         $this->subType = $this->getSubType($type);
         if (MIME_Type::hasParameters($type)) {
-            require_once 'MIME/Type/Parameter.php';
+            require_once dirname(__FILE__).'/Parameter.php';
             foreach (MIME_Type::getParameters($type) as $param) {
                 $param = &new MIME_Type_Parameter($param);
                 $this->parameters[$param->name] = $param;

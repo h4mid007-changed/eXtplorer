@@ -101,7 +101,7 @@ function get_result_table($list) {			// print table of found items
 		}
 		
 		$response .= "<tr><td>" . "<img border=\"0\" width=\"22\" height=\"22\" ";
-		$response .= "align=\"absmiddle\" src=\""._JX_URL."/images/" . $img . "\" alt=\"\">&nbsp;";
+		$response .= "align=\"absmiddle\" src=\""._EXT_URL."/images/" . $img . "\" alt=\"\">&nbsp;";
 		/*if($link!="")*/ 
 		$response .= "<a href=\"".$link."\" target=\"".$target."\">";
 		//else echo "<a>";
@@ -144,7 +144,7 @@ function search_items($dir) {			// search for item
 	<script type="text/javascript">
 	var form = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:\'index2.php\'
+	    url:\''. basename( $GLOBALS['script_name']) .'\'
 	});
 	form.add(
 	    new Ext.form.TextField({
@@ -171,7 +171,7 @@ function search_items($dir) {			// search for item
 	        scope: form,
 	        // add some vars to the request, similar to hidden fields
 	        params: {
-	        	option: \'com_joomlaxplorer\', 
+	        	option: \'com_extplorer\', 
 	        	action: \'search\', 
 	        	dir: \''.$GLOBALS['__POST']["dir"] .'\'
 	        }

@@ -40,7 +40,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 function read_bookmarks() {
 	global $my;
-	$bookmarkfile = _JX_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
+	$bookmarkfile = _EXT_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_';
+	if( empty( $my->id )) {
+		$bookmarkfile .= $GLOBALS['__SESSION']['s_user'].'.php';
+	} else {
+		$bookmarkfile .= $my->id . '.php';
+	}
 	if( file_exists( $bookmarkfile )) {
 		return parse_ini_file( $bookmarkfile );
 	}
@@ -60,9 +65,14 @@ function read_bookmarks() {
  */
 function modify_bookmark( $task, $dir ) {
 	global $my;
-	$alias = substr( mosGetParam($_REQUEST,'alias'), 0, 150 );
+	$alias = substr( extGetParam($_REQUEST,'alias'), 0, 150 );
 	$bookmarks = read_bookmarks();
-	$bookmarkfile = _JX_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.$my->id.'.php';
+		$bookmarkfile = _EXT_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_';
+	if( empty( $my->id )) {
+		$bookmarkfile .= $GLOBALS['__SESSION']['s_user'].'.php';
+	} else {
+		$bookmarkfile .= $my->id . '.php';
+	}
 	while( @ob_end_clean() );
 
 	header( "Status: 200 OK" );
@@ -132,8 +142,8 @@ function list_bookmarks( $dir ) {
 		$dir = substr( $dir, 1);
 	}
 	$html .= jx_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 200px;"');
-	$img_add = '<img src="'._JX_URL.'/images/bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
-	$img_remove = '<img src="'._JX_URL.'/images/remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
+	$img_add = '<img src="'._EXT_URL.'/images/bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
+	$img_remove = '<img src="'._EXT_URL.'/images/remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
 
 	$addlink=$removelink='';
 
@@ -143,7 +153,7 @@ function list_bookmarks( $dir ) {
 		.'function(btn, text){ '
 			.'if (btn == \'ok\') { '
 				.'Ext.get(\'bookmark_container\').load({ '
-					.'url: \'index2.php\', '
+					.'url: \''. basename( $GLOBALS['script_name']) .'\', '
 					.'scripts: true, '
 					.'params: { '
 						.'action:\'modify_bookmark\', '
@@ -151,7 +161,7 @@ function list_bookmarks( $dir ) {
 						.'requestType: \'xmlhttprequest\', '
 						.'alias: text, '
 						.'dir: \''.$dir.'\', '
-						.'option: \'com_joomlaxplorer\' '
+						.'option: \'com_extplorer\' '
 					.'} '
 				.'}); '
 			.'}'
@@ -163,13 +173,13 @@ function list_bookmarks( $dir ) {
 		.'function(btn, text){ '
 			.'if (btn == \'yes\') { '
 				.'Ext.get(\'bookmark_container\').load({ '
-					.'url: \'index2.php\', '
+					.'url: \''. basename( $GLOBALS['script_name']) .'\', '
 					.'scripts: true, '
 					.'params: { '
 						.'action:\'modify_bookmark\', '
 						.'task: \'remove\', '
 						.'dir: \''.$dir.'\', '
-						.'option: \'com_joomlaxplorer\' '
+						.'option: \'com_extplorer\' '
 					.'} '
 				.'}); '
 			.'}'

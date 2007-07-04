@@ -34,7 +34,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 function show_about() {			// footer for html-page
 	echo "\n<div id=\"jx_footer\" style=\"text-align:center;\">
-	<img src=\""._JX_URL."/images/logo.gif\" align=\"middle\" alt=\"joomlaXplorer Logo\" />
+	<img src=\""._EXT_URL."/images/logo.gif\" align=\"middle\" alt=\"joomlaXplorer Logo\" />
 	<br />
 	Your Version: <a href=\"".$GLOBALS['jx_home']."\" target=\"_blank\">joomlaXplorer {$GLOBALS['jx_version']}</a>
 	<br />
@@ -66,6 +66,12 @@ function show_about() {			// footer for html-page
 		echo $owner_info;
 	}
 	echo "
+	</div>";
+}
+
+function show_footer()  {
+	echo "\n<div id=\"jx_footer\" style=\"text-align:center;\">
+	<img src=\""._EXT_URL."/images/logo.gif\" align=\"middle\" alt=\"joomlaXplorer Logo\" />
 	</div>";
 }
 //------------------------------------------------------------------------------

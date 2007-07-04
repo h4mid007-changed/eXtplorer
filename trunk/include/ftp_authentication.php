@@ -38,13 +38,13 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 class jx_ftp_authentication {
 	function execAction() {
-	  	$ftp_login = mosGetParam( $_POST, 'ftp_login_name', '' );
-	  	$ftp_pass = mosGetParam( $_POST, 'ftp_login_pass', '' );
+	  	$ftp_login = extGetParam( $_POST, 'ftp_login_name', '' );
+	  	$ftp_pass = extGetParam( $_POST, 'ftp_login_pass', '' );
 		global $dir, $mosConfig_live_site;
 		
 		if( $ftp_login != '' || $ftp_pass != '' ) {
 	
-			$ftp_host = mosGetParam( $_POST, 'ftp_host', 'localhost:21' );
+			$ftp_host = extGetParam( $_POST, 'ftp_host', 'localhost:21' );
 			$url = @parse_url( 'ftp://' . $ftp_host);
 			if( empty( $url )) {			
 				jx_Result::sendResult('ftp_authentication', false, 'Unable to parse the specified Host Name. Please use a hostname in this format: hostname:21' );
@@ -112,22 +112,26 @@ class jx_ftp_authentication {
 	    new Ext.form.TextField({
 	        fieldLabel: '<?php echo jx_Lang::msg('ftp_hostname_port', true ) ?>',
 	        name: 'ftp_hostname_port',
-	        value: '<?php echo mosGetParam($_SESSION,'ftp_host', 'localhost:21') ?>',
+	        value: '<?php echo extGetParam($_SESSION,'ftp_host', 'localhost:21') ?>',
 	        width:175,
 	        allowBlank:false
 	    })
 	    );
 	
 	simple.addButton('Save', function() {
+		statusBarMessage( '<?php echo jx_Lang::msg('ftp_login_check', true ) ?>', true );
 	    simple.submit({
-	        waitMsg: '<?php echo jx_Lang::msg('ftp_login_check', true ) ?>',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) { location.reload() },
-	        failure: function(form, action) {Ext.MessageBox.alert('Error!', action.result.error);},
+	        failure: function(form, action) {
+	        	if( !action.result ) return;
+	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	statusBarMessage( action.result.error, false, false );
+	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_joomlaxplorer', 
+	        params: {option: 'com_extplorer', 
 	        		action: 'ftp_authentication'
 	        }
 	    });
@@ -146,5 +150,5 @@ function ftp_logout() {
 	unset($_SESSION['ftp_pass']);
 	unset($_SESSION['ftp_host']);
 	session_write_close();
-	mosRedirect('index2.php?option=com_joomlaxplorer&file_mode=file');
+	extRedirect( make_link(null, null, null, null, null, null, '&file_mode=file') );
 }

@@ -56,7 +56,7 @@ function get_server_software() {
 function system_info( $version, $option ) {
 	global $mosConfig_absolute_path, $database, $_VERSION;
 	$version = $_VERSION->PRODUCT .' <strong style="color: red;">'. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .'</strong> '. $_VERSION->DEV_STATUS .' [ '.$_VERSION->CODENAME .' ] ' . $_VERSION->RELDATE . ' ' . $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
-	//$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
+	//$tab = extGetParam( $_REQUEST, 'tab', 'tab1' );
 	$width = 400;	// width of 100%
 	$tabs = new mosTabs(0);
 	?>

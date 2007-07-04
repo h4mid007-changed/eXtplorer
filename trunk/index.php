@@ -1,11 +1,9 @@
 <?php
-// ensure this file is being included by a parent file
-if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -30,46 +28,41 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * the provisions above, a recipient may use your version of this file
  * under either the MPL or the GPL."
  * 
- * 
+ * Main File for the standalone version
  */
-/**
- * Allows to extract archives on the server
- *
- */
-class jx_Extract extends jx_Action {
 
-	function execAction( $dir, $item ) {
-		
-		global $mosConfig_absolute_path;
-	
-		if( !jx_isArchive( $item )) {
-			jx_Result::sendResult('archive', false, jx_Lang::err('extract_noarchive'));
-		}
-		else {
-	
-			$archive_name = realpath(get_abs_item($dir,$item));
-	
-			$file_info = pathinfo($archive_name);
-	
-			if( empty( $dir )) {
-				$extract_dir = realpath($GLOBALS['home_dir']);
-			}
-			else {
-				$extract_dir = realpath( $GLOBALS['home_dir']."/".$dir );
-			}
-	
-			$ext = $file_info["extension"];
-	
-			require_once(_EXT_PATH . "/libraries/Archive.php");
-			$archive_name .= '/';
-			$result = File_Archive::extract( $archive_name, $extract_dir );
-			if( PEAR::isError( $result )) {
-				jx_Result::sendResult('extract', false, jx_Lang::err('extract_failure').': '.$result->getMessage() );
-			}
-			
-			jx_Result::sendResult('extract', true, jx_Lang::msg('extract_success') );
-	
-		}
-	}
-}
+// Set flag that this is a parent file
+define( '_VALID_MOS', 1 );
+define( '_VALID_EXT', 1 );
+
+require_once( dirname(__FILE__).'/libraries/standalone.php');
+ob_start();
+include( dirname(__FILE__).'/admin.extplorer.php' );
+$mainbody = ob_get_contents();
+ob_end_clean();
+
+extInitGzip();
+header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+header( 'Cache-Control: post-check=0, pre-check=0', false );
+header( 'Pragma: no-cache' );
+
+echo '<?xml version="1.0" encoding="utf-8">';
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<?php echo $mainframe->getHead(); ?>
+		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
+		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+		<meta name="robots" content="noindex, nofollow" />
+	</head>
+	<body>
+		<?php echo $mainbody; ?>
+	</body>
+</html>
+<?php
+extDoGzip();
+
 ?>

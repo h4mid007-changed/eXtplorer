@@ -33,7 +33,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Administrative Functions regarding users
  */
 function load_users() {
-	require _JX_PATH."/config/.htusers.php";
+	require _EXT_PATH."/config/.htusers.php";
 }
 //------------------------------------------------------------------------------
 function save_users() {
@@ -55,10 +55,7 @@ function save_users() {
 	$content.="\r\n); ?>";
 	
 	// Write to File
-	$fp = @fopen(_JX_PATH."/config/.htusers.php", "w");
-	if($fp===false) return false;	// Error
-	fputs($fp,$content);
-	fclose($fp);
+	file_put_contents( _EXT_PATH."/config/.htusers.php", $content);
 	
 	return true;
 }

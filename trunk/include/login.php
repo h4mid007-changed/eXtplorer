@@ -3,7 +3,7 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
@@ -35,17 +35,16 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 
 //------------------------------------------------------------------------------
-require _JX_PATH."/include/users.php";
+require _EXT_PATH."/include/users.php";
 load_users();
 //------------------------------------------------------------------------------
 
-if(isset($_SESSION)) 			$GLOBALS['__SESSION']=&$_SESSION;
-elseif(isset($HTTP_SESSION_VARS))	$GLOBALS['__SESSION']=&$HTTP_SESSION_VARS;
-else logout();
+$GLOBALS['__SESSION']=&$_SESSION;
+
 //------------------------------------------------------------------------------
 function login() {
-	global $my;
-	if(isset($GLOBALS['__SESSION']["s_user"])) {
+	
+	if(!empty($GLOBALS['__SESSION']["s_user"])) {
 		if(!activate_user($GLOBALS['__SESSION']["s_user"],$GLOBALS['__SESSION']["s_pass"])) {
 			logout();
 		}
@@ -56,41 +55,118 @@ function login() {
 		if(isset($GLOBALS['__POST']["p_user"])) {
 			// Check Login
 			if(!activate_user(stripslashes($GLOBALS['__POST']["p_user"]), md5(stripslashes($p_pass)))) {
-				logout();
+				jx_Result::sendResult('login', false, 'Login Failed, try again.' );
 			}
-			return;
+			jx_Result::sendResult('login', true, 'Login Successful' );
 		} else {
 			// Ask for Login
-			show_header($GLOBALS["messages"]["actlogin"]);
-			echo "<br><table width=\"300\"><tr><td colspan=\"2\" class=\"header\" nowrap><b>";
-			echo $GLOBALS["messages"]["actloginheader"]."</b></td></tr>\n<form name=\"login\" action=\"";
-			echo make_link("login",null,null)."\" method=\"post\">\n";
-			echo "<tr><td>".$GLOBALS["messages"]["miscusername"].":</td><td align=\"right\">";
-			echo "<input name=\"p_user\" type=\"text\" value=\"".$my->username."\" size=\"25\"></td></tr>\n";
-			echo "<tr><td>".$GLOBALS["messages"]["miscpassword"].":</td><td align=\"right\">";
-			echo "<input name=\"p_pass\" type=\"password\" size=\"25\"></td></tr>\n";
-			echo "<tr><td>".$GLOBALS["messages"]["misclang"].":</td><td align=\"right\">";
-			echo "<select name=\"lang\">\n";
-			@include _JX_PATH."/languages/_info.php";
-			echo "</select></td></tr>\n";
-			echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"";
-			echo $GLOBALS["messages"]["btnlogin"]."\"></td></tr>\n</form></table><br>\n";
-?><script language="JavaScript1.2" type="text/javascript">
-<!--
+			
+			$GLOBALS['mainframe']->addcustomheadtag( '
+		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
+			.'subdir[0]=scripts/codepress/&amp;file[0]=codepress.js'
+			.'&amp;subdir[1]=scripts/extjs/&amp;file[1]=yui-utilities.js'
+			.'&amp;subdir[2]=scripts/extjs/&amp;file[2]=ext-yui-adapter.js'
+			.'&amp;subdir[3]=scripts/extjs/&amp;file[3]=ext-all.js&amp;gzip=1"></script>
+		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>	
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip=1" />');
+			
+			$langs = get_languages();
+			?>
+			<div style="width: 400px;" id="formContainer">
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	
+	        <h3 style="margin-bottom:5px;">eXtplorer - <?php echo jx_Lang::msg('actlogin') ?></h3>
+	        <div id="adminForm">
+	
+	        </div><div class="jx_statusbar" id="statusBar"></div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	    
+	</div>
+	<script type="text/javascript">
+	var languages = new Ext.data.SimpleStore({
+	    fields: ['language', 'langname'],
+	    data :  [
+	    <?php foreach( $langs as $language => $name ) {
+	    	echo "['$language', '$name' ],";
+	    }
+	      ?>
+	        ]
+	});
+	var simple = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
+	});
+	simple.add(
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscusername', true ) ?>',
+	        name: 'p_user',
+	        width:175,
+	        allowBlank:false
+	    }),
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscpassword', true ) ?>',
+	        name: 'p_pass',
+	        inputType: 'password',
+	        width:175,
+	        allowBlank:false
+	    }),
+		new Ext.form.ComboBox({
+			fieldLabel: '<?php echo jx_Lang::msg( 'misclang', true ) ?>',
+		    store: languages,
+		    displayField:'langname',
+		    valueField: 'language',
+		    hiddenName: 'lang',
+		    disableKeyFilter: true,
+		    editable: false,
+		    triggerAction: 'all',
+		    mode: 'local',
+		    allowBlank: false,
+		    selectOnFocus:true
+		})
+	);
+	
+	simple.addButton('<?php echo jx_Lang::msg( 'btnlogin', true ) ?>', function() {
+		Ext.get( 'statusBar').update( 'Please wait...' );
+	    simple.submit({
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {	
+	        	Ext.get( 'statusBar').update( action.result.message );
+				location.reload();
+	        },
+	        failure: function(form, action) {
+	        	if( !action.result ) return;
+				Ext.MessageBox.alert('Error!', action.result.error);
+				Ext.get( 'statusBar').update( action.result.error );
+				simple.findField( 'p_pass').setValue('');
+				simple.findField( 'p_user').focus();
+	        },
+	        scope: simple,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_extplorer', 
+	        		action: 'login'
+	        }
+	    })
+	});
+	simple.addButton('<?php echo jx_Lang::msg( 'btnreset', true ) ?>', function() { simple.reset(); } );
+	simple.render('adminForm');
+	Ext.get( 'formContainer').center();
 	if(document.login) document.login.p_user.focus();
-// -->
+
 </script><?php
 			show_footer();
-			exit;
+			define( '_LOGIN_REQUIRED', 1 );
 		}
 	}
 }
 //------------------------------------------------------------------------------
 function logout() {
-	$GLOBALS['__SESSION']["s_user"]="";
-	$GLOBALS['__SESSION']["s_pass"]="";
-
-	header("location: ".$GLOBALS["script_name"]);
+	unset( $GLOBALS['__SESSION']["s_user"] );
+	unset( $GLOBALS['__SESSION']["s_pass"] );
+	session_write_close();
+	header("location: ".$GLOBALS["script_name"].$GLOBALS['__SESSION']["s_user"]);
 }
 //------------------------------------------------------------------------------
 ?>

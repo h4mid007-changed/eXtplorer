@@ -70,3 +70,24 @@ a:hover, a:active {
 .ytheme-gray .x-layout-panel-north{
 	border-bottom:2px solid #f3f2e7;
 }
+.jx_statusbar {
+	font-size:8pt;
+	background-color:#D8E7FB;
+	background-image: url('../scripts/extjs/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	padding-top:3px;
+	height:18px;
+}
+.done {
+	background-image: url('../scripts/extjs/images/default/grid/done.gif');
+}
+.success {
+	font-weight: bold;
+	color: green;
+}
+.error {
+	font-weight: bold;
+	color: red;
+}

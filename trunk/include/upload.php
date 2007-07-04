@@ -143,21 +143,23 @@ class jx_Upload extends jx_Action {
 	    );
 	
 	simple.addButton('Save', function() {
+		statusBarMessage( 'Processing Upload, please wait...', true );
 	    simple.submit({
-	        waitMsg: 'Processing Upload, please wait...',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {
 	        	datastore.reload();
-	    		dialog.hide();
+	        	statusBarMessage( action.result.message, false, true );
 	        	dialog.destroy();
 	        },
 	        failure: function(form, action) {
+	        	if( !action.result ) return;
 	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	statusBarMessage( action.result.error, false, false );
 	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_joomlaxplorer', 
+	        params: {option: 'com_extplorer', 
 	        		action: 'upload', 
 	        		dir: datastore.directory,
 	        		requestType: 'xmlhttprequest',
