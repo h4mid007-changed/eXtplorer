@@ -40,17 +40,17 @@ function show_header($dirlinks='') {
 	$mode = extGetParam( $_SESSION, 'file_mode', 'file' );
 	$logoutlink = $mode == 'ftp' ? ' <a href="'.$GLOBALS['script_name'].'?option=com_extplorer&amp;action=ftp_logout" title="'.$GLOBALS['messages']['logoutlink'].'">['.$GLOBALS['messages']['logoutlink'].']</a>' : '';
 	$alternate_mode = $mode == 'file' ? 'ftp' : 'file';
-	echo '<tr><td width=\"20%\">';
+	echo '<tr><td width="20%">';
 	if( is_object( $GLOBALS['_VERSION'])) {
 		echo "<a href=\"index2.php\">Back to ".$GLOBALS['_VERSION']->PRODUCT.'</a>';
 	} else {
-		echo jx_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=document.location.href + \'&lang=\' + this.options[this.selectedIndex].value;"');
+		echo jx_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=\''.$GLOBALS['script_name'].'?lang=\' + this.options[this.selectedIndex].value;"');
 	}
 	// Logo
 	echo "</td><td style=\"color:black;\" width=\"10%\">";
 	//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
 	echo "<a href=\"".$GLOBALS['jx_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\">
-		<img src=\""._EXT_URL."/images/extplorer.png\" alt=\"eXtplorer\" border=\"0\" /></a>
+		<img src=\""._EXT_URL."/images/eXtplorer.gif\" alt=\"eXtplorer\" border=\"0\" /></a>
 		</td>";
 	//echo "</div>";
 	echo "<td style=\"padding-left: 15px; color:black;\" id=\"bookmark_container\" width=\"35%\"></td>\n";

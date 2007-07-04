@@ -61,12 +61,12 @@ else {
 	$GLOBALS['home_url'] = "http://".$GLOBALS['__SERVER']['HTTP_HOST'].'/'.dirname($GLOBALS['__SERVER']["PHP_SELF"]);
 }
 $GLOBALS['home_url'] = str_replace( '/administrator', '', $GLOBALS['home_url'] );
-$GLOBALS['home_dir'] = $_SERVER['DOCUMENT_ROOT'];
+$GLOBALS['home_dir'] = str_replace( '\\', '/', $_SERVER['DOCUMENT_ROOT'] );
 
 // Important Definitions!
 define ( "_EXT_PATH", realpath(dirname( __FILE__ ).'/..') );
 define ( "_EXT_FTPTMP_PATH", dirname( __FILE__ ).'/ftp_tmp' );
-if( function_exists( 'extGetParam') || class_exists( 'jconfig')) {
+if( function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
 	define ( "_EXT_URL", $GLOBALS['home_url']."/administrator/components/com_extplorer" );
 } else {
 	define ( "_EXT_URL", dirname($GLOBALS['script_name']) );
@@ -77,6 +77,8 @@ require _EXT_PATH."/include/functions.php";
 if( !class_exists('InputFilter')) {
 	require _EXT_PATH . '/libraries/inputfilter.php';
 }
+
+$action = stripslashes(extGetParam( $_REQUEST, "action" ));
 
 $GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'language', 'lang', $mosConfig_lang );
 // Get Item

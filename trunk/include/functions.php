@@ -63,7 +63,7 @@ function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages
 //------------------------------------------------------------------------------
 function get_abs_dir($dir) {			// get absolute path
 	if( jx_isFTPMode() ) {
-		if( $dir != '' && $dir[0] != '/' ) {
+		if( $dir != '' && $dir[0] != '/' && $dir[1] != ':') {
 			$dir = '/'.$dir;
 		}
 		return $dir;
@@ -75,13 +75,13 @@ function get_abs_dir($dir) {			// get absolute path
 	/*else {
 		$abs_dir = $dir;
 	}*/
-	$realpath = realpath($abs_dir);
-	/*if( $realpath == '') {
+	$realpath = str_replace('\\', '/', realpath($abs_dir) );
+	if( $realpath == '') {
 		return $abs_dir;
 	}
 	else {
 		return $realpath;
-	}*/
+	}
 	
 	return $realpath;
 }
@@ -308,14 +308,21 @@ function get_dir_list( $dir='' ) {
 	foreach( $files as $item) {
 		$item = str_replace( '\\', '/', $item );
 		if( get_is_dir($item)) {
-			$index = str_replace( get_abs_dir($GLOBALS['home_dir']).$GLOBALS['separator'], '', $item );
+			
+			$index = str_replace( $GLOBALS['home_dir'].$GLOBALS['separator'], '', $item );
 			$dirs[$index]= basename($index);
 		}
 	}
 	return $dirs;
 }
+/**
+ * Returns select lists with all the subdirectories along the current directory path
+ *
+ * @param string $dir
+ * @return string
+ */
 function get_dir_selects( $dir ) {
-	$dirs = explode( "/", $dir );
+	$dirs = explode( "/", str_replace( "\\", '/', $dir ) );
 	
 	$subdirs = get_dir_list();
 	if( empty($dirs[0]) ) array_shift($dirs);

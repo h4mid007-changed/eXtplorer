@@ -96,7 +96,7 @@ class jx_Result {
 		
 		if( empty( $_GET['error'] )) {
 			session_write_close();
-			mosRedirect( make_link("show_error", $GLOBALS["dir"], null, null, null, null, '&error=1&extra='.urlencode( $extra )) );
+			extRedirect( make_link("show_error", $GLOBALS["dir"], null, null, null, null, '&error=1&extra='.urlencode( $extra )) );
 		}
 		else {
 			show_header($GLOBALS["error_msg"]["error"]);

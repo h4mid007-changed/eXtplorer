@@ -69,8 +69,6 @@ umask(0002); // Added to make created files/dirs group writable
 //------------------------------------------------------------------------------
 require_once dirname( __FILE__) . "/include/init.php";	// Init
 //------------------------------------------------------------------------------
-
-$action = stripslashes(extGetParam( $_REQUEST, "action" ));
 if( $action == "post" )
   $action = extGetParam( $_REQUEST, "do_action" );
 elseif( empty( $action ))
@@ -85,11 +83,9 @@ if( $action == 'include_javascript' ) {
 
 if( defined( '_LOGIN_REQUIRED')) return;
 
-if( $action != "arch" && $action != "download" ) {
-	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_extplorer/style/opacity.js"></script>' );
-	if( $action == "archive") {
-		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_extplorer/scripts/mootools.ajax.js"></script>' );
-	}	
+$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_extplorer/style/opacity.js"></script>' );
+if( $action == "archive") {
+	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_extplorer/scripts/mootools.ajax.js"></script>' );
 }
 
 // Empty the output buffer if this is a XMLHttpRequest

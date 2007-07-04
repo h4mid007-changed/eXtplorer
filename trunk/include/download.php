@@ -52,7 +52,7 @@ class jx_Download extends jx_Action {
 		}
 		else {
 			$abs_item = get_abs_item($dir,$item);
-			if( !strstr( $abs_item, realpath($GLOBALS['home_dir']) ))
+			if( !strstr( $abs_item, $GLOBALS['home_dir']) )
 			  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
 		}
 		

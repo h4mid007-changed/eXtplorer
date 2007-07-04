@@ -19,13 +19,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 //------------------------------------------------------------------------------
 // Global User Variables (used when $require_login==false)
-	
-	if( $GLOBALS['isWindows'] ) {
-		$GLOBALS["separator"] = "\\";
-	}
-	else {
-		$GLOBALS["separator"] = "/";
-	}
+	$GLOBALS["separator"] = "/";
 	  
 	// the home directory for the filemanager: (use '/', not '\' or '\\', no trailing '/')
 

@@ -24,7 +24,7 @@ if (phpversion() < '4.3.0') {
 if (version_compare( phpversion(), '5.0' ) < 0) {
 	require_once( dirname( __FILE__ ) . '/compat.php50x.php' );
 }
-
+require_once( dirname( __FILE__ ) .'/../include/users.php' );
 @set_magic_quotes_runtime( 0 );
 
 // platform neurtral url handling
@@ -62,6 +62,7 @@ class extMainFrame {
 	* @param string The path of the ext directory
 	*/
 	function extMainFrame() {
+		session_name( get_session_name() );
 		session_start();
 		if( !isset( $_SESSION['_userstate'])) {
 			$_SESSION['_userstate'] = array();

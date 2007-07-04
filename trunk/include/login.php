@@ -35,7 +35,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 
 //------------------------------------------------------------------------------
-require _EXT_PATH."/include/users.php";
+require_once _EXT_PATH."/include/users.php";
 load_users();
 //------------------------------------------------------------------------------
 
@@ -72,17 +72,18 @@ function login() {
 			
 			$langs = get_languages();
 			?>
-			<div style="width: 400px;" id="formContainer">
-	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+		<div style="width: 400px;" id="formContainer">
+			<?php show_footer(); ?>
+	    	<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    	<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
 	        <h3 style="margin-bottom:5px;">eXtplorer - <?php echo jx_Lang::msg('actlogin') ?></h3>
 	        <div id="adminForm">
 	
 	        </div><div class="jx_statusbar" id="statusBar"></div>
-	    </div></div></div>
-	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	    
+	    	</div></div></div>
+	    	<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	    	
 	</div>
 	<script type="text/javascript">
 	var languages = new Ext.data.SimpleStore({
@@ -154,10 +155,10 @@ function login() {
 	simple.addButton('<?php echo jx_Lang::msg( 'btnreset', true ) ?>', function() { simple.reset(); } );
 	simple.render('adminForm');
 	Ext.get( 'formContainer').center();
+	Ext.get( 'formContainer').setTop(100);
 	simple.findField('p_user').focus();
 
 </script><?php
-			show_footer();
 			define( '_LOGIN_REQUIRED', 1 );
 		}
 	}
@@ -166,7 +167,7 @@ function login() {
 function logout() {
 	session_destroy();
 	session_write_close();
-	header("location: ".$GLOBALS["script_name"]);
+	header("Location: ".$GLOBALS["script_name"]);
 }
 //------------------------------------------------------------------------------
 ?>

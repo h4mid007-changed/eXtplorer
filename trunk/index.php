@@ -54,7 +54,7 @@ echo '<?xml version="1.0" encoding="'. $GLOBALS["charset"].'">';
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<?php echo $mainframe->getHead(); ?>
-		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
+		<link rel="shortcut icon" href="<?php echo _EXT_URL ?>/extplorer.ico" />
 		<meta http-equiv="Content-Type" content="text/html; <?php echo $GLOBALS["charset"]; ?>" />
 		<meta name="robots" content="noindex, nofollow" />
 	</head>
