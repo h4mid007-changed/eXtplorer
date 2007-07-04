@@ -74,25 +74,26 @@ function openActionDialog( caller, action ) {
 			selectedRows = Array( dirTree.getSelectionModel().getSelectedNode().id.replace( /_RRR_/g, '/' ) );
 		}
 	}
-	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1 };
+	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1, admin:1 };
 	if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
 		Ext.Msg.alert( '<?php echo jx_Lang::err('error', true )."','".jx_Lang::err('miscselitems', true ) ?>');
 		return false;
 	}
 
 	switch( action ) {
-		case 'search':
-		case 'view':
-		case 'mkitem':
-		case 'copy':
-		case 'move':
-		case 'edit':
-		case 'rename':
-		case 'chmod':
-		case 'upload':
+		case 'admin':
 		case 'archive':
+		case 'chmod':
+		case 'copy':
+		case 'edit':
 		case 'ftp_authentication':
 		case 'get_about':
+		case 'mkitem':
+		case 'move':
+		case 'rename':
+		case 'search':
+		case 'upload':
+		case 'view':
 			requestParams = getRequestParams();
 			requestParams.action = action;
 									

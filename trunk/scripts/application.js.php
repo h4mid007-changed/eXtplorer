@@ -57,7 +57,7 @@ function jx_init(){
             {name: 'name'},
             {name: 'size'},
             {name: 'type'},
-            {name: 'modified', type: 'date'},
+            {name: 'modified'},
             {name: 'perms'},
             {name: 'icon'},
             {name: 'owner'},
@@ -256,7 +256,7 @@ function jx_init(){
     		handler: function() { openActionDialog(this, 'search'); }
     	},
     	<?php } ?>
-    	new Ext.Toolbar.Separator(),
+    	'-',
     	{
     		id: 'tb_new',
     		icon: '<?php echo _EXT_URL ?>/images/filenew.png',
@@ -297,7 +297,7 @@ function jx_init(){
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'chmod'); }
     	},
-    	new Ext.Toolbar.Separator(),
+    	'-',
     	{
     		id: 'tb_view',
     		icon: '<?php echo _EXT_URL ?>/images/view.png',
@@ -313,7 +313,7 @@ function jx_init(){
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this,'download'); }
     	},
-    	new Ext.Toolbar.Separator(),
+    	'-',
     	{
     		id: 'tb_upload',
     		icon: '<?php echo _EXT_URL ?>/images/up.png',
@@ -346,7 +346,33 @@ function jx_init(){
     		handler: function() { openActionDialog(this, 'get_about'); }
     	},
     	'-',
-    	
+    	<?php
+		// ADMIN & LOGOUT
+		if(!empty($GLOBALS["require_login"])) {
+			if($admin) {
+		
+			?>
+	    	{	// ADMIN
+	    		id: 'tb_admin',
+	    		icon: '<?php echo _EXT_URL ?>/images/_admin.gif',
+	    		tooltip: '<?php echo jx_Lang::msg('adminlink', true ) ?>',
+	    		cls:'x-btn-icon',
+	    		handler: function() { openActionDialog(this, 'admin'); }
+	    	},
+	    	<?php
+			}
+			?>
+	    	{	// LOGOUT
+	    		id: 'tb_logout',
+	    		icon: '<?php echo _EXT_URL ?>/images/logout.png',
+	    		tooltip: '<?php echo jx_Lang::msg('logoutlink', true ) ?>',
+	    		cls:'x-btn-icon',
+	    		handler: function() { document.location.href='<?php echo make_link('logout', null ) ?>'; }
+	    	},		
+	    	'-',
+			<?php
+		}
+		?>		
     	new Ext.Toolbar.Button( {
     		text: 'Show Directories',
     		enableToggle: true,

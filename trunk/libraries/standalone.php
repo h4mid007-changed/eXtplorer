@@ -53,6 +53,7 @@ DEFINE( '_CURRENT_SERVER_TIME_FORMAT', '%Y-%m-%d %H:%M:%S' );
 class extMainFrame {
 	/** @var array An array of page meta information */
 	var $_head						= null;
+	var $_userstate					= null;
 
 	/**
 	* Class constructor
@@ -63,9 +64,10 @@ class extMainFrame {
 	function extMainFrame() {
 		session_start();
 		if( !isset( $_SESSION['_userstate'])) {
-			$this->_userstate &= $_SESSION['_userstate'] = array();
+			$_SESSION['_userstate'] = array();
+			$this->_userstate = $_SESSION['_userstate'];
 		} else {
-			$this->_userstate &= $_SESSION['_userstate'];
+			$this->_userstate = $_SESSION['_userstate'];
 		}
 		$this->_head = array();
 		$this->_head['title'] 	= 'eXtplorer';
@@ -207,7 +209,9 @@ class extMainFrame {
 	* @param string The default value for the variable if not found
 	*/
 	function getUserStateFromRequest( $var_name, $req_name, $var_default=null ) {
+		
 		if (is_array( $this->_userstate )) {
+			
 			if (isset( $_REQUEST[$req_name] )) {
 				$this->setUserState( $var_name, $_REQUEST[$req_name] );
 			} else if (!isset( $this->_userstate[$var_name] )) {
@@ -231,6 +235,7 @@ class extMainFrame {
 	function setUserState( $var_name, $var_value ) {
 		if (is_array( $this->_userstate )) {
 			$this->_userstate[$var_name] = $var_value;
+			$_SESSION['_userstate'] = $this->_userstate;
 		}
 	}
 

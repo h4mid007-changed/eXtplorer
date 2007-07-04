@@ -51,8 +51,6 @@ else {
 }
 //------------------------------------------------------------------------------
 
-$GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'lang', $_REQUEST, $mosConfig_lang );
-
 // the filename of the QuiXplorer script: (you rarely need to change this)
 if($_SERVER['SERVER_PORT'] == 443 ) {
 	$GLOBALS["script_name"] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].$GLOBALS['__SERVER']["PHP_SELF"];
@@ -80,6 +78,7 @@ if( !class_exists('InputFilter')) {
 	require _EXT_PATH . '/libraries/inputfilter.php';
 }
 
+$GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'language', 'lang', $mosConfig_lang );
 // Get Item
 if(isset($_REQUEST["item"])) 
   $GLOBALS["item"]=$item = stripslashes(urldecode($_REQUEST["item"]));
