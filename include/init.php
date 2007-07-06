@@ -47,11 +47,26 @@ elseif(isset($HTTP_SERVER_VARS)) {
 } 
 else {
 	die("<strong>ERROR: Your PHP version is too old</strong><br/>".
-	"You need at least PHP 4.0.0 to run joomlaXplorer; preferably PHP 4.4.4 or higher.");
+	"You need at least PHP 4.0.0 to run eXtplorer; preferably PHP 4.4.4 or higher.");
 }
 //------------------------------------------------------------------------------
-
-// the filename of the QuiXplorer script: (you rarely need to change this)
+// check for the existance of Joomla!/Mambo mainframe variable
+	if( !is_callable( array( $GLOBALS['mainframe'], 'getuser') )) {
+		
+		// login to use eXtplorer: (true/false)
+		$GLOBALS["require_login"] = true;
+	}
+	// if gzcompress is available, we can use Zip, Tar and TGz
+	if( function_exists("gzcompress")) {
+	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = true;
+	}
+	else {
+	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = false;
+	}
+	$GLOBALS["separator"] = "/";
+	
+	
+// the filename of the eXtplorer script: (you rarely need to change this)
 if($_SERVER['SERVER_PORT'] == 443 ) {
 	$GLOBALS["script_name"] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].$GLOBALS['__SERVER']["PHP_SELF"];
 	$GLOBALS['home_url'] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].'/'.dirname($GLOBALS['__SERVER']["PHP_SELF"]);
@@ -102,12 +117,6 @@ $GLOBALS["direction"]=extGetParam( $_REQUEST, 'direction', 'ASC');
 $GLOBALS["start"]=extGetParam( $_REQUEST, 'start', 0);
 $GLOBALS["limit"]=extGetParam( $_REQUEST, 'limit', 50);
 
-
-// Get Language
-if(isset($GLOBALS['__GET']["lang"])) 
-  $GLOBALS["lang"]=$GLOBALS["language"]=$GLOBALS['__GET']["lang"];
-elseif(isset($GLOBALS['__POST']["lang"])) 
-  $GLOBALS["lang"]=$GLOBALS["language"]=$GLOBALS['__POST']["lang"];
 //------------------------------------------------------------------------------
 
 /** @var $GLOBALS['file_mode'] Can be 'file' or 'ftp' */

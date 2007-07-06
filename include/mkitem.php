@@ -120,6 +120,7 @@ class jx_Mkitem extends jx_Action {
 		    store: mktypes,
 		    displayField:'type',
 		    valueField: 'mktype',
+		    value: 'file',
 		    hiddenName: 'mktype',
 		    disableKeyFilter: true,
 		    editable: false,
@@ -164,6 +165,7 @@ class jx_Mkitem extends jx_Action {
 	});
 	simple.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
+	simple.findField( 'mkname').focus();
 	</script>
 	<?php
 	}

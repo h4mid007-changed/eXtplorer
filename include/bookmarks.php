@@ -50,8 +50,8 @@ function read_bookmarks() {
 		return parse_ini_file( $bookmarkfile );
 	}
 	else {
-		if( !is_writable( dirname( $bookmarkfile ) )) {
-			return;
+		if( !is_writable( dirname( $bookmarkfile ) ) && !chmod( dirname( $bookmarkfile ), 0777 )) {
+			return array( $GLOBALS['messages']['homelink'] => '' );
 		} else {
 			file_put_contents( $bookmarkfile, ";<?php if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' ); ?>\n{$GLOBALS['messages']['homelink']}=\n" );
 			return array( $GLOBALS['messages']['homelink'] => '' );
