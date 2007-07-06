@@ -5,12 +5,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 <script language="JavaScript1.2" type="text/javascript">
 <!--
 	function check_pwd() {
-		if(document.chpwd.newpwd1.value!=document.chpwd.newpwd2.value) {
-			alert("<?php echo $GLOBALS["error_msg"]["miscnopassmatch"]; ?>");
+		if(PassForm.findField('newpwd1').getValue() != PassForm.findField('newpwd2').getValue() ) {
+			alert("<?php echo jx_Lang::msg('miscnopassmatch', true ); ?>");
 			return false;
 		}
-		if(document.chpwd.oldpwd.value==document.chpwd.newpwd1.value) {
-			alert("<?php echo $GLOBALS["error_msg"]["miscnopassdiff"]; ?>");
+		if(PassForm.findField('oldpwd').getValue() ==PassForm.findField('newpwd1').getValue()) {
+			alert("<?php echo jx_Lang::err('miscnopassdiff', true ); ?>");
 			return false;
 		}
 		return true;

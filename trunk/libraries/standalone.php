@@ -62,7 +62,8 @@ class extMainFrame {
 	* @param string The path of the ext directory
 	*/
 	function extMainFrame() {
-		session_name( get_session_name() );
+		session_name( 'eXtplorer' );
+		session_id( get_session_id() );
 		session_start();
 		if( !isset( $_SESSION['_userstate'])) {
 			$_SESSION['_userstate'] = array();
@@ -268,14 +269,13 @@ class extMainFrame {
  * Initialise GZIP
  */
 function extInitGzip() {
-	global $mosConfig_gzip, $do_gzip_compress;
-
-	$do_gzip_compress = FALSE;
-	if ($mosConfig_gzip == 1) {
+	global $do_gzip_compress;
+	if( $GLOBALS['use_gzip'] ) {
+		$do_gzip_compress = FALSE;
 		$phpver 	= phpversion();
 		$useragent 	= extGetParam( $_SERVER, 'HTTP_USER_AGENT', '' );
 		$canZip 	= extGetParam( $_SERVER, 'HTTP_ACCEPT_ENCODING', '' );
-
+	
 		$gzip_check 	= 0;
 		$zlib_check 	= 0;
 		$gz_check		= 0;
@@ -296,7 +296,7 @@ function extInitGzip() {
 		if ( ini_get('session.use_trans_sid') ) {
 			$sid_check = 1;
 		}
-
+	
 		if ( $phpver >= '4.0.4pl1' && ( strpos($useragent,'compatible') !== false || strpos($useragent,'Gecko')	!== false ) ) {
 			// Check for gzip header or northon internet securities or session.use_trans_sid
 			if ( ( $gzip_check || isset( $_SERVER['---------------']) ) && $zlib_check && $gz_check && !$zlibO_check && !$sid_check ) {
@@ -311,7 +311,7 @@ function extInitGzip() {
 					$do_gzip_compress = TRUE;
 					ob_start();
 					ob_implicit_flush(0);
-
+	
 					header( 'Content-Encoding: gzip' );
 					return;
 				}

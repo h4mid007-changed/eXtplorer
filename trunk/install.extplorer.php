@@ -8,16 +8,21 @@
 * joomlaXplorer is Free Software
 */
 function com_install(){
-	global $database, $mosConfig_absolute_path;
-	require_once($mosConfig_absolute_path . "/administrator/components/com_extplorer/include/functions.php");
-	require_once($mosConfig_absolute_path . "/administrator/components/com_extplorer/libraries/Archive.php");
+	global $database;
+	
+	if( is_callable( array( 'JFactory', 'getDBO' ))) {
+		$database = JFactory::getDBO();
+	}
+	$mypath = dirname(__FILE__);
+	require_once($mypath . "/include/functions.php");
+	require_once($mypath . "/libraries/Archive.php");
 	
 	jx_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
 	
-	$archive_name = $mosConfig_absolute_path . "/administrator/components/com_extplorer/scripts.zip";
+	$archive_name = $mypath.'/scripts.zip';
 	$archive_as_dir = $archive_name.'/';
-	$extract_dir = $mosConfig_absolute_path . "/administrator/components/com_extplorer/";
+	$extract_dir = $mypath.'/';
 	
 	$result = File_Archive::extract( $archive_as_dir, $extract_dir );
 	if( !PEAR::isError( $result )) {

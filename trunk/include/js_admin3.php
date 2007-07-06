@@ -2,17 +2,17 @@
 /** ensure this file is being included by a parent file */
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 ?>
-<script language="JavaScript1.2" type="text/javascript">
+<script type="text/javascript">
 <!--
 	function check_pwd() {
-		if(document.edituser.user.value=="" || document.edituser.home_dir.value=="") {
-			alert("<?php echo $GLOBALS["error_msg"]["miscfieldmissed"]; ?>");
+		if(userform.findField('nuser').getValue()=="" || userform.findField('home_dir').getValue()=="") {
+			Ext.Msg.alert('Status', "<?php echo jx_Lang::err('miscfieldmissed', true ); ?>");
 			return false;
 		}
-		if(document.edituser.chpass.checked &&
-			document.edituser.pass1.value!=document.edituser.pass2.value)
-		{
-			alert("<?php echo $GLOBALS["error_msg"]["miscnopassmatch"]; ?>");
+		if(userform.findField('chpass').getValue() &&
+			userform.findField('pass1').getValue() != userform.findField('pass2').getValue())
+		{			
+			Ext.Msg.alert('Status', "<?php echo jx_Lang::err('miscnopassmatch', true ); ?>");
 			return false;
 		}
 		return true;

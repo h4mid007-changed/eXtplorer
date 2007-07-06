@@ -37,165 +37,258 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 //------------------------------------------------------------------------------
 function admin($admin, $dir) {			// Change Password & Manage Users Form
-	show_header($GLOBALS["messages"]["actadmin"]);
 	
 	// Javascript functions:
 	include _EXT_PATH . "/include/js_admin.php";
-	
+?>
+<div style="width:auto;">
+    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+
+        <h3 style="margin-bottom:5px;"><?php echo jx_Lang::msg('actadmin') ?></h3>
+        
+        <div id="adminForm"></div>
+    </div></div></div>
+    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+</div>
+	<script type="text/javascript">
 	// Change Password
-	echo "<br/><HR width=\"95%\"><TABLE width=\"350\"><tr><td colspan=\"2\" class=\"header\"><B>";
-	echo $GLOBALS["messages"]["actchpwd"].":</B></td></tr>\n";
-	echo "<FORM name=\"chpwd\" action=\"".make_link("admin",$dir,NULL)."\" method=\"post\">\n";
-	echo "<input type=\"hidden\" name=\"action2\" value=\"chpwd\">\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscoldpass"].": </td><td align=\"right\">";
-	echo "<input type=\"password\" name=\"oldpwd\" size=\"25\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscnewpass"].": </td><td align=\"right\">";
-	echo "<input type=\"password\" name=\"newpwd1\" size=\"25\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscconfnewpass"].": </td><td align=\"right\">";
-	echo "<input type=\"password\" name=\"newpwd2\" size=\"25\"></td></tr>\n";
-	echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"".$GLOBALS["messages"]["btnchange"];
-	echo "\" onClick=\"return check_pwd();\">\n</td></tr></FORM></TABLE>\n";
+	var PassForm = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
+	});
+	PassForm.fieldset(
+        {legend:'<?php echo jx_Lang::msg('actchpwd', true) ?>'},
+        
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscoldpass', true ) ?>',
+	        name: 'oldpwd',
+	        inputType: 'password',
+	        allowBlank:false
+	    }),
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscnewpass', true ) ?>',
+	        name: 'newpwd1',
+	        hiddenName: 'newpwd1',
+	        inputType: 'password',
+	        allowBlank:false
+	    }),
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscconfnewpass', true ) ?>',
+	        name: 'newpwd2',
+	        hiddenName: 'newpwd2',
+	        inputType: 'password',
+	        allowBlank:false
+	    })
+	);
 	
-	// Edit / Add / Remove User
+	PassForm.addButton('<?php echo jx_Lang::msg( 'btnchange', true ) ?>', function() {
+		if( !check_pwd() ) return;
+		statusBarMessage( 'Please wait...', true );
+	    PassForm.submit({
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {	
+	        	statusBarMessage( action.result.message, false, true );
+	        },
+	        failure: function(form, action) {
+	        	if( !action.result ) return;
+				Ext.MessageBox.alert('Error!', action.result.error);
+				statusBarMessage( action.result.error, false, true );
+	        },
+	        scope: PassForm,
+	        // add some vars to the request, similar to hidden fields
+	        params: {
+	        	option: 'com_extplorer', 
+        		action: 'admin',
+        		action2: 'chpwd'
+	        }
+	    })
+	});
+	PassForm.render('adminForm');
+	<?php
 	if($admin) {
-		echo "<HR width=\"95%\"><TABLE width=\"350\"><tr><td colspan=\"6\" class=\"header\" nowrap>";
-		echo "<B>".$GLOBALS["messages"]["actusers"].":</B></td></tr>\n";
-		echo "<tr><td colspan=\"5\">".$GLOBALS["messages"]["miscuseritems"]."</td></tr>\n";
-		echo "<FORM name=\"userform\" action=\"".make_link("admin",$dir,NULL)."\" method=\"post\">\n";
-		echo "<input type=\"hidden\" name=\"action2\" value=\"edituser\">\n";
+		?>
+		
+	// Edit / Add / Remove User
+	var UserForm = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
+	});
+	UserForm.fieldset(
+        {legend:'<?php echo jx_Lang::msg('actusers', true) ?>', id: 'UserFieldset'},
+        <?php 
 		$cnt=count($GLOBALS["users"]);
 		for($i=0;$i<$cnt;++$i) {
+			
 			// Username & Home dir:
 			$user=$GLOBALS["users"][$i][0];	if(strlen($user)>15) $user=substr($user,0,12)."...";
 			$home=$GLOBALS["users"][$i][2];	if(strlen($home)>30) $home=substr($home,0,27)."...";
-			
-			echo "<tr><td width=\"1%\"><input TYPE=\"radio\" name=\"user\" value=\"";
-			echo $GLOBALS["users"][$i][0]."\"".(($i==0)?" checked":"")."></td>\n";
-			echo "<td width=\"30%\">".$user."</td><td width=\"60%\">".$home."</td>\n";
-			echo "<td width=\"3%\">".($GLOBALS["users"][$i][4]?$GLOBALS["messages"]["miscyesno"][2]:
-				$GLOBALS["messages"]["miscyesno"][3])."</td>\n";
-			echo "<td width=\"3%\">".$GLOBALS["users"][$i][6]."</td>\n";
-			echo "<td width=\"3%\">".($GLOBALS["users"][$i][7]?$GLOBALS["messages"]["miscyesno"][2]:
-				$GLOBALS["messages"]["miscyesno"][3])."</td></tr>\n";
-		}
-		echo "<tr><td colspan=\"6\" align=\"right\">";
-		echo "<input type=\"button\" value=\"".$GLOBALS["messages"]["btnadd"];
-		echo "\" onClick=\"javascript:location='".make_link("admin",$dir,NULL)."&action2=adduser';\">\n";
-		echo "<input type=\"button\" value=\"".$GLOBALS["messages"]["btnedit"];
-		echo "\" onClick=\"javascript:Edit();\">\n";
-		echo "<input type=\"button\" value=\"".$GLOBALS["messages"]["btnremove"];
-		echo "\" onClick=\"javascript:Delete();\">\n</td></tr></FORM></TABLE>\n";
-	}
+			?>
 	
-	echo "<HR width=\"95%\"><input type=\"button\" value=\"".$GLOBALS["messages"]["btnclose"];
-	echo "\" onClick=\"javascript:location='".make_link("list",$dir,NULL)."';\"><br/><br/>\n";
-?><script language="JavaScript1.2" type="text/javascript">
-<!--
-	if(document.chpwd) document.chpwd.oldpwd.focus();
-// -->
-</script><?php
+			new Ext.form.Radio( {
+				name: 'nuser',
+				inputValue: '<?php echo $GLOBALS["users"][$i][0] ?>',
+				fieldLabel: '<?php echo $user ?>',
+				boxLabel: '<?php echo '<strong>Homedir:</strong> '.$home.'; '
+					.($GLOBALS["users"][$i][4] ? $GLOBALS["messages"]["miscyesno"][2]:$GLOBALS["messages"]["miscyesno"][3]).'; '
+					.$GLOBALS["users"][$i][6].'; '
+					.($GLOBALS["users"][$i][7] ? $GLOBALS["messages"]["miscyesno"][2]:$GLOBALS["messages"]["miscyesno"][3]);
+				 ?>'
+			})
+			<?php 
+			echo $i+1<$cnt ? ',' : '';
+		}
+		?>
+    );
+
+   	UserForm.addButton('<?php echo jx_Lang::msg( 'btnadd', true ) ?>', function() {
+	    dialog_panel.load({url: '<?php echo basename($GLOBALS['script_name']) ?>', 
+	    		params: {
+		        	option: 'com_extplorer', 
+	        		action: 'admin',
+	        		action2: 'adduser'
+		        }
+	    });
+   	});
+   	UserForm.addButton('<?php echo jx_Lang::msg( 'btnedit', true ) ?>', function() {
+   		try {
+   			 theUser = UserForm.findField(0).getGroupValue();
+   		} catch(e) {
+   			Ext.Msg.alert( 'Error', '<?php echo jx_Lang::err('miscselitems', true ) ?>' );
+   			return;
+   		}
+	    dialog_panel.load({url: '<?php echo basename($GLOBALS['script_name']) ?>', 
+	    		params: {
+		        	option: 'com_extplorer', 
+	        		action: 'admin',
+	        		action2: 'edituser',
+	        		nuser: theUser
+		        }
+	    });
+	});
+   	
+   	UserForm.addButton('<?php echo jx_Lang::msg( 'btnremove', true ) ?>', function() {
+   		try {
+   			 theUser = UserForm.findField(0).getGroupValue();
+   		} catch(e) {
+   			Ext.Msg.alert( 'Error', '<?php echo jx_Lang::err('miscselitems', true ) ?>' );
+   			return;
+   		}
+		
+		Ext.Msg.confirm( '', String.format( '<?php echo jx_Lang::err('miscdeluser', true ) ?>', theUser ), function( btn ) {
+			if( btn != 'yes') return;
+			statusBarMessage( 'Please wait...', true );
+	    	UserForm.submit({
+		        success: function(form, action) {	
+		        	statusBarMessage( action.result.message, false, true );
+		        },
+		        failure: function(form, action) {
+		        	if( !action.result ) return;
+					Ext.MessageBox.alert('Error!', action.result.error);
+					statusBarMessage( action.result.error, false, true );
+		        },
+		        scope: UserForm,
+		        // add some vars to the request, similar to hidden fields
+		        params: {
+		        	option: 'com_extplorer', 
+	        		action: 'admin',
+	        		action2: 'rmuser',
+	        		user: theUser
+		        }
+		    });
+		});
+   	});
+	UserForm.render('adminForm');
+	Ext.get('UserFieldset').createChild({
+        tag:'center', 
+        cn: {
+            tag:'span',
+            html: '<?php echo jx_Lang::msg('miscuseritems', true ) ?>',
+            style:'margin-bottom:5px;'
+        }
+    });
+		<?php
+	}
+	?>
+	</script>
+	<?php
 }
 //------------------------------------------------------------------------------
 function changepwd($dir) {			// Change Password
 	$pwd=md5(stripslashes($GLOBALS['__POST']["oldpwd"]));
-	if($GLOBALS['__POST']["newpwd1"]!=$GLOBALS['__POST']["newpwd2"]) show_error($GLOBALS["error_msg"]["miscnopassmatch"]);
+	if($GLOBALS['__POST']["newpwd1"]!=$GLOBALS['__POST']["newpwd2"]) {
+		jx_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
+	}
 	
 	$data=find_user($GLOBALS['__SESSION']["s_user"],$pwd);
-	if($data==NULL) show_error($GLOBALS["error_msg"]["miscnouserpass"]);
+	if($data==NULL) {
+		jx_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnouserpass"]);
+	}
 	
 	$data[1]=md5(stripslashes($GLOBALS['__POST']["newpwd1"]));
-	if(!update_user($data[0],$data)) show_error($data[0].": ".$GLOBALS["error_msg"]["chpass"]);
+	if(!update_user($data[0],$data)) {
+		jx_Result::sendResult('changepwd', false, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
+	}
 	activate_user($data[0],NULL);
 	
-	header("location: ".make_link("list",$dir,NULL));
+	jx_Result::sendResult('changepwd', false, 'Your Password has been changed!');
 }
 //------------------------------------------------------------------------------
 function adduser($dir) {			// Add User
 	if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
-		$user=stripslashes($GLOBALS['__POST']["user"]);
+		$user=stripslashes($GLOBALS['__POST']["nuser"]);
 		if($user=="" || $GLOBALS['__POST']["home_dir"]=="") {
-			show_error($GLOBALS["error_msg"]["miscfieldmissed"]);
+			jx_Result::sendResult('adduser', false, $GLOBALS["error_msg"]["miscfieldmissed"]);
 		}
-		if($GLOBALS['__POST']["pass1"]!=$GLOBALS['__POST']["pass2"]) show_error($GLOBALS["error_msg"]["miscnopassmatch"]);
+		if($GLOBALS['__POST']["pass1"]!=$GLOBALS['__POST']["pass2"]) {
+			jx_Result::sendResult('adduser', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
+		}
 		$data=find_user($user,NULL);
-		if($data!=NULL) show_error($user.": ".$GLOBALS["error_msg"]["miscuserexist"]);
+		if($data!=NULL) {
+			jx_Result::sendResult('adduser', false, $user.": ".$GLOBALS["error_msg"]["miscuserexist"]);
+		}
 		
 		$data=array($user,md5(stripslashes($GLOBALS['__POST']["pass1"])),
 			stripslashes($GLOBALS['__POST']["home_dir"]),stripslashes($GLOBALS['__POST']["home_url"]),
 			$GLOBALS['__POST']["show_hidden"],stripslashes($GLOBALS['__POST']["no_access"]),
 			$GLOBALS['__POST']["permissions"],$GLOBALS['__POST']["active"]);
 			
-		if(!add_user($data)) show_error($user.": ".$GLOBALS["error_msg"]["adduser"]);
-		header("location: ".make_link("admin",$dir,NULL));
+		if(!add_user($data)) {
+			jx_Result::sendResult('adduser', false, $user.": ".$GLOBALS["error_msg"]["adduser"]);
+		}
+		jx_Result::sendResult('adduser', false, $user.": The user has been added");
 		return;
 	}
-	
-	show_header($GLOBALS["messages"]["actadmin"].": ".$GLOBALS["messages"]["miscadduser"]);
 	
 	// Javascript functions:
 	include _EXT_PATH . "/include/js_admin2.php";
 	
-	echo "<form name=\"adduser\" action=\"".make_link("admin",$dir,NULL)."&action2=adduser\" method=\"post\">\n";
-	echo "<input type=\"hidden\" name=\"confirm\" value=\"true\"><br/><TABLE width=\"450\">\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscusername"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"text\" name=\"user\" size=\"30\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscpassword"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"password\" name=\"pass1\" size=\"30\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscconfpass"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"password\" name=\"pass2\" size=\"30\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["mischomedir"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"text\" name=\"home_dir\" size=\"30\" value=\"";
-		echo $GLOBALS["home_dir"]."\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["mischomeurl"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"text\" name=\"home_url\" size=\"30\" value=\"";
-		echo $GLOBALS["home_url"]."\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscshowhidden"].":</td>";
-		echo "<td align=\"right\"><select name=\"show_hidden\">\n";
-		echo "<option value=\"0\">".$GLOBALS["messages"]["miscyesno"][1]."</option>";
-		echo "<option value=\"1\">".$GLOBALS["messages"]["miscyesno"][0]."</option>\n";
-		echo "</select></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["mischidepattern"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"text\" name=\"no_access\" size=\"30\" value=\"^\\.ht\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscperms"].":</td><td align=\"right\"><select name=\"permissions\">\n";
-		$permvalues = array(0,1,2,3,7);
-		for($i=0;$i<count($GLOBALS["messages"]["miscpermnames"]);++$i) {
-			echo "<option value=\"".$permvalues[$i]."\">";
-			echo $GLOBALS["messages"]["miscpermnames"][$i]."</option>\n";
-		}
-		echo "</select></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscactive"].":</td>";
-		echo "<td align=\"right\"><select name=\"active\">\n";
-		echo "<option value=\"1\">".$GLOBALS["messages"]["miscyesno"][0]."</option>";
-		echo "<option value=\"0\">".$GLOBALS["messages"]["miscyesno"][1]."</option>\n";
-		echo "</select></td></tr>\n";
-	echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"".$GLOBALS["messages"]["btnadd"];
-		echo "\" onClick=\"return check_pwd();\">\n<input type=\"button\" value=\"";
-		echo $GLOBALS["messages"]["btncancel"]."\" onClick=\"javascript:location='";
-		echo make_link("admin",$dir,NULL)."';\"></td></tr></FORM></TABLE><br/>\n";
-?><script language="JavaScript1.2" type="text/javascript">
-<!--
-	if(document.adduser) document.adduser.user.focus();
-// -->
-</script><?php
+	show_userform();
+	
 }
 //------------------------------------------------------------------------------
 function edituser($dir) {			// Edit User
-	$user=stripslashes($GLOBALS['__POST']["user"]);
+	$user=stripslashes($GLOBALS['__POST']["nuser"]);
 	$data=find_user($user,NULL);
-	if($data==NULL) show_error($user.": ".$GLOBALS["error_msg"]["miscnofinduser"]);
+	if($data==NULL) {
+		jx_Result::sendResult('edituser', false, $user.": ".$GLOBALS["error_msg"]["miscnofinduser"]);
+	}
+	
 	if($self=($user==$GLOBALS['__SESSION']["s_user"])) $dir="";
 	
 	if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
+		
 		$nuser=stripslashes($GLOBALS['__POST']["nuser"]);
 		if($nuser=="" || $GLOBALS['__POST']["home_dir"]=="") {
-			show_error($GLOBALS["error_msg"]["miscfieldmissed"]);
+			jx_Result::sendResult('edituser', false, $GLOBALS["error_msg"]["miscfieldmissed"]);
 		}
-		if(isset($GLOBALS['__POST']["chpass"]) &&
-			$GLOBALS['__POST']["chpass"]=="true")
-		{
-			if($GLOBALS['__POST']["pass1"]!=$GLOBALS['__POST']["pass2"]) show_error($GLOBALS["error_msg"]["miscnopassmatch"]);
+		if(isset($GLOBALS['__POST']["chpass"]) && $GLOBALS['__POST']["chpass"]=="true")	{
+			if($GLOBALS['__POST']["pass1"]!=$GLOBALS['__POST']["pass2"]) jx_Result::sendResult('edituser', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
 			$pass=md5(stripslashes($GLOBALS['__POST']["pass1"]));
-		} else $pass=$data[1];
+		} else {
+			$pass=$data[1];
+		}
 		
 		if($self) $GLOBALS['__POST']["active"]=1;
 		
@@ -203,78 +296,216 @@ function edituser($dir) {			// Edit User
 			stripslashes($GLOBALS['__POST']["home_url"]),$GLOBALS['__POST']["show_hidden"],
 			stripslashes($GLOBALS['__POST']["no_access"]),$GLOBALS['__POST']["permissions"],$GLOBALS['__POST']["active"]);
 			
-		if(!update_user($user,$data)) show_error($user.": ".$GLOBALS["error_msg"]["saveuser"]);
-		if($self) activate_user($nuser,NULL);
-		
-		header("location: ".make_link("admin",$dir,NULL));
-		return;
+		if(!update_user($user,$data)) {
+			jx_Result::sendResult('edituser', false, $user.": ".$GLOBALS["error_msg"]["saveuser"]);
+		}
+		if($self) {
+			activate_user($nuser,NULL);
+		}
+		jx_Result::sendResult('edituser', true, $user.": ".$GLOBALS["error_msg"]["saveuser"]);
 	}
-	
-	show_header($GLOBALS["messages"]["actadmin"].": ".sprintf($GLOBALS["messages"]["miscedituser"],$data[0]));
 	
 	// Javascript functions:
 	include _EXT_PATH . "/include/js_admin3.php";
+	show_userform( $data);
+}
+
+function show_userform( $data = null ) {
+	if( $data == null ) { $data = array('', '', '', '', '', '', '' ); }
 	
-	echo "<FORM name=\"edituser\" action=\"".make_link("admin",$dir,NULL)."&action2=edituser\" method=\"post\">\n";
-	echo "<input type=\"hidden\" name=\"confirm\" value=\"true\"><input type=\"hidden\" name=\"user\" value=\"".$data[0]."\">\n";
-	echo "<br/><TABLE width=\"450\">\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscusername"].":</td>\n";
-		echo "<td align=\"right\"><input type\"text\" name=\"nuser\" size=\"30\" value=\"";
-		echo $data[0]."\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscconfpass"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"password\" name=\"pass1\" size=\"30\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscconfnewpass"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"password\" name=\"pass2\" size=\"30\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscchpass"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"checkbox\" name=\"chpass\" value=\"true\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["mischomedir"].":</td>\n";	
-		echo "<td align=\"right\"><input type=\"text\" name=\"home_dir\" size=\"30\" value=\"";
-		echo $data[2]."\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["mischomeurl"].":</td>\n";	
-		echo "<td align=\"right\"><input type=\"text\" name=\"home_url\" size=\"30\" value=\"";
-		echo $data[3]."\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscshowhidden"].":</td>";
-		echo "<td align=\"right\"><select name=\"show_hidden\">\n";
-		echo "<option value=\"0\">".$GLOBALS["messages"]["miscyesno"][1]."</option>";
-		echo "<option value=\"1\"".($data[4]?" selected ":"").">";
-		echo $GLOBALS["messages"]["miscyesno"][0]."</option>\n";
-		echo "</select></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["mischidepattern"].":</td>\n";
-		echo "<td align=\"right\"><input type=\"text\" name=\"no_access\" size=\"30\" value=\"";
-		echo $data[5]."\"></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscperms"].":</td><td align=\"right\"><select name=\"permissions\">\n";
+?>
+	<div>
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	
+	        <h3 style="margin-bottom:5px;"><?php
+	        if( !empty( $data[0] )) {
+	        	echo $GLOBALS["messages"]["actadmin"].": ".sprintf($GLOBALS["messages"]["miscedituser"],$data[0]);
+	        	
+	        } else {
+	        	echo $GLOBALS["messages"]["actadmin"].": ".$GLOBALS["messages"]["miscadduser"];
+	        }
+	        ?></h3>
+	        <div id="adminForm">
+	
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>
+	<script type="text/javascript">
+	var yesno = new Ext.data.SimpleStore({
+	    fields: ['yesno', 'Yes_No'],
+	    data :  [
+	        ['1', '<?php echo jx_Lang::msg( array('miscyesno' => 0), true ) ?>'],
+	        ['0', '<?php echo jx_Lang::msg( array('miscyesno' => 1), true ) ?>']
+	        ]
+	});
+	var permvalues = new Ext.data.SimpleStore({
+		fields: ['value', 'text'],
+		data: [
+	
+	<?php
 		$permvalues = array(0,1,2,3,7);
-		for($i=0;$i<count($GLOBALS["messages"]["miscpermnames"]);++$i) {
-			echo "<option value=\"".$permvalues[$i]."\"".($permvalues[$i]==$data[6]?" selected ":"").">";
-			echo $GLOBALS["messages"]["miscpermnames"][$i]."</option>\n";
+		$permcount = count($GLOBALS["messages"]["miscpermnames"]);
+		for($i=0;$i<$permcount;++$i) {
+			if( $permvalues[$i]==7) $index = 4;
+			else $index = $i;
+			echo "['{$permvalues[$i]}', '".jx_lang::msg( array('miscpermnames' => $index))."' ]\n";
+			if( $i+1<$permcount) echo ',';
 		}
-		echo "</select></td></tr>\n";
-	echo "<tr><td>".$GLOBALS["messages"]["miscactive"].":</td>";
-		echo "<td align=\"right\"><select name=\"active\"".($self?" DISABLED ":"").">\n";
-		echo "<option value=\"1\">".$GLOBALS["messages"]["miscyesno"][0]."</option>";
-		echo "<option value=\"0\"".($data[7]?"":" selected ").">";
-		echo $GLOBALS["messages"]["miscyesno"][1]."</option>\n";
-		echo "</select></td></tr>\n";
-	echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"".$GLOBALS["messages"]["btnsave"];
-		echo "\" onclick=\"return check_pwd();\">\n<input type=\"button\" value=\"";
-		echo $GLOBALS["messages"]["btncancel"]."\" onClick=\"javascript:location='";
-		echo make_link("admin",$dir,NULL)."';\"></td></tr></form></table><br/>\n";
+		?>
+	]});
+	var userform = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
+	});
+
+	
+	userform.add(
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscusername', true ) ?>',
+	        name: 'nuser',
+	        value: '<?php echo $data[0] ?>',
+	        width:175,
+	        allowBlank:false
+	    }),
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscconfpass', true ) ?>',
+	        name: 'pass1',
+	        inputType: 'password',
+	        width:175
+	    }),
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'miscconfnewpass', true ) ?>',
+	        name: 'pass2',
+	        inputType: 'password',
+	        width:175
+	    }),
+	    <?php
+	    if( !empty($data[0])) { ?>
+		    new Ext.form.Checkbox({
+		        fieldLabel: '<?php echo jx_Lang::msg( 'miscchpass', true ) ?>',
+		        name: 'chpass',
+		        hiddenValue: 'true'
+			}),
+			<?php 
+	    } ?>
+	    
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'mischomedir', true ) ?>',
+	        name: 'home_dir',
+	        value: '<?php echo $data[2] ? $data[2] : $_SERVER['DOCUMENT_ROOT'] ?>',
+	        width:175,
+	        allowBlank:false
+	    }),	    
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'mischomeurl', true ) ?>',
+	        name: 'home_url',
+	        value: '<?php echo $data[3] ? $data[3] : $GLOBALS["home_url"] ?>',
+	        width:175,
+	        allowBlank:false
+	    }),		
+		new Ext.form.ComboBox({
+			fieldLabel: '<?php echo jx_Lang::msg( 'miscshowhidden', true ) ?>',
+		    store: yesno,
+		    displayField:'Yes_No',
+		    valueField: 'yesno',
+		    hiddenName: 'show_hidden',
+		    disableKeyFilter: true,
+		    value: '<?php echo ( $data[4] ? $data[4] : (int)$data[4] ) ?>',
+		    editable: false,
+		    triggerAction: 'all',
+		    mode: 'local',
+		    allowBlank: false,
+		    selectOnFocus:true
+		}),
+	    new Ext.form.TextField({
+	        fieldLabel: '<?php echo jx_Lang::msg( 'mischidepattern', true ) ?>',
+	        name: 'no_access',
+	        value: '<?php echo $data[5] ?>',
+	        width:175,
+	        allowBlank:true
+	    }),
+	
+		new Ext.form.ComboBox({
+			fieldLabel: '<?php echo jx_Lang::msg( 'miscperms', true ) ?>',
+		    store: permvalues,
+		    valueField: 'value',
+		    displayField:'text',
+		    hiddenName: 'permissions',
+		    disableKeyFilter: true,
+		    value: '<?php echo (int)$data[6] ?>',
+		    editable: false,
+		    triggerAction: 'all',
+		    mode: 'local'
+		}),
+		new Ext.form.ComboBox({
+			fieldLabel: '<?php echo jx_Lang::msg( 'miscactive', true ) ?>',
+		    store: yesno,
+		    displayField:'Yes_No',
+		    valueField: 'yesno',
+		    hiddenName: 'active',
+		    disableKeyFilter: true,
+		    value: '<?php echo ( $data[7] ? $data[7] : (int)$data[7] ) ?>',
+		    disabled: <?php echo $self ? 'true' : 'false' ?>,
+		    editable: false,
+		    triggerAction: 'all',
+		    mode: 'local',
+		    allowBlank: false,
+		    selectOnFocus:true
+		})
+	);
+	userform.addButton('<?php echo jx_Lang::msg( 'btnsave', true ) ?>', function() {
+		if( !check_pwd()) return;
+		statusBarMessage( 'Please wait...', true );
+	    userform.submit({
+	        success: function(form, action) {	
+	        	statusBarMessage( action.result.message, false, true );
+				dialog_panel.load({ url: '<?php echo make_link('admin') ?>' });
+	        },
+	        failure: function(form, action) {
+	        	if( !action.result ) return;
+				Ext.MessageBox.alert('Error!', action.result.error);
+				statusBarMessage( action.result.error, false, true );
+	        },
+	        scope: userform,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_extplorer', 
+	        		user: '<?php echo @$data[0] ?>',
+	        		action: 'admin', 
+	        		action2: '<?php echo @$data[0] ? 'edituser' : 'adduser' ?>',
+	        		confirm: 'true'
+	        }
+	    })
+	});
+	userform.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', 
+		function() { 
+			dialog_panel.load({ url: '<?php echo make_link('admin') ?>' });
+		} 
+	);
+	userform.render('adminForm');
+	</script>
+	<?php
 }
 //------------------------------------------------------------------------------
 function removeuser($dir) {			// Remove User
 	$user=stripslashes($GLOBALS['__POST']["user"]);
-	if($user==$GLOBALS['__SESSION']["s_user"]) show_error($GLOBALS["error_msg"]["miscselfremove"]);
-	if(!remove_user($user)) show_error($user.": ".$GLOBALS["error_msg"]["deluser"]);
+	if($user==$GLOBALS['__SESSION']["s_user"]) {
+		jx_Result::sendResult('removeuser', false, $GLOBALS["error_msg"]["miscselfremove"]);
+	}
+	if(!remove_user($user)) {
+		jx_Result::sendResult('removeuser', false, $user.": ".$GLOBALS["error_msg"]["deluser"]);
+	}
+	jx_Result::sendResult('removeuser', true, $user." was successfully removed." );
 	
-	header("location: ".make_link("admin",$dir,NULL));
 }
 //------------------------------------------------------------------------------
 function show_admin($dir) {			// Execute Admin Action
 	$pwd=(($GLOBALS["permissions"]&2)==2);
 	$admin=(($GLOBALS["permissions"]&4)==4);
 	
-	if(!$GLOBALS["require_login"]) show_error($GLOBALS["error_msg"]["miscnofunc"]);
-	if(!$pwd && !$admin) show_error($GLOBALS["error_msg"]["accessfunc"]);
+	if(!$GLOBALS["require_login"]) jx_Result::sendResult('admin', false, $GLOBALS["error_msg"]["miscnofunc"]);
+	if(!$pwd && !$admin) jx_Result::sendResult('admin', false, $GLOBALS["error_msg"]["accessfunc"]);
 	
 	if(isset($GLOBALS['__GET']["action2"])) $action2 = $GLOBALS['__GET']["action2"];
 	elseif(isset($GLOBALS['__POST']["action2"])) $action2 = $GLOBALS['__POST']["action2"];
@@ -285,15 +516,15 @@ function show_admin($dir) {			// Execute Admin Action
 		changepwd($dir);
 	break;
 	case "adduser":
-		if(!$admin) show_error($GLOBALS["error_msg"]["accessfunc"]);
+		if(!$admin) jx_Result::sendResult('admin', false, $GLOBALS["error_msg"]["accessfunc"]);
 		adduser($dir);
 	break;
 	case "edituser":
-		if(!$admin) show_error($GLOBALS["error_msg"]["accessfunc"]);
+		if(!$admin) jx_Result::sendResult('admin', false, $GLOBALS["error_msg"]["accessfunc"]);
 		edituser($dir);
 	break;
 	case "rmuser":
-		if(!$admin) show_error($GLOBALS["error_msg"]["accessfunc"]);
+		if(!$admin) jx_Result::sendResult('admin', false, $GLOBALS["error_msg"]["accessfunc"]);
 		removeuser($dir);
 	break;
 	default:
@@ -301,4 +532,12 @@ function show_admin($dir) {			// Execute Admin Action
 	}
 }
 //------------------------------------------------------------------------------
+function extMakePassword($length=8) {
+	$salt 		= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	$makepass	= '';
+	mt_srand(10000000*(double)microtime());
+	for ($i = 0; $i < $length; $i++)
+		$makepass .= $salt[mt_rand(0,61)];
+	return $makepass;
+}
 ?>

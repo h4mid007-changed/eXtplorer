@@ -30,6 +30,12 @@
  * 
  * Main File for the standalone version
  */
+// When eXtplorer is running as a component in Joomla! or Mambo, we deny access to this standalone version
+if( stristr( $_SERVER['SCRIPT_NAME'], 'administrator/components/com_extplorer')) {
+	header( 'HTTP/1.0 404 Not Found');
+	header( 'Location: http://'.$_SERVER['HTTP_HOST']);
+	exit;
+}
 
 // Set flag that this is a parent file
 define( '_VALID_MOS', 1 );
@@ -54,7 +60,7 @@ echo '<?xml version="1.0" encoding="'. $GLOBALS["charset"].'">';
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<?php echo $mainframe->getHead(); ?>
-		<link rel="shortcut icon" href="<?php echo _EXT_URL ?>/extplorer.ico" />
+		<link rel="shortcut icon" href="<?php echo _EXT_URL ?>/eXtplorer.ico" />
 		<meta http-equiv="Content-Type" content="text/html; <?php echo $GLOBALS["charset"]; ?>" />
 		<meta name="robots" content="noindex, nofollow" />
 	</head>

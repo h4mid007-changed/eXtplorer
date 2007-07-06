@@ -4,27 +4,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 //------------------------------------------------------------------------------
 // Configuration Variables
-	if( !is_object( $my )) {
-		// login to use eXtplorer: (true/false)
-		$GLOBALS["require_login"] = true;
-	}
-	
-	// allow Zip, Tar, TGz
-	if( function_exists("gzcompress")) {
-	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = true;
-	}
-	else {
-	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = false;
-	}
-
+	// Send gzipped content if accepted by the browser?
+	$GLOBALS['use_gzip'] = 1;
 //------------------------------------------------------------------------------
 // Global User Variables (used when $require_login==false)
-	$GLOBALS["separator"] = "/";
-	  
-	// the home directory for the filemanager: (use '/', not '\' or '\\', no trailing '/')
-
 	
-	// show hidden files in QuiXplorer: (hide files starting with '.', as in Linux/UNIX)
+	// show hidden files in eXtplorer: (hide files starting with '.', as in Linux/UNIX)
 	$GLOBALS["show_hidden"] = true;
 	
 	// filenames not allowed to access: (uses PCRE regex syntax)

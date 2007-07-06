@@ -60,7 +60,7 @@ function login() {
 			jx_Result::sendResult('login', true, 'Login Successful' );
 		} else {
 			// Ask for Login
-			
+			$GLOBALS['mainframe']->setPageTitle( jx_Lang::msg('actlogin') );
 			$GLOBALS['mainframe']->addcustomheadtag( '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
 			.'subdir[0]=scripts/codepress/&amp;file[0]=codepress.js'
@@ -77,7 +77,7 @@ function login() {
 	    	<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 	    	<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	        <h3 style="margin-bottom:5px;">eXtplorer - <?php echo jx_Lang::msg('actlogin') ?></h3>
+	        <h3 style="margin-bottom:5px;"><?php echo jx_Lang::msg('actlogin') ?></h3>
 	        <div id="adminForm">
 	
 	        </div><div class="jx_statusbar" id="statusBar"></div>

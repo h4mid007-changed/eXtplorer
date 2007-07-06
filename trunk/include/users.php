@@ -52,9 +52,12 @@ function save_users() {
 			$GLOBALS["users"][$i][4].',"'.$GLOBALS["users"][$i][5].'",'.$GLOBALS["users"][$i][6].','.
 			$GLOBALS["users"][$i][7].'),';
 	}
-	$content.="\r\n); ?>";
+	$content.="\r\n); \r\n?>";
 	
 	// Write to File
+	if( !is_writable(_EXT_PATH."/config/.htusers.php") && !chmod( _EXT_PATH."/config/.htusers.php", 0644 ) ) {
+		return false;
+	}
 	file_put_contents( _EXT_PATH."/config/.htusers.php", $content);
 	
 	return true;
@@ -134,11 +137,17 @@ function num_users($active=true) {
 }
 */
 //------------------------------------------------------------------------------
-function get_session_name() {
-
+/**
+ * Returns an IP- and BrowserID- based Session ID
+ *
+ * @param string $id
+ * @return string
+ */
+function get_session_id( $id=null ) {
+	$browser 	= @$_SERVER['HTTP_USER_AGENT'];
 	$remote_addr 	= explode('.',$_SERVER['REMOTE_ADDR']);
 	$ip				= $remote_addr[0] .'.'. $remote_addr[1] .'.'. $remote_addr[2];
-	$value 			= md5( $_SERVER['SERVER_ADDR'] . $id . $ip . $browser );
+	$value 			= md5( $_SERVER['SERVER_ADDR'] . $_SERVER['SERVER_SIGNATURE'] ) . md5( $id . $ip . $browser );
 
 	return $value;
 }
