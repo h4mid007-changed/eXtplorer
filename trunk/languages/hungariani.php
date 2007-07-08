@@ -273,6 +273,15 @@ $GLOBALS["messages"] = array(
 	'archive_saveToDir' 	=> 'Az archívum mentése a könyvtárban',
 	
 	'editor_simple'	=> 'Egyszerû szerkesztõ mód',
-	'editor_syntaxhighlight'	=> 'Szintaxis-kiemeléses mód'
+	'editor_syntaxhighlight'	=> 'Szintaxis-kiemeléses mód',
+	'show_directories' => 'Show Directories',
+	'actlogin_success' => 'Login successful!',
+	'actlogin_failure' => 'Login failed, try again.',
+	'directory_tree' => 'Directory Tree',
+	'browsing_directory' => 'Browsing Directory',
+	'filter_grid' => 'Filter',
+	'paging_info' => 'Displaying Items {0} - {1} of {2}',
+	'paging_noitems' => 'No items to display',
+	'aboutlink' => 'About...'
 );
 ?>

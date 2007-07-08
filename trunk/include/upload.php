@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -34,12 +34,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Uploads file(s)
  *
  */
-class jx_Upload extends jx_Action {
+class ext_Upload extends ext_Action {
 	
 	function execAction($dir) {	
 	
 		if(($GLOBALS["permissions"]&01)!=01) {
-			jx_Result::sendResult('upload', false, $GLOBALS["error_msg"]["accessfunc"]);
+			ext_Result::sendResult('upload', false, $GLOBALS["error_msg"]["accessfunc"]);
 		}
 		
 		// Execute
@@ -77,15 +77,15 @@ class jx_Upload extends jx_Action {
 				}
 				
 				// Upload
-				$ok = @$GLOBALS['jx_File']->move_uploaded_file($tmp, $abs);
+				$ok = @$GLOBALS['ext_File']->move_uploaded_file($tmp, $abs);
 				if($ok===false || PEAR::isError( $ok )) {
 					$errors[$i]=$GLOBALS["error_msg"]["uploadfile"];
 					if( PEAR::isError( $ok ) ) $errors[$i].= ' ['.$ok->getMessage().']';
 					$err=true;	continue;
 				}
 				else {
-					$mode = jx_isFTPMode() ? 755 : 0755;
-				  	@$GLOBALS['jx_File']->chmod( $abs, $mode );
+					$mode = ext_isFTPMode() ? 755 : 0755;
+				  	@$GLOBALS['ext_File']->chmod( $abs, $mode );
 				}
 			}
 			
@@ -95,10 +95,10 @@ class jx_Upload extends jx_Action {
 					if($errors[$i]==NULL) continue;
 					$err_msg .= $items[$i]." : ".$errors[$i]."\n";
 				}
-				jx_Result::sendResult('upload', false, $err_msg);
+				ext_Result::sendResult('upload', false, $err_msg);
 			}
 			
-			jx_Result::sendResult('upload', true, 'Upload successful!');
+			ext_Result::sendResult('upload', true, 'Upload successful!');
 			return;
 		}
 		
@@ -166,7 +166,7 @@ class jx_Upload extends jx_Action {
 	        		confirm: 'true'}
 	    });
 	});
-	simple.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
+	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 	</script>
 	<?php

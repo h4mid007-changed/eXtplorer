@@ -273,6 +273,15 @@ $GLOBALS["messages"] = array(
 	'editor_simple'	=> 'Simple Editor Mode',
 	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode',
 
-	'newlink'	=> 'New File/Directory'
+	'newlink'	=> 'New File/Directory',
+	'show_directories' => 'Show Directories',
+	'actlogin_success' => 'Login successful!',
+	'actlogin_failure' => 'Login failed, try again.',
+	'directory_tree' => 'Directory Tree',
+	'browsing_directory' => 'Browsing Directory',
+	'filter_grid' => 'Filter',
+	'paging_info' => 'Displaying Items {0} - {1} of {2}',
+	'paging_noitems' => 'No items to display',
+	'aboutlink' => 'About...'
 );
 ?>

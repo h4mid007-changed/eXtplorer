@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -35,10 +35,10 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Allows to create dirs, files and symlinks on a server
  *
  */
-class jx_Mkitem extends jx_Action {
+class ext_Mkitem extends ext_Action {
 	
 	function execAction($dir) {		// make new directory or file
-		if(($GLOBALS["permissions"]&01)!=01) jx_Result::sendResult( 'mkitem', false, $GLOBALS["error_msg"]["accessfunc"]);
+		if(($GLOBALS["permissions"]&01)!=01) ext_Result::sendResult( 'mkitem', false, $GLOBALS["error_msg"]["accessfunc"]);
 		
 		if( extGetParam($_POST,'confirm') == 'true') {
 			$mkname=$GLOBALS['__POST']["mkname"];
@@ -46,26 +46,26 @@ class jx_Mkitem extends jx_Action {
 			$symlink_target = $GLOBALS['__POST']['symlink_target'];
 			
 			$mkname=basename(stripslashes($mkname));
-			if($mkname=="") jx_Result::sendResult( 'mkitem', false,  $GLOBALS["error_msg"]["miscnoname"] );
+			if($mkname=="") ext_Result::sendResult( 'mkitem', false,  $GLOBALS["error_msg"]["miscnoname"] );
 			
 			$new = get_abs_item($dir,$mkname);
 		
-			if(@$GLOBALS['jx_File']->file_exists($new)) {
-				jx_Result::sendResult( 'mkitem', false, $mkname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
+			if(@$GLOBALS['ext_File']->file_exists($new)) {
+				ext_Result::sendResult( 'mkitem', false, $mkname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
 			}
 			$err = print_r( $_POST, true );
 			if($mktype=="dir") {
-				$ok=@$GLOBALS['jx_File']->mkdir($new, 0777);
+				$ok=@$GLOBALS['ext_File']->mkdir($new, 0777);
 				$err=$GLOBALS["error_msg"]["createdir"];
 			} elseif( $mktype == 'file') {
-				$ok=@$GLOBALS['jx_File']->mkfile($new);
+				$ok=@$GLOBALS['ext_File']->mkfile($new);
 				$err=$GLOBALS["error_msg"]["createfile"];
 			} elseif( $mktype == 'symlink' ) {
 				if( empty( $symlink_target )) {
-					jx_Result::sendResult( 'mkitem', false, 'Please provide a valid <strong>target</strong> for the symbolic link.');
+					ext_Result::sendResult( 'mkitem', false, 'Please provide a valid <strong>target</strong> for the symbolic link.');
 				}
 				if( !file_exists($symlink_target) || !is_readable($symlink_target)) {
-					jx_Result::sendResult( 'mkitem', false, 'The file you wanted to make a symbolic link to does not exist or is not accessible by PHP.');
+					ext_Result::sendResult( 'mkitem', false, 'The file you wanted to make a symbolic link to does not exist or is not accessible by PHP.');
 				}
 				$ok = symlink( $symlink_target, $new );
 				$err = 'The symbolic link could not be created.';
@@ -73,9 +73,9 @@ class jx_Mkitem extends jx_Action {
 			
 			if($ok==false || PEAR::isError( $ok )) {
 				if( PEAR::isError( $ok ) ) $err.= $ok->getMessage();
-				jx_Result::sendResult( 'mkitem', false, $err);
+				ext_Result::sendResult( 'mkitem', false, $err);
 			}
-			jx_Result::sendResult( 'mkitem', true, 'The item '.$new.' was created' );
+			ext_Result::sendResult( 'mkitem', true, 'The item '.$new.' was created' );
 			
 			return;
 		}
@@ -95,11 +95,11 @@ class jx_Mkitem extends jx_Action {
 	var mktypes = new Ext.data.SimpleStore({
 	    fields: ['mktype', 'type'],
 	    data :  [
-	        ['file', '<?php echo jx_Lang::mime( 'file', true ) ?>'],
-	        ['dir', '<?php echo jx_Lang::mime( 'dir', true ) ?>']
+	        ['file', '<?php echo ext_Lang::mime( 'file', true ) ?>'],
+	        ['dir', '<?php echo ext_Lang::mime( 'dir', true ) ?>']
 	        <?php
-	        if( !jx_isFTPMode() && !$GLOBALS['isWindows']) { ?>
-	        	,['symlink', '<?php echo jx_Lang::mime( 'symlink', true ) ?>']
+	        if( !ext_isFTPMode() && !$GLOBALS['isWindows']) { ?>
+	        	,['symlink', '<?php echo ext_Lang::mime( 'symlink', true ) ?>']
 	        	<?php
 	        } ?>
 	        ]
@@ -110,7 +110,7 @@ class jx_Mkitem extends jx_Action {
 	});
 	simple.add(
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg( 'nameheader', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg( 'nameheader', true ) ?>',
 	        name: 'mkname',
 	        width:175,
 	        allowBlank:false
@@ -130,14 +130,14 @@ class jx_Mkitem extends jx_Action {
 		    selectOnFocus:true
 		}),
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg( 'symlink_target', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg( 'symlink_target', true ) ?>',
 	        name: 'symlink_target',
 	        width:175,
 	        allowBlank:true
 	    })
 	);
 	
-	simple.addButton('<?php echo jx_Lang::msg( 'btncreate', true ) ?>', function() {
+	simple.addButton('<?php echo ext_Lang::msg( 'btncreate', true ) ?>', function() {
 		statusBarMessage( 'Please wait...', true );
 	    simple.submit({
 	        //reset: true,
@@ -163,7 +163,7 @@ class jx_Mkitem extends jx_Action {
 	        		confirm: 'true'}
 	    })
 	});
-	simple.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
+	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 	simple.findField( 'mkname').focus();
 	</script>

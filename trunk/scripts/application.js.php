@@ -2,9 +2,9 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * @version $Id: $
@@ -37,7 +37,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 ?>
 <script type="text/javascript">
-function jx_init(){
+function ext_init(){
 	Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
     // create the Data Store
     datastore = new Ext.data.Store({
@@ -111,32 +111,32 @@ function jx_init(){
            					);
     var cm = new Ext.grid.ColumnModel([{
            id: 'name', // id assigned so we can apply custom css (e.g. .x-grid-col-topic b { color:#333 })
-           header: "<?php echo jx_Lang::msg('nameheader', true ) ?>",
+           header: "<?php echo ext_Lang::msg('nameheader', true ) ?>",
            dataIndex: 'name',
            width: 250,
            renderer: renderFileName,
            editor: gridEditor,
            css: 'white-space:normal;'
         },{
-           header: "<?php echo jx_Lang::msg('sizeheader', true ) ?>",
+           header: "<?php echo ext_Lang::msg('sizeheader', true ) ?>",
            dataIndex: 'size',
            width: 50
         },{
-           header: "<?php echo jx_Lang::msg('typeheader', true ) ?>",
+           header: "<?php echo ext_Lang::msg('typeheader', true ) ?>",
            dataIndex: 'type',
            width: 70,
            align: 'right',
            renderer: renderType
         },{
-           header: "<?php echo jx_Lang::msg('modifheader', true ) ?>",
+           header: "<?php echo ext_Lang::msg('modifheader', true ) ?>",
            dataIndex: 'modified',
            width: 150
         },{
-           header: "<?php echo jx_Lang::msg('permheader', true ) ?>",
+           header: "<?php echo ext_Lang::msg('permheader', true ) ?>",
            dataIndex: 'perms',
            width: 100
         },{
-           header: "<?php echo jx_Lang::msg('miscowner', true ) ?>",
+           header: "<?php echo ext_Lang::msg('miscowner', true ) ?>",
            dataIndex: 'owner',
            width: 100,
            sortable: false
@@ -155,7 +155,7 @@ function jx_init(){
     cm.defaultSortable = true;
 
     // create the editor grid
-    jx_itemgrid = new Ext.grid.EditorGrid('item-grid', {
+    ext_itemgrid = new Ext.grid.EditorGrid('item-grid', {
         ds: datastore,
         cm: cm,
         ddGroup : 'TreeDD',
@@ -166,13 +166,13 @@ function jx_init(){
         
     });
     
-	var gsm = jx_itemgrid.getSelectionModel();
+	var gsm = ext_itemgrid.getSelectionModel();
     gsm.on('rowselect', handleRowClick );
     gsm.on('selectionchange', handleRowClick );
-    jx_itemgrid.on('rowcontextmenu', rowContextMenu);
-    jx_itemgrid.on('rowdblclick', rowContextMenu);
-    jx_itemgrid.on('celldblclick', rowContextMenu);
-    jx_itemgrid.on('validateedit', function(e) {
+    ext_itemgrid.on('rowcontextmenu', rowContextMenu);
+    ext_itemgrid.on('rowdblclick', rowContextMenu);
+    ext_itemgrid.on('celldblclick', rowContextMenu);
+    ext_itemgrid.on('validateedit', function(e) {
 						if( e.value == e.originalValue ) return true;
 						var requestParams = getRequestParams();
 						requestParams.newitemname = e.value;
@@ -186,7 +186,7 @@ function jx_init(){
 				);
     
     // Unregister the default double click action (which makes the name field editable - we want this when the user clicks "Rename" in the menu)
-    jx_itemgrid.un('celldblclick', jx_itemgrid.onCellDblClick);
+    ext_itemgrid.un('celldblclick', ext_itemgrid.onCellDblClick);
     
     function handleRowClick(sm, rowIndex) {
     	var selections = sm.getSelections();
@@ -222,36 +222,36 @@ function jx_init(){
     }
     
     // render it
-    jx_itemgrid.render();
+    ext_itemgrid.render();
     // The Quicktips are used for the toolbar and Tree mouseover tooltips!
 	Ext.QuickTips.init();
 	
 	var filter = new Ext.form.TextField( { name: 'filterValue'	});
 	
-    var gridHead = jx_itemgrid.getView().getHeaderPanel(true);
+    var gridHead = ext_itemgrid.getView().getHeaderPanel(true);
     var tb = new Ext.Toolbar(gridHead, [
     	{
     		id: 'tb_home',
     		icon: '<?php echo _EXT_URL ?>/images/home.png',
-    		text: '<?php echo jx_Lang::msg('homelink', true ) ?>',
-    		tooltip: '<?php echo jx_Lang::msg('homelink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('homelink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('homelink', true ) ?>',
     		cls:'x-btn-text-icon',
     		handler: function() { chDir('') }
     	},
     	{
     		id: 'tb_reload',
     		icon: '<?php echo _EXT_URL ?>/images/reload.png',
-    		text: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
-    		tooltip: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('reloadlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('reloadlink', true ) ?>',
     		cls:'x-btn-text-icon',
     		handler: loadDir
     	},
-    	<?php if( !jx_isFTPMode() ) { ?>
+    	<?php if( !ext_isFTPMode() ) { ?>
     	{
     		id: 'tb_search',
     		icon: '<?php echo _EXT_URL ?>/images/filefind.png',
-    		text: '<?php echo jx_Lang::msg('searchlink', true ) ?>',
-    		tooltip: '<?php echo jx_Lang::msg('searchlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('searchlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('searchlink', true ) ?>',
     		cls:'x-btn-text-icon',
     		handler: function() { openActionDialog(this, 'search'); }
     	},
@@ -260,7 +260,7 @@ function jx_init(){
     	{
     		id: 'tb_new',
     		icon: '<?php echo _EXT_URL ?>/images/filenew.png',
-    		tooltip: '<?php echo jx_Lang::msg('newlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('newlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'mkitem'); }
@@ -268,7 +268,7 @@ function jx_init(){
     	{
     		id: 'tb_edit',
     		icon: '<?php echo _EXT_URL ?>/images/edit.png',
-    		tooltip: '<?php echo jx_Lang::msg('editlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('editlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'edit'); }
@@ -276,7 +276,7 @@ function jx_init(){
     	{
     		id: 'tb_delete',
     		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
-    		tooltip: '<?php echo jx_Lang::msg('dellink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('dellink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'delete'); }
@@ -284,7 +284,7 @@ function jx_init(){
     	{
     		id: 'tb_rename',
     		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
-    		tooltip: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('renamelink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'rename'); }
@@ -292,7 +292,7 @@ function jx_init(){
     	{
     		id: 'tb_chmod',
     		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
-    		tooltip: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('chmodlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'chmod'); }
@@ -301,14 +301,14 @@ function jx_init(){
     	{
     		id: 'tb_view',
     		icon: '<?php echo _EXT_URL ?>/images/view.png',
-    		tooltip: '<?php echo jx_Lang::msg('viewlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('viewlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'tb_download',
     		icon: '<?php echo _EXT_URL ?>/images/down.png',
-    		tooltip: '<?php echo jx_Lang::msg('downlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('downlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this,'download'); }
@@ -317,22 +317,22 @@ function jx_init(){
     	{
     		id: 'tb_upload',
     		icon: '<?php echo _EXT_URL ?>/images/up.png',
-    		tooltip: '<?php echo jx_Lang::msg('uploadlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('uploadlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow && ini_get('file_uploads') ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'upload'); }
     	},
-    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
+    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
 	    	{
     			id: 'tb_archive',
 	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
-	    		tooltip: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
+	    		tooltip: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
     			cls:'x-btn-icon',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},{
     		id: 'tb_extract',
     		icon: '<?php echo _EXT_URL ?>/images/extract.gif',
-    		tooltip: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
+    		tooltip: '<?php echo ext_Lang::msg('extractlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'extract'); }
     		},
@@ -341,7 +341,7 @@ function jx_init(){
     	{
     		id: 'tb_info',
     		icon: '<?php echo _EXT_URL ?>/images/help.png',
-    		tooltip: 'About joomlaXplorer',
+    		tooltip: '<?php echo ext_Lang::msg('aboutlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'get_about'); }
     	},
@@ -355,7 +355,7 @@ function jx_init(){
 	    	{	// ADMIN
 	    		id: 'tb_admin',
 	    		icon: '<?php echo _EXT_URL ?>/images/_admin.gif',
-	    		tooltip: '<?php echo jx_Lang::msg('adminlink', true ) ?>',
+	    		tooltip: '<?php echo ext_Lang::msg('adminlink', true ) ?>',
 	    		cls:'x-btn-icon',
 	    		handler: function() { openActionDialog(this, 'admin'); }
 	    	},
@@ -365,7 +365,7 @@ function jx_init(){
 	    	{	// LOGOUT
 	    		id: 'tb_logout',
 	    		icon: '<?php echo _EXT_URL ?>/images/logout.png',
-	    		tooltip: '<?php echo jx_Lang::msg('logoutlink', true ) ?>',
+	    		tooltip: '<?php echo ext_Lang::msg('logoutlink', true ) ?>',
 	    		cls:'x-btn-icon',
 	    		handler: function() { document.location.href='<?php echo make_link('logout', null ) ?>'; }
 	    	},		
@@ -374,7 +374,7 @@ function jx_init(){
 		}
 		?>		
     	new Ext.Toolbar.Button( {
-    		text: 'Show Directories',
+    		text: '<?php echo ext_Lang::msg('show_directories', true ) ?>',
     		enableToggle: true,
     		handler: function(btn,e) { 
     					if( btn.pressed ) {
@@ -388,7 +388,7 @@ function jx_init(){
     	}), '-',
     	filter,
     	new Ext.Toolbar.Button( {
-    		text: 'Filter',
+    		text: '<?php echo ext_Lang::msg('filter_grid', true ) ?>',
     		handler: function(btn,e) { 
     					var filterVal = filter.getValue();
     					if( filterVal.length > 1 ) {
@@ -401,14 +401,14 @@ function jx_init(){
 
     ]);
     
-    var gridFoot = jx_itemgrid.getView().getFooterPanel(true);
+    var gridFoot = ext_itemgrid.getView().getFooterPanel(true);
 
     // add a paging toolbar to the grid's footer
     var paging = new Ext.PagingToolbar(gridFoot, datastore, {
         pageSize: 50,
         displayInfo: true,
-        displayMsg: 'Displaying Items {0} - {1} of {2}',
-        emptyMsg: "No items to display"
+        displayMsg: '<?php echo ext_Lang::msg( 'paging_info', true ) ?>',
+        emptyMsg: '<?php echo ext_Lang::msg( 'paging_noitems', true ) ?>'
     });
 
     // trigger the data store load
@@ -434,7 +434,7 @@ function jx_init(){
 						if( text == oldText ) return true;
 						var requestParams = getRequestParams();
 						var dir = node.parentNode.id.replace( /_RRR_/g, '/' );
-						if( dir == 'jx_root' ) dir = '';
+						if( dir == 'ext_root' ) dir = '';
 						requestParams.dir = dir;
 						requestParams.newitemname = text;
 						requestParams.item = oldText;
@@ -442,7 +442,7 @@ function jx_init(){
 						requestParams.confirm = 'true';
 						requestParams.action = 'rename';
 						handleCallback(requestParams);
-						jx_itemgrid.stopEditing();
+						ext_itemgrid.stopEditing();
 						return true;
 					}	
 				);
@@ -507,52 +507,52 @@ function jx_init(){
         items: [{
     		id: 'gc_edit',
     		icon: '<?php echo _EXT_URL ?>/images/edit.png',
-    		text: '<?php echo jx_Lang::msg('editlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('editlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'edit'); }
     	},
     	{
     		id: 'gc_rename',
     		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
-    		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
-    		handler: function() { jx_itemgrid.onCellDblClick( jx_itemgrid, gsm.clickedRow, 0 ); gsm.clickedRow = null; }
+    		text: '<?php echo ext_Lang::msg('renamelink', true ) ?>',
+    		handler: function() { ext_itemgrid.onCellDblClick( ext_itemgrid, gsm.clickedRow, 0 ); gsm.clickedRow = null; }
     	},
     	{
     		id: 'gc_chmod',
     		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
-    		text: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'chmod'); }
     	},
     	{
     		id: 'gc_delete',
     		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
-    		text: '<?php echo jx_Lang::msg('dellink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('dellink', true ) ?>',
     		handler: function() { openActionDialog(this, 'delete'); }
     	},
     	'-',
     	{
     		id: 'gc_view',
     		icon: '<?php echo _EXT_URL ?>/images/view.png',
-    		text: '<?php echo jx_Lang::msg('viewlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('viewlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'gc_download',
     		icon: '<?php echo _EXT_URL ?>/images/down.png',
-    		text: '<?php echo jx_Lang::msg('downlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('downlink', true ) ?>',
     		handler: function() { openActionDialog(this,'download'); }
     	},
     	'-',
-    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
+    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
 	    	{
     			id: 'gc_archive',
 	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
-	    		text: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
+	    		text: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
 	    	{
 	    		id: 'gc_extract',
 	    		icon: '<?php echo _EXT_URL ?>/images/extract.gif',
-	    		text: '<?php echo jx_Lang::msg('extractlink', true ) ?>',
+	    		text: '<?php echo ext_Lang::msg('extractlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'extract'); }
 	    	},
     	<?php } ?>
@@ -560,7 +560,7 @@ function jx_init(){
 		{
 			id: 'cancel',
     		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
-    		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { gridCtxMenu.hide(); }
     	}
     	]
@@ -570,7 +570,7 @@ function jx_init(){
 		// Select the node that was right clicked
 		node.select();
 		// Unselect all files in the grid
-		jx_itemgrid.getSelectionModel().clearSelections();
+		ext_itemgrid.getSelectionModel().clearSelections();
 		
 		dirCtxMenu.items.get('rename')[node.attributes.is_deletable ? 'enable' : 'disable']();
 		dirCtxMenu.items.get('remove')[node.attributes.is_deletable ? 'enable' : 'disable']();
@@ -608,46 +608,46 @@ function jx_init(){
         items: [    	{
         	id: 'new',
     		icon: '<?php echo _EXT_URL ?>/images/folder_new.png',
-    		text: '<?php echo jx_Lang::msg('newlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('newlink', true ) ?>',
     		handler: function() {dirCtxMenu.hide();openActionDialog(this, 'mkitem');}
     	},
     	{
     		id: 'rename',
     		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
-    		text: '<?php echo jx_Lang::msg('renamelink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('renamelink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'rename'); }
     	},
     	{
     		id: 'chmod',
     		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
-    		text: '<?php echo jx_Lang::msg('chmodlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'chmod'); }
     	},
     	{
     		id: 'remove',
     		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
-    		text: '<?php echo jx_Lang::msg('btnremove', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('btnremove', true ) ?>',
     		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', String.format("<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", num ), function(btn) { deleteDir( btn, dirCtxMenu.node ) }); }
     	},'-',
-    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode() ) { ?>
+    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
 	    	{
     			id: 'gc_archive',
 	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
-	    		text: '<?php echo jx_Lang::msg('comprlink', true ) ?>',
+	    		text: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
     	<?php } ?>
     	{
     		id: 'reload',
     		icon: '<?php echo _EXT_URL ?>/images/reload.png',
-    		text: '<?php echo jx_Lang::msg('reloadlink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('reloadlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();dirCtxMenu.node.reload(); }
     	},
     	'-', 
 		{
 			id: 'cancel',
     		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
-    		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { dirCtxMenu.hide(); }
     	}
 	]
@@ -657,19 +657,19 @@ function jx_init(){
         items: [    	{
         	id: 'copy',
     		icon: '<?php echo _EXT_URL ?>/images/editcopy.png',
-    		text: '<?php echo jx_Lang::msg('copylink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('copylink', true ) ?>',
     		handler: function() {copymoveCtxMenu.hide();copymove('copy');}
     	},
     	{
     		id: 'move',
     		icon: '<?php echo _EXT_URL ?>/images/move.png',
-    		text: '<?php echo jx_Lang::msg('movelink', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('movelink', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide();copymove('move'); }
     	},'-', 
 		{
 			id: 'cancel',
     		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
-    		text: '<?php echo jx_Lang::msg('btncancel', true ) ?>',
+    		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide(); }
     	}
 	]
@@ -684,7 +684,7 @@ function jx_init(){
     var treeroot = new Ext.tree.AsyncTreeNode({
         text: 'root', 
         draggable:false, 
-        id:'jx_root'
+        id:'ext_root'
     });
     treeroot.on('contextmenu', dirContext );
     dirTree.setRootNode(treeroot);
@@ -723,19 +723,19 @@ function jx_init(){
         }
     });
 	// initialize the statusbar
-    statusPanel = new Ext.ContentPanel('jx_statusbar');
+    statusPanel = new Ext.ContentPanel('ext_statusbar');
     statusPanel.getEl().addClass('done');
     statusPanel.setContent('Done.');
     
     layout.beginUpdate();
-    layout.add('north', new Ext.ContentPanel('jx_header', {closable: false}));
-    layout.add('west', new Ext.ContentPanel('dirtree', {title: 'Directory Tree <img src="<?php echo _EXT_URL ?>/images/reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="dirTree.getRootNode().reload();" alt="Reload" align="middle" />', closable: false}));
-    layout.add('center', new Ext.GridPanel(jx_itemgrid, {}));    
+    layout.add('north', new Ext.ContentPanel('ext_header', {closable: false}));
+    layout.add('west', new Ext.ContentPanel('dirtree', {title: '<?php echo ext_Lang::msg('directory_tree', true ) ?> <img src="<?php echo _EXT_URL ?>/images/reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="dirTree.getRootNode().reload();" alt="Reload" align="middle" />', closable: false}));
+    layout.add('center', new Ext.GridPanel(ext_itemgrid, {}));    
     layout.add('south', statusPanel);
     
     layout.endUpdate();
 	<?php
-	if( !jx_isFTPMode() && empty( $_SESSION['ftp_login'])) {
+	if( !ext_isFTPMode() && empty( $_SESSION['ftp_login'])) {
 		?>
 		Ext.get('switch_file_mode').on('click', handleFTPLogin );
 		function handleFTPLogin( e ) {
@@ -770,7 +770,7 @@ function jx_init(){
 					var result = Ext.decode( response.responseText );
 					var gridpanel = layout.getRegion('center').getActivePanel();
 					document.title = 'eXtplorer - ' + datastore.directory;
-					gridpanel.setTitle( 'Browsing Directory &nbsp;&nbsp;&nbsp;&nbsp;' + result.dirselects );
+					gridpanel.setTitle( '<?php echo ext_Lang::msg('browsing_directory', true ) ?> &nbsp;&nbsp;&nbsp;&nbsp;' + result.dirselects );
 					Ext.get('bookmark_container').update( result.bookmarks );
 				}
 			}
@@ -846,9 +846,9 @@ function jx_init(){
 if(Ext.isIE){
 	// As this file is included inline (because otherwise it would throw Element not found JS errors in IE)
 	// we need to run the init function onLoad, not onDocumentReady in IE
-	Ext.EventManager.addListener(window, "load", jx_init );
+	Ext.EventManager.addListener(window, "load", ext_init );
 } else {
 	// Other Browsers eat onReady
-	Ext.onReady( jx_init );
+	Ext.onReady( ext_init );
 }
 </script>

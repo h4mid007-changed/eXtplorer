@@ -10,7 +10,7 @@ if( !extension_loaded('ftp')) {
 	require_once( dirname(__FILE__).'/FTP/Socket.php');	
 }
 
-function jx_isFTPMode() {	
+function ext_isFTPMode() {	
 	return $GLOBALS['file_mode'] == 'ftp';
 }
 /**
@@ -18,9 +18,9 @@ function jx_isFTPMode() {
  * It allows us to use the same function name for FTP and File System Mode
  *
  */
-class jx_File {
+class ext_File {
 	function chmod( $item, $mode ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( !empty( $item['name'])) {
 				$item = $item['name'];
 			}
@@ -32,7 +32,7 @@ class jx_File {
 	}
 	
 	function chmodRecursive( $item, $mode ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return $GLOBALS['FTPCONNECTION']->chmodRecursive( $item, $mode );
 		}
 		else {
@@ -40,9 +40,9 @@ class jx_File {
 		}
 	}
 	function copy( $from, $to ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			
-			$fh = jx_ftp_make_local_copy( $from, true );
+			$fh = ext_ftp_make_local_copy( $from, true );
 			$res = $GLOBALS['FTPCONNECTION']->fput( $fh, $to );
 			
 			fclose( $fh );
@@ -54,8 +54,8 @@ class jx_File {
 		}
 	}
 	function copy_dir($abs_item, $abs_new_item) {
-		if( jx_isFTPMode() ) {
-			$tmp_dir = jx_ftp_make_local_copy( $abs_item );
+		if( ext_isFTPMode() ) {
+			$tmp_dir = ext_ftp_make_local_copy( $abs_item );
 			$res = $GLOBALS['FTPCONNECTION']->putRecursive( $tmp_dir, $abs_new_item );
 			remove( $tmp_dir );
 			return $res;
@@ -65,7 +65,7 @@ class jx_File {
 		}
 	}
 	function mkdir( $dir, $perms ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$res = $GLOBALS['FTPCONNECTION']->mkdir( $dir );
 			return $res;
 		}
@@ -74,7 +74,7 @@ class jx_File {
 		}
 	}
 	function mkfile( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$tmp = tmpfile();
 			return $GLOBALS['FTPCONNECTION']->fput( $tmp, $file );
 		}
@@ -83,7 +83,7 @@ class jx_File {
 		}
 	}
 	function unlink( $item ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return $GLOBALS['FTPCONNECTION']->rm( $item );
 		}
 		else {
@@ -92,7 +92,7 @@ class jx_File {
 	}
 	
 	function rmdir( $dir ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return $GLOBALS['FTPCONNECTION']->rm( $item );
 		}
 		else {
@@ -100,7 +100,7 @@ class jx_File {
 		}
 	}
 	function remove( $item ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return $GLOBALS['FTPCONNECTION']->rm( $item, true );
 		}
 		else {
@@ -108,7 +108,7 @@ class jx_File {
 		}
 	}
 	function rename( $oldname, $newname ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( is_array( $oldname )) {
 				$oldname = $oldname['name'];
 			}
@@ -119,7 +119,7 @@ class jx_File {
 		}
 	}
 	function opendir( $dir ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return getCachedFTPListing( $dir );
 		}
 		else {
@@ -127,7 +127,7 @@ class jx_File {
 		}
 	}
 	function readdir( &$handle ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$current = current($handle );next( $handle );
 			return $current;
 		}
@@ -136,7 +136,7 @@ class jx_File {
 		}
 	}
 	function scandir( $dir ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return getCachedFTPListing( $dir );
 		}
 		else {
@@ -144,7 +144,7 @@ class jx_File {
 		}
 	}
 	function closedir( &$handle ) {		
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return;
 		}
 		else {
@@ -152,7 +152,7 @@ class jx_File {
 		}
 	}
 	function file_exists( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( $file == '/' ) return true; // The root directory always exists
 			
 			$dir = $GLOBALS['FTPCONNECTION']->pwd();
@@ -176,7 +176,7 @@ class jx_File {
 		}
 	}
 	function filesize( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( isset( $file['size'])) {
 				return ( $file['size']);
 			}
@@ -187,7 +187,7 @@ class jx_File {
 		}
 	}
 	function fileperms( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( isset( $file['rights'])) {
 				$perms = $file['rights'];
 			} else {
@@ -201,7 +201,7 @@ class jx_File {
 		}		
 	}
 	function filemtime( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( isset( $file['stamp'])) {
 				return $file['stamp'];
 			}
@@ -215,7 +215,7 @@ class jx_File {
 		}
 	}
 	function move_uploaded_file( $uploadedfile, $to ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( is_array( $uploadedfile )) {
 				$uploadedfile = $uploadedfile['name'];
 			}
@@ -229,7 +229,7 @@ class jx_File {
 		}
 	}
 	function file_get_contents( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$fh = tmpfile();
 			$res = $GLOBALS['FTPCONNECTION']->fget( $file, $fh );
 			if( PEAR::isError( $res )) {
@@ -250,7 +250,7 @@ class jx_File {
 		}
 	}
 	function file_put_contents( $file, $data ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$tmp_file = tmpfile();
 			fputs( $tmp_file, $data );
 			rewind( $tmp_file );
@@ -264,7 +264,7 @@ class jx_File {
 		}
 	}
 	function fileowner( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$info = posix_getpwnam( $file['user'] );
 			return $info['uid'];
 		}
@@ -273,7 +273,7 @@ class jx_File {
 		}
 	}
 	function geteuid() {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$info = posix_getpwnam( $_SESSION['ftp_login'] );
 			return $info['uid'];			
 		}
@@ -282,7 +282,7 @@ class jx_File {
 		}
 	}
 	function is_link( $abs_item ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return false;
 		} else {
 			return is_link( $abs_item );
@@ -290,7 +290,7 @@ class jx_File {
 	}
 	function is_writable( $file ) {
 		global $isWindows;
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			if( $isWindows ) return true;
 			if( !is_array( $file )) {
 				$file = get_item_info(dirname($file), basename($file));
@@ -316,7 +316,7 @@ class jx_File {
 		}
 	}
 	function is_readable( $file ) {
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$perms = $file['rights'];
 			if( $_SESSION['ftp_login'] == $file['user']) {
 				// FTP user is owner of the file
@@ -348,17 +348,17 @@ class jx_File {
 	
 		// Note that if the directory is not owned by the same uid as this executing script, it will
 		// be unreadable and I think unwriteable in safemode regardless of directory permissions.
-		if(ini_get('safe_mode') == 1 && @$GLOBALS['jx_File']->geteuid() != $GLOBALS['jx_File']->fileowner($file)) {
+		if(ini_get('safe_mode') == 1 && @$GLOBALS['ext_File']->geteuid() != $GLOBALS['ext_File']->fileowner($file)) {
 			return false;
 		}
 	
 		// if dir owner not same as effective uid of this process, then perms must be full 777.
 		// No other perms combo seems reliable across system implementations
 		
-		if(!$isWindows && @$GLOBALS['jx_File']->geteuid() !== @$GLOBALS['jx_File']->fileowner($file)) {
+		if(!$isWindows && @$GLOBALS['ext_File']->geteuid() !== @$GLOBALS['ext_File']->fileowner($file)) {
 			return (substr(decoct(@fileperms($file)),-3) == '777' || @is_writable(dirname($file)) );
 		}
-		if($isWindows && $GLOBALS['jx_File']->geteuid() != $GLOBALS['jx_File']->fileowner($file)) {
+		if($isWindows && $GLOBALS['ext_File']->geteuid() != $GLOBALS['ext_File']->fileowner($file)) {
 			return (substr(decoct(fileperms($file)),-3) == '777');
 		}
 		// otherwise if this process owns the directory, we can chmod it ourselves to delete it
@@ -371,35 +371,35 @@ class jx_File {
 		if( $isWindows ) {
 			return true;
 		}
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			return $_SESSION['ftp_login'] == $file['user'];
 		} else {
-			return @$GLOBALS['jx_File']->fileowner( $file ) == @$GLOBALS['jx_File']->geteuid();
+			return @$GLOBALS['ext_File']->fileowner( $file ) == @$GLOBALS['ext_File']->geteuid();
 		}
 
 	}
 }
 
-function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
+function ext_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 
 	if( get_is_dir( $abs_item )) {
-		$tmp_dir = _EXT_FTPTMP_PATH.'/'.uniqid('jx_tmpdir_').'/';
+		$tmp_dir = _EXT_FTPTMP_PATH.'/'.uniqid('ext_tmpdir_').'/';
 		$res = $GLOBALS['FTPCONNECTION']->getRecursive( $abs_item, $tmp_dir, true );
 		if( PEAR::isError( $res )) {
-			jx_Result::sendResult( 'list', false, 'Failed to fetch the directory via FTP: '.$res->getMessage() );
+			ext_Result::sendResult( 'list', false, 'Failed to fetch the directory via FTP: '.$res->getMessage() );
 		}
 		return $tmp_dir;
 	}
 	
 	if( !$use_filehandle ) {
-		$tmp_file = tempnam( _EXT_FTPTMP_PATH, 'jx_ftp_dl_' );
+		$tmp_file = tempnam( _EXT_FTPTMP_PATH, 'ext_ftp_dl_' );
 	
 		if( $tmp_file == 'false') {
-			jx_Result::sendResult( 'list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
+			ext_Result::sendResult( 'list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
 		}
 		$res = $GLOBALS['FTPCONNECTION']->get( '/'.$abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {
-			jx_Result::sendResult( 'list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
+			ext_Result::sendResult( 'list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
 		}
 	}
 	else {
@@ -407,7 +407,7 @@ function jx_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 	
 		$res = $GLOBALS['FTPCONNECTION']->fget( '/'.$abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {
-			jx_Result::sendResult( 'list', false, 'Failed to fetch the file via FTP: '.$res->getMessage() );
+			ext_Result::sendResult( 'list', false, 'Failed to fetch the file via FTP: '.$res->getMessage() );
 		}
 		rewind( $tmp_file );
 	}
@@ -425,7 +425,7 @@ function &getCachedFTPListing( $dir, $force_refresh=false ) {
 		}
 		$GLOBALS['ftp_ls'][$dir] = $GLOBALS['FTPCONNECTION']->ls( $dir );
 		if( PEAR::isError( $GLOBALS['ftp_ls'][$dir] )) {
-			jx_Result::sendResult( 'list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
+			ext_Result::sendResult( 'list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
 		}
 	}
 	return $GLOBALS['ftp_ls'][$dir];

@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -38,12 +38,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * File-Delete Functions
  *
  */
-class jx_Delete extends jx_Action {
+class ext_Delete extends ext_Action {
 	
 	function execAction($dir) {
 		// delete files/dirs
 		if(($GLOBALS["permissions"]&01)!=01) 
-		  jx_Result::sendResult('delete', false, $GLOBALS["error_msg"]["accessfunc"]);
+		  ext_Result::sendResult('delete', false, $GLOBALS["error_msg"]["accessfunc"]);
 		
 		$cnt = count($GLOBALS['__POST']["selitems"]);
 		$err = false;
@@ -51,13 +51,13 @@ class jx_Delete extends jx_Action {
 		// delete files & check for errors
 		for($i=0;$i<$cnt;++$i) {
 			$items[$i] = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
-			if( jx_isFTPMode() ) {
+			if( ext_isFTPMode() ) {
 				$abs = get_item_info( $dir,$items[$i]);
 			} else {
 				$abs = get_abs_item($dir,$items[$i]);
 			}
 			
-			if(!@$GLOBALS['jx_File']->file_exists( $abs )) {
+			if(!@$GLOBALS['ext_File']->file_exists( $abs )) {
 				$error[$i] = $GLOBALS["error_msg"]["itemexist"];
 				$err=true;	continue;
 			}
@@ -67,9 +67,9 @@ class jx_Delete extends jx_Action {
 			}
 			
 			// Delete
-			if( jx_isFTPMode() ) $abs = get_abs_item($dir,$abs);
+			if( ext_isFTPMode() ) $abs = get_abs_item($dir,$abs);
 			
-			$ok= $GLOBALS['jx_File']->remove( $abs );
+			$ok= $GLOBALS['ext_File']->remove( $abs );
 			
 			if($ok===false || PEAR::isError( $ok )) {
 				$error[$i]=$GLOBALS["error_msg"]["delitem"];
@@ -89,9 +89,9 @@ class jx_Delete extends jx_Action {
 				
 				$err_msg .= $items[$i]." : ".$error[$i].".\n";
 			}
-			jx_Result::sendResult('delete', false, $err_msg);
+			ext_Result::sendResult('delete', false, $err_msg);
 		}
-		jx_Result::sendResult('delete', true, $GLOBALS['messages']['success_delete_file'] );
+		ext_Result::sendResult('delete', true, $GLOBALS['messages']['success_delete_file'] );
 	}
 }
 //------------------------------------------------------------------------------

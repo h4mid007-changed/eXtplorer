@@ -2,7 +2,7 @@
 /** ensure this file is being included by a parent file */
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
-$GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer';
+$GLOBALS['ext_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer';
 
 define ( "_JX_PATH", $mosConfig_absolute_path."/administrator/components/com_joomlaxplorer" );
 define ( "_JX_URL", $mosConfig_live_site."/administrator/components/com_joomlaxplorer" );
@@ -33,10 +33,10 @@ else {
 }
 @session_start();
 if( !isset( $_REQUEST['dir'] )) {
-	$dir = $GLOBALS['dir'] = mosGetParam( $_SESSION,'jx_dir', '' );
+	$dir = $GLOBALS['dir'] = mosGetParam( $_SESSION,'ext_dir', '' );
 }
 else {
-	$dir = $GLOBALS['dir'] = $_SESSION['jx_dir'] = mosGetParam( $_REQUEST, "dir" );
+	$dir = $GLOBALS['dir'] = $_SESSION['ext_dir'] = mosGetParam( $_REQUEST, "dir" );
 }
 
 
@@ -71,7 +71,7 @@ require _JX_PATH."/include/footer.php";
 require _JX_PATH."/include/result.class.php";
 
 //------------------------------------------------------------------------------
-$GLOBALS['jx_File'] = new jx_File();
+$GLOBALS['ext_File'] = new ext_File();
 
 $abs_dir=get_abs_dir($GLOBALS["dir"]);
 if(!file_exists($GLOBALS["home_dir"])) {
@@ -86,7 +86,7 @@ if(!file_exists($GLOBALS["home_dir"])) {
 	$GLOBALS['ERROR'] = $GLOBALS["error_msg"]["home"];
   }
 }
-if(!down_home($abs_dir)) jx_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
+if(!down_home($abs_dir)) ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
 if(!is_dir($abs_dir))
   if(!is_dir($abs_dir.$GLOBALS["separator"]))
 	$GLOBALS['ERROR'] = $abs_dir." : ".$GLOBALS["error_msg"]["direxist"];

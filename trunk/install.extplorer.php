@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package joomlaXplorer
+* @package eXtplorer
 * @copyright (C) 2005-2007 Soeren
 * @license GNU / GPL
 * @author soeren
@@ -17,7 +17,7 @@ function com_install(){
 	require_once($mypath . "/include/functions.php");
 	require_once($mypath . "/libraries/Archive.php");
 	
-	jx_RaiseMemoryLimit( '16M' );
+	ext_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
 	
 	$archive_name = $mypath.'/scripts.zip';

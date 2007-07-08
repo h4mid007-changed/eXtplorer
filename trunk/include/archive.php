@@ -2,9 +2,9 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * @version $Id: $
@@ -35,15 +35,15 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Zip & TarGzip Functions
  *
  */
-class jx_Archive extends jx_Action {
+class ext_Archive extends ext_Action {
 
 	function execAction( $dir ) {
 		global $mosConfig_absolute_path;
 		if(($GLOBALS["permissions"]&01)!=01) {
-			jx_Result::sendResult('archive', false, $GLOBALS["error_msg"]["accessfunc"]);
+			ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["accessfunc"]);
 		}
 		if(!$GLOBALS["zip"] && !$GLOBALS["tgz"]) {
-			jx_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnofunc"]);
+			ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnofunc"]);
 		}
 
 		$allowed_types = array( 'zip', 'tgz', 'tbz', 'tar' );
@@ -52,15 +52,15 @@ class jx_Archive extends jx_Action {
 		if(extGetParam($_POST, 'confirm' ) == 'true' ) {
 			$saveToDir = $GLOBALS['__POST']['saveToDir'];
 			if( !file_exists( get_abs_dir($saveToDir ) )) {
-				jx_Result::sendResult('archive', false, 'The Save-To Directory you have specified does not exist.');
+				ext_Result::sendResult('archive', false, 'The Save-To Directory you have specified does not exist.');
 			}
 			if( !is_writable( get_abs_dir($saveToDir ) )) {
-				jx_Result::sendResult('archive', false, 'Please specify a writable directory to save the archive to.');
+				ext_Result::sendResult('archive', false, 'Please specify a writable directory to save the archive to.');
 			}
 			require_once( _EXT_PATH .'/libraries/Archive.php' );
 
 			if( !in_array(strtolower( $GLOBALS['__POST']["type"] ), $allowed_types )) {
-				jx_Result::sendResult('archive', false, 'Unknown Archive Format: '.htmlspecialchars($GLOBALS['__POST']["type"]));
+				ext_Result::sendResult('archive', false, 'Unknown Archive Format: '.htmlspecialchars($GLOBALS['__POST']["type"]));
 
 			}
 
@@ -70,7 +70,7 @@ class jx_Archive extends jx_Action {
 			$abs_dir=get_abs_dir($dir);
 			$name=basename(stripslashes($GLOBALS['__POST']["name"]));
 			if($name=="") {
-				jx_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnoname"]);
+				ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnoname"]);
 			}
 
 			$download = extGetParam( $_REQUEST, 'download', "n" );
@@ -128,7 +128,7 @@ class jx_Archive extends jx_Action {
 			$result = File_Archive::extract( $filelist, $archive_name );
 
 			if( PEAR::isError( $result ) ) {
-				jx_Result::sendResult('archive', false, $name.": Failed saving Archive File. Error: ".$result->getMessage() );
+				ext_Result::sendResult('archive', false, $name.": Failed saving Archive File. Error: ".$result->getMessage() );
 			}
 			$json = new Services_JSON();
 			if( $cnt_filelist > $startfrom+$files_per_step ) {
@@ -153,7 +153,7 @@ class jx_Archive extends jx_Action {
 			}
 
 			echo $json->encode( $response );
-			jx_exit();
+			ext_exit();
 		}
 	?>
 <div style="width:auto;">
@@ -170,14 +170,14 @@ class jx_Archive extends jx_Action {
 	var comprTypes = new Ext.data.SimpleStore({
 		fields: ['type', 'typename'],
 		data :  [
-		['zip', 'Zip (<?php echo jx_Lang::msg('normal_compression', true ) ?>)'],
-		['tgz', 'Tar/Gz (<?php echo jx_Lang::msg('good_compression', true ) ?>)'],
+		['zip', 'Zip (<?php echo ext_Lang::msg('normal_compression', true ) ?>)'],
+		['tgz', 'Tar/Gz (<?php echo ext_Lang::msg('good_compression', true ) ?>)'],
 		<?php
 		if(extension_loaded("bz2")) {
-			echo "['tbz', 'Tar/Bzip2 (".jx_Lang::msg('best_compression', true ).")'],";
+			echo "['tbz', 'Tar/Bzip2 (".ext_Lang::msg('best_compression', true ).")'],";
 		}
 		?>
-		['tar', 'Tar (<?php echo jx_Lang::msg('no_compression', true ) ?>)']
+		['tar', 'Tar (<?php echo ext_Lang::msg('no_compression', true ) ?>)']
 		]
 	});
 	var form = new Ext.form.Form({
@@ -185,7 +185,7 @@ class jx_Archive extends jx_Action {
 		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
 	var combo = new Ext.form.ComboBox({
-		fieldLabel: '<?php echo jx_Lang::msg('typeheader', true ) ?>',
+		fieldLabel: '<?php echo ext_Lang::msg('typeheader', true ) ?>',
 		store: comprTypes,
 		displayField:'typename',
 		valueField: 'type',
@@ -200,19 +200,19 @@ class jx_Archive extends jx_Action {
 		width: 200
 	});
 	form.add( new Ext.form.TextField({
-		fieldLabel: '<?php echo jx_Lang::msg('archive_name', true ) ?>',
+		fieldLabel: '<?php echo ext_Lang::msg('archive_name', true ) ?>',
 		name: 'name',
 		width: 200
 	}),
 	combo,
 	new Ext.form.TextField({
-		fieldLabel: '<?php echo jx_Lang::msg('archive_saveToDir', true ) ?>',
+		fieldLabel: '<?php echo ext_Lang::msg('archive_saveToDir', true ) ?>',
 		name: 'saveToDir',
 		value: '<?php echo str_replace("'", "\'", $dir ) ?>',
 		width: 200
 	}),
 	new Ext.form.Checkbox({
-		fieldLabel: '<?php echo jx_Lang::msg('downlink', true ) ?>?',
+		fieldLabel: '<?php echo ext_Lang::msg('downlink', true ) ?>?',
 		name: 'download',
 		checked: true
 	})
@@ -227,14 +227,14 @@ class jx_Archive extends jx_Action {
 		}
 	});
 
-	form.addButton('<?php echo jx_Lang::msg( 'btncreate', true ) ?>', function() { formSubmit(0) });
-	form.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.hide();dialog.destroy(); } );
+	form.addButton('<?php echo ext_Lang::msg( 'btncreate', true ) ?>', function() { formSubmit(0) });
+	form.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.hide();dialog.destroy(); } );
 
 	form.render('adminForm');
 
 	function formSubmit( startfrom, msg ) {
 		form.submit({
-			waitMsg: msg ? msg : '<?php echo jx_Lang::msg( 'creating_archive', true ) ?>',
+			waitMsg: msg ? msg : '<?php echo ext_Lang::msg( 'creating_archive', true ) ?>',
 			//reset: true,
 			reset: false,
 			success: function(form, action) {

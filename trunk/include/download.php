@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -37,7 +37,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * File-Download Functions
  *
  */
-class jx_Download extends jx_Action {
+class ext_Download extends ext_Action {
 	
 	function execAction($dir, $item, $unlink=false) {		// download file
 		global $action, $mosConfig_cache_path;
@@ -47,7 +47,7 @@ class jx_Download extends jx_Action {
 		while( @ob_end_clean() );
 	    ob_start();
 		
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$abs_item = $dir.'/'.$item;
 		}
 		else {
@@ -56,13 +56,13 @@ class jx_Download extends jx_Action {
 			  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
 		}
 		
-		if(($GLOBALS["permissions"]&01)!=01) jx_Result::sendResult( 'download', false, $GLOBALS["error_msg"]["accessfunc"]);
-		if(!$GLOBALS['jx_File']->file_exists($abs_item)) jx_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
-		if(!get_show_item($dir, $item)) jx_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);
+		if(($GLOBALS["permissions"]&01)!=01) ext_Result::sendResult( 'download', false, $GLOBALS["error_msg"]["accessfunc"]);
+		if(!$GLOBALS['ext_File']->file_exists($abs_item)) ext_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
+		if(!get_show_item($dir, $item)) ext_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);
 	
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 	
-			$abs_item = jx_ftp_make_local_copy( $abs_item );
+			$abs_item = ext_ftp_make_local_copy( $abs_item );
 			$unlink = true;
 		}
 		$browser=id_browser();
@@ -88,7 +88,7 @@ class jx_Download extends jx_Action {
 		  	unlink( $abs_item );
 		}
 	    ob_end_flush();
-		jx_exit();
+		ext_exit();
 	}
 }
 //------------------------------------------------------------------------------

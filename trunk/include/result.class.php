@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -36,20 +36,20 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Allows to handle errors and send results in JSON format
  *
  */
-class jx_Result {
+class ext_Result {
 	function add_message($message, $type='general') {
-		$_SESSION['jx_message'][$type][] = $message;
+		$_SESSION['ext_message'][$type][] = $message;
 	}
 	function empty_messages() {
-		$_SESSION['jx_message'] = array();
+		$_SESSION['ext_message'] = array();
 	}
 	function count_messages() {
 		
-		if( empty($_SESSION['jx_message'])) {
+		if( empty($_SESSION['ext_message'])) {
 			return 0;
 		}
 		$count = 0;
-		foreach( $_SESSION['jx_message'] as $type ) {
+		foreach( $_SESSION['ext_message'] as $type ) {
 			if( !empty( $type ) && is_array( $type )) {
 				$count += sizeof( $type );
 			}
@@ -57,14 +57,14 @@ class jx_Result {
 		return $count;
 	}
 	function add_error($error, $type='general') {
-		$_SESSION['jx_error'][$type][] = $error;
+		$_SESSION['ext_error'][$type][] = $error;
 	}
 	function empty_errors() {
-		$_SESSION['jx_error'] = array();
+		$_SESSION['ext_error'] = array();
 	}
 	function count_errors() {
 		$count = 0;
-		foreach( $_SESSION['jx_error'] as $type ) {
+		foreach( $_SESSION['ext_error'] as $type ) {
 			if( !empty( $type ) && is_array( $type )) {
 				$count += sizeof( $type );
 			}
@@ -73,7 +73,7 @@ class jx_Result {
 	}
 	function sendResult( $action, $success, $msg,$extra=array() ) {		// show error-message
 		
-		if( jx_isXHR() ) {
+		if( ext_isXHR() ) {
 			$success = (bool)$success;
 			$result = array('action' => $action,
 							'message' => $msg,
@@ -86,13 +86,13 @@ class jx_Result {
 			$json = new Services_JSON();
 			$jresult = $json->encode($result);
 			print $jresult;
-			jx_exit();
+			ext_exit();
 		}
 
 		if($extra != NULL) {
 			$msg .= " - ".$extra;
 		}
-		jx_Result::add_error( $msg );
+		ext_Result::add_error( $msg );
 		
 		if( empty( $_GET['error'] )) {
 			session_write_close();
@@ -102,40 +102,40 @@ class jx_Result {
 			show_header($GLOBALS["error_msg"]["error"]);
 			
 			echo '<div class="quote">';
-			echo '<a href="#errors">'.jx_Result::count_errors() .' '.$GLOBALS["error_msg"]["error"].'</a>, ';
-			echo '<a href="#messages">'.jx_Result::count_messages() .' '.$GLOBALS["error_msg"]["message"].'</a><br />';
+			echo '<a href="#errors">'.ext_Result::count_errors() .' '.$GLOBALS["error_msg"]["error"].'</a>, ';
+			echo '<a href="#messages">'.ext_Result::count_messages() .' '.$GLOBALS["error_msg"]["message"].'</a><br />';
 			echo "</div>\n";
 			
-			if( !empty( $_SESSION['jx_message'])) {
+			if( !empty( $_SESSION['ext_message'])) {
 				echo "<a href=\"".str_replace('&dir=', '&ignore=', make_link("list", '' ))."\">[ "
 						.$GLOBALS["error_msg"]["back"]." ]</a>";
 						
-				echo "<div class=\"jx_message\"><a name=\"messages\"></a>
+				echo "<div class=\"ext_message\"><a name=\"messages\"></a>
 						<h3>".$GLOBALS["error_msg"]["message"].":</strong>"."</h3>\n";
 				
-				foreach ( $_SESSION['jx_message'] as $msgtype ) {
+				foreach ( $_SESSION['ext_message'] as $msgtype ) {
 					foreach ( $msgtype as $message ) {
 						echo $message ."\n<br/>";
 					}
 					echo '<br /><hr /><br />';
 				}
-				jx_Result::empty_messages();
+				ext_Result::empty_messages();
 				
 				if( !empty( $_REQUEST['extra'])) echo " - ".urldecode($_REQUEST['extra']);
 				echo "</div>\n";
 			}
 			
 			
-			echo "<div class=\"jx_error\"><a name=\"errors\"></a>
+			echo "<div class=\"ext_error\"><a name=\"errors\"></a>
 					<h3>".$GLOBALS["error_msg"]["error"].":</strong>"."</h3>\n";
 			
-			foreach ( $_SESSION['jx_error'] as $errortype ) {
+			foreach ( $_SESSION['ext_error'] as $errortype ) {
 				foreach ( $errortype as $error ) {
 					echo $error ."\n<br/>";
 				}
 				echo '<br /><hr /><br />';
 			}
-			jx_Result::empty_errors();
+			ext_Result::empty_errors();
 			
 			echo "<a href=\"".str_replace('&dir=', '&ignore=', make_link("list", '' ))."\">".$GLOBALS["error_msg"]["back"]."</a>";
 			if( !empty( $_REQUEST['extra'])) echo " - ".urldecode($_REQUEST['extra']);

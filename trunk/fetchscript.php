@@ -10,7 +10,7 @@
 * where INDEX is the actual number of the file to be included, so you can include multiple scripts at a time
 * 
 * @version $Id$
-* @package joomlaXplorer
+* @package eXtplorer
 * @copyright Copyright (C) 2006-2007 Soeren Eberhardt. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant

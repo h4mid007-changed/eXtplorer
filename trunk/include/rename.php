@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -35,12 +35,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Allows to rename files and dirs
  *
  */
-class jx_Rename extends jx_Action {
+class ext_Rename extends ext_Action {
 	
 	function execAction($dir, $item) {		// rename directory or file
 	
 		if(($GLOBALS["permissions"]&01)!=01) {
-			jx_Result::sendResult('rename', false, $GLOBALS["error_msg"]["accessfunc"]);
+			ext_Result::sendResult('rename', false, $GLOBALS["error_msg"]["accessfunc"]);
 		}
 		
 		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
@@ -49,9 +49,9 @@ class jx_Rename extends jx_Action {
 			$newitemname=trim(basename(stripslashes($newitemname)));
 			
 			if($newitemname=='' ) {
-				jx_Result::sendResult('rename', false, $GLOBALS["error_msg"]["miscnoname"]);
+				ext_Result::sendResult('rename', false, $GLOBALS["error_msg"]["miscnoname"]);
 			}
-			if( !jx_isFTPMode()) {
+			if( !ext_isFTPMode()) {
 				$abs_old = get_abs_item($dir,$item);
 				$abs_new = get_abs_item($dir,$newitemname);
 			} else {
@@ -59,27 +59,27 @@ class jx_Rename extends jx_Action {
 				$abs_new = get_item_info($dir,$newitemname);
 			}
 			
-			if(@$GLOBALS['jx_File']->file_exists($abs_new)) {
-				jx_Result::sendResult('rename', false, $newitemname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
+			if(@$GLOBALS['ext_File']->file_exists($abs_new)) {
+				ext_Result::sendResult('rename', false, $newitemname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
 			}
-			$perms_old = $GLOBALS['jx_File']->fileperms( $abs_old );
+			$perms_old = $GLOBALS['ext_File']->fileperms( $abs_old );
 			
-			$ok=$GLOBALS['jx_File']->rename( get_abs_item($dir,$item), get_abs_item($dir,$newitemname) );
-			if( jx_isFTPMode()) {
+			$ok=$GLOBALS['ext_File']->rename( get_abs_item($dir,$item), get_abs_item($dir,$newitemname) );
+			if( ext_isFTPMode()) {
 				$abs_new = get_item_info($dir,$newitemname);
 			}
 			
-			$GLOBALS['jx_File']->chmod( $abs_new, $perms_old );
+			$GLOBALS['ext_File']->chmod( $abs_new, $perms_old );
 			
 			if($ok===false || PEAR::isError($ok)) {
-				jx_Result::sendResult('rename', false, 'Could not rename '.$dir.'/'.$item.' to '.$newitemname);
+				ext_Result::sendResult('rename', false, 'Could not rename '.$dir.'/'.$item.' to '.$newitemname);
 			}
 			
 			$msg = sprintf( $GLOBALS['messages']['success_rename_file'], $item, $newitemname );
 			
-			jx_Result::sendResult('rename', true, $msg );
+			ext_Result::sendResult('rename', true, $msg );
 		}
-		$is_dir = get_is_dir(jx_isFTPMode() ? get_item_info($dir,$item) : get_abs_item($dir,$item));
+		$is_dir = get_is_dir(ext_isFTPMode() ? get_item_info($dir,$item) : get_abs_item($dir,$item));
 	
 	?>
 	<div style="width:auto;">
@@ -100,7 +100,7 @@ class jx_Rename extends jx_Action {
 	});
 	simple.add(
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg( 'newname', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg( 'newname', true ) ?>',
 	        name: 'newitemname',
 	        value: '<?php echo str_replace("'", "\'", stripslashes($GLOBALS['__POST']['item']) ) ?>',
 	        width:175,
@@ -108,7 +108,7 @@ class jx_Rename extends jx_Action {
 	    })
 	    );
 	
-	simple.addButton('<?php echo jx_Lang::msg( 'btnsave', true ) ?>', function() {
+	simple.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
 		statusBarMessage( 'Please wait...', true );
 	    simple.submit({
 	        //reset: true,
@@ -144,7 +144,7 @@ class jx_Rename extends jx_Action {
 	        		confirm: 'true'}
 	    });
 	});
-	simple.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
+	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 	</script>
 	<?php

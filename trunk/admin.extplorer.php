@@ -6,9 +6,9 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
  * @version $Id: $
  * 
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -43,8 +43,8 @@ if( is_object($acl)) {
 	}
 }
 // The joomlaXplorer version number
-$GLOBALS['jx_version'] = '2.0.0';
-$GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer/';
+$GLOBALS['ext_version'] = '2.0.0';
+$GLOBALS['ext_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer/';
 
 /*
 // Needed to keep the filelist in the XML installer file up-to-date
@@ -78,7 +78,7 @@ if( $action == 'include_javascript' ) {
   	while (@ob_end_clean());
   	header("Content-type: application/x-javascript; charset=iso-8859-1");
   	include( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php');
-  	jx_exit();
+  	ext_exit();
 }
 
 if( defined( '_LOGIN_REQUIRED')) return;
@@ -89,8 +89,8 @@ if( $action == "archive") {
 }
 
 // Empty the output buffer if this is a XMLHttpRequest
-//while( @ob_end_clean() );echo 'HTTP_X_REQUESTED_WITH: '.$_SERVER['HTTP_X_REQUESTED_WITH'];jx_exit();
-if( jx_isXHR() ) {
+//while( @ob_end_clean() );echo 'HTTP_X_REQUESTED_WITH: '.$_SERVER['HTTP_X_REQUESTED_WITH'];ext_exit();
+if( ext_isXHR() ) {
 	error_reporting(0);
 	while( @ob_end_clean() );
 }
@@ -98,7 +98,7 @@ if( jx_isXHR() ) {
 if( file_exists( _EXT_PATH . '/include/'. strtolower(basename( $action )) .'.php') ) {
 	require_once( _EXT_PATH . '/include/'. strtolower(basename( $action )) .'.php');
 }
-$classname = 'jx_'.$action;
+$classname = 'ext_'.$action;
 if( class_exists(strtolower($classname))) {
 	$handler = new $classname();
 	$handler->execAction( $dir, $item );
@@ -146,7 +146,7 @@ if( class_exists(strtolower($classname))) {
 	  	break;
 	//------------------------------------------------------------------------------
 	  case 'show_error':
-	  	jx_Result::sendResult('', false, '');
+	  	ext_Result::sendResult('', false, '');
 	  	break;
 	  case'get_about':
 	  	show_about();
@@ -156,7 +156,7 @@ if( class_exists(strtolower($classname))) {
 	  case "getdircontents":
 	  		require_once _EXT_PATH . "/include/list.php";
 	  		$requestedDir = stripslashes(str_replace( '_RRR_', $GLOBALS['separator'], extGetParam( $_REQUEST, 'node' )));
-	  		if( empty($requestedDir) || $requestedDir == 'jx_root') {
+	  		if( empty($requestedDir) || $requestedDir == 'ext_root') {
 	  			$requestedDir = $dir;
 	  		}
 	  		send_dircontents( $requestedDir, extGetParam($_REQUEST,'sendWhat','files') );
@@ -174,23 +174,23 @@ if( class_exists(strtolower($classname))) {
 			break;
 	  case 'get_image':
 	  		require_once _EXT_PATH . "/include/view.php";
-	  		jx_View::sendImage( $dir, $item );
+	  		ext_View::sendImage( $dir, $item );
 	  default:
 		  require_once _EXT_PATH . "/include/list.php";
-		  jx_List::execAction($dir);
+		  ext_List::execAction($dir);
 	//------------------------------------------------------------------------------
 	}
 // end switch-statement
 }
 //------------------------------------------------------------------------------
 // Disconnect from ftp server
-if( jx_isFTPMode() ) {
+if( ext_isFTPMode() ) {
 	$GLOBALS['FTPCONNECTION']->disconnect();
 }
 
 // Empty the output buffer if this is a XMLHttpRequest
-if( jx_isXHR() ) {
-	jx_exit();
+if( ext_isXHR() ) {
+	ext_exit();
 }
 
 

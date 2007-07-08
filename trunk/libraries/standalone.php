@@ -63,7 +63,7 @@ class extMainFrame {
 	*/
 	function extMainFrame() {
 		session_name( 'eXtplorer' );
-		session_id( get_session_id() );
+		
 		session_start();
 		if( !isset( $_SESSION['_userstate'])) {
 			$_SESSION['_userstate'] = array();

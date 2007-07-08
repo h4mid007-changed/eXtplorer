@@ -272,6 +272,15 @@ $GLOBALS["messages"] = array(
 	'editor_simple'	=> 'Einfacher Editormodus',
 	'editor_syntaxhighlight'	=> 'Syntax-Hervorhebungsmodus',
 
-	'newlink'	=> 'New File/Directory'
+	'newlink'	=> 'Neue Datei/Verzeichnis',
+	'show_directories' => 'Zeige Verzeichnisse',
+	'actlogin_success' => 'Anmeldung erfolreich!',
+	'actlogin_failure' => 'Anmeldung fehlgeschlagen, bitte erneut versuchen.',
+	'directory_tree' => 'Verzeichnisbaum',
+	'browsing_directory' => 'Zeige Verzeichnis',
+	'filter_grid' => 'Filter',
+	'paging_info' => 'Zeige Einträge {0} - {1} von {2}',
+	'paging_noitems' => 'keine Einträge zum anzeigen',
+	'aboutlink' => 'Über..'
 );
 ?>

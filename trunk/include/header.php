@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -35,23 +35,28 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 function show_header($dirlinks='') {
 	$url = str_replace( '&dir=', '&ignore=', $_SERVER['REQUEST_URI'] );
 	echo "<link rel=\"stylesheet\" href=\""._EXT_URL."/style/style.css\" type=\"text/css\" />\n";
-	echo "<div id=\"jx_header\">\n";
+	echo "<div id=\"ext_header\">\n";
 	echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"5\">\n";
 	$mode = extGetParam( $_SESSION, 'file_mode', 'file' );
 	$logoutlink = $mode == 'ftp' ? ' <a href="'.$GLOBALS['script_name'].'?option=com_extplorer&amp;action=ftp_logout" title="'.$GLOBALS['messages']['logoutlink'].'">['.$GLOBALS['messages']['logoutlink'].']</a>' : '';
 	$alternate_mode = $mode == 'file' ? 'ftp' : 'file';
 	echo '<tr><td width="20%">';
 	if( is_object( $GLOBALS['_VERSION'])) {
-		echo "<a href=\"index2.php\">Back to ".$GLOBALS['_VERSION']->PRODUCT.'</a>';
+		echo "<a href=\"index2.php\">Back to ".$GLOBALS['_VERSION']->PRODUCT.'</a>';		// Logo
+		echo "</td><td style=\"color:black;\" width=\"10%\">";
+		//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
+		echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\">
+			<img src=\""._EXT_URL."/images/logo.gif\" alt=\"joomlaXplorer\" border=\"0\" /></a>
+			</td>";
 	} else {
-		echo jx_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=\''.$GLOBALS['script_name'].'?lang=\' + this.options[this.selectedIndex].value;"');
+		echo ext_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=\''.$GLOBALS['script_name'].'?lang=\' + this.options[this.selectedIndex].value;"');		
+		// Logo
+		echo "</td><td style=\"color:black;\" width=\"10%\">";
+		//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
+		echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\">
+			<img src=\""._EXT_URL."/images/eXtplorer.gif\" alt=\"eXtplorer\" border=\"0\" /></a>
+			</td>";
 	}
-	// Logo
-	echo "</td><td style=\"color:black;\" width=\"10%\">";
-	//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
-	echo "<a href=\"".$GLOBALS['jx_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\">
-		<img src=\""._EXT_URL."/images/eXtplorer.gif\" alt=\"eXtplorer\" border=\"0\" /></a>
-		</td>";
 	//echo "</div>";
 	echo "<td style=\"padding-left: 15px; color:black;\" id=\"bookmark_container\" width=\"35%\"></td>\n";
 	echo "<td width=\"25%\" style=\"padding-left: 15px; color:black;\">".sprintf( $GLOBALS['messages']['switch_file_mode'], $mode . $logoutlink, "<a id=\"switch_file_mode\" href=\"$url?&amp;file_mode=$alternate_mode\">$alternate_mode</a>" ). "

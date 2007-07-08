@@ -9,7 +9,7 @@ Version $Id: $
 --- version 2.0.0 beta2 released ----
 - added double-click action which opens the Context Menu in the grid (Opera and Konqueror don't allow custom right-click menus)
 - applied patches to ExtJS to allow usage with Konqueror
-- added new jx_Lang class to be able to escape quotes and line endings for using it in JavaScript Strings
+- added new ext_Lang class to be able to escape quotes and line endings for using it in JavaScript Strings
 - fixed node context menu displaying outside of view
 - added the fetchscript.php file to bundle and compress javascript and stylesheet files
   (Sending compressed js and css files significantly reduces the download size for ExtJS)

@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -39,7 +39,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 function copy_move_items($dir) {		// copy/move file/dir
 	$action = extGetParam( $_REQUEST, 'action' );
 	if(($GLOBALS["permissions"]&01)!=01){
-		jx_Result::sendResult( $action, false, $GLOBALS["error_msg"]["accessfunc"]);
+		ext_Result::sendResult( $action, false, $GLOBALS["error_msg"]["accessfunc"]);
 	}
 	
 	// Vars
@@ -52,14 +52,14 @@ function copy_move_items($dir) {		// copy/move file/dir
 	// DO COPY/MOVE
 	
 	// ALL OK?
-	if(!@$GLOBALS['jx_File']->file_exists(get_abs_dir($new_dir))) {
-		jx_Result::sendResult( $action, false, get_abs_dir($new_dir).": ".$GLOBALS["error_msg"]["targetexist"]);
+	if(!@$GLOBALS['ext_File']->file_exists(get_abs_dir($new_dir))) {
+		ext_Result::sendResult( $action, false, get_abs_dir($new_dir).": ".$GLOBALS["error_msg"]["targetexist"]);
 	}
 	if(!get_show_item($new_dir,"")) {
-		jx_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["accesstarget"]);
+		ext_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["accesstarget"]);
 	}
 	if(!down_home(get_abs_dir($new_dir))) {
-		jx_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["targetabovehome"]);
+		ext_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["targetabovehome"]);
 	}	
 	
 	// copy / move files
@@ -68,7 +68,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 		$tmp = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
 		$new = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
 		
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$abs_item = get_item_info($dir,$tmp);
 			$abs_new_item = get_item_info('/'.$new_dir,$new);
 		} else {
@@ -83,7 +83,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 			$error[$i]= $GLOBALS["error_msg"]["miscnoname"];
 			$err=true;	continue;
 		}
-		if(!@$GLOBALS['jx_File']->file_exists($abs_item)) {
+		if(!@$GLOBALS['ext_File']->file_exists($abs_item)) {
 			$error[$i]= $GLOBALS["error_msg"]["itemexist"];
 			$err=true;	continue;
 		}
@@ -91,7 +91,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 			$error[$i]= $GLOBALS["error_msg"]["accessitem"];
 			$err=true;	continue;
 		}
-		if(@$GLOBALS['jx_File']->file_exists($abs_new_item)) {
+		if(@$GLOBALS['ext_File']->file_exists($abs_new_item)) {
 			$error[$i]= $GLOBALS["error_msg"]["targetdoesexist"];
 			$err=true;	continue;
 		}
@@ -100,19 +100,19 @@ function copy_move_items($dir) {		// copy/move file/dir
 		if($action=="copy") {
 			if(@is_link($abs_item) || get_is_file($abs_item)) {
 				// check file-exists to avoid error with 0-size files (PHP 4.3.0)
-				if( jx_isFTPMode() ) $abs_item = '/'.$dir.'/'.$abs_item['name'];
-				$ok=@$GLOBALS['jx_File']->copy( $abs_item ,$abs_new_item); //||@file_exists($abs_new_item);
+				if( ext_isFTPMode() ) $abs_item = '/'.$dir.'/'.$abs_item['name'];
+				$ok=@$GLOBALS['ext_File']->copy( $abs_item ,$abs_new_item); //||@file_exists($abs_new_item);
 				
 			} 
 			elseif(@get_is_dir($abs_item)) {
-				$dir = jx_isFTPMode() ? '/'.$dir.'/'.$abs_item['name'].'/' : $abs_item;
-				if( jx_isFTPMode() ) $abs_new_item .= '/';
+				$dir = ext_isFTPMode() ? '/'.$dir.'/'.$abs_item['name'].'/' : $abs_item;
+				if( ext_isFTPMode() ) $abs_new_item .= '/';
 				
-				$ok=$GLOBALS['jx_File']->copy_dir( $dir, $abs_new_item);
+				$ok=$GLOBALS['ext_File']->copy_dir( $dir, $abs_new_item);
 			}
 		}
 		else {
-			$ok= $GLOBALS['jx_File']->rename($abs_item,$abs_new_item);
+			$ok= $GLOBALS['ext_File']->rename($abs_item,$abs_new_item);
 		}
 		
 		if($ok===false || PEAR::isError( $ok ) ) {
@@ -136,10 +136,10 @@ function copy_move_items($dir) {		// copy/move file/dir
 			
 			$err_msg .= $items[$i]." : ".$error[$i]."\n";
 		}
-		jx_Result::sendResult( $action, false, $err_msg);
+		ext_Result::sendResult( $action, false, $err_msg);
 	}
 	
-	jx_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
+	ext_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
 }
 //------------------------------------------------------------------------------
 ?>

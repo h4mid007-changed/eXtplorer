@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -37,21 +37,21 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * File-Edit Functions
  *
  */
-class jx_Edit extends jx_Action {
+class ext_Edit extends ext_Action {
 	
 	function execAction($dir, $item) {		// edit file
 		global $mainframe, $mosConfig_live_site;
 		
 		if(($GLOBALS["permissions"]&01)!=01) {
-			jx_Result::sendResult('edit', false, jx_Lang::err('accessfunc' ));
+			ext_Result::sendResult('edit', false, ext_Lang::err('accessfunc' ));
 		}
 		$fname = get_abs_item($dir, $item);
 		
 		if(!get_is_file($fname))  {
-			jx_Result::sendResult('edit', false, $item.": ".jx_Lang::err('fileexist' ));
+			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('fileexist' ));
 		}
 		if(!get_show_item($dir, $item)) {
-			jx_Result::sendResult('edit', false, $item.": ".jx_Lang::err('accessfile' ));	
+			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('accessfile' ));	
 		}
 		
 		if(isset($GLOBALS['__POST']["dosave"]) && $GLOBALS['__POST']["dosave"]=="yes") {
@@ -60,16 +60,16 @@ class jx_Edit extends jx_Action {
 			$fname2=get_abs_item($dir, $item);
 			
 			if(!isset($item) || $item=="") {
-				jx_Result::sendResult('edit', false, jx_Lang::err('miscnoname' ));
+				ext_Result::sendResult('edit', false, ext_Lang::err('miscnoname' ));
 			}
-			if($fname!=$fname2 && @$GLOBALS['jx_File']->file_exists($fname2)) {
-				jx_Result::sendResult('edit', false, $item.": ".jx_Lang::err('itemdoesexist' ));
+			if($fname!=$fname2 && @$GLOBALS['ext_File']->file_exists($fname2)) {
+				ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('itemdoesexist' ));
 			}
 			  
 			$this->savefile($fname2);
 			$fname=$fname2;
 			
-			jx_Result::sendResult('edit', true, 'The File '.$item.' was saved.');
+			ext_Result::sendResult('edit', true, 'The File '.$item.' was saved.');
 			
 		}
 		
@@ -132,7 +132,7 @@ class jx_Edit extends jx_Action {
 	
 	<?php	
 	// Show File In TextArea
-	$content = $GLOBALS['jx_File']->file_get_contents( $fname );
+	$content = $GLOBALS['ext_File']->file_get_contents( $fname );
 	if( get_magic_quotes_runtime()) {
 		$content = stripslashes( $content );
 	}
@@ -157,7 +157,7 @@ class jx_Edit extends jx_Action {
 	);
 	simple.column( {width: 250 }, 
 		new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg('copyfile', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg('copyfile', true ) ?>',
 	        name: 'fname',
 	        value: '<?php echo $item ?>',
 	        width:175
@@ -165,12 +165,12 @@ class jx_Edit extends jx_Action {
 	);
 	simple.column( {width: 250, style:'margin-left:10px', clear:true }, 
 		new Ext.form.Checkbox({
-	        fieldLabel: '<?php echo jx_Lang::msg('returndir', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg('returndir', true ) ?>',
 	        name: 'return_to_dir',
 	        width:175
 		})
 	);
-	simple.addButton('<?php echo jx_Lang::msg('btnsave', true ) ?>', function() {
+	simple.addButton('<?php echo ext_Lang::msg('btnsave', true ) ?>', function() {
 		statusBarMessage( 'Saving File...', true );
 	    simple.submit({
 	        //waitMsg: 'Processing Data, please wait...',
@@ -198,7 +198,7 @@ class jx_Edit extends jx_Action {
 	    });
 	});
 	
-	simple.addButton('<?php echo jx_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
+	simple.addButton('<?php echo ext_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 	simple.findField('code').setValue(simple.findField( 'code').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
 	CodePress.run();
@@ -220,14 +220,14 @@ class jx_Edit extends jx_Action {
 			$code = $GLOBALS['__POST']["code"];
 		}
 		
-		$res = $GLOBALS['jx_File']->file_put_contents( $file_name, $code );
+		$res = $GLOBALS['ext_File']->file_put_contents( $file_name, $code );
 		
 		if( $res==false || PEAR::isError( $res )) {
-			$err = basename($file_name).": ".jx_Lang::err('savefile' );
+			$err = basename($file_name).": ".ext_Lang::err('savefile' );
 			if( PEAR::isError( $res ) ) {
 				$err .= $res->getMessage();
 			}
-			jx_Result::sendResult( 'edit', false, $err.print_r( $_POST, true ) );
+			ext_Result::sendResult( 'edit', false, $err.print_r( $_POST, true ) );
 		}
 		
 	}
