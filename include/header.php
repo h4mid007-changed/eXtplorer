@@ -43,21 +43,16 @@ function show_header($dirlinks='') {
 	echo '<tr><td width="20%">';
 	if( is_object( $GLOBALS['mainframe'])) {
 		echo "<a href=\"index2.php\">Back to ".($GLOBALS['_VERSION']->PRODUCT ? $GLOBALS['_VERSION']->PRODUCT : 'Joomla!' ).'</a>';
-		// Logo
-		echo "</td><td style=\"color:black;\" width=\"10%\">";
-		//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
-		echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\">
-			<img src=\""._EXT_URL."/images/logo.gif\" alt=\"joomlaXplorer\" border=\"0\" /></a>
-			</td>";
+
 	} else {
 		echo ext_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=\''.$GLOBALS['script_name'].'?lang=\' + this.options[this.selectedIndex].value;"');		
-		// Logo
-		echo "</td><td style=\"color:black;\" width=\"10%\">";
-		//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
-		echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\">
-			<img src=\""._EXT_URL."/images/eXtplorer.gif\" alt=\"eXtplorer\" border=\"0\" /></a>
-			</td>";
 	}
+	// Logo
+	echo "</td><td style=\"color:black;\" width=\"10%\">";
+	//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
+	echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"eXtplorer Project\">
+		<img src=\""._EXT_URL."/images/eXtplorer.gif\" alt=\"joomlaXplorer\" border=\"0\" /></a>
+		</td>";
 	//echo "</div>";
 	echo "<td style=\"padding-left: 15px; color:black;\" id=\"bookmark_container\" width=\"35%\"></td>\n";
 	echo "<td width=\"25%\" style=\"padding-left: 15px; color:black;\">".sprintf( $GLOBALS['messages']['switch_file_mode'], $mode . $logoutlink, "<a id=\"switch_file_mode\" href=\"$url?&amp;file_mode=$alternate_mode\">$alternate_mode</a>" ). "
