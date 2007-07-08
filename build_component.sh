@@ -11,7 +11,7 @@
 # It's usually globally accessible (in the directory /usr/local/bin/)
 
 DATE=$(date +%Y%m%d)
-PATH='/home/soeren/Joomla/components/com_joomlaxplorer'
+PATH='/home/soeren/Joomla/components/extplorer'
 cd $PATH
 
 /usr/local/lib/p7zip/7za a -tzip -r $PATH/scripts.zip scripts

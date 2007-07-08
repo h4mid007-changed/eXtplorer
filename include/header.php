@@ -41,8 +41,9 @@ function show_header($dirlinks='') {
 	$logoutlink = $mode == 'ftp' ? ' <a href="'.$GLOBALS['script_name'].'?option=com_extplorer&amp;action=ftp_logout" title="'.$GLOBALS['messages']['logoutlink'].'">['.$GLOBALS['messages']['logoutlink'].']</a>' : '';
 	$alternate_mode = $mode == 'file' ? 'ftp' : 'file';
 	echo '<tr><td width="20%">';
-	if( is_object( $GLOBALS['_VERSION'])) {
-		echo "<a href=\"index2.php\">Back to ".$GLOBALS['_VERSION']->PRODUCT.'</a>';		// Logo
+	if( is_object( $GLOBALS['mainframe'])) {
+		echo "<a href=\"index2.php\">Back to ".($GLOBALS['_VERSION']->PRODUCT ? $GLOBALS['_VERSION']->PRODUCT : 'Joomla!' ).'</a>';
+		// Logo
 		echo "</td><td style=\"color:black;\" width=\"10%\">";
 		//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
 		echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\">
