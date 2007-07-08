@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -76,19 +76,19 @@ function get_dircontents($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_i
 	$tot_file_size = $num_items = 0;
 	// Open directory
 	
-	$handle = @$GLOBALS['jx_File']->opendir(get_abs_dir($dir));
+	$handle = @$GLOBALS['ext_File']->opendir(get_abs_dir($dir));
 	
 	if($handle===false && $dir=="") {
-	  	$handle = @$GLOBALS['jx_File']->opendir($homedir . $GLOBALS['separator']);
+	  	$handle = @$GLOBALS['ext_File']->opendir($homedir . $GLOBALS['separator']);
 	}
 	
 	if($handle===false) {
-		jx_Result::sendResult('list', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
+		ext_Result::sendResult('list', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
 	}
 	$file_list = array();
 	$dir_list = array();
 	// Read directory
-	while(($new_item = @$GLOBALS['jx_File']->readdir($handle))!==false) {
+	while(($new_item = @$GLOBALS['ext_File']->readdir($handle))!==false) {
 		
 		if( is_array( $new_item ))  {
 			$abs_new_item = $new_item;
@@ -100,17 +100,17 @@ function get_dircontents($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_i
 		}*/		
 		if ($new_item == "." || $new_item == "..") continue;
 		
-		if(!@$GLOBALS['jx_File']->file_exists($abs_new_item)) {
-			//jx_Result::sendResult( 'list', false, $dir."/$abs_new_item: ".$GLOBALS["error_msg"]["readdir"]);
+		if(!@$GLOBALS['ext_File']->file_exists($abs_new_item)) {
+			//ext_Result::sendResult( 'list', false, $dir."/$abs_new_item: ".$GLOBALS["error_msg"]["readdir"]);
 		}
 		if(!get_show_item($dir, $new_item)) continue;		
 
-		$new_file_size = @$GLOBALS['jx_File']->filesize($abs_new_item);
+		$new_file_size = @$GLOBALS['ext_File']->filesize($abs_new_item);
 		$tot_file_size += $new_file_size;
 		$num_items++;
 
 		$new_item_name = $new_item;
-		if( jx_isFTPMode() ) {
+		if( ext_isFTPMode() ) {
 			$new_item_name = $new_item['name'];
 		}
 		
@@ -118,7 +118,7 @@ function get_dircontents($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_i
 			
 			if($GLOBALS["order"]=="modified") {
 				$dir_list[$new_item_name] =
-					@$GLOBALS['jx_File']->filemtime($abs_new_item);
+					@$GLOBALS['ext_File']->filemtime($abs_new_item);
 			} else {	// order == "size", "type" or "name"
 				
 				$dir_list[$new_item_name] = $new_item;
@@ -128,7 +128,7 @@ function get_dircontents($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_i
 				$file_list[$new_item_name] = $new_file_size;
 			} elseif($GLOBALS["order"]=="modified") {
 				$file_list[$new_item_name] =
-					@$GLOBALS['jx_File']->filemtime($abs_new_item);
+					@$GLOBALS['ext_File']->filemtime($abs_new_item);
 			} elseif($GLOBALS["order"]=="type") {
 				$file_list[$new_item_name] =
 					get_mime_type( $abs_new_item, "type");
@@ -138,7 +138,7 @@ function get_dircontents($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_i
 		}
 	}
 	
-	@$GLOBALS['jx_File']->closedir($handle);
+	@$GLOBALS['ext_File']->closedir($handle);
 	
 	// sort
 	if(is_array($dir_list)) {
@@ -223,11 +223,11 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 		
 		$items['items'][$i]['name'] = $item;
 		$items['items'][$i]['is_file'] = get_is_file( $abs_item);
-		$items['items'][$i]['is_archive'] = jx_isArchive( $item ) && !jx_isFTPMode();
-		$items['items'][$i]['is_writable'] = $is_writable = @$GLOBALS['jx_File']->is_writable( $abs_item );
-		$items['items'][$i]['is_chmodable'] = $is_chmodable = @$GLOBALS['jx_File']->is_chmodable( $abs_item );
-		$items['items'][$i]['is_readable'] = $is_readable =@$GLOBALS['jx_File']->is_readable( $abs_item );
-		$items['items'][$i]['is_deletable'] = $is_deletable = @$GLOBALS['jx_File']->is_deletable( $abs_item );
+		$items['items'][$i]['is_archive'] = ext_isArchive( $item ) && !ext_isFTPMode();
+		$items['items'][$i]['is_writable'] = $is_writable = @$GLOBALS['ext_File']->is_writable( $abs_item );
+		$items['items'][$i]['is_chmodable'] = $is_chmodable = @$GLOBALS['ext_File']->is_chmodable( $abs_item );
+		$items['items'][$i]['is_readable'] = $is_readable =@$GLOBALS['ext_File']->is_readable( $abs_item );
+		$items['items'][$i]['is_deletable'] = $is_deletable = @$GLOBALS['ext_File']->is_deletable( $abs_item );
 		$items['items'][$i]['is_editable'] = get_is_editable($abs_item);
 		
 		$items['items'][$i]['icon'] = _EXT_URL."/images/".get_mime_type($abs_item, "img");
@@ -255,8 +255,8 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 			$id = $dir. $GLOBALS['separator'].$item;
 			$id = str_replace( $GLOBALS['separator'], '_RRR_', $id );
 
-			$qtip ="<strong>".jx_Lang::mime('dir',true)."</strong><br /><strong>".jx_Lang::msg('miscperms',true).":</strong> ".$perms."<br />";
-			$qtip.='<strong>'.jx_Lang::msg('miscowner',true).':</strong> '.$items['items'][$i]['owner'];
+			$qtip ="<strong>".ext_Lang::mime('dir',true)."</strong><br /><strong>".ext_Lang::msg('miscperms',true).":</strong> ".$perms."<br />";
+			$qtip.='<strong>'.ext_Lang::msg('miscowner',true).':</strong> '.$items['items'][$i]['owner'];
 			$dirlist[] = array('text' => htmlspecialchars($item),
 								'id' => $id,
 								'qtip' => $qtip,
@@ -280,10 +280,10 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 	$json = new Services_JSON();
 	echo $json->encode( $result );
 	
-	jx_exit();
+	ext_exit();
 	
 }
-class jx_List extends jx_Action {
+class ext_List extends ext_Action {
 	
 	function execAction($dir) {			// list directory contents
 		global $dir_up, $mosConfig_live_site, $_VERSION;
@@ -295,7 +295,7 @@ class jx_List extends jx_Action {
 		if($dir_up==".") $dir_up = "";
 		
 		if(!get_show_item($dir_up,basename($dir))) {
-			jx_Result::sendResult('list', false, $dir." : ".$GLOBALS["error_msg"]["accessdir"]);	
+			ext_Result::sendResult('list', false, $dir." : ".$GLOBALS["error_msg"]["accessdir"]);	
 		}
 		
 		// Sorting of items
@@ -319,7 +319,7 @@ class jx_List extends jx_Action {
 		<div id="dirtree"></div>
 	<div id="dirtree-panel"></div>
 	<div id="item-grid"></div>
-	<div id="jx_statusbar" class="jx_statusbar"></div>
+	<div id="ext_statusbar" class="ext_statusbar"></div>
 	
 	<?php
 		// That's the main javascript file to build the Layout & App Logic

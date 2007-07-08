@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -35,7 +35,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Allows to view sourcecode (formatted by GeSHi or unformatted) and images
  *
  */
-class jx_View extends jx_Action {
+class ext_View extends ext_Action {
 	
 	function execAction($dir, $item) {		// show file contents
 	
@@ -49,7 +49,7 @@ class jx_View extends jx_Action {
 		/*$index2_edit_link = str_replace('/index3.php', '/index2.php', make_link('edit', $dir, $item ));
 		echo '<a name="top" class="componentheading" href="javascript:window.close();">[ '._PROMPT_CLOSE.' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		$abs_item = get_abs_item($dir, $item);
-		if( get_is_editable( $abs_item) && $GLOBALS['jx_File']->is_writable( $abs_item )) {
+		if( get_is_editable( $abs_item) && $GLOBALS['ext_File']->is_writable( $abs_item )) {
 			// Edit the file in the PopUp
 			echo '<a class="componentheading" href="'.make_link('edit', $dir, $item ).'&amp;return_to='.urlencode($_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'] ).'">[ '.$GLOBALS["messages"]["editlink"].' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			// Edit the file in the parent window
@@ -69,14 +69,14 @@ class jx_View extends jx_Action {
 			$geshiFile = _EXT_PATH . '/libraries/geshi/geshi.php';
 			
 			if( file_exists( $geshiFile )) {
-				jx_RaiseMemoryLimit('32M'); // GeSHi 1.0.7 is very memory-intensive
+				ext_RaiseMemoryLimit('32M'); // GeSHi 1.0.7 is very memory-intensive
 				include_once( $geshiFile );
 				// Create the GeSHi object that renders our source beautiful
 				$geshi = new GeSHi( '', '', dirname( $geshiFile ).'/geshi' );
 				$file = get_abs_item($dir, $item);
 				$pathinfo = pathinfo( $file );
-				if( jx_isFTPMode() ) {
-					$file = jx_ftp_make_local_copy( $file );
+				if( ext_isFTPMode() ) {
+					$file = ext_ftp_make_local_copy( $file );
 				}
 				if( is_callable( array( $geshi, 'load_from_file'))) {
 					$geshi->load_from_file( $file );
@@ -97,7 +97,7 @@ class jx_View extends jx_Action {
 			
 				$text = $geshi->parse_code();
 				
-				if( jx_isFTPMode() ) {
+				if( ext_isFTPMode() ) {
 					unlink( $file );
 				}
 				echo $text;
@@ -106,7 +106,7 @@ class jx_View extends jx_Action {
 			else {
 				// When GeSHi is not available, just display the plain file contents
 				echo '<div class="quote" style="text-align:left;">'
-					.nl2br( htmlentities(  $GLOBALS['jx_File']->file_get_contents(get_abs_item($dir, $item) )))
+					.nl2br( htmlentities(  $GLOBALS['ext_File']->file_get_contents(get_abs_item($dir, $item) )))
 					.'</div>';
 			}
 		}
@@ -115,7 +115,7 @@ class jx_View extends jx_Action {
 	}
 	function sendImage( $dir, $item ) {
 		$abs_item = get_abs_item( $dir, $item );
-		if( $GLOBALS['jx_File']->file_exists( $abs_item )) {
+		if( $GLOBALS['ext_File']->file_exists( $abs_item )) {
   			if(!@eregi($GLOBALS["images_ext"], $item)) return;
   			while( @ob_end_clean() );
   			
@@ -134,7 +134,7 @@ class jx_View extends jx_Action {
 		  			break;
 	  		}
 	  		
-			echo $GLOBALS['jx_File']->file_get_contents( $abs_item );
+			echo $GLOBALS['ext_File']->file_get_contents( $abs_item );
 			
 		}
 		exit;

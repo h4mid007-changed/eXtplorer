@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -81,22 +81,22 @@ function modify_bookmark( $task, $dir ) {
 		case 'add':
 
 			if( in_array( $dir, $bookmarks )) {
-				echo jx_alertBox( $GLOBALS['messages']['already_bookmarked'] ); exit;
+				echo ext_alertBox( $GLOBALS['messages']['already_bookmarked'] ); exit;
 			}
 			$alias = preg_replace('~[^\w-.\/\\\]~','', $alias ); // Make the alias ini-safe by removing all non-word characters
 			$bookmarks[$alias] = $dir; //we deal with the flippped array here
-			$msg = jx_alertBox( $GLOBALS['messages']['bookmark_was_added'] );
+			$msg = ext_alertBox( $GLOBALS['messages']['bookmark_was_added'] );
 			break;
 
 		case 'remove':
 
 			if( !in_array( $dir, $bookmarks )) {
-				echo jx_alertBox( $GLOBALS['messages']['not_a_bookmark'] ); exit;
+				echo ext_alertBox( $GLOBALS['messages']['not_a_bookmark'] ); exit;
 			}
 			$bookmarks = array_flip( $bookmarks );
 			unset( $bookmarks[$dir] );
 			$bookmarks = array_flip( $bookmarks );
-			$msg = jx_alertBox( $GLOBALS['messages']['bookmark_was_removed'] );
+			$msg = ext_alertBox( $GLOBALS['messages']['bookmark_was_removed'] );
 	}
 
 	$inifile = "; <?php if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' ); ?>\n";
@@ -108,7 +108,7 @@ function modify_bookmark( $task, $dir ) {
 		$inifile .= "$alias=$directory\n";
 	}
 	if( !is_writable( $bookmarkfile )) {
-		echo jx_alertBox( sprintf( $GLOBALS['messages']['bookmarkfile_not_writable'], $task, $bookmarkfile ) ); exit;
+		echo ext_alertBox( sprintf( $GLOBALS['messages']['bookmarkfile_not_writable'], $task, $bookmarkfile ) ); exit;
 	}
 	file_put_contents( $bookmarkfile, $inifile );
 
@@ -141,7 +141,7 @@ function list_bookmarks( $dir ) {
 	if( @$dir[0] == '/' ) {
 		$dir = substr( $dir, 1);
 	}
-	$html .= jx_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 200px;"');
+	$html .= ext_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 200px;"');
 	$img_add = '<img src="'._EXT_URL.'/images/bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
 	$img_remove = '<img src="'._EXT_URL.'/images/remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
 
@@ -149,7 +149,7 @@ function list_bookmarks( $dir ) {
 
 	if( !isset( $bookmarks[$dir] ) && $dir != '' && $dir != '/' ) {
 		$addlink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=add" onclick="'
-		.'Ext.Msg.prompt(\''.jx_Lang::msg('lbl_add_bookmark',true).'\', \''.jx_Lang::msg('enter_alias_name', true ).':\', '
+		.'Ext.Msg.prompt(\''.ext_Lang::msg('lbl_add_bookmark',true).'\', \''.ext_Lang::msg('enter_alias_name', true ).':\', '
 		.'function(btn, text){ '
 			.'if (btn == \'ok\') { '
 				.'Ext.get(\'bookmark_container\').load({ '
@@ -169,7 +169,7 @@ function list_bookmarks( $dir ) {
 	}
 	elseif( $dir != '' && $dir != '/' ) {
 		$removelink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=remove" onclick="'
-		.'Ext.Msg.confirm(\''.jx_Lang::msg('lbl_remove_bookmark', true ).'\',\''.jx_Lang::msg('lbl_remove_bookmark', true ).'?\', '
+		.'Ext.Msg.confirm(\''.ext_Lang::msg('lbl_remove_bookmark', true ).'\',\''.ext_Lang::msg('lbl_remove_bookmark', true ).'?\', '
 		.'function(btn, text){ '
 			.'if (btn == \'yes\') { '
 				.'Ext.get(\'bookmark_container\').load({ '

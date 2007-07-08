@@ -2,9 +2,9 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @license
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
@@ -14,7 +14,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Software distributed under the License is distributed on an "AS IS"
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
  * License for the specific language governing rights and limitations
- * under the License.
+ * under the License',
  * 
  * Alternatively, the contents of this file may be used under the terms
  * of the GNU General Public License Version 2 or later (the "GPL"), in
@@ -32,7 +32,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Abstract Action Class
  * @abstract 
  */
-class jx_Action {
+class ext_Action {
 	
 	/**
 	 * This function executes the action
@@ -51,7 +51,7 @@ class jx_Action {
  * @author soeren
  *
  */
-class jx_Lang {
+class ext_Lang {
 	/**
 	 * Returns a string from $GLOBALS['messages']
 	 *
@@ -60,9 +60,9 @@ class jx_Lang {
 	 * @return string
 	 */
 	function msg( $msg, $make_javascript_safe=false ) {
-		$str = jx_Lang::_get('messages', $msg );
+		$str = ext_Lang::_get('messages', $msg );
 		if( $make_javascript_safe ) {
-			return jx_Lang::escape_for_javascript( $str );
+			return ext_Lang::escape_for_javascript( $str );
 		} else {
 			return $str;
 		}
@@ -75,17 +75,17 @@ class jx_Lang {
 	 * @return string
 	 */
 	function err( $err, $make_javascript_safe=false ) {
-		$str = jx_Lang::_get('error_msg', $err );
+		$str = ext_Lang::_get('error_msg', $err );
 		if( $make_javascript_safe ) {
-			return jx_Lang::escape_for_javascript( $str );
+			return ext_Lang::escape_for_javascript( $str );
 		} else {
 			return $str;
 		}
 	}
 	function mime( $mime, $make_javascript_safe=false ) {
-		$str = jx_Lang::_get('mimes', $mime );
+		$str = ext_Lang::_get('mimes', $mime );
 		if( $make_javascript_safe ) {
-			return jx_Lang::escape_for_javascript( $str );
+			return ext_Lang::escape_for_javascript( $str );
 		} else {
 			return $str;
 		}
@@ -108,4 +108,75 @@ class jx_Lang {
 	function escape_for_javascript( $string ) {
 		return str_replace(Array("\r", "\n" ), Array('\r', '\n' ) , addslashes($string));
 	}
+	function detect_lang() {
+		$default = 'english';
+		
+		 $_AL=strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		 $_UA=strtolower($_SERVER['HTTP_USER_AGENT']);
+		 
+		 // Try to detect Primary language if several languages are accepted',
+		 foreach($GLOBALS['_LANG'] as $K => $lang) {
+		  if(strpos($_AL, $K)===0)
+		   return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+		 }
+		 
+		 // Try to detect any language if not yet detected',
+		 foreach($GLOBALS['_LANG'] as $K => $lang) {
+		  if(strpos($_AL, $K)!==false)
+		   return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+		 }
+		 foreach($GLOBALS['_LANG'] as $K => $lang) {
+		  if(preg_match("/[\[\( ]{$K}[;,_\-\)]/",$_UA))
+		   return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+		 }
+		 
+		 // Return default language if language is not yet detected',
+		 return $default;
+	}
 }
+// Define all available languages',
+// WARNING: uncomment all available languages
+
+$GLOBALS['_LANG'] = array(
+'af' => 'afrikaans',
+'ar' => 'arabic',
+'bg' => 'bulgarian',
+'ca' => 'catalan',
+'cs' => 'czech',
+'da' => 'danish',
+'de' => 'german',
+'el' => 'greek',
+'en' => 'english',
+'es' => 'spanish',
+'et' => 'estonian',
+'fi' => 'finnish',
+'fr' => 'french',
+'gl' => 'galician',
+'he' => 'hebrew',
+'hi' => 'hindi',
+'hr' => 'croatian',
+'hu' => 'hungarian',
+'id' => 'indonesian',
+'it' => 'italian',
+'ja' => 'japanese',
+'ko' => 'korean',
+'ka' => 'georgian',
+'lt' => 'lithuanian',
+'lv' => 'latvian',
+'ms' => 'malay',
+'nl' => 'dutch',
+'no' => 'norwegian',
+'pl' => 'polish',
+'pt' => 'portuguese',
+'ro' => 'romanian',
+'ru' => 'russian',
+'sk' => 'slovak',
+'sl' => 'slovenian',
+'sq' => 'albanian',
+'sr' => 'serbian',
+'sv' => 'swedish',
+'th' => 'thai',
+'tr' => 'turkish',
+'uk' => 'ukrainian',
+'zh' => 'simplified_chinese'
+);

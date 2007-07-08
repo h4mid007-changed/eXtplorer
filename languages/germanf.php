@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id:germanf.php 13 2007-05-13 07:10:43Z soeren $
-* @package joomlaXplorer
+* @package eXtplorer
 * @copyright (C) 2005 Quix project, Soeren
 * @license http://www.mozilla.org/MPL/
 * joomlaXplorer is Free Software
@@ -141,7 +141,7 @@ $GLOBALS["messages"] = array(
 	"actmoveitems"		=> "Objekt(e) verschieben",
 	"actmovefrom"		=> "Versetze von /%s nach /%s ",
 	"actlogin"		=> "Anmelden",
-	"actloginheader"	=> "Melden sie sich an um QuiXplorer zu benutzen",
+	"actloginheader"	=> "Melden sie sich an, um eXtplorer zu benutzen",
 	"actadmin"		=> "Administration",
 	"actchpwd"		=> "Passwort �ndern",
 	"actusers"		=> "Benutzer",
@@ -279,7 +279,16 @@ $GLOBALS["messages"] = array(
 	'editor_simple'	=> 'Einfacher Editormodus',
 	'editor_syntaxhighlight'	=> 'Syntax-Hervorhebungsmodus',
 
-	'newlink'	=> 'New File/Directory'
+	'newlink'	=> 'Neue Datei/Verzeichnis',
+	'show_directories' => 'Zeige Verzeichnisse',
+	'actlogin_success' => 'Anmeldung erfolreich!',
+	'actlogin_failure' => 'Anmeldung fehlgeschlagen, bitte erneut versuchen.',
+	'directory_tree' => 'Verzeichnisbaum',
+	'browsing_directory' => 'Zeige Verzeichnis',
+	'filter_grid' => 'Filter',
+	'paging_info' => 'Zeige Eintr�ge {0} - {1} von {2}',
+	'paging_noitems' => 'keine Eintr�ge zum anzeigen',
+	'aboutlink' => '�ber..'
 
 );
 ?>

@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -87,6 +87,7 @@ if( function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
 	define ( "_EXT_URL", dirname($GLOBALS['script_name']) );
 }
 
+require _EXT_PATH . '/application.php';
 require _EXT_PATH."/include/functions.php";
 
 if( !class_exists('InputFilter')) {
@@ -94,8 +95,8 @@ if( !class_exists('InputFilter')) {
 }
 
 $action = stripslashes(extGetParam( $_REQUEST, "action" ));
-
-$GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'language', 'lang', $mosConfig_lang );
+$default_lang = !empty( $GLOBALS['mosConfig_lang'] ) ? $GLOBALS['mosConfig_lang'] : ext_Lang::detect_lang();
+$GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'language', 'lang', $default_lang );
 // Get Item
 if(isset($_REQUEST["item"])) 
   $GLOBALS["item"]=$item = stripslashes(urldecode($_REQUEST["item"]));
@@ -156,7 +157,6 @@ else {
 	require _EXT_PATH."/languages/english_mimes.php";
 }
 
-require _EXT_PATH . '/application.php';
 require _EXT_PATH."/config/mimes.php";
 require _EXT_PATH . '/libraries/JSON.php';
 require _EXT_PATH."/libraries/File_Operations.php";
@@ -168,11 +168,11 @@ require _EXT_PATH."/include/result.class.php";
 //------------------------------------------------------------------------------
 
 // Raise Memory Limit
-jx_RaiseMemoryLimit( '8M' );
+ext_RaiseMemoryLimit( '8M' );
 
-$GLOBALS['jx_File'] = new jx_File();
+$GLOBALS['ext_File'] = new ext_File();
 
-if( jx_isFTPMode() ) {
+if( ext_isFTPMode() ) {
 	// Try to connect to the FTP server.    	HOST,   PORT, TIMEOUT
 	$ftp_host = extGetParam( $_POST, 'ftp_host', 'localhost:21' );
 	$url = @parse_url( 'ftp://' . $ftp_host);
@@ -211,22 +211,22 @@ if($GLOBALS["require_login"]) {	// LOGIN
 //------------------------------------------------------------------------------
 if( !isset( $_REQUEST['dir'] ) ) {
 
-	$GLOBALS["dir"] = $dir = extGetParam( $_SESSION,'jx_'.$GLOBALS['file_mode'].'dir', '' );
+	$GLOBALS["dir"] = $dir = extGetParam( $_SESSION,'ext_'.$GLOBALS['file_mode'].'dir', '' );
 	if( !empty( $dir )) {
 		$dir = @$dir[0] == '/' ? substr( $dir, 1 ) : $dir;
 	}
-	$try_this = jx_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
-	if( !empty( $dir ) && !$GLOBALS['jx_File']->file_exists( $try_this )) {
+	$try_this = ext_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
+	if( !empty( $dir ) && !$GLOBALS['ext_File']->file_exists( $try_this )) {
 		$dir = '';
 	}
 }
 else {
 	$GLOBALS["dir"] = $dir = urldecode(stripslashes(extGetParam( $_REQUEST, "dir" )));
 }
-if( $dir == 'jx_root') {
+if( $dir == 'ext_root') {
 	$GLOBALS["dir"] = $dir = '';
 }
-if( jx_isFTPMode() && $dir != '' ) {
+if( ext_isFTPMode() && $dir != '' ) {
 	$GLOBALS['FTPCONNECTION']->cd( $dir );
 }
 
@@ -238,16 +238,16 @@ if(!file_exists($GLOBALS["home_dir"])) {
 			$GLOBALS["messages"]["btnlogout"]."</A>";
 	} 
 	else $extra=NULL;
-	jx_Result::sendResult('', false, $GLOBALS["error_msg"]["home"]." (".$GLOBALS["home_dir"].")",$extra);
+	ext_Result::sendResult('', false, $GLOBALS["error_msg"]["home"]." (".$GLOBALS["home_dir"].")",$extra);
   }
 }
 if(!down_home($abs_dir)) {
-	jx_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
+	ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
 }
 if(!get_is_dir($abs_dir))
   if(!get_is_dir($abs_dir.$GLOBALS["separator"]))
-	jx_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
+	ext_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
 	
-$_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = $dir;
+$_SESSION['ext_'.$GLOBALS['file_mode'].'dir'] = $dir;
 //------------------------------------------------------------------------------
 ?>

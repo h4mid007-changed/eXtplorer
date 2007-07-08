@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -35,23 +35,23 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 function find_item($dir,$pat,&$list,$recur) {	// find items
 	$homedir = realpath($GLOBALS['home_dir']);
-	$handle = @$GLOBALS['jx_File']->opendir(get_abs_dir($dir));
+	$handle = @$GLOBALS['ext_File']->opendir(get_abs_dir($dir));
 	
 	if($handle===false && $dir=="") {
-	  	$handle = @$GLOBALS['jx_File']->opendir($homedir . $GLOBALS['separator']);
+	  	$handle = @$GLOBALS['ext_File']->opendir($homedir . $GLOBALS['separator']);
 	}
 	
 	if($handle===false) {
-		jx_Result::sendResult('search', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
+		ext_Result::sendResult('search', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
 	}
 	
-	while(($new_item=$GLOBALS['jx_File']->readdir($handle))!==false) {
+	while(($new_item=$GLOBALS['ext_File']->readdir($handle))!==false) {
 		if( is_array( $new_item ))  {
 			$abs_new_item = $new_item;
 		} else {
 			$abs_new_item = get_abs_item($dir, $new_item);
 		}
-		if(!$GLOBALS['jx_File']->file_exists($abs_new_item)) continue;
+		if(!$GLOBALS['ext_File']->file_exists($abs_new_item)) continue;
 		
 		if(!get_show_item($dir, $new_item)) continue;
 		
@@ -64,7 +64,7 @@ function find_item($dir,$pat,&$list,$recur) {	// find items
 		}
 	}
 	
-	$GLOBALS['jx_File']->closedir($handle);
+	$GLOBALS['ext_File']->closedir($handle);
 	
 }
 //------------------------------------------------------------------------------
@@ -148,18 +148,18 @@ function search_items($dir) {			// search for item
 	});
 	form.add(
 	    new Ext.form.TextField({
-	        fieldLabel: \''. jx_Lang::msg( 'nameheader', true ) .'\',
+	        fieldLabel: \''. ext_Lang::msg( 'nameheader', true ) .'\',
 	        name: \'searchitem\',
 	        width:175,
 	        allowBlank:false
 	    }),
 		new Ext.form.Checkbox({
-			fieldLabel: \''.jx_Lang::msg( 'miscsubdirs', true ) .'?\',
+			fieldLabel: \''.ext_Lang::msg( 'miscsubdirs', true ) .'?\',
 			name: \'subdir\',
 			checked: true
 		})
 	);
-	form.addButton(\''.jx_Lang::msg( 'btnsearch', true ).'\', function() {
+	form.addButton(\''.ext_Lang::msg( 'btnsearch', true ).'\', function() {
 	    form.submit({
 	        waitMsg: \'Searching, please wait...\',
 	        //reset: true,
@@ -177,7 +177,7 @@ function search_items($dir) {			// search for item
 	        }
 	    });
 	});
-	form.addButton("'. jx_Lang::msg( 'btncancel', true ) .'", function() { dialog.hide();dialog.destroy(); } );
+	form.addButton("'. ext_Lang::msg( 'btncancel', true ) .'", function() { dialog.hide();dialog.destroy(); } );
 
 	form.render("adminForm");
 	</script>';
@@ -205,7 +205,7 @@ function search_items($dir) {			// search for item
 		echo $response;
 	} else {
 		while( @ob_end_clean() );
-		jx_Result::sendResult('search', true, $response );
+		ext_Result::sendResult('search', true, $response );
 	}
 
 }

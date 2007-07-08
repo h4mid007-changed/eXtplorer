@@ -5,7 +5,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id: $
  * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -55,12 +55,15 @@ function login() {
 		if(isset($GLOBALS['__POST']["p_user"])) {
 			// Check Login
 			if(!activate_user(stripslashes($GLOBALS['__POST']["p_user"]), md5(stripslashes($p_pass)))) {
-				jx_Result::sendResult('login', false, 'Login Failed, try again.' );
+				ext_Result::sendResult('login', false, ext_Lang::msg( 'actlogin_failure' ));
 			}
-			jx_Result::sendResult('login', true, 'Login Successful' );
+			ext_Result::sendResult('login', true, ext_Lang::msg( 'actlogin_success' ) );
 		} else {
+			session_write_close();
+			session_id( get_session_id() );
+			session_start();
 			// Ask for Login
-			$GLOBALS['mainframe']->setPageTitle( jx_Lang::msg('actlogin') );
+			$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );
 			$GLOBALS['mainframe']->addcustomheadtag( '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
 			.'subdir[0]=scripts/codepress/&amp;file[0]=codepress.js'
@@ -77,10 +80,10 @@ function login() {
 	    	<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 	    	<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	        <h3 style="margin-bottom:5px;"><?php echo jx_Lang::msg('actlogin') ?></h3>
+	        <h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actlogin') ?></h3>
 	        <div id="adminForm">
 	
-	        </div><div class="jx_statusbar" id="statusBar"></div>
+	        </div><div class="ext_statusbar" id="statusBar"></div>
 	    	</div></div></div>
 	    	<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 	    	
@@ -101,24 +104,24 @@ function login() {
 	});
 	simple.add(
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg( 'miscusername', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg( 'miscusername', true ) ?>',
 	        name: 'p_user',
 	        width:175,
 	        allowBlank:false
 	    }),
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg( 'miscpassword', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg( 'miscpassword', true ) ?>',
 	        name: 'p_pass',
 	        inputType: 'password',
 	        width:175,
 	        allowBlank:false
 	    }),
 		new Ext.form.ComboBox({
-			fieldLabel: '<?php echo jx_Lang::msg( 'misclang', true ) ?>',
+			fieldLabel: '<?php echo ext_Lang::msg( 'misclang', true ) ?>',
 		    store: languages,
 		    displayField:'langname',
 		    valueField: 'language',
-		    value: 'english',
+		    value: '<?php echo ext_Lang::detect_lang() ?>',
 		    hiddenName: 'lang',
 		    disableKeyFilter: true,
 		    editable: false,
@@ -129,14 +132,14 @@ function login() {
 		})
 	);
 	
-	simple.addButton('<?php echo jx_Lang::msg( 'btnlogin', true ) ?>', function() {
+	simple.addButton('<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', function() {
 		Ext.get( 'statusBar').update( 'Please wait...' );
 	    simple.submit({
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {	
 	        	Ext.get( 'statusBar').update( action.result.message );
-				location.reload();
+			location.href = '<?php echo basename( $GLOBALS['script_name']) ?>?extplorer';
 	        },
 	        failure: function(form, action) {
 	        	if( !action.result ) return;
@@ -152,7 +155,7 @@ function login() {
 	        }
 	    })
 	});
-	simple.addButton('<?php echo jx_Lang::msg( 'btnreset', true ) ?>', function() { simple.reset(); } );
+	simple.addButton('<?php echo ext_Lang::msg( 'btnreset', true ) ?>', function() { simple.reset(); } );
 	simple.render('adminForm');
 	Ext.get( 'formContainer').center();
 	Ext.get( 'formContainer').setTop(100);
@@ -170,4 +173,13 @@ function logout() {
 	header("Location: ".$GLOBALS["script_name"]);
 }
 //------------------------------------------------------------------------------
+/**
+ * Returns an IP- and BrowserID- based Session ID
+ *
+ * @param string $id
+ * @return string
+ */
+function get_session_id( $id=null ) {
+	return extMakePassword( 32 );
+}
 ?>

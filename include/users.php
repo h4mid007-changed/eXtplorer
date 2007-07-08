@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -137,18 +137,5 @@ function num_users($active=true) {
 }
 */
 //------------------------------------------------------------------------------
-/**
- * Returns an IP- and BrowserID- based Session ID
- *
- * @param string $id
- * @return string
- */
-function get_session_id( $id=null ) {
-	$browser 	= @$_SERVER['HTTP_USER_AGENT'];
-	$remote_addr 	= explode('.',$_SERVER['REMOTE_ADDR']);
-	$ip				= $remote_addr[0] .'.'. $remote_addr[1] .'.'. $remote_addr[2];
-	$value 			= md5( $_SERVER['SERVER_ADDR'] . $_SERVER['SERVER_SIGNATURE'] ) . md5( $id . $ip . $browser );
 
-	return $value;
-}
 ?>

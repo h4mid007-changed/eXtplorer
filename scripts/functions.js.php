@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -67,7 +67,7 @@ function getURLParam( strParamName, myWindow){
 }
 
 function openActionDialog( caller, action ) {
-	var selectedRows = jx_itemgrid.getSelectionModel().getSelections();
+	var selectedRows = ext_itemgrid.getSelectionModel().getSelections();
 	if( selectedRows.length < 1 ) {
 		var selectedNode = dirTree.getSelectionModel().getSelectedNode();
 		if( selectedNode ) {
@@ -76,7 +76,7 @@ function openActionDialog( caller, action ) {
 	}
 	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1, admin:1 };
 	if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
-		Ext.Msg.alert( '<?php echo jx_Lang::err('error', true )."','".jx_Lang::err('miscselitems', true ) ?>');
+		Ext.Msg.alert( '<?php echo ext_Lang::err('error', true )."','".ext_Lang::err('miscselitems', true ) ?>');
 		return false;
 	}
 
@@ -125,7 +125,7 @@ function openActionDialog( caller, action ) {
 									fitToFrame: true
 								});
 			dialog_status = new Ext.ContentPanel('dialog-status', { autoCreate: true } );
-			dialog_status.getEl().addClass(['jx_statusbar', 'done']);
+			dialog_status.getEl().addClass(['ext_statusbar', 'done']);
 			
 			dialog_panel.load( { url: '<?php echo basename($GLOBALS['script_name']) ?>', 
 								params: Ext.urlEncode( requestParams ),
@@ -134,7 +134,7 @@ function openActionDialog( caller, action ) {
 											if( oResponse && oResponse.responseText ) {
 											try{ json = Ext.decode( oResponse.responseText );
 												if( json.error != '' && typeof json.error != 'xml' ) {													
-													Ext.Msg.alert( '<?php echo jx_Lang::err('error', true ) ?>', json.error );
+													Ext.Msg.alert( '<?php echo ext_Lang::err('error', true ) ?>', json.error );
 													dialog.destroy();
 												}
 											} catch(e) {}
@@ -154,13 +154,13 @@ function openActionDialog( caller, action ) {
             
 		case 'delete':
 			var num = selectedRows.length;
-			Ext.Msg.confirm('<?php echo jx_Lang::msg('dellink', true ) ?>?', String.format("<?php echo jx_Lang::err('miscdelitems', true ) ?>", num ), deleteFiles);
+			Ext.Msg.confirm('<?php echo ext_Lang::msg('dellink', true ) ?>?', String.format("<?php echo ext_Lang::err('miscdelitems', true ) ?>", num ), deleteFiles);
 			break;
 		case 'extract':
-			Ext.Msg.confirm('<?php echo jx_Lang::msg('extractlink', true ) ?>?', "<?php echo jx_Lang::msg('extract_warning', true ) ?>", extractArchive);
+			Ext.Msg.confirm('<?php echo ext_Lang::msg('extractlink', true ) ?>?', "<?php echo ext_Lang::msg('extract_warning', true ) ?>", extractArchive);
 			break;
 		case 'download':
-			document.location = '<?php echo basename($GLOBALS['script_name']) ?>?option=com_extplorer&action=download&item='+ encodeURIComponent(jx_itemgrid.getSelectionModel().getSelected().get('name')) + '&dir=' + encodeURIComponent( datastore.directory );
+			document.location = '<?php echo basename($GLOBALS['script_name']) ?>?option=com_extplorer&action=download&item='+ encodeURIComponent(ext_itemgrid.getSelectionModel().getSelected().get('name')) + '&dir=' + encodeURIComponent( datastore.directory );
 			break;
 	}
 }
@@ -202,7 +202,7 @@ function handleCallback(requestParams, node) {
 }
 function getRequestParams() {
 	var selitems, dir, node;
-	var selectedRows = jx_itemgrid.getSelectionModel().getSelections();
+	var selectedRows = ext_itemgrid.getSelectionModel().getSelections();
 	if( selectedRows.length < 1 ) {
 		node = dirTree.getSelectionModel().getSelectedNode();
 		if( node ) {

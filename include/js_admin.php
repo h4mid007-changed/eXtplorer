@@ -6,11 +6,11 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 <!--
 	function check_pwd() {
 		if(PassForm.findField('newpwd1').getValue() != PassForm.findField('newpwd2').getValue() ) {
-			alert("<?php echo jx_Lang::msg('miscnopassmatch', true ); ?>");
+			alert("<?php echo ext_Lang::msg('miscnopassmatch', true ); ?>");
 			return false;
 		}
 		if(PassForm.findField('oldpwd').getValue() ==PassForm.findField('newpwd1').getValue()) {
-			alert("<?php echo jx_Lang::err('miscnopassdiff', true ); ?>");
+			alert("<?php echo ext_Lang::err('miscnopassdiff', true ); ?>");
 			return false;
 		}
 		return true;

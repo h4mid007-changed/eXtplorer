@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -36,14 +36,14 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Allows to extract archives on the server
  *
  */
-class jx_Extract extends jx_Action {
+class ext_Extract extends ext_Action {
 
 	function execAction( $dir, $item ) {
 		
 		global $mosConfig_absolute_path;
 	
-		if( !jx_isArchive( $item )) {
-			jx_Result::sendResult('archive', false, jx_Lang::err('extract_noarchive'));
+		if( !ext_isArchive( $item )) {
+			ext_Result::sendResult('archive', false, ext_Lang::err('extract_noarchive'));
 		}
 		else {
 	
@@ -64,10 +64,10 @@ class jx_Extract extends jx_Action {
 			$archive_name .= '/';
 			$result = File_Archive::extract( $archive_name, $extract_dir );
 			if( PEAR::isError( $result )) {
-				jx_Result::sendResult('extract', false, jx_Lang::err('extract_failure').': '.$result->getMessage() );
+				ext_Result::sendResult('extract', false, ext_Lang::err('extract_failure').': '.$result->getMessage() );
 			}
 			
-			jx_Result::sendResult('extract', true, jx_Lang::msg('extract_success') );
+			ext_Result::sendResult('extract', true, ext_Lang::msg('extract_success') );
 	
 		}
 	}

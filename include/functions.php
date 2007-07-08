@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -62,7 +62,7 @@ function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages
 }
 //------------------------------------------------------------------------------
 function get_abs_dir($dir) {			// get absolute path
-	if( jx_isFTPMode() ) {
+	if( ext_isFTPMode() ) {
 		if( $dir != '' && $dir[0] != '/' && $dir[1] != ':') {
 			$dir = '/'.$dir;
 		}
@@ -121,9 +121,9 @@ function get_rel_item($dir,$item) {		// get file relative from home
 }
 //------------------------------------------------------------------------------
 function get_is_file( $abs_item) {		// can this file be edited?
-	if( jx_isFTPMode() && is_array( $abs_item )) {
+	if( ext_isFTPMode() && is_array( $abs_item )) {
 		return empty($abs_item['is_dir']);
-	} elseif( jx_isFTPMode() ) {
+	} elseif( ext_isFTPMode() ) {
 		$info = get_item_info( dirname($abs_item), basename($abs_item));
 		return empty($info['is_dir']);
 	}
@@ -132,10 +132,10 @@ function get_is_file( $abs_item) {		// can this file be edited?
 }
 //------------------------------------------------------------------------------
 function get_is_dir( $abs_item ) {		// is this a directory?
-	if( jx_isFTPMode() && is_array( $abs_item )) {
+	if( ext_isFTPMode() && is_array( $abs_item )) {
 		return !empty($abs_item['is_dir']);
 	}
-	elseif( jx_isFTPMode() ) {
+	elseif( ext_isFTPMode() ) {
 		$info = get_item_info( dirname( $abs_item), basename( $abs_item ));
 		return !empty($info['is_dir']);
 	}
@@ -150,7 +150,7 @@ function parse_file_type( $abs_item ) {		// parsed file type (d / l / -)
 }
 //------------------------------------------------------------------------------
 function get_file_perms( $item) {		// file permissions
-	if( jx_isFTPMode() ) {
+	if( ext_isFTPMode() ) {
 		$perms = decoct( bindec( decode_ftp_rights($item['rights']) ) );
 		return $perms;
 	}
@@ -161,7 +161,7 @@ function get_languages() {
 	$langfiles = extReadDirectory( _EXT_PATH.'/languages' );
 	$langs = array();
 	foreach( $langfiles as $lang ) {
-		if( stristr( $lang, '_mimes')) continue;
+		if( stristr( $lang, '_mimes') || $lang == 'index.html') continue;
 		$langs[basename( $lang, '.php' )] = ucwords(str_replace( '_', ' ', basename( $lang, '.php' )));
 	}
 	return $langs;
@@ -201,7 +201,7 @@ function decode_ftp_rights( $rights) {
 }
 //------------------------------------------------------------------------------
 function get_file_size( $abs_item) {		// file size
-	return @$GLOBALS['jx_File']->filesize( $abs_item );
+	return @$GLOBALS['ext_File']->filesize( $abs_item );
 }
 //------------------------------------------------------------------------------
 function parse_file_size($size) {		// parsed file size
@@ -218,7 +218,7 @@ function parse_file_size($size) {		// parsed file size
 }
 //------------------------------------------------------------------------------
 function get_file_date( $item) {		// file date
-	return @$GLOBALS['jx_File']->filemtime( $item );
+	return @$GLOBALS['ext_File']->filemtime( $item );
 }
 //------------------------------------------------------------------------------
 function parse_file_date($date) {		// parsed file date
@@ -253,8 +253,8 @@ function get_mime_type( $abs_item, $query) {	// get file's mimetype
 		if($query=="img") return $image;
 		else return $mime_type;
 	}
-	$extra = $GLOBALS['jx_File']->is_link( $abs_item ) ? ' ('.$GLOBALS['mimes']['symlink'].')' : '';
-	if( jx_isFTPMode() && isset($abs_item['name']) ) {
+	$extra = $GLOBALS['ext_File']->is_link( $abs_item ) ? ' ('.$GLOBALS['mimes']['symlink'].')' : '';
+	if( ext_isFTPMode() && isset($abs_item['name']) ) {
 		$abs_item=$abs_item['name'];
 	}
 				// mime_type
@@ -329,7 +329,7 @@ function get_dir_selects( $dir ) {
 	$dirsCopy = $dirs;
 	$implode = '';
 	$selectedDir = @$dirs[0];
-	$dir_links = jx_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
+	$dir_links = ext_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'ext_disabled\' ) chDir(theDir);"' );
 	$i = 2;
 	foreach( $dirs as $directory ) {
 	  	if( $directory != "" ) {
@@ -340,10 +340,10 @@ function get_dir_selects( $dir ) {
 				$selectedDir .= '/'.$next;
 			} else {
 				if( sizeof( $subdirs ) > 0) {
-					$subdirs = array_merge(Array('jx_disabled' => '-'), $subdirs );
+					$subdirs = array_merge(Array('ext_disabled' => '-'), $subdirs );
 				}
 			}
-			$dir_links .= ' / '.jx_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'jx_disabled\' ) chDir(theDir);"' );
+			$dir_links .= ' / '.ext_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'ext_disabled\' ) chDir(theDir);"' );
 			$implode .= '/';
 	  	}
 	}
@@ -386,14 +386,14 @@ function remove($item) {			// remove file / dir
 	elseif( is_dir($item)) {
 		
 		if(($handle= opendir($item))===false) 
-		  jx_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
+		  ext_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
 
 		while(($file=readdir($handle))!==false) {
 			if(($file==".." || $file==".")) continue;
 			
 			$new_item = $item."/".$file;
 			if(!file_exists($new_item)) 
-			  jx_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
+			  ext_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
 			//if(!get_show_item($item, $new_item)) continue;
 			
 			if( is_dir($new_item)) {
@@ -416,7 +416,7 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 	elseif(@is_dir($item)) {
 		if(($handle=@opendir($item))===false) {
 			
-			jx_Result::add_error(basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
+			ext_Result::add_error(basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
 			return false; 
 		}
 
@@ -425,17 +425,17 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 			
 			$new_item = $item."/".$file;
 			if(!@file_exists($new_item)) {
-				jx_Result::add_error(basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
+				ext_Result::add_error(basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
 				continue; 
 			}
 			//if(!get_show_item($item, $new_item)) continue;
 			
 			if(@is_dir($new_item)) {
 				$ok=chmod_recursive($new_item, $mode);
-				if($ok) jx_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+				if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
 			} else {
 				$ok=@chmod($new_item, $mode);
-				if($ok) jx_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+				if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
 			}
 		}
 		closedir($handle);
@@ -449,7 +449,7 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 			$mode = bindec( $bin ); 
 		}
 		$ok=@chmod( $item, $mode );
-		if($ok) jx_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+		if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
 	}
 	return $ok;
 }
@@ -477,7 +477,7 @@ function calc_php_setting_bytes( $value ) {
 }
 //------------------------------------------------------------------------------
 function down_home($abs_dir) {			// dir deeper than home?
-	if( jx_isFTPMode() ) {
+	if( ext_isFTPMode() ) {
 		return true;
 	}
 	$real_home = @realpath($GLOBALS["home_dir"]);
@@ -508,7 +508,7 @@ function id_browser() {
 		return 'OTHER';
 	}
 }
-function jx_isArchive( $file ) {
+function ext_isArchive( $file ) {
   
 	$file_info = pathinfo($file);
 	$ext = @$file_info["extension"];
@@ -532,45 +532,10 @@ if( !extension_loaded('posix') ) {
  *
  * @return boolean
  */
-function jx_isIE() {
+function ext_isIE() {
 	return (ereg('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']));
 }
 
-if( !function_exists('mosToolTip')) {
-	/**
-	* Utility function to provide ToolTips
-	* @param string ToolTip text
-	* @param string Box title
-	* @returns HTML code for ToolTip
-	*/
-	function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
-		global $mosConfig_live_site;
-	
-		if ( $width ) {
-			$width = ', WIDTH, \''.$width .'\'';
-		}
-		if ( $title ) {
-			$title = ', CAPTION, \''.$title .'\'';
-		}
-		if ( !$text ) {
-			$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
-			$text 	= '<img src="'. $image .'" border="0" />';
-		}
-		$style = 'style="text-decoration: none; color: #333;"';
-		if ( $href ) {
-			$style = '';
-		}
-		else{ $href = "#"; }
-	
-		if ( $link ) {
-			$tip = "<a href=\"". $href ."\" onmouseover=\"return overlib('" . $tooltip . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</a>";
-		} else {
-			$tip = "<span onmouseover=\"return overlib('" . $tooltip . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</span>";
-		}
-	
-		return $tip;
-	}
-}
 /**
  * Prints an HTML dropdown box named $name using $arr to
  * load the drop down.  If $value is in $arr, then $value
@@ -586,7 +551,7 @@ if( !function_exists('mosToolTip')) {
  * @param string $extra More attributes when needed
  * @return string HTML drop-down list
  */	
-function jx_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
+function ext_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
 	$html = '';
 	if( !empty( $arr ) ) {
 		$html = "<select class=\"inputbox\" name=\"$name\" id=\"$name\" size=\"$size\" $multiple $extra>\n";
@@ -615,7 +580,7 @@ function jx_selectList($name, $value, $arr, $size=1, $multiple="", $extra="") {
 	}
 	return $html;
 }
-function jx_scriptTag( $src = '', $script = '') {
+function ext_scriptTag( $src = '', $script = '') {
 	if( $src!='') {
 		return '<script type="text/javascript" src="'.$src.'"></script>';
 	}
@@ -623,17 +588,17 @@ function jx_scriptTag( $src = '', $script = '') {
 		return '<script type="text/javascript">'.$script.'</script>';
 	}
 }
-function jx_alertBox( $msg ) {
-	return jx_scriptTag('', 'Ext.Msg.alert( \''.$GLOBALS["error_msg"]['message'].'\', \''. @mysql_escape_string( $msg ) .'\' );' );
+function ext_alertBox( $msg ) {
+	return ext_scriptTag('', 'Ext.Msg.alert( \''.$GLOBALS["error_msg"]['message'].'\', \''. @mysql_escape_string( $msg ) .'\' );' );
 }
-function jx_docLocation( $url ) {
-	return jx_scriptTag('', 'document.location=\''. $url .'\';' );
+function ext_docLocation( $url ) {
+	return ext_scriptTag('', 'document.location=\''. $url .'\';' );
 }
-function jx_isXHR() {
+function ext_isXHR() {
 	return strtolower(extGetParam($_SERVER,'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'
 		|| strtolower(extGetParam($_POST,'requestType')) == 'xmlhttprequest';
 }
-function jx_exit() {
+function ext_exit() {
 	global $mainframe;
 	
 	if( is_callable( array( $mainframe, 'close' ) ) ) {				
@@ -648,7 +613,7 @@ function jx_exit() {
  *
  * @param string $setLimit Example: 16M
  */
-function jx_RaiseMemoryLimit( $setLimit ) {
+function ext_RaiseMemoryLimit( $setLimit ) {
 	
 	$memLimit = @ini_get('memory_limit');
 	
@@ -705,7 +670,7 @@ function readFileChunked($filename,$retbytes=true) {
 	}
 	return $status;
 }
-//implements file_put_contents function for compartability with mambo on PHP < 4.3
+//implements file_put_contents function for compatability with PHP < 4.3
 if ( ! function_exists('file_put_contents') ) {
 	function file_put_contents ( $filename, $filecont ){
 		$handle = fopen( $filename, 'w' );
@@ -776,7 +741,7 @@ class extProfiler {
 }
 /**
 * Utility class for all HTML drawing classes
-* @package Joomla
+* @package eXtplorer
 */
 class extHTML {
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
@@ -1190,7 +1155,18 @@ function extRedirect( $url, $msg='' ) {
 	}
 	exit();
 }
-
+/**
+* Random password generator
+* @return password
+*/
+function extMakePassword($length=8) {
+	$salt 		= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	$makepass	= '';
+	mt_srand(10000000*(double)microtime());
+	for ($i = 0; $i < $length; $i++)
+		$makepass .= $salt[mt_rand(0,61)];
+	return $makepass;
+}
 if (!function_exists('html_entity_decode')) {
 	/**
 	* html_entity_decode function for backward compatability in PHP

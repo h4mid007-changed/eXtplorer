@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -70,7 +70,7 @@ function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items
 	}
 	
 	if($handle===false)
-	  jx_Result::sendResult('', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
+	  ext_Result::sendResult('', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
 	
 	// Read directory
 	while(($new_item = readdir($handle))!==false) {
@@ -78,7 +78,7 @@ function make_tables($dir, &$dir_list, &$file_list, &$tot_file_size, &$num_items
 		$abs_new_item = get_abs_item($dir, $new_item);
 		
 		if ($new_item == "." || $new_item == "..") continue;
-		if(!file_exists($abs_new_item)) //jx_Result::sendResult('', false, $dir."/$abs_new_item: ".$GLOBALS["error_msg"]["readdir"]);
+		if(!file_exists($abs_new_item)) //ext_Result::sendResult('', false, $dir."/$abs_new_item: ".$GLOBALS["error_msg"]["readdir"]);
 		if(!get_show_item($dir, $new_item)) continue;
 		
 		$new_file_size = @filesize($abs_new_item);
@@ -154,9 +154,9 @@ function print_table($dir, $list, $allow) {	// print table of files
 		$abs_item=get_abs_item($dir,$item);
 		
 		$is_writable = is_writable( $abs_item );
-		$is_chmodable = $GLOBALS['jx_File']->is_chmodable( $abs_item );
+		$is_chmodable = $GLOBALS['ext_File']->is_chmodable( $abs_item );
 		$is_readable = is_readable( $abs_item );
-		$is_deletable = $GLOBALS['jx_File']->is_deletable( $abs_item );
+		$is_deletable = $GLOBALS['ext_File']->is_deletable( $abs_item );
 		
 		$file_info = @stat( $abs_item );
 		
@@ -219,7 +219,7 @@ function list_dir($dir) {			// list directory contents
 	$dir_up = dirname($dir);
 	if($dir_up==".") $dir_up = "";
 	
-	if(!get_show_item($dir_up,basename($dir))) jx_Result::sendResult('', false, $dir." : ".$GLOBALS["error_msg"]["accessdir"]);
+	if(!get_show_item($dir_up,basename($dir))) ext_Result::sendResult('', false, $dir." : ".$GLOBALS["error_msg"]["accessdir"]);
 	
 	// make file & dir tables, & get total filesize & number of items
 	make_tables($dir, $dir_list, $file_list, $tot_file_size, $num_items);
@@ -349,7 +349,7 @@ function list_dir($dir) {			// list directory contents
 	// Logo
 	echo "<td style=\"padding-left:10px;\">";
 	//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
-	echo "<a href=\"".$GLOBALS['jx_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\"><img border=\"0\" align=\"absmiddle\" id=\"jx_logo\" style=\"filter:alpha(opacity=10);-moz-opacity:.10;opacity:.10;\" onmouseover=\"opacity('jx_logo', 60, 99, 500);\" onmouseout=\"opacity('jx_logo', 100, 60, 500);\" ";
+	echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\"><img border=\"0\" align=\"absmiddle\" id=\"ext_logo\" style=\"filter:alpha(opacity=10);-moz-opacity:.10;opacity:.10;\" onmouseover=\"opacity('ext_logo', 60, 99, 500);\" onmouseout=\"opacity('ext_logo', 100, 60, 500);\" ";
 	echo "src=\""._JX_URL."/images/logo.gif\" align=\"right\" alt=\"" . $GLOBALS['messages']['logolink'] . "\"></a>";
 	//echo "</div>";
 	echo "</td>\n";

@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -36,7 +36,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * This file handles ftp authentication
  *
  */
-class jx_ftp_authentication {
+class ext_ftp_authentication {
 	function execAction() {
 	  	$ftp_login = extGetParam( $_POST, 'ftp_login_name', '' );
 	  	$ftp_pass = extGetParam( $_POST, 'ftp_login_pass', '' );
@@ -47,20 +47,20 @@ class jx_ftp_authentication {
 			$ftp_host = extGetParam( $_POST, 'ftp_host', 'localhost:21' );
 			$url = @parse_url( 'ftp://' . $ftp_host);
 			if( empty( $url )) {			
-				jx_Result::sendResult('ftp_authentication', false, 'Unable to parse the specified Host Name. Please use a hostname in this format: hostname:21' );
+				ext_Result::sendResult('ftp_authentication', false, 'Unable to parse the specified Host Name. Please use a hostname in this format: hostname:21' );
 			}
 			$port = empty($url['port']) ? 21 : $url['port'];
 			$ftp = new Net_FTP( $url['host'], $port, 20 );
 			
 			$res = $ftp->connect();
 			if( PEAR::isError( $res )) {
-				jx_Result::sendResult('ftp_authentication', false, $GLOBALS['messages']['ftp_connection_failed'] );
+				ext_Result::sendResult('ftp_authentication', false, $GLOBALS['messages']['ftp_connection_failed'] );
 			}
 			else {
 				$res = $ftp->login( $ftp_login, $ftp_pass );
 				$ftp->disconnect();
 				if( PEAR::isError( $res )) {
-					jx_Result::sendResult('ftp_authentication', false, $GLOBALS['messages']['ftp_login_failed'] );
+					ext_Result::sendResult('ftp_authentication', false, $GLOBALS['messages']['ftp_login_failed'] );
 					
 				}
 				
@@ -71,7 +71,7 @@ class jx_ftp_authentication {
 				
 				session_write_close();
 				
-				jx_Result::sendResult('ftp_authentication', true, 'Login OK!' );
+				ext_Result::sendResult('ftp_authentication', true, 'Login OK!' );
 			}
 			
 		}
@@ -97,20 +97,20 @@ class jx_ftp_authentication {
 	});
 	simple.add(
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg('ftp_login_name', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg('ftp_login_name', true ) ?>',
 	        name: 'ftp_login_name',
 	        width:175,
 	        allowBlank:false
 	    }),
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg('ftp_login_pass', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg('ftp_login_pass', true ) ?>',
 	        name: 'ftp_login_pass',
 	        inputType: 'password',
 	        width:175,
 	        allowBlank:false
 	    }),
 	    new Ext.form.TextField({
-	        fieldLabel: '<?php echo jx_Lang::msg('ftp_hostname_port', true ) ?>',
+	        fieldLabel: '<?php echo ext_Lang::msg('ftp_hostname_port', true ) ?>',
 	        name: 'ftp_hostname_port',
 	        value: '<?php echo extGetParam($_SESSION,'ftp_host', 'localhost:21') ?>',
 	        width:175,
@@ -119,7 +119,7 @@ class jx_ftp_authentication {
 	    );
 	
 	simple.addButton('Save', function() {
-		statusBarMessage( '<?php echo jx_Lang::msg('ftp_login_check', true ) ?>', true );
+		statusBarMessage( '<?php echo ext_Lang::msg('ftp_login_check', true ) ?>', true );
 	    simple.submit({
 	        //reset: true,
 	        reset: false,
@@ -136,7 +136,7 @@ class jx_ftp_authentication {
 	        }
 	    });
 	});
-	simple.addButton('<?php echo jx_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
+	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 			</script>
 			

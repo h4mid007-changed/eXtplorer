@@ -3,9 +3,9 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @version $Id: $
- * @package joomlaXplorer
+ * @package eXtplorer
  * @copyright soeren 2007
- * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -69,7 +69,7 @@ $item = mosGetParam( $_REQUEST, 'item', '');
 switch( $action ) {
 	case 'download':
 		require _JX_PATH . "/include/download.php";
-	  	jx_Download::execAction($dir, $item);
+	  	ext_Download::execAction($dir, $item);
 	  	exit;
 	case 'list':
 	default:
@@ -80,7 +80,7 @@ switch( $action ) {
 // A small nice footer. Remove if you don't want to give credit to the developer.
 echo '<br style="clear:both;"/>
 	<small>
-	<a class="title" href="'.$GLOBALS['jx_home'].'" target="_blank">powered by joomlaXplorer</a>
+	<a class="title" href="'.$GLOBALS['ext_home'].'" target="_blank">powered by joomlaXplorer</a>
 	</small>
 	';
 	
