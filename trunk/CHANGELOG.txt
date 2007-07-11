@@ -2,6 +2,15 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
+
+--- version 2.0.0 beta4 released ----
+
+- fixed a bug which caused that a maximum of 50 directories in the same level were listed in the tree, not all
+- fixed a bug with CodePress - didn't allow to edit files (when used in Joomla!)
+- added a check to the standalone version to extract the contents of the file "scripts.zip" online and throw a warning if it doesn't succeed.
+- removed the status bar from the Dialogs, moved the status bat into the Paging Toolbar
+- added CSS styles to make the dropdown lists smaller
+
 --- version 2.0.0 beta3 released ----
 
 - re-activated User Management for the stand-alone version

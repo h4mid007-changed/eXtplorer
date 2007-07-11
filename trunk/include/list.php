@@ -195,16 +195,18 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 	$items['items'] = array();
 	$dirlist = array();
 	
-	// Replaced array_splice, because it resets numeric indexes (like files or dirs with a numeric name)
-	// Here we reduce the list to the range of $limit beginning at $start 
-	$a = 0;
-	foreach( $list as $key => $value ) {
-		if( $a >= $GLOBALS['start'] && ($a - $GLOBALS['start'] < $GLOBALS['limit'] )) {
-			$output_array[$key] = $value;
+	if( $sendWhat != 'dirs' ) {
+		// Replaced array_splice, because it resets numeric indexes (like files or dirs with a numeric name)
+		// Here we reduce the list to the range of $limit beginning at $start 
+		$a = 0;
+		foreach( $list as $key => $value ) {
+			if( $a >= $GLOBALS['start'] && ($a - $GLOBALS['start'] < $GLOBALS['limit'] )) {
+				$output_array[$key] = $value;
+			}
+			$a++;
 		}
-		$a++;
+		$list = $output_array;
 	}
-	$list = $output_array;
 	
 	while(list($item,$info) = each($list)) {
 		// link to dir / file
