@@ -1167,6 +1167,16 @@ function extMakePassword($length=8) {
 		$makepass .= $salt[mt_rand(0,61)];
 	return $makepass;
 }
+/**
+ * Wrapper Function to encode passwords (maybe sometimes we don't use md5 anymore?)
+ *
+ * @param string $pass
+ * @return string
+ */
+function extEncodePassword( $pass ) {
+	return md5( $pass );
+}
+
 if (!function_exists('html_entity_decode')) {
 	/**
 	* html_entity_decode function for backward compatability in PHP

@@ -70,10 +70,10 @@ a:hover, a:active {
 .ytheme-gray .x-layout-panel-north{
 	border-bottom:2px solid #f3f2e7;
 }
+.x-tabs-item-body {padding:10px;}
 .ext_statusbar {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size:8pt;
-	background-color:#D8E7FB;
 	background-image: url('../scripts/extjs/images/default/grid/loading.gif');
 	background-repeat: no-repeat;
 	background-position: left;

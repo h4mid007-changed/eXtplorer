@@ -46,8 +46,10 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
     <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 
         <h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actadmin') ?></h3>
-        
-        <div id="adminForm"></div>
+        <div id="adminForm">
+	        <div id="passForm"></div>
+	        <div id="userList"></div>
+        </div>
     </div></div></div>
     <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 </div>
@@ -57,8 +59,7 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
 	    labelWidth: 125, // label settings here cascade unless overridden
 	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
-	PassForm.fieldset(
-        {legend:'<?php echo ext_Lang::msg('actchpwd', true) ?>'},
+	PassForm.add(
         
 	    new Ext.form.TextField({
 	        fieldLabel: '<?php echo ext_Lang::msg( 'miscoldpass', true ) ?>',
@@ -105,7 +106,8 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
 	        }
 	    })
 	});
-	PassForm.render('adminForm');
+	PassForm.render('passForm');
+	PassForm.findField('oldpwd').focus();
 	<?php
 	if($admin) {
 		?>
@@ -115,8 +117,7 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
 	    labelWidth: 125, // label settings here cascade unless overridden
 	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
-	UserForm.fieldset(
-        {legend:'<?php echo ext_Lang::msg('actusers', true) ?>', id: 'UserFieldset'},
+	UserForm.add(
         <?php 
 		$cnt=count($GLOBALS["users"]);
 		for($i=0;$i<$cnt;++$i) {
@@ -199,8 +200,8 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
 		    });
 		});
    	});
-	UserForm.render('adminForm');
-	Ext.get('UserFieldset').createChild({
+	UserForm.render('userList');
+	Ext.get('userList').createChild({
         tag:'center', 
         cn: {
             tag:'span',
@@ -211,12 +212,23 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
 		<?php
 	}
 	?>
+	var tabs = new Ext.TabPanel("adminForm");
+	tabs.addTab("userList", '<?php echo ext_Lang::msg('actusers', true) ?>');
+	tabs.addTab("passForm", '<?php echo ext_Lang::msg('actchpwd', true) ?>');
+	<?php
+	if( $_SESSION['s_user'] == 'admin' && $_SESSION['s_pass'] == extEncodePassword('admin')) {
+		echo 'tabs.activate("passForm");';
+	} else {
+		echo 'tabs.activate("userList");';
+	}
+	?>
+		
 	</script>
 	<?php
 }
 //------------------------------------------------------------------------------
 function changepwd($dir) {			// Change Password
-	$pwd=md5(stripslashes($GLOBALS['__POST']["oldpwd"]));
+	$pwd=extEncodePassword(stripslashes($GLOBALS['__POST']["oldpwd"]));
 	if($GLOBALS['__POST']["newpwd1"]!=$GLOBALS['__POST']["newpwd2"]) {
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
 	}
@@ -226,13 +238,13 @@ function changepwd($dir) {			// Change Password
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnouserpass"]);
 	}
 	
-	$data[1]=md5(stripslashes($GLOBALS['__POST']["newpwd1"]));
+	$data[1]=extEncodePassword(stripslashes($GLOBALS['__POST']["newpwd1"]));
 	if(!update_user($data[0],$data)) {
 		ext_Result::sendResult('changepwd', false, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
 	}
 	activate_user($data[0],NULL);
 	
-	ext_Result::sendResult('changepwd', false, 'Your Password has been changed!');
+	ext_Result::sendResult('changepwd', false, ext_Lang::msg('change_password_success'));
 }
 //------------------------------------------------------------------------------
 function adduser($dir) {			// Add User
@@ -249,7 +261,7 @@ function adduser($dir) {			// Add User
 			ext_Result::sendResult('adduser', false, $user.": ".$GLOBALS["error_msg"]["miscuserexist"]);
 		}
 		
-		$data=array($user,md5(stripslashes($GLOBALS['__POST']["pass1"])),
+		$data=array($user,extEncodePassword(stripslashes($GLOBALS['__POST']["pass1"])),
 			stripslashes($GLOBALS['__POST']["home_dir"]),stripslashes($GLOBALS['__POST']["home_url"]),
 			$GLOBALS['__POST']["show_hidden"],stripslashes($GLOBALS['__POST']["no_access"]),
 			$GLOBALS['__POST']["permissions"],$GLOBALS['__POST']["active"]);
@@ -285,7 +297,7 @@ function edituser($dir) {			// Edit User
 		}
 		if(isset($GLOBALS['__POST']["chpass"]) && $GLOBALS['__POST']["chpass"]=="true")	{
 			if($GLOBALS['__POST']["pass1"]!=$GLOBALS['__POST']["pass2"]) ext_Result::sendResult('edituser', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
-			$pass=md5(stripslashes($GLOBALS['__POST']["pass1"]));
+			$pass=extEncodePassword(stripslashes($GLOBALS['__POST']["pass1"]));
 		} else {
 			$pass=$data[1];
 		}
@@ -532,12 +544,5 @@ function show_admin($dir) {			// Execute Admin Action
 	}
 }
 //------------------------------------------------------------------------------
-function extMakePassword($length=8) {
-	$salt 		= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	$makepass	= '';
-	mt_srand(10000000*(double)microtime());
-	for ($i = 0; $i < $length; $i++)
-		$makepass .= $salt[mt_rand(0,61)];
-	return $makepass;
-}
+
 ?>

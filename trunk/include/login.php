@@ -54,7 +54,7 @@ function login() {
 		
 		if(isset($GLOBALS['__POST']["p_user"])) {
 			// Check Login
-			if(!activate_user(stripslashes($GLOBALS['__POST']["p_user"]), md5(stripslashes($p_pass)))) {
+			if(!activate_user(stripslashes($GLOBALS['__POST']["p_user"]), extEncodePassword(stripslashes($p_pass)))) {
 				ext_Result::sendResult('login', false, ext_Lang::msg( 'actlogin_failure' ));
 			}
 			ext_Result::sendResult('login', true, ext_Lang::msg( 'actlogin_success' ) );

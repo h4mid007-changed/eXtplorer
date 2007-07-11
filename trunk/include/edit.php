@@ -184,6 +184,7 @@ class ext_Edit extends ext_Action {
 	        	}
 	        },
 	        failure: function(form, action) {
+	        	statusBarMessage( action.result.error, false, false );
 	        	Ext.MessageBox.alert('Error!', action.result.error);
 	        },
 	        scope: simple,
@@ -227,7 +228,7 @@ class ext_Edit extends ext_Action {
 			if( PEAR::isError( $res ) ) {
 				$err .= $res->getMessage();
 			}
-			ext_Result::sendResult( 'edit', false, $err.print_r( $_POST, true ) );
+			ext_Result::sendResult( 'edit', false, $err );
 		}
 		
 	}

@@ -274,14 +274,29 @@ $GLOBALS["messages"] = array(
 	
 	'editor_simple'	=> 'Egyszerû szerkesztõ mód',
 	'editor_syntaxhighlight'	=> 'Szintaxis-kiemeléses mód',
+	
+	'newlink'	=> 'New File/Directory',
 	'show_directories' => 'Show Directories',
 	'actlogin_success' => 'Login successful!',
 	'actlogin_failure' => 'Login failed, try again.',
 	'directory_tree' => 'Directory Tree',
 	'browsing_directory' => 'Browsing Directory',
 	'filter_grid' => 'Filter',
+	'paging_page' => 'Page',
+	'paging_of_X' => 'of {0}',
+	'paging_firstpage' => 'First Page',
+	'paging_lastpage' => 'Last Page',
+	'paging_nextpage' => 'Next Page',
+	'paging_prevpage' => 'Previous Page',
+	
 	'paging_info' => 'Displaying Items {0} - {1} of {2}',
 	'paging_noitems' => 'No items to display',
-	'aboutlink' => 'About...'
+	'aboutlink' => 'About...',
+	'password_warning_title' => 'Important - Change your Password!',
+	'password_warning_text' => 'The user account you are logged in with (admin with password admin) corresponds to the default eXtplorer priviliged account. Your eXtplorer installation is open to intrusion and you should immediately fix this security hole!',
+	'change_password_success' => 'Your Password has been changed!',
+	'success' => 'Success',
+	'failure' => 'Failure',
+	'dialog_title' => 'Website Dialog'
 );
 ?>
