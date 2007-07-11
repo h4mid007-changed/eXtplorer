@@ -41,7 +41,7 @@ function show_header($dirlinks='') {
 	$logoutlink = $mode == 'ftp' ? ' <a href="'.$GLOBALS['script_name'].'?option=com_extplorer&amp;action=ftp_logout" title="'.$GLOBALS['messages']['logoutlink'].'">['.$GLOBALS['messages']['logoutlink'].']</a>' : '';
 	$alternate_mode = $mode == 'file' ? 'ftp' : 'file';
 	echo '<tr><td width="20%">';
-	if( is_object( $GLOBALS['mainframe'])) {
+	if( is_object( $GLOBALS['_VERSION'] || class_exists( 'JVersion'))) {
 		echo "<a href=\"index2.php\">Back to ".($GLOBALS['_VERSION']->PRODUCT ? $GLOBALS['_VERSION']->PRODUCT : 'Joomla!' ).'</a>';
 
 	} else {
