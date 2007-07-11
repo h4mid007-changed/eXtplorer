@@ -44,7 +44,7 @@ if( is_object($acl)) {
 }
 // The joomlaXplorer version number
 $GLOBALS['ext_version'] = '2.0.0';
-$GLOBALS['ext_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer/';
+$GLOBALS['ext_home'] = 'http://extplorer.sourceforge.net';
 
 /*
 // Needed to keep the filelist in the XML installer file up-to-date
@@ -83,13 +83,7 @@ if( $action == 'include_javascript' ) {
 
 if( defined( '_LOGIN_REQUIRED')) return;
 
-$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_extplorer/style/opacity.js"></script>' );
-if( $action == "archive") {
-	$mainframe->addCustomHeadTag( '<script type="text/javascript" src="components/com_extplorer/scripts/mootools.ajax.js"></script>' );
-}
-
 // Empty the output buffer if this is a XMLHttpRequest
-//while( @ob_end_clean() );echo 'HTTP_X_REQUESTED_WITH: '.$_SERVER['HTTP_X_REQUESTED_WITH'];ext_exit();
 if( ext_isXHR() ) {
 	error_reporting(0);
 	while( @ob_end_clean() );

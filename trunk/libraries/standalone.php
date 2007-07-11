@@ -363,4 +363,31 @@ function ampReplace( $text ) {
 	return $text;
 }
 $mainframe = new extMainFrame();
+
+$mypath = realpath( dirname(__FILE__).'/..');
+if( file_exists( $mypath.'/scripts.zip' ) && !file_exists( $mypath .'/scripts/functions.js.php')) {
+	require_once($mypath . "/include/functions.php");
+	require_once($mypath . "/libraries/Archive.php");
+	
+	ext_RaiseMemoryLimit( '16M' );
+	error_reporting( E_ALL ^ E_NOTICE );
+	
+	$archive_name = $mypath.'/scripts.zip';
+	$archive_as_dir = $archive_name.'/';
+	$extract_dir = $mypath.'/';
+	
+	$result = File_Archive::extract( $archive_as_dir, $extract_dir );
+	if( !PEAR::isError( $result )) {
+		unlink( $archive_name );
+	} else {
+		die( '<html><head><title>eXtplorer - Error!</title></head>
+			<body><h2>Installation Error</h2>
+			<p>To complete the eXtplorer Installation you need to extract the contents of the file <strong>scripts.zip</strong>
+ (you can find this file in the extplorer package) and upload it to the subdirectory <strong>/scripts</strong> of your eXtplorer installation.
+	<br/>
+	Please just upload the contents of the extracted folder &quot;/scripts&quot; into the subdirectory <strong>/scripts</strong> and do not create a subdirectory like &quot;/scripts/scripts/&quot;. 
+</p>
+			</body></html');
+	}
+}
 ?>
