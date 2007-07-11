@@ -30,7 +30,7 @@
     <uninstall/>	
     <installfile>install.extplorer.php</installfile>
     <administration>
-        <menu>joomlaXplorer</menu>
+        <menu>eXtplorer</menu>
         <files><!-- Backend Files! -->
 			<filename>CHANGELOG.txt</filename>
 			<filename>LICENSE</filename>
@@ -155,7 +155,6 @@
 			<filename>include/upload.php</filename>
 			<filename>include/users.php</filename>
 			<filename>include/view.php</filename>
-			<filename>index.html</filename>
 			<filename>install.extplorer.php</filename>
 			<filename>extplorer.xml</filename>
 			<filename>languages/brazilian_portuguese.php</filename>
