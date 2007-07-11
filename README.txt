@@ -93,6 +93,6 @@ Languages:
 	* Users can select one of all available languages on login.
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
-adapted for Joomla!: 	Soeren Eberhardt <soeren@virtuemart.net>
+adapted for Joomla!: 	Soeren Eberhardt <soeren[aat]virtuemart.net>
 original author:	the QuiX project
 ----------------------------------------------------------------------------------------------------
