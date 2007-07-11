@@ -36,9 +36,9 @@ function show_about() {			// footer for html-page
 	echo "\n<div id=\"ext_footer\" style=\"text-align:center;\">
 	<img src=\""._EXT_URL."/images/eXtplorer.gif\" align=\"middle\" alt=\"eXtplorer Logo\" />
 	<br />
-	Your Version: <a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\">joomlaXplorer {$GLOBALS['ext_version']}</a>
+	Your Version: <a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\">eXtplorer {$GLOBALS['ext_version']}</a>
 	<br />
- (<a href=\"http://virtuemart.net/index2.php?option=com_versions&amp;catid=2&amp;myVersion=". $GLOBALS['ext_version'] ."\" onclick=\"javascript:void window.open('http://virtuemart.net/index2.php?option=com_versions&catid=2&myVersion=". $GLOBALS['ext_version'] ."', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no'); return false;\" title=\"".$GLOBALS["messages"]["check_version"]."\">".$GLOBALS["messages"]["check_version"]."</a>)
+ (<a href=\"http://virtuemart.net/index2.php?option=com_versions&amp;catid=5&amp;myVersion=". $GLOBALS['ext_version'] ."\" onclick=\"javascript:void window.open('http://virtuemart.net/index2.php?option=com_versions&catid=5&myVersion=". $GLOBALS['ext_version'] ."', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no'); return false;\" title=\"".$GLOBALS["messages"]["check_version"]."\">".$GLOBALS["messages"]["check_version"]."</a>)
 	
 	";
 	if(function_exists("disk_free_space")) {
