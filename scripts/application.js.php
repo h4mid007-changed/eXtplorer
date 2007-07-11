@@ -410,7 +410,21 @@ function ext_init(){
         displayMsg: '<?php echo ext_Lang::msg( 'paging_info', true ) ?>',
         emptyMsg: '<?php echo ext_Lang::msg( 'paging_noitems', true ) ?>'
     });
+	paging.afterPageText = '<?php echo ext_Lang::msg('paging_of_X', true ) ?>';
+	paging.beforePageText = '<?php echo ext_Lang::msg('paging_page', true ) ?>';
+	paging.firstText = '<?php echo ext_Lang::msg('paging_firstpage', true ) ?>';
+	paging.lastText = '<?php echo ext_Lang::msg('paging_lastpage', true ) ?>';
+	paging.nextText = '<?php echo ext_Lang::msg('paging_nextpage', true ) ?>';
+	paging.prevText = '<?php echo ext_Lang::msg('paging_prevpage', true ) ?>';
+	paging.refreshText = '<?php echo ext_Lang::msg('reloadlink', true ) ?>';
 
+	// initialize the statusbar
+    statusPanel = Ext.get('ext_statusbar');
+    statusPanel.addClass('done');
+    statusPanel.update('Done.');
+    paging.add('-', ' ', ' ', ' ', ' ', ' ');
+    paging.addElement( statusPanel );
+    
     // trigger the data store load
     function loadDir() {
     	datastore.load({params:{start:0, limit:50, dir: datastore.directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
@@ -715,23 +729,13 @@ function ext_init(){
             titlebar: true,
             autoScroll:true,
             closeOnTab: true
-        },
-        south: {
-            initialSize: 22,
-            titlebar: false,
-            collapsible: false,
         }
     });
-	// initialize the statusbar
-    statusPanel = new Ext.ContentPanel('ext_statusbar');
-    statusPanel.getEl().addClass('done');
-    statusPanel.setContent('Done.');
     
     layout.beginUpdate();
     layout.add('north', new Ext.ContentPanel('ext_header', {closable: false}));
     layout.add('west', new Ext.ContentPanel('dirtree', {title: '<?php echo ext_Lang::msg('directory_tree', true ) ?> <img src="<?php echo _EXT_URL ?>/images/reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="dirTree.getRootNode().reload();" alt="Reload" align="middle" />', closable: false}));
     layout.add('center', new Ext.GridPanel(ext_itemgrid, {}));    
-    layout.add('south', statusPanel);
     
     layout.endUpdate();
 	<?php
@@ -752,13 +756,13 @@ function ext_init(){
     chDir = function( directory ) {
    
     	if( datastore.directory.replace( /\//g, '' ) == directory.replace( /\//g, '' )
-    		&& datastore.getTotalCount() > 0 ) {
+    		&& datastore.getTotalCount() > 0 && directory != '') {
     		// Prevent double loading
     		return;
     	}
     	datastore.directory = directory;
     	var conn = datastore.proxy.getConnection();
-    	if( conn && !conn.isLoading() ) {
+    	if( directory == '' || conn && !conn.isLoading()) {
     		datastore.load({params:{start:0, limit:50, dir: directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
     	}
 		 new Ext.data.Connection().request({
@@ -841,7 +845,15 @@ function ext_init(){
     		chDir( node.id.replace( /_RRR_/g, '/' ) );
     	}
     } 
-    
+    <?php
+    if( $GLOBALS['require_login'] && $_SESSION['s_user'] == 'admin' && $_SESSION['s_pass'] == extEncodePassword('admin')) {
+    	// Urge User to change admin password!
+    	echo 'Ext.Msg.alert(\''.ext_Lang::msg('password_warning_title', true ).'\', \'<img src="'._EXT_URL .'/images/messagebox_warning.png" align="left" hspace="10" alt="Warning" /> '.ext_Lang::msg('password_warning_text', true ) .'\',
+    		function(btn) { if( btn == \'ok\' ) openActionDialog( null, \'admin\') }
+    	);
+		';
+    }
+    ?>    
 }
 if(Ext.isIE){
 	// As this file is included inline (because otherwise it would throw Element not found JS errors in IE)

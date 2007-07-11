@@ -119,7 +119,7 @@ CodePress.languages = {
 
 
 CodePress.run = function() {
-	if( document.location.href.indexOf( 'com_extplorer' ) > -1 && document.location.href.indexOf( 'com_extplorer/index.php' ) > -1) {
+	if( document.location.href.indexOf( 'com_extplorer' ) > -1 && document.location.href.indexOf( 'com_extplorer/index.php' ) == -1) {
 		CodePress.path = 'components/com_extplorer/scripts/codepress/';
 	} else {
 		CodePress.path = 'scripts/codepress/';

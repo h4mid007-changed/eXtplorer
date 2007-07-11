@@ -15,7 +15,7 @@ $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to le
 $GLOBALS["date_fmt"] = "d.m.Y H:i";
 $GLOBALS["error_msg"] = array(
 	// error
-	"error"			=> "FEHLER",
+	"error"			=> "Fehler",
 	"back"			=> "Zur&uuml;ck",
 
 	// root
@@ -45,7 +45,7 @@ $GLOBALS["error_msg"] = array(
 
 	// actions
 	"permread"		=> "Rechte lesen fehlgeschlagen.",
-	"permchange"		=> "Rechte �ndern fehlgeschlagen.",
+	"permchange"		=> "Rechte &auml;ndern fehlgeschlagen.",
 	"openfile"		=> "Datei &ouml;ffnen fehlgeschlagen.",
 	"savefile"		=> "Datei speichern fehlgeschlagen.",
 	"createfile"		=> "Datei anlegen fehlgeschlagen.",
@@ -54,11 +54,11 @@ $GLOBALS["error_msg"] = array(
 	"copyitem"		=> "Kopieren fehlgeschlagen.",
 	"moveitem"		=> "Verschieben fehlgeschlagen.",
 	"delitem"		=> "L&ouml;schen fehlgeschlagen.",
-	"chpass"		=> "Passwort �ndern fehlgeschlagen.",
+	"chpass"		=> "Passwort &auml;ndern fehlgeschlagen.",
 	"deluser"		=> "Benutzer l&ouml;schen fehlgeschlagen.",
 	"adduser"		=> "Benutzer hinzuf&uuml;gen fehlgeschlagen.",
 	"saveuser"		=> "Benutzer speichern fehlgeschlagen.",
-	"searchnothing"		=> "Sie m&uuml;ssen etwas zum suchen eintragen.",
+	"searchnothing"		=> "Sie m&uuml;ssen etwas zum Suchen eintragen.",
 
 	// misc
 	"miscnofunc"		=> "Funktion nicht vorhanden.",
@@ -68,7 +68,7 @@ $GLOBALS["error_msg"] = array(
 	"miscselitems"		=> "Sie haben keine Objekt(e) ausgewählt.",
 	"miscdelitems"		=> "Sollen die {0} markierten Objekt(e) gelöscht werden?",
 	"miscdeluser"		=> "Soll der Benutzer {0} gel&ouml;scht werden?",
-	"miscnopassdiff"	=> "Das neue und das heutige Passwort sind nicht verschieden.",
+	"miscnopassdiff"	=> "Das alte und neue Passwort sind nicht verschieden.",
 	"miscnopassmatch"	=> "Passw&ouml;rter sind nicht gleich.",
 	"miscfieldmissed"	=> "Sie haben ein wichtiges Eingabefeld vergessen auszuf&uuml;llen",
 	"miscnouserpass"	=> "Benutzer oder Passwort unbekannt.",
@@ -80,20 +80,20 @@ $GLOBALS["error_msg"] = array(
 );
 $GLOBALS["messages"] = array(
 	// links
-	"permlink"		=> "RECHTE &Auml;NDERN",
-	"editlink"		=> "BEARBEITEN",
-	"downlink"		=> "HERUNTERLADEN",
-	"uplink"		=> "H&Ouml;HER",
-	"homelink"		=> "STARTSEITE",
-	"reloadlink"		=> "ERNEUERN",
-	"copylink"		=> "KOPIEREN",
-	"movelink"		=> "VERSCHIEBEN",
-	"dellink"		=> "L&Ouml;SCHEN",
-	"comprlink"		=> "ARCHIVIEREN",
-	"adminlink"		=> "ADMINISTRATION",
-	"logoutlink"		=> "ABMELDEN",
-	"uploadlink"		=> "HOCHLADEN",
-	"searchlink"		=> "SUCHEN",
+	"permlink"		=> "Rechte &auml;ndern",
+	"editlink"		=> "Bearbeiten",
+	"downlink"		=> "Herunterladen",
+	"uplink"		=> "H&ouml;her",
+	"homelink"		=> "Startseite",
+	"reloadlink"		=> "Aktualisieren",
+	"copylink"		=> "Kopieren",
+	"movelink"		=> "Verschieben",
+	"dellink"		=> "L&ouml;schen",
+	"comprlink"		=> "Archivieren",
+	"adminlink"		=> "Administration",
+	"logoutlink"		=> "Abmelden",
+	"uploadlink"		=> "Hochladen",
+	"searchlink"		=> "Suchen",
 	"extractlink"	=> "Entpacken",
 	'chmodlink'		=> 'Zugriffsrechte &auml;ndern (chmod)', // new mic
 	'mossysinfolink'	=> $_VERSION->PRODUCT.' System Informationen ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
@@ -126,7 +126,7 @@ $GLOBALS["messages"] = array(
 	"btnremove"		=> "L&ouml;schen",
 	
 	// user messages, new in joomlaXplorer 1.3.0
-	'renamelink'	=> 'UMBENENNEN',
+	'renamelink'	=> 'Umbenennen',
 	'confirm_delete_file' => 'Sind Sie sicher, dass Sie diese Datei l&ouml;schen wollen? \\n%s',
 	'success_delete_file' => 'Die Datei(en) bzw. Verzeichnis(se) wurden gel&ouml;scht.',
 	'success_rename_file' => 'Das Verzeichnis / die Datei %s wurde erfolgreich in %s unbenannt.',
@@ -143,7 +143,7 @@ $GLOBALS["messages"] = array(
 	"actlogin"		=> "Anmelden",
 	"actloginheader"	=> "Melden sie sich an, um eXtplorer zu benutzen",
 	"actadmin"		=> "Administration",
-	"actchpwd"		=> "Passwort �ndern",
+	"actchpwd"		=> "Passwort &auml;ndern",
 	"actusers"		=> "Benutzer",
 	"actarchive"		=> "Objekt(e) archivieren",
 	"actupload"		=> "Datei(en) hochladen",
@@ -158,14 +158,14 @@ $GLOBALS["messages"] = array(
 	"miscconfpass"		=> "Best&auml;tige Passwort",
 	"miscconfnewpass"	=> "Best&auml;tige neues Passwort",
 	"miscchpass"		=> "&Auml;ndere Passwort",
-	"mischomedir"		=> "Home-Verzeichnis",
-	"mischomeurl"		=> "Home URL",
+	"mischomedir"		=> "Startverzeichnis",
+	"mischomeurl"		=> "Start-URL",
 	"miscshowhidden"	=> "Versteckte Objekte anzeigen",
 	"mischidepattern"	=> "Versteck-Filter",
 	"miscperms"		=> "Rechte",
 	"miscuseritems"		=> "(Name, Home-Verzeichnis, versteckte Objekte anzeigen, Rechte, aktiviert)",
 	"miscadduser"		=> "Benutzer hinzuf&uuml;gen",
-	"miscedituser"		=> "Benutzer '%s' �ndern",
+	"miscedituser"		=> "Benutzer '%s' &auml;ndern",
 	"miscactive"		=> "Aktiviert",
 	"misclang"		=> "Sprache",
 	"miscnoresult"		=> "Suche ergebnislos.",
@@ -264,7 +264,7 @@ $GLOBALS["messages"] = array(
 	'ftp_hostname_port' => 'FTP Hostname und Port <br />(Port ist optional)',
 	'ftp_login_check' => 'FTP Verbindung wird hergestellt...',
 	'ftp_connection_failed' => "Der FTP Server konnte nicht kontaktiert werden. \nStellen Sie bitte sicher, dass auf dem Server ein FTP-Server aktiv ist.",
-	'ftp_login_failed' => "Die Anmeldung am FTP Server ist fehlgeschlagen. \nÜberprüfen Sie den Nutzernamen \nund das Passwort und versuchen Sie es erneut.",
+	'ftp_login_failed' => "Die Anmeldung am FTP Server ist fehlgeschlagen. \n�berpr�fen Sie den Nutzernamen \nund das Passwort und versuchen Sie es erneut.",
 	
 	'switch_file_mode' => 'Aktueller Modus: <strong>%s</strong>. Modus wechseln zu: %s.',
 	'symlink_target' => 'Ziel des symbolischen Links',
@@ -286,9 +286,20 @@ $GLOBALS["messages"] = array(
 	'directory_tree' => 'Verzeichnisbaum',
 	'browsing_directory' => 'Zeige Verzeichnis',
 	'filter_grid' => 'Filter',
-	'paging_info' => 'Zeige Eintr�ge {0} - {1} von {2}',
-	'paging_noitems' => 'keine Eintr�ge zum anzeigen',
-	'aboutlink' => '�ber..'
-
+	'paging_page' => 'Seite',
+	'paging_of_X' => 'von {0}',
+	'paging_firstpage' => 'Erste Seite',
+	'paging_lastpage' => 'Letzt Seite',
+	'paging_nextpage' => 'N&auml;chste Seite',
+	'paging_prevpage' => 'Vorherige Seite',
+	'paging_info' => 'Zeige Eintr&auml;ge {0} - {1} von {2}',
+	'paging_noitems' => 'keine Eintr&auml;ge zum anzeigen',
+	'aboutlink' => '&Uuml;ber..',
+	'password_warning_title' => 'Wichtig - &Auml;ndern Sie Ihr Passwort!',
+	'password_warning_text' => 'Das Benutzerkonto, mit dem Sie angemeldet sind (admin mit Passwort admin) entspricht dem des Standard-eXtplorer Administratorkontos. Wird Ihre eXtplorer Installation mit diesen Einstellungen betrieben, so k&ouml;nnen Unbefugte leicht von au&szlig;en auf sie zugreifen. Sie sollten diese Sicherheitsl&uuml;cke unbedingt schlie&szlig;en!',
+	'change_password_success' => 'Ihr Passwort wurde ge&auml;ndert!',
+	'success' => 'Erfolg',
+	'failure' => 'Fehlgeschlagen',
+	'dialog_title' => 'Webseiten-Dialog'
 );
 ?>

@@ -107,16 +107,16 @@ function openActionDialog( caller, action ) {
                     minHeight:300,
                     proxyDrag: true,
                     //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
-					title: 'Website Dialog',
+					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>',
                     center: {
                         autoScroll:true
-                    },
+                    }/*,
                     south: {
 			            initialSize: 22,
 			            titlebar: false,
 			            collapsible: false,
 			            resizable: false
-                    }
+                    }*/
 					
             });
             dialog.addKeyListener(27, dialog.hide, dialog);
@@ -124,8 +124,8 @@ function openActionDialog( caller, action ) {
 									autoCreate: true,
 									fitToFrame: true
 								});
-			dialog_status = new Ext.ContentPanel('dialog-status', { autoCreate: true } );
-			dialog_status.getEl().addClass(['ext_statusbar', 'done']);
+			//dialog_status = new Ext.ContentPanel('dialog-status', { autoCreate: true } );
+			//dialog_status.getEl().addClass(['ext_statusbar', 'done']);
 			
 			dialog_panel.load( { url: '<?php echo basename($GLOBALS['script_name']) ?>', 
 								params: Ext.urlEncode( requestParams ),
@@ -144,7 +144,7 @@ function openActionDialog( caller, action ) {
             var layout = dialog.getLayout();
             layout.beginUpdate();
             layout.add('center', dialog_panel );
-            layout.add('south', dialog_status );
+            //layout.add('south', dialog_status );
             layout.endUpdate();
             
             dialog.on( 'hide', function() { dialog_panel.destroy(); dialog_status.destroy(); dialog.destroy(); } );
@@ -267,20 +267,21 @@ function deleteDir( btn, node ) {
 	handleCallback(requestParams, node);
 }
 function statusBarMessage( msg, isLoading, success ) {
+	var statusBar = Ext.get('ext_statusbar');
 	if( isLoading ) {
-		statusPanel.getEl().removeClass('done');
+		statusBar.removeClass('done');
 		try { dialog_status.getEl().removeClass('done') } catch(e){};
 	}
 	else {
 		try { dialog_status.getEl().addClass('done'); } catch(e){}
-		statusPanel.getEl().addClass('done');
+		statusBar.addClass('done');
 	}
 	if( success ) {
-		msg = '<span class="success">Success: </span>' + msg;
+		msg = '<span class="success"><?php echo ext_Lang::msg('success', true ) ?>: </span>' + msg;
 	} else if( success != null ) {
-		msg = '<span class="error">Error: </span>' + msg;
+		msg = '<span class="error"><?php echo ext_Lang::err('error', true ) ?>: </span>' + msg;
 	}
-	statusPanel.setContent( msg );
+	statusBar.update( msg );
 	try { dialog_status.setContent( msg );  } catch(e){}
     
 }
