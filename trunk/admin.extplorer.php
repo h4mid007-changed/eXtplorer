@@ -37,7 +37,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * I wouldn't recommend to let in Managers
  * allowed: Superadministrator
 **/
-if( is_object($acl)) {
+if( @is_object($acl)) {
 	if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
 		extRedirect( 'index2.php', _NOT_AUTH );
 	}
@@ -56,13 +56,14 @@ foreach($filelist as $file ) {
 	$filepath = str_replace( $path.'/', '', $file );
 	$contents .= '<filename>'.$filepath."</filename>\n";
 }
-file_put_contents( 'joomlaxplorer_filelist.txt', $contents );
+file_put_contents( 'extplorer_filelist.txt', $contents );
 */
 
 //------------------------------------------------------------------------------
-if( defined( 'E_STRICT' )) { // Suppress Strict Standards Warnings
+if( defined( 'E_STRICT' ) && !defined('E_STRICT_HIDDEN')) { // Suppress Strict Standards Warnings
 	$errorlevel=error_reporting();
-	error_reporting($errorlevel & ~E_STRICT);
+	error_reporting($errorlevel ^ E_STRICT);
+	define('E_STRICT_HIDDEN', 1);
 }
 //------------------------------------------------------------------------------
 umask(0002); // Added to make created files/dirs group writable
@@ -79,6 +80,9 @@ if( $action == 'include_javascript' ) {
   	header("Content-type: application/x-javascript; charset=iso-8859-1");
   	include( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php');
   	ext_exit();
+}
+if( $action != 'show_error') {
+	ext_Result::init();
 }
 
 if( defined( '_LOGIN_REQUIRED')) return;

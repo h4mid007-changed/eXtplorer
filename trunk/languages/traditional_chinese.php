@@ -89,7 +89,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "搜尋",
 	"extractlink"	=> "解開壓縮檔",
 	'chmodlink'		=> '更改 (chmod) 權限 (Folder/File(s))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' 系統資訊 ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer 系統資訊 (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> '前往 joomlaXplorer 網站 (另開視窗)', // new mic
 	
 	// list
@@ -173,7 +173,7 @@ $GLOBALS["messages"] = array(
 	"miscownerdesc"		=> "<strong>描述:</strong><br />使用者 (UID) /<br />群組 (GID)<br />目前權限:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>",
 
 	// sysinfo (new by mic)
-	"simamsysinfo"		=> $_VERSION->PRODUCT." 系統資訊",
+	"simamsysinfo"		=> 'eXtplorer 系統資訊",
 	"sisysteminfo"		=> "系統資訊",
 	"sibuilton"			=> "運行系統",
 	"sidbversion"		=> "資料庫版本 (MySQL)",
@@ -181,7 +181,7 @@ $GLOBALS["messages"] = array(
 	"siphpupdate"		=> "INFORMATION: The PHP version you use is <strong>not</strong> actual!<br />To guarantee all functions and features of Mambo and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!",
 	"siwebserver"		=> "Webserver",
 	"siwebsphpif"		=> "網頁伺服器 - PHP 介面",
-	'simamboversion'	=> $_VERSION->PRODUCT.' 版本',
+	'simamboversion'	=> 'eXtplorer 版本',
 	"siuseragent"		=> "瀏覽器版本",
 	"sirelevantsettings" => "重要的 PHP 設定",
 	"sisafemode"		=> "安全模式",
@@ -203,7 +203,7 @@ $GLOBALS["messages"] = array(
 	"siphpinformation"	=> "PHP Information",
 	"sipermissions"		=> "權限",
 	"sidirperms"		=> "目錄權限",
-	"sidirpermsmess"	=> "To be shure that all functions and features of '.$_VERSION->PRODUCT.' are working correct, following folders should have permission to write [chmod 0777]",
+	"sidirpermsmess"	=> "To be shure that all functions and features of eXtplorer are working correct, following folders should have permission to write [chmod 0777]",
 	"sionoff"			=> array( "On", "Off" ),
 	
 	"extract_warning" => "您確定要在此處解壓檔案?\\n如果不小心使用這將會覆蓋已經存在的檔案!",

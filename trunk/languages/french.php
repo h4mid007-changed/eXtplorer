@@ -88,7 +88,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "RECHERCHER",
 	"extractlink"		=> "Extractaction de l'archive",
 	'chmodlink'		=> 'Changer (chmod) Droits (Répertoire/Fichier(s))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' Informations Système ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer Informations Système (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Aller au site web de joomlaXplorer (nouvelle fenêtre)', // new mic
 	
 	// list
@@ -172,12 +172,12 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Description:</strong><br />Propriétaire (UID) /<br />Groupe (GID)<br />Droits actuels:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' Informations Système',
+	'simamsysinfo'		=> 'eXtplorer Informations Système',
 	'sisysteminfo'		=> 'Info Système',
 	'sibuilton'			=> 'OS',
 	'sidbversion'		=> 'Version Base de Données (MySQL)',
 	'siphpversion'		=> 'Version PHP',
-	'siphpupdate'		=> 'INFORMATION: <span style="color: red;">La version de PHP que vous utilisez n\'est <strong>plus</strong> d\'actualité!</span><br />Afin de garantir un fonctionnement maximum de '.$_VERSION->PRODUCT.' et addons,<br />Vous devez utiliser au minimum <strong>PHP.Version 4.3</strong>!',
+	'siphpupdate'		=> 'INFORMATION: <span style="color: red;">La version de PHP que vous utilisez n\'est <strong>plus</strong> d\'actualité!</span><br />Afin de garantir un fonctionnement maximum de eXtplorer et addons,<br />Vous devez utiliser au minimum <strong>PHP.Version 4.3</strong>!',
 	'siwebserver'		=> 'Webserver',
 	'siwebsphpif'		=> 'WebServer - Interface PHP',
 	'simamboversion'	=> ' Version'.$_VERSION->PRODUCT,
@@ -202,7 +202,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP Information',
 	'sipermissions'		=> 'Permissions',
 	'sidirperms'		=> 'Permissions Répertoire',
-	'sidirpermsmess'	=> 'Pour obtenir un fonctionnement correcte de '.$_VERSION->PRODUCT.' assurez vous que vous possèdez les droits en écriture sur l\'ensemble des répertoires. [chmod 0777]',
+	'sidirpermsmess'	=> 'Pour obtenir un fonctionnement correcte de eXtplorer assurez vous que vous possèdez les droits en écriture sur l\'ensemble des répertoires. [chmod 0777]',
 	'sionoff'			=> array( 'On', 'Off' ),
 	
 	'extract_warning' => "Voulez-vous réellement extraire ce fichier Ici?\\nCe fichier écrasera le fichier existant!",

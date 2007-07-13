@@ -90,7 +90,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "Search",
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'Change (chmod) Rights (Folder/File(s))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' System Information ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Go to the joomlaXplorer Website (new window)', // new mic
 
 	// list
@@ -174,7 +174,7 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Description:</strong><br />User (UID) /<br />Group (GID)<br />Current rights:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT." System Info",
+	'simamsysinfo'		=> "eXtplorer System Info",
 	'sisysteminfo'		=> 'System Info',
 	'sibuilton'			=> 'Operating System',
 	'sidbversion'		=> 'Database Version (MySQL)',
@@ -182,7 +182,7 @@ $GLOBALS["messages"] = array(
 	'siphpupdate'		=> 'INFORMATION: <span style="color: red;">The PHP version you use is <strong>not</strong> actual!</span><br />To guarantee all functions and features of Mambo and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!',
 	'siwebserver'		=> 'Webserver',
 	'siwebsphpif'		=> 'WebServer - PHP Interface',
-	'simamboversion'	=> $_VERSION->PRODUCT.' Version',
+	'simamboversion'	=> 'eXtplorer Version',
 	'siuseragent'		=> 'Browser Version',
 	'sirelevantsettings' => 'Important PHP Settings',
 	'sisafemode'		=> 'Safe Mode',
@@ -204,7 +204,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP Information',
 	'sipermissions'		=> 'Permissions',
 	'sidirperms'		=> 'Directory permissions',
-	'sidirpermsmess'	=> 'To be shure that all functions and features of '.$_VERSION->PRODUCT.' are working correct, following folders should have permission to write [chmod 0777]',
+	'sidirpermsmess'	=> 'To be shure that all functions and features of eXtplorer are working correct, following folders should have permission to write [chmod 0777]',
 	'sionoff'			=> array( 'On', 'Off' ),
 	
 	'extract_warning' => "Do you really want to extract this file? Here?\\nThis will overwrite existing files when not used carefully!",

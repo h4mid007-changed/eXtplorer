@@ -91,7 +91,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"	=> "BUSCAR",
 	"extractlink"	=> "Extrair Arquivo",
 	'chmodlink'		=> 'Alterar (chmod) Permiss&otilde;es (Pasta/Arquivo(s))',
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' Informa&ccedil;&atilde;o do Sistema ('.$_VERSION->PRODUCT.', Servidor, PHP, MySQL)',
+	'mossysinfolink'	=> 'eXtplorer Informa&ccedil;&atilde;o do Sistema (eXtplorer, Servidor, PHP, MySQL)',
 	'logolink'		=> 'Ir para o site do joomlaXplorer (nova janela)',
 	
 	// user messages, new in joomlaXplorer 1.3.0
@@ -174,12 +174,12 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Descri&ccedil;&atilde;o:</strong><br />Usu&aacute;rio (UID) /<br />Grupo (GID)<br />Permiss&otilde;es atuais:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' Infos do Sistema',
+	'simamsysinfo'		=> 'eXtplorer Infos do Sistema',
 	'sisysteminfo'		=> 'Sistema',
 	'sibuilton'			=> 'Sistema Operacional',
 	'sidbversion'		=> 'Vers&atilde;o do Banco de Dados MySQL',
 	'siphpversion'		=> 'Vers&atilde;o do PHP',
-	'siphpupdate'		=> 'INFORMA&Ccedil;&Atilde;O: <span style="color: red;">A vers&atilde;o do PHP instalada <strong>n&atilde;o &eacute;</strong> atual!</span><br />Para garantir todas as funcionalidades do '.$_VERSION->PRODUCT.' e seus componentes adicionais,<br />voc&ecirc; deve usar pelo menos a vers&atilde;o <strong>4.3</strong>!',
+	'siphpupdate'		=> 'INFORMA&Ccedil;&Atilde;O: <span style="color: red;">A vers&atilde;o do PHP instalada <strong>n&atilde;o &eacute;</strong> atual!</span><br />Para garantir todas as funcionalidades do eXtplorer e seus componentes adicionais,<br />voc&ecirc; deve usar pelo menos a vers&atilde;o <strong>4.3</strong>!',
 	'siwebserver'		=> 'Servidor Web',
 	'siwebsphpif'		=> 'Interface Servidor Web - PHP',
 	'simamboversion'	=> 'Vers&atilde;o do '.$_VERSION->PRODUCT,
@@ -204,7 +204,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'Informa&ccedil;&atilde;o do PHP',
 	'sipermissions'		=> 'Permiss&otilde;es',
 	'sidirperms'		=> 'Permiss&otilde;es de Diret&oacute;rios',
-	'sidirpermsmess'	=> 'Tenha certeza que todas as fun&ccedil;&otilde;es e funcionalidades do '.$_VERSION->PRODUCT.' est&atilde;o funcionando corretamente verificando se as pastas a seguir possuem permiss&atilde;o de escrita [chmod 0777]',
+	'sidirpermsmess'	=> 'Tenha certeza que todas as fun&ccedil;&otilde;es e funcionalidades do eXtplorer est&atilde;o funcionando corretamente verificando se as pastas a seguir possuem permiss&atilde;o de escrita [chmod 0777]',
 	'sionoff'			=> array( 'On', 'Off' ),
 	
 	'extract_warning' => "Voc&ecirc; tem certeza que deseja extrair este arquivo? Aqui?\\nEsta opera&ccedil;&atilde;o pode sobrescrever os arquivos existentes se n&atilde;o usada com cuidado!",

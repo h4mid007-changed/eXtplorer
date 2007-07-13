@@ -653,13 +653,11 @@ class File_Archive
 
         switch($extension) {
         case 'tgz':
-            return File_Archive::readArchive('tar',
-                    File_Archive::readArchive('gz', $source, $sourceOpened)
-                    );
+			$reader = File_Archive::readArchive('gz', $source, $sourceOpened);
+            return File_Archive::readArchive('tar', $reader  );
         case 'tbz':
-            return File_Archive::readArchive('tar',
-                    File_Archive::readArchive('bz2', $source, $sourceOpened)
-                    );
+			$reader = File_Archive::readArchive('bz2', $source, $sourceOpened);
+            return File_Archive::readArchive('tar', $reader  );
         case 'tar':
             require_once dirname(__FILE__).'/Archive/Reader/Tar.php';
             return new File_Archive_Reader_Tar($source, $sourceOpened);

@@ -112,7 +112,8 @@ class ext_Chmod extends ext_Action {
 	
 				$bin = $old_bin;
 			}
-			if(!$ok || PEAR::isError( $ok ) ) {
+			
+			if($ok===false || PEAR::isError( $ok ) ) {
 				ext_Result::sendResult('chmod', false, $abs_item.": ".$GLOBALS["error_msg"]["permchange"]);
 			}
 			ext_Result::sendResult('chmod', true, 'Permissions were changed' );

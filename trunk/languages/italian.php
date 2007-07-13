@@ -89,7 +89,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "Cerca",
 	"extractlink"	=> "Estrai archivio",
 	'chmodlink'		=> 'Modifica (chmod) Diritti (Cartella/File)', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' Informazioni di sistema ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer Informazioni di sistema (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Visita il sito web ufficiale joomlaXplorer (nuova finestra)', // new mic
 
 	// list
@@ -173,7 +173,7 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Descrizione:</strong><br />Utente (UID) /<br />Gruppo (GID)<br />Diritti correnti:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT." Info Sistema",
+	'simamsysinfo'		=> 'eXtplorer Info Sistema",
 	'sisysteminfo'		=> 'Info Sistema',
 	'sibuilton'			=> 'Sitema opertivo',
 	'sidbversion'		=> 'Versione Database (MySQL)',
@@ -181,7 +181,7 @@ $GLOBALS["messages"] = array(
 	'siphpupdate'		=> 'INFORMAZIONI: <span style="color: red;">La versione PHP version utilizzata <strong>non &#232;</strong> acggiornata!</span><br />Per garantire il corretto funzionamento di tutte le funzioni di Joomla e degli addon,<br />dovete almeno possedere la versione <strong>PHP 4.3</strong>!',
 	'siwebserver'		=> 'Server web',
 	'siwebsphpif'		=> 'Server web - Interfaccia PHP',
-	'simamboversion'	=> $_VERSION->PRODUCT.' Versione',
+	'simamboversion'	=> 'eXtplorer Versione',
 	'siuseragent'		=> 'Versione Browser',
 	'sirelevantsettings' => 'Importanti Settaggi PHP',
 	'sisafemode'		=> 'Safe Mode',
@@ -203,7 +203,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'Informazioni PHP',
 	'sipermissions'		=> 'Permessi',
 	'sidirperms'		=> 'Permessi cartella',
-	'sidirpermsmess'	=> 'Per funzionare correttamente tutte le funzioni e le caratteristiche di '.$_VERSION->PRODUCT.' devono ottenere i permessi di scrittura settati [chmod 0777] alle cartelle',
+	'sidirpermsmess'	=> 'Per funzionare correttamente tutte le funzioni e le caratteristiche di eXtplorer devono ottenere i permessi di scrittura settati [chmod 0777] alle cartelle',
 	'sionoff'			=> array( 'Attivo', 'Disattivato' ),
 
 	'extract_warning' => "Voi estrarre questo file? Qui?\\nQuesta operazione sovrascrive i file esistenti e va usata con attenzione!",

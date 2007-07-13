@@ -13,7 +13,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 	$GLOBALS["show_hidden"] = true;
 	
 	// filenames not allowed to access: (uses PCRE regex syntax)
-	$GLOBALS["no_access"] = "^\.ht";
+	// Example: Hide files starting with ".ht" (like .htaccess):  ^\.ht
+	$GLOBALS["no_access"] = ''; // "^\.ht";
 	
 	// user permissions bitfield: (1=modify, 2=password, 4=admin, add the numbers)
 	$GLOBALS["permissions"] = 7;

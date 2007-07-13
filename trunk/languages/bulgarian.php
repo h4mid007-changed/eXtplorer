@@ -89,7 +89,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "�������",
 	"extractlink"	=> "�������������",
 	'chmodlink'		=> '����� �� �������', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' �������� ���������� ('.$_VERSION->PRODUCT.', ������, PHP, MySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer �������� ���������� (eXtplorer, ������, PHP, MySQL)', // new mic
 	'logolink'		=> '������� � ����� �� joomlaXplorer', // new mic
 
 	// list
@@ -173,7 +173,7 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>��������:</strong><br />��������� (UID) /<br />����� (GID)<br />�������� �����:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT." ������� ����������",
+	'simamsysinfo'		=> 'eXtplorer ������� ����������",
 	'sisysteminfo'		=> '�������� ����������',
 	'sibuilton'			=> '����������� �������',
 	'sidbversion'		=> '������ �� MySQL',
@@ -181,7 +181,7 @@ $GLOBALS["messages"] = array(
 	'siphpupdate'		=> '����������: <span style="color: red;">�������� �� PHP ����� �������� <strong>�� �</strong> ��������!</span><br />�� �� ����������� ������ �������������� �� Joomla! ������ �� ��������,<br /> ������� <strong>������ �� PHP 4.3</strong>!',
 	'siwebserver'		=> '��� ������',
 	'siwebsphpif'		=> '��� ������ - PHP ���������',
-	'simamboversion'	=> $_VERSION->PRODUCT.' ������',
+	'simamboversion'	=> 'eXtplorer ������',
 	'siuseragent'		=> '������ �� ��������',
 	'sirelevantsettings' => '����� PHP ���������',
 	'sisafemode'		=> '������� �����',
@@ -203,7 +203,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP ����������',
 	'sipermissions'		=> '�����',
 	'sidirperms'		=> '����� ����� ����������',
-	'sidirpermsmess'	=> '�� �� ��� �������, �� ������ ������� �� '.$_VERSION->PRODUCT.' ������� ��������, �������� ���������� ������ �� �� � ����� [chmod 0777]',
+	'sidirpermsmess'	=> '�� �� ��� �������, �� ������ ������� �� eXtplorer ������� ��������, �������� ���������� ������ �� �� � ����� [chmod 0777]',
 	'sionoff'			=> array( '�������', '��������' ),
 	
 	'extract_warning' => "������� �� ��� � ��������������� �� ���� ����? ���?\\n���������� �� ����������� ���� ������� ����� ���������, ��� ������� �� ��������!",

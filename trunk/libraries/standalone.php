@@ -15,6 +15,12 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
+if( defined( 'E_STRICT' ) && !defined('E_STRICT_HIDDEN')) { // Suppress Strict Standards Warnings
+	$errorlevel=error_reporting();
+	error_reporting($errorlevel ^ E_STRICT);
+	define('E_STRICT_HIDDEN', 1);
+}
+
 if (phpversion() < '4.2.0') {
 	require_once( dirname( __FILE__ ) . '/compat.php41x.php' );
 }

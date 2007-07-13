@@ -52,9 +52,10 @@ else {
 //------------------------------------------------------------------------------
 // check for the existance of Joomla!/Mambo mainframe variable
 	if( !is_callable( array( $GLOBALS['mainframe'], 'getuser') )) {
-		
 		// login to use eXtplorer: (true/false)
 		$GLOBALS["require_login"] = true;
+	} else {
+		$GLOBALS["require_login"] = false;
 	}
 	// if gzcompress is available, we can use Zip, Tar and TGz
 	if( function_exists("gzcompress")) {

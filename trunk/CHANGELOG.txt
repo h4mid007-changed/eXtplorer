@@ -2,6 +2,10 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
+- fixed [ 1752534 ] Non-static method ext_Lang::msg()
+- removed dialog_status from onHide function for the dialog
+- fixed bugs in the language files  with undefined properties of non-existant var $_VERSION
+- fixed bug with undefined var $acl
 
 --- version 2.0.0 beta4 released ----
 
