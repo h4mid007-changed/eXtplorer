@@ -173,7 +173,7 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>��������:</strong><br />��������� (UID) /<br />����� (GID)<br />�������� �����:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> 'eXtplorer ������� ����������",
+	'simamsysinfo'		=> 'eXtplorer ������� ����������',
 	'sisysteminfo'		=> '�������� ����������',
 	'sibuilton'			=> '����������� �������',
 	'sidbversion'		=> '������ �� MySQL',

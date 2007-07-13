@@ -15,10 +15,8 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
-if( defined( 'E_STRICT' ) && !defined('E_STRICT_HIDDEN')) { // Suppress Strict Standards Warnings
-	$errorlevel=error_reporting();
-	error_reporting($errorlevel ^ E_STRICT);
-	define('E_STRICT_HIDDEN', 1);
+if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
+	error_reporting(E_ALL);
 }
 
 if (phpversion() < '4.2.0') {
@@ -387,13 +385,13 @@ if( file_exists( $mypath.'/scripts.zip' ) && !file_exists( $mypath .'/scripts/fu
 		unlink( $archive_name );
 	} else {
 		die( '<html><head><title>eXtplorer - Error!</title></head>
-			<body><h2>Installation Error</h2>
+			<body><h2>Installation needs to be completed!</h2>
 			<p>To complete the eXtplorer Installation you need to extract the contents of the file <strong>scripts.zip</strong>
  (you can find this file in the extplorer package) and upload it to the subdirectory <strong>/scripts</strong> of your eXtplorer installation.
 	<br/>
 	Please just upload the contents of the extracted folder &quot;/scripts&quot; into the subdirectory <strong>/scripts</strong> and do not create a subdirectory like &quot;/scripts/scripts/&quot;. 
 </p>
-			</body></html');
+			</body></html>');
 	}
 }
 ?>

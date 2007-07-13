@@ -2,8 +2,8 @@
 /** ensure this file is being included by a parent file */
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 ?>
-<script language="JavaScript1.2" type="text/javascript">
-<!--
+<script type="text/javascript">
+//<!--
 	function check_pwd() {
 		if(PassForm.findField('newpwd1').getValue() != PassForm.findField('newpwd2').getValue() ) {
 			alert("<?php echo ext_Lang::msg('miscnopassmatch', true ); ?>");

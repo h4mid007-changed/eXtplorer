@@ -67,8 +67,11 @@ class ext_Result {
 		$_SESSION['ext_error'] = array();
 	}
 	function count_errors() {
+		if( empty($_SESSION['ext_error'])) {
+			return 0;
+		}
 		$count = 0;
-		foreach( $_SESSION['ext_error'] as $type ) {
+		foreach( @$_SESSION['ext_error'] as $type ) {
 			if( !empty( $type ) && is_array( $type )) {
 				$count += sizeof( $type );
 			}
@@ -81,7 +84,7 @@ class ext_Result {
 			$success = (bool)$success;
 			if( $success && ext_Result::count_errors() > 0 ) {
 				$success = false;
-				foreach( $_SESSION['ext_error'] as $type ) {
+				foreach( @$_SESSION['ext_error'] as $type ) {
 					if( is_array( $type )) {
 						foreach( $type as $error ) {
 							$msg .= '<br >'.$error;

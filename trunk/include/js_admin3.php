@@ -3,7 +3,7 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 ?>
 <script type="text/javascript">
-<!--
+//<!--
 	function check_pwd() {
 		if(userform.findField('nuser').getValue()=="" || userform.findField('home_dir').getValue()=="") {
 			Ext.Msg.alert('Status', "<?php echo ext_Lang::err('miscfieldmissed', true ); ?>");
