@@ -89,7 +89,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "Suchen",
 	"extractlink"		=> "Entpacken",
 	'chmodlink'		=> 'Rechte (chmod) &auml;ndern (Verzeichnisse)/Datei(en))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' System Informationen ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer System Informationen (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Gehe zur eXtplorer Webseite (neues Fenster)', // new mic
 	
 	// list
@@ -172,15 +172,15 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Erkl&auml;rung:</strong><br />Benutzer (UID) /<br />Gruppe (GID)<br />Aktuelle Besitzerrechte:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>', // new mic
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' System Info',
+	'simamsysinfo'		=> 'eXtplorer System Info',
 	'sisysteminfo'		=> 'System Info',
 	'sibuilton'		=> 'Betriebssystem',
 	'sidbversion'		=> 'Datenbankversion (MySQL)',
 	'siphpversion'		=> 'PHP Version',
-	'siphpupdate'		=> 'HINWEIS: <font style="color: red;">Die verwendete PHP Version ist <strong>nicht</strong> aktuell!</font><br />Um ein ordnungsgem&auml;sses Funktionieren von '.$_VERSION->PRODUCT.' bzw. dessen Erweiterungen zu gew&auml;hrleisten,<br />sollte mindestens <strong>PHP.Version 4.3</strong> eingesetzt werden!',
+	'siphpupdate'		=> 'HINWEIS: <font style="color: red;">Die verwendete PHP Version ist <strong>nicht</strong> aktuell!</font><br />Um ein ordnungsgem&auml;sses Funktionieren von eXtplorer bzw. dessen Erweiterungen zu gew&auml;hrleisten,<br />sollte mindestens <strong>PHP.Version 4.3</strong> eingesetzt werden!',
 	'siwebserver'		=> 'Webserver',
 	'siwebsphpif'		=> 'WebServer - PHP Schnittstelle',
-	'simamboversion'	=> $_VERSION->PRODUCT.' Version',
+	'simamboversion'	=> 'eXtplorer Version',
 	'siuseragent'		=> 'Browserversion',
 	'sirelevantsettings'	=> 'Wichtige PHP Einstellungen',
 	'sisafemode'		=> 'Safe Mode',

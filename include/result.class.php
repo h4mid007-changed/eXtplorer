@@ -37,6 +37,10 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  *
  */
 class ext_Result {
+	function init() {
+		ext_Result::empty_errors();
+		ext_Result::empty_messages();
+	}
 	function add_message($message, $type='general') {
 		$_SESSION['ext_message'][$type][] = $message;
 	}
@@ -75,6 +79,16 @@ class ext_Result {
 		
 		if( ext_isXHR() ) {
 			$success = (bool)$success;
+			if( $success && ext_Result::count_errors() > 0 ) {
+				$success = false;
+				foreach( $_SESSION['ext_error'] as $type ) {
+					if( is_array( $type )) {
+						foreach( $type as $error ) {
+							$msg .= '<br >'.$error;
+						}
+					}
+				}
+			}
 			$result = array('action' => $action,
 							'message' => $msg,
 							'error' => $msg,//.print_r($_POST,true),

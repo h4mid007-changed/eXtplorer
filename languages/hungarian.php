@@ -90,7 +90,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "KERESÉS",
 	"extractlink"	=> "Archívum kibontása",
 	'chmodlink'		=> 'Engedélyek módosítása (chmod) (Könyvtár/Fájl(ok))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' Rendszerinformáció ('.$_VERSION->PRODUCT.', Kiszolgáló, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer Rendszerinformáció (eXtplorer, Kiszolgáló, PHP, mySQL)', // new mic
 	'logolink'		=> 'Ugrás a joomlaXplorer webhelyére (új ablak)', // new mic
 	
 	// list
@@ -174,7 +174,7 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Leírás:</strong><br />Felhasználó (UID) /<br />Csoport (GID)<br />Jelenlegi engedélyek:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT." rendszerinformáció",
+	'simamsysinfo'		=> 'eXtplorer rendszerinformáció",
 	'sisysteminfo'		=> 'Rendszer',
 	'sibuilton'			=> 'Operációs rendszer',
 	'sidbversion'		=> 'Adatbázis verziószáma (MySQL)',
@@ -182,7 +182,7 @@ $GLOBALS["messages"] = array(
 	'siphpupdate'		=> 'INFORMÁCIÓ: <span style="color: red;">Az Ön által használt PHP verzió <strong>elavult</strong>!</span><br />A Mambo és kiegészítõi valamennyi funkcióinak és szolgáltatásainak biztosításához<br />legalább <strong>PHP 4.3-as verziót</strong> kell használnia!',
 	'siwebserver'		=> 'Webkiszolgáló',
 	'siwebsphpif'		=> 'Webkiszolgáló - PHP felület',
-	'simamboversion'	=> $_VERSION->PRODUCT.' verziószáma',
+	'simamboversion'	=> 'eXtplorer verziószáma',
 	'siuseragent'		=> 'Böngészõ verziószáma',
 	'sirelevantsettings' => 'Fontos PHP beállítások',
 	'sisafemode'		=> 'Biztonságos mód',
@@ -204,7 +204,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP tulajdonságai',
 	'sipermissions'		=> 'Engedélyek',
 	'sidirperms'		=> 'Könyvtárengedélyek',
-	'sidirpermsmess'	=> 'Ha azt akarja, hogy a '.$_VERSION->PRODUCT.' összes funkciója és szolgáltatása megfelelõen mûködjön, akkor írhatóvá kell tennie a következõ könyvtárakat [chmod 0777]',
+	'sidirpermsmess'	=> 'Ha azt akarja, hogy a eXtplorer összes funkciója és szolgáltatása megfelelõen mûködjön, akkor írhatóvá kell tennie a következõ könyvtárakat [chmod 0777]',
 	'sionoff'			=> array( 'Be', 'Ki' ),
 	
 	'extract_warning' => "Valóban ki akarja bontani ezt a fájlt? Ide?\\nFelül fogja írni a létezõ fájlokat, ha nem körültekintõen használja!",

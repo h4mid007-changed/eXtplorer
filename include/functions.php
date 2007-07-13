@@ -410,8 +410,11 @@ function remove($item) {			// remove file / dir
 }
 function chmod_recursive($item, $mode) {			// chmod file / dir
 	$ok = true;
+	
 	if(@is_link($item) || @is_file($item)) {
 		$ok=@chmod( $item, $mode );
+		if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+		else ext_Result::add_error($GLOBALS['error_msg']['permchange'].' '.$new_item);
 	}
 	elseif(@is_dir($item)) {
 		if(($handle=@opendir($item))===false) {
@@ -432,10 +435,10 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 			
 			if(@is_dir($new_item)) {
 				$ok=chmod_recursive($new_item, $mode);
-				if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
 			} else {
 				$ok=@chmod($new_item, $mode);
 				if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+				else ext_Result::add_error($GLOBALS['error_msg']['permchange'].' '.$new_item);
 			}
 		}
 		closedir($handle);
@@ -449,8 +452,10 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 			$mode = bindec( $bin ); 
 		}
 		$ok=@chmod( $item, $mode );
-		if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$new_item);
+		if($ok) ext_Result::add_message($GLOBALS['messages']['permchange'].' '.$item);
+		else ext_Result::add_error($GLOBALS['error_msg']['permchange'].' '.$item);
 	}
+	
 	return $ok;
 }
 //------------------------------------------------------------------------------

@@ -36,7 +36,7 @@ class ext_File {
 			return $GLOBALS['FTPCONNECTION']->chmodRecursive( $item, $mode );
 		}
 		else {
-			chmod_recursive( $item, $mode );
+			return chmod_recursive( $item, $mode );
 		}
 	}
 	function copy( $from, $to ) {

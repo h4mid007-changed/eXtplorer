@@ -90,7 +90,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "ETSI",
 	"extractlink"	=> "Pura arkistotiedosto",
 	'chmodlink'		=> 'Muuta (chmod) oikeudet (kansio/tiedosto(t))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' J�rjestelm�tiedot ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer J�rjestelm�tiedot (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Siiry joomlaXplorer sivustolle(uusi ikkuna)', // new mic
 	
 	// list
@@ -174,15 +174,15 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Kuvaus:</strong><br />K�ytt�j� (UID) /<br />Ryhm� (GID)<br />Nykyiset oikeudet:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' J�rjestelm�n tiedot',
+	'simamsysinfo'		=> 'eXtplorer J�rjestelm�n tiedot',
 	'sisysteminfo'		=> 'J�rjestelm�n tiedot',
 	'sibuilton'			=> 'Operating System',
 	'sidbversion'		=> 'Database Version (MySQL)',
 	'siphpversion'		=> 'PHP Version',
-	'siphpupdate'		=> 'INFORMATION: <span style="color: red;">The PHP version you use is <strong>not</strong> actual!</span><br />To guarantee all functions and features of '.$_VERSION->PRODUCT.' and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!',
+	'siphpupdate'		=> 'INFORMATION: <span style="color: red;">The PHP version you use is <strong>not</strong> actual!</span><br />To guarantee all functions and features of eXtplorer and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!',
 	'siwebserver'		=> 'Webserver',
 	'siwebsphpif'		=> 'WebServer - PHP Interface',
-	'simamboversion'	=> $_VERSION->PRODUCT.' Version',
+	'simamboversion'	=> 'eXtplorer Version',
 	'siuseragent'		=> 'Browser Version',
 	'sirelevantsettings' => 'Important PHP Settings',
 	'sisafemode'		=> 'Safe Mode',
@@ -204,7 +204,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP Information',
 	'sipermissions'		=> 'K�ytt�oikeudet',
 	'sidirperms'		=> 'Hakemiston k�ytt�oikeudet',
-	'sidirpermsmess'	=> 'To be shure that all functions and features of '.$_VERSION->PRODUCT.' are working correct, following folders should have permission to write [chmod 0777]',
+	'sidirpermsmess'	=> 'To be shure that all functions and features of eXtplorer are working correct, following folders should have permission to write [chmod 0777]',
 	'sionoff'			=> array( 'Pois', 'P��ll�' ),
 	
 	'extract_warning' => "Haluatko purkaa tiedoston t�nne? \\nK�yt� toimintoa varoen sill� olemassa olevat tiedostot ylikirjoitetaan.",

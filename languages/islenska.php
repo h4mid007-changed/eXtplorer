@@ -89,7 +89,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "LEIT",
 	"extractlink"	=> "Afþjappa",
 	'chmodlink'		=> 'Breyta (chmod) Aðgangsstýringum (möppu/skrá(a))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' upplýsingar ('.$_VERSION->PRODUCT.', Server, PHP, mySQL)', // new mic
+	'mossysinfolink'	=> 'eXtplorer upplýsingar (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Fara á heimasíðu joomlaXplorer (new window)', // new mic
 
 	// list
@@ -173,15 +173,15 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Lýsing:</strong><br />Notandi (UID) /<br />Hópur (GID)<br />Leyfi:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' Upplýsingar',
+	'simamsysinfo'		=> 'eXtplorer Upplýsingar',
 	'sisysteminfo'		=> 'Kerfisupplýsingar',
 	'sibuilton'			=> 'Stýrikerfi',
 	'sidbversion'		=> 'Útgáfa gagnagrunns (MySQL)',
 	'siphpversion'		=> 'PHP útgáfa',
-	'siphpupdate'		=> 'Upplýsingar: <span style="color: red;">PHP sem þú ert að nota er <strong>ekki</strong> raunverulega!</span><br />To guarantee all functions and features of '.$_VERSION->PRODUCT.' and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!',
+	'siphpupdate'		=> 'Upplýsingar: <span style="color: red;">PHP sem þú ert að nota er <strong>ekki</strong> raunverulega!</span><br />To guarantee all functions and features of eXtplorer and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!',
 	'siwebserver'		=> 'Webserver',
 	'siwebsphpif'		=> 'WebServer - PHP Interface',
-	'simamboversion'	=> $_VERSION->PRODUCT.' útgáfa',
+	'simamboversion'	=> 'eXtplorer útgáfa',
 	'siuseragent'		=> 'Útgáfa Vafrara',
 	'sirelevantsettings' => 'Important PHP Settings',
 	'sisafemode'		=> 'Safe Mode',
@@ -203,7 +203,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP Information',
 	'sipermissions'		=> 'Permissions',
 	'sidirperms'		=> 'Directory permissions',
-	'sidirpermsmess'	=> 'To be shure that all functions and features of '.$_VERSION->PRODUCT.' are working correct, following folders should have permission to write [chmod 0777]',
+	'sidirpermsmess'	=> 'To be shure that all functions and features of eXtplorer are working correct, following folders should have permission to write [chmod 0777]',
 	'sionoff'			=> array( 'Á', 'Af' ),
 	
 	'extract_warning' => "Villtu afþjappa þessari skrá? Hér?\\nAðrar skrár gætu verið yfirskrifaðar ef ekki er farið varlega!",

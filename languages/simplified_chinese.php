@@ -90,7 +90,7 @@ $GLOBALS["messages"] = array(
 	"searchlink"		=> "搜索",
 	"extractlink"	=> "解压缩",
 	'chmodlink'		=> '改变 (chmod) 权限 (目录/文件)', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' 系统信息 ('.$_VERSION->PRODUCT.', 服务器, PHP, mySQL数据库)', // new mic
+	'mossysinfolink'	=> 'eXtplorer 系统信息 (eXtplorer, 服务器, PHP, mySQL数据库)', // new mic
 	'logolink'		=> '访问 joomlaXplorer 官方网站 (在新窗口打开)', // new mic
 	
 	// list
@@ -174,15 +174,15 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>描述格式:</strong><br />用户 (UID) /<br />工作组 (GID)<br />当前权限:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' 系统信息',
+	'simamsysinfo'		=> 'eXtplorer 系统信息',
 	'sisysteminfo'		=> '系统信息',
 	'sibuilton'			=> '操作系统',
 	'sidbversion'		=> '数据库版本 (MySQL)',
 	'siphpversion'		=> 'PHP 版本',
-	'siphpupdate'		=> '信息: <span style="color: red;">您正在使用的PHP版本是 <strong>not</strong> actual!</span><br />为保证 '.$_VERSION->PRODUCT.' 及其插件的所有功能正常运行,<br />您必须最低使用 <strong>PHP. 4.3 版本</strong>!',
+	'siphpupdate'		=> '信息: <span style="color: red;">您正在使用的PHP版本是 <strong>not</strong> actual!</span><br />为保证 eXtplorer 及其插件的所有功能正常运行,<br />您必须最低使用 <strong>PHP. 4.3 版本</strong>!',
 	'siwebserver'		=> '服务器',
 	'siwebsphpif'		=> '服务器 - PHP 界面',
-	'simamboversion'	=> $_VERSION->PRODUCT.' 版本',
+	'simamboversion'	=> 'eXtplorer 版本',
 	'siuseragent'		=> '浏览器版本',
 	'sirelevantsettings' => '重要 PHP 设置',
 	'sisafemode'		=> '安全模式',
@@ -204,7 +204,7 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP 信息',
 	'sipermissions'		=> '允许',
 	'sidirperms'		=> '文件夹允许',
-	'sidirpermsmess'	=> '为了保证 '.$_VERSION->PRODUCT.'的所有功能都正常运行，下列目录必须被允许写入 [chmod 0777]，即您必须看到它们的状态在下面显示是绿色的 “<font color=green> Writeable </font>” ',
+	'sidirpermsmess'	=> '为了保证 eXtplorer的所有功能都正常运行，下列目录必须被允许写入 [chmod 0777]，即您必须看到它们的状态在下面显示是绿色的 “<font color=green> Writeable </font>” ',
 	'sionoff'			=> array( '开', '关' ),
 	
 	'extract_warning' => "您确定要解压缩该文件吗？在当前目录？\\n若使用不当，本操作将要覆盖现有同名文件!",
