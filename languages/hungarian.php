@@ -174,7 +174,7 @@ $GLOBALS["messages"] = array(
 	'miscownerdesc'		=> '<strong>Leírás:</strong><br />Felhasználó (UID) /<br />Csoport (GID)<br />Jelenlegi engedélyek:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> 'eXtplorer rendszerinformáció",
+	'simamsysinfo'		=> 'eXtplorer rendszerinformáció',
 	'sisysteminfo'		=> 'Rendszer',
 	'sibuilton'			=> 'Operációs rendszer',
 	'sidbversion'		=> 'Adatbázis verziószáma (MySQL)',

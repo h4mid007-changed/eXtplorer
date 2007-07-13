@@ -92,8 +92,11 @@ function login() {
 	var languages = new Ext.data.SimpleStore({
 	    fields: ['language', 'langname'],
 	    data :  [
-	    <?php foreach( $langs as $language => $name ) {
-	    	echo "['$language', '$name' ],";
+	    <?php 
+	    $i = 0; $c = count( $langs );
+	    foreach( $langs as $language => $name ) {
+	    	echo "['$language', '$name' ]";
+		if( ++$i < $c ) echo ',';
 	    }
 	      ?>
 	        ]

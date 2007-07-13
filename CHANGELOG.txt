@@ -2,6 +2,9 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
+
+- fixed [ 1752904 ] error on admin dialog opening
+- fixed [ 1752901 ] Combo on Login page doesn't work in IE6 and 7
 - fixed [ 1752534 ] Non-static method ext_Lang::msg()
 - removed dialog_status from onHide function for the dialog
 - fixed bugs in the language files  with undefined properties of non-existant var $_VERSION

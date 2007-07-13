@@ -60,10 +60,8 @@ file_put_contents( 'extplorer_filelist.txt', $contents );
 */
 
 //------------------------------------------------------------------------------
-if( defined( 'E_STRICT' ) && !defined('E_STRICT_HIDDEN')) { // Suppress Strict Standards Warnings
-	$errorlevel=error_reporting();
-	error_reporting($errorlevel ^ E_STRICT);
-	define('E_STRICT_HIDDEN', 1);
+if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
+	error_reporting(E_ALL);
 }
 //------------------------------------------------------------------------------
 umask(0002); // Added to make created files/dirs group writable
