@@ -1,15 +1,15 @@
 <?php
-
-// English Mimes Module for v2.3 (translated by Jarmo Keränen)
-// Modified by by Markku Suominen 10.11.2005, admin@joomlaportal.fi
-// Finnish Joomla translation team, http://www.joomlaportal.fi, 
-
+// Finnish Language file for extXplorer 
+// version 1.0 dated 13.7.2007
+// based on JoomlaXplorer 1.6.1 language file
+// Markku Suominen / admin@joomlaportal.fi
+// Finnish Joomla translation team, http://www.joomlaportal.fi, admin@joomlaportal.fi
 $GLOBALS["mimes"]=array(
 	// dir, exe, File
 	"dir"	=> "Hakemisto",
 	"exe"	=> "Suoritettava tiedosto",
 	"Tiedosto"	=> "Tiedosto",
-	"symlink"	=> "Symbolic Link",
+	"symlink"	=> "Symbolinen linkki",
 
 	// text
 	"text"	=> "Tekstitiedosto",
@@ -17,7 +17,7 @@ $GLOBALS["mimes"]=array(
 	// programming
 	"php"	=> "PHP-skripti",
 	"sql"	=> "SQL-tiedosto",
-	"perl"	=> "PERL-sSkripti",
+	"perl"	=> "PERL-skripti",
 	"html"	=> "HTML-sivu",
 	"js"	=> "JavaScript-tiedosto",
 	"css"	=> "CSS-tiedosto",
