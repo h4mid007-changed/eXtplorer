@@ -2,7 +2,8 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
-
+- updated finnish language file
+- updated ExtJS to 1.1 RC1, included Konqueror Patch
 - fixed [ 1752904 ] error on admin dialog opening
 - fixed [ 1752901 ] Combo on Login page doesn't work in IE6 and 7
 - fixed [ 1752534 ] Non-static method ext_Lang::msg()
