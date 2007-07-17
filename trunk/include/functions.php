@@ -383,7 +383,7 @@ function remove($item) {			// remove file / dir
 	$ok = true;
 	if( is_link($item) ||  is_file($item)) 
 	  $ok =  unlink($item);
-	elseif( is_dir($item)) {
+	elseif( @is_dir($item)) {
 		
 		if(($handle= opendir($item))===false) 
 		  ext_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["opendir"]);
@@ -396,7 +396,7 @@ function remove($item) {			// remove file / dir
 			  ext_Result::sendResult('delete', false, basename($item).": ".$GLOBALS["error_msg"]["readdir"]);
 			//if(!get_show_item($item, $new_item)) continue;
 			
-			if( is_dir($new_item)) {
+			if( @is_dir($new_item)) {
 				$ok=remove($new_item);
 			} else {
 				$ok= unlink($new_item);
@@ -442,7 +442,7 @@ function chmod_recursive($item, $mode) {			// chmod file / dir
 			}
 		}
 		closedir($handle);
-		if( is_dir( $item )) {
+		if( @is_dir( $item )) {
 			$bin = decbin( $mode );
 			// when we chmod a directory we must care for the permissions
 			// to prevent that the directory becomes not readable (when the "execute bits" are removed)
@@ -700,7 +700,7 @@ function scandir($dir,$listDirectories=false, $skipDots=true) {
     if ($handle = opendir($dir)) {
         while (false !== ($file = readdir($handle))) {
             if (($file != "." && $file != "..") || $skipDots == true) {
-                if($listDirectories == false) { if(is_dir($file)) { continue; } }
+                if($listDirectories == false) { if(@is_dir($file)) { continue; } }
                 array_push($dirArray,basename($file));
             }
         }
@@ -1052,7 +1052,7 @@ function extReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 
 	while ($file = readdir($handle)) {
 		$dir = extPathName( $path.'/'.$file, false );
-		$isDir = is_dir( $dir );
+		$isDir = @is_dir( $dir );
 		if (($file != ".") && ($file != "..")) {
 			if (preg_match( "/$filter/", $file )) {
 				if ($fullpath) {

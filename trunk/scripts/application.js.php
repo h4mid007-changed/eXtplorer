@@ -37,8 +37,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 ?>
 <script type="text/javascript">
+Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
 function ext_init(){
-	Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
     // create the Data Store
     datastore = new Ext.data.Store({
         proxy: new Ext.data.HttpProxy({
