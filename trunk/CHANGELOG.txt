@@ -2,6 +2,8 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
+
+- fixed the Frontend Browsing part (when being used as a Joomla! component)
 - updated finnish language file
 - updated ExtJS to 1.1 RC1, included Konqueror Patch
 - fixed [ 1752904 ] error on admin dialog opening
