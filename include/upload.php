@@ -142,7 +142,7 @@ class ext_Upload extends ext_Action {
 		})
 	    );
 	
-	simple.addButton('Save', function() {
+	simple.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
 		statusBarMessage( 'Processing Upload, please wait...', true );
 	    simple.submit({
 	        //reset: true,
