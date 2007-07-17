@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <mosinstall type="component">
     <name>eXtplorer</name>
-    <creationDate>03.07.2007</creationDate>
+    <creationDate>18.07.2007</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren@virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
-    <version>2.0.0 beta3</version>
+    <version>2.0.0 beta5</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_extplorer/images/logo.gif" alt="joomlaXplorer Logo" /></div>
 	<h2>Successfully installed joomlaXplorer&nbsp;</h2>
@@ -33,7 +33,8 @@
         <menu>eXtplorer</menu>
         <files><!-- Backend Files! -->
 			<filename>CHANGELOG.txt</filename>
-			<filename>LICENSE</filename>
+		<filename>LICENSE_GPL.txt</filename>
+		<filename>LICENSE_MPL.txt</filename>
 			<filename>README.txt</filename>
 			<filename>admin.extplorer.php</filename>
 			<filename>application.php</filename>

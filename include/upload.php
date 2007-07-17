@@ -84,7 +84,7 @@ class ext_Upload extends ext_Action {
 					$err=true;	continue;
 				}
 				else {
-					$mode = ext_isFTPMode() ? 755 : 0755;
+					$mode = ext_isFTPMode() ? 644 : 0644;
 				  	@$GLOBALS['ext_File']->chmod( $abs, $mode );
 				}
 			}
@@ -107,26 +107,27 @@ class ext_Upload extends ext_Action {
 	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	        <h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actupload"] ?></h3>
+	        <h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actupload') ?></h3>
 	        <?php echo '<br />
 	        Maximum File Size = <strong>'. ((get_max_file_size() / 1024) / 1024).' MB</strong><br />
 			Maximum Upload Limit = <strong>'. ((get_max_upload_limit() / 1024) / 1024).' MB</strong><br />';
 			?>
-	        <div id="adminForm">
-	
-	        </div>
+        <div id="adminForm">
+	        <div id="uploadForm"></div>
+	        <div id="transferForm"><h4>Transfer from another Server</h4></div>
+        </div>
 	    </div></div></div>
 	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 	</div>
 	<script type="text/javascript">
 	var simple = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'index3.php',
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>',
 	    fileUpload: true
 	});
 	simple.add(
 		<?php
-		for($i=0;$i<10;$i++) {
+		for($i=0;$i<7;$i++) {
 		    echo "new Ext.form.TextField({
 		        fieldLabel: '{$GLOBALS["messages"]["newname"]}',
 		        name: 'userfile[$i]',
@@ -167,10 +168,65 @@ class ext_Upload extends ext_Action {
 	    });
 	});
 	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
-	simple.render('adminForm');
+	simple.render('uploadForm');
+	
+	var transfer = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>',
+	});
+	transfer.add(
+	<?php
+		for($i=0;$i<7;$i++) {
+		    echo "new Ext.form.TextField({
+		        fieldLabel: '".ext_Lang::msg('newname', true)."',
+		        name: 'userfile[$i]',
+		        width:275
+		    }),";
+		}
+		?>
+		new Ext.form.Checkbox({
+			fieldLabel: '<?php echo ext_Lang::msg('overwrite_files', true ) ?>',
+			name: 'overwrite_files',
+			checked: true
+		})
+	    );
+	
+	transfer.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
+		statusBarMessage( 'Processing Server-to-Server Transfer, please wait...', true );
+	    transfer.submit({
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {
+	        	datastore.reload();
+	        	statusBarMessage( action.result.message, false, true );
+	        	dialog.destroy();
+	        },
+	        failure: function(form, action) {
+	        	if( !action.result ) return;
+	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	statusBarMessage( action.result.error, false, false );
+	        },
+	        scope: transfer,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_extplorer', 
+	        		action: 'transfer', 
+	        		dir: datastore.directory,
+	        		confirm: 'true'
+	        }
+	    });
+	});
+	transfer.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
+	
+	transfer.render('transferForm');
+	
+	var tabs = new Ext.TabPanel("adminForm");
+	tabs.addTab("uploadForm", '<?php echo ext_Lang::msg('actupload', true) ?>');
+	tabs.addTab("transferForm", '<?php echo 'Transfer from another Server'; /*ext_Lang::msg('actchpwd', true)*/ ?>');
+	tabs.activate('uploadForm');
 	</script>
 	<?php
 		
 	}
 }
+
 ?>
