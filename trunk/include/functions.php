@@ -70,8 +70,8 @@ function get_abs_dir($dir) {			// get absolute path
 	}
 	$abs_dir=$GLOBALS["home_dir"];
 	
-	if($dir!="" && !stristr( $dir, $abs_dir )) $abs_dir.="/".$dir;
-	elseif(stristr( $dir, $abs_dir )) $abs_dir = "/".$dir;
+	if($dir!="" && !@stristr( $dir, $abs_dir )) $abs_dir.="/".$dir;
+	elseif(@stristr( $dir, $abs_dir )) $abs_dir = "/".$dir;
 	/*else {
 		$abs_dir = $dir;
 	}*/

@@ -2,9 +2,9 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
-
+- fixed [ 1754755 ] Save button when uploading file not translated
 - fixed the Frontend Browsing part (when being used as a Joomla! component)
-- updated finnish language file
+- updated finnish and french language file
 - updated ExtJS to 1.1 RC1, included Konqueror Patch
 - fixed [ 1752904 ] error on admin dialog opening
 - fixed [ 1752901 ] Combo on Login page doesn't work in IE6 and 7
