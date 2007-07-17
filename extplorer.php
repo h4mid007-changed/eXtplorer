@@ -31,7 +31,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
 */
 
-require( $mosConfig_absolute_path.'/components/com_joomlaxplorer/configuration.jx.php' );
+require( dirname(__FILE__).'/configuration.ext.php' );
 
 if( !$frontend_enabled || empty( $subdir ) || $subdir == '/' || $subdir == '\\' ) {
 	echo _NOT_EXIST;
@@ -42,17 +42,20 @@ $GLOBALS["home_dir"] = $mosConfig_absolute_path . $subdir;
 // the url corresponding with the home directory: (no trailing '/')
 $GLOBALS["home_url"] = $mosConfig_live_site.'/downloads';
 
-require( $mosConfig_absolute_path.'/components/com_joomlaxplorer/joomlaxplorer.init.php');
-include( $mosConfig_absolute_path.'/components/com_joomlaxplorer/joomlaxplorer.list.php');
+require( dirname(__FILE__).'/extplorer.init.php');
+include( dirname(__FILE__).'/extplorer.list.php');
 
 if( !empty($GLOBALS['ERROR'])) {
 	echo '<h2>'.$GLOBALS['ERROR'].'</h2>';
 	return;
 }
-
-$database->setQuery( 'SELECT id, name FROM `#__menu` WHERE link LIKE \'%option=com_joomlaxplorer%\' ORDER BY `id` LIMIT 1');
+if( !is_object( $database )) {
+	$database = JFactory::getDBO();
+}
+$res = new StdClass();
+$database->setQuery( 'SELECT id, name FROM `#__menu` WHERE link LIKE \'%option=com_extplorer%\' ORDER BY `id` LIMIT 1');
 $database->loadObject( $res );
-if( is_object( $res )) {
+if( is_object( $res ) && !empty( $res->name )) {
 	$name = $res->name;
 }
 else {
@@ -62,13 +65,13 @@ else {
 if( $name || $dir ) {
 	$mainframe->setPageTitle( $name.' - '.$dir );
 }
-$action = mosGetParam( $_REQUEST, 'action', 'list');
-$item = mosGetParam( $_REQUEST, 'item', '');
+$action = extGetParam( $_REQUEST, 'action', 'list');
+$item = extGetParam( $_REQUEST, 'item', '');
 
 // Here we allow *download* and *directory listing*, nothing more, nothing less
 switch( $action ) {
 	case 'download':
-		require _JX_PATH . "/include/download.php";
+		require _EXT_PATH . "/include/download.php";
 	  	ext_Download::execAction($dir, $item);
 	  	exit;
 	case 'list':
@@ -80,7 +83,7 @@ switch( $action ) {
 // A small nice footer. Remove if you don't want to give credit to the developer.
 echo '<br style="clear:both;"/>
 	<small>
-	<a class="title" href="'.$GLOBALS['ext_home'].'" target="_blank">powered by joomlaXplorer</a>
+	<a class="title" href="'.$GLOBALS['ext_home'].'" target="_blank">powered by eXtplorer</a>
 	</small>
 	';
 	
