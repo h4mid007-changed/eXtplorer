@@ -1,6 +1,6 @@
 <?php
 /* Password: Make the pass phrase at least 6 characters long */
-$passPhrase = "blabla";
+$passPhrase = '';
 
 /*
 * eXtplorer - a web based file manager
