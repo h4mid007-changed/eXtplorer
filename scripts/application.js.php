@@ -408,20 +408,20 @@ function ext_init(){
         pageSize: 50,
         displayInfo: true,
         displayMsg: '<?php echo ext_Lang::msg( 'paging_info', true ) ?>',
-        emptyMsg: '<?php echo ext_Lang::msg( 'paging_noitems', true ) ?>'
+        emptyMsg: '<?php echo ext_Lang::msg( 'paging_noitems', true ) ?>',
+        beforePageText: '<?php echo ext_Lang::msg('paging_page', true ) ?>',
+		afterPageText: '<?php echo ext_Lang::msg('paging_of_X', true ) ?>',
+		firstText: '<?php echo ext_Lang::msg('paging_firstpage', true ) ?>',
+		lastText: '<?php echo ext_Lang::msg('paging_lastpage', true ) ?>',
+		nextText: '<?php echo ext_Lang::msg('paging_nextpage', true ) ?>',
+		prevText: '<?php echo ext_Lang::msg('paging_prevpage', true ) ?>',
+		refreshText: '<?php echo ext_Lang::msg('reloadlink', true ) ?>'
     });
-	paging.afterPageText = '<?php echo ext_Lang::msg('paging_of_X', true ) ?>';
-	paging.beforePageText = '<?php echo ext_Lang::msg('paging_page', true ) ?>';
-	paging.firstText = '<?php echo ext_Lang::msg('paging_firstpage', true ) ?>';
-	paging.lastText = '<?php echo ext_Lang::msg('paging_lastpage', true ) ?>';
-	paging.nextText = '<?php echo ext_Lang::msg('paging_nextpage', true ) ?>';
-	paging.prevText = '<?php echo ext_Lang::msg('paging_prevpage', true ) ?>';
-	paging.refreshText = '<?php echo ext_Lang::msg('reloadlink', true ) ?>';
 
 	// initialize the statusbar
     statusPanel = Ext.get('ext_statusbar');
     statusPanel.addClass('done');
-    statusPanel.update('Done.');
+    statusPanel.update('<?php echo ext_Lang::msg('done', true ) ?>');
     paging.add('-', ' ', ' ', ' ', ' ', ' ');
     paging.addElement( statusPanel );
     

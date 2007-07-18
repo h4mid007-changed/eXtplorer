@@ -69,7 +69,7 @@ class ext_Edit extends ext_Action {
 			$this->savefile($fname2);
 			$fname=$fname2;
 			
-			ext_Result::sendResult('edit', true, 'The File '.$item.' was saved.');
+			ext_Result::sendResult('edit', true, ext_Lang::msg('savefile').': '.$item );
 			
 		}
 		
@@ -171,7 +171,7 @@ class ext_Edit extends ext_Action {
 		})
 	);
 	simple.addButton('<?php echo ext_Lang::msg('btnsave', true ) ?>', function() {
-		statusBarMessage( 'Saving File...', true );
+		statusBarMessage( <?php echo ext_Lang::msg('save_processing', true ) ?>, true );
 	    simple.submit({
 	        //waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
@@ -185,7 +185,7 @@ class ext_Edit extends ext_Action {
 	        },
 	        failure: function(form, action) {
 	        	statusBarMessage( action.result.error, false, false );
-	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
 	        },
 	        scope: simple,
 	        // add some vars to the request, similar to hidden fields

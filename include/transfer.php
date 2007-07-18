@@ -76,13 +76,13 @@ class ext_Transfer extends ext_Action {
 
 				// Upload
 				$ok = $downloader->download($GLOBALS['__POST']['userfile'][$i], $abs);
-				if($ok===false ) {
-					$errors[$i]=$GLOBALS["error_msg"]["uploadfile"];
-					$err=true;	continue;
-				}
-				else {
+				if($ok===true ) {
 					$mode = ext_isFTPMode() ? 644 : 0644;
 					@$GLOBALS['ext_File']->chmod( $abs, $mode );
+				}
+				else {
+					$errors[$i]=$ok;
+					$err=true;	continue;
 				}
 			}
 
@@ -95,7 +95,7 @@ class ext_Transfer extends ext_Action {
 				ext_Result::sendResult('transfer', false, $err_msg);
 			}
 
-			ext_Result::sendResult('transfer', true, 'Transfer completed!');
+			ext_Result::sendResult('transfer', true, ext_Lang::msg('transfer_completed'));
 			return;
 		}
 	}
@@ -147,11 +147,11 @@ class FopenDownloader extends DownloadMethod {
 
 		@set_time_limit( 900 );
 
-		$fh = fopen($url, 'rb');
+		$fh = @fopen($url, 'rb');
 		if (empty($fh)) {
 			return 'Unable to open url';
 		}
-		$ofh = fopen($outputFile, 'wb');
+		$ofh = @fopen($outputFile, 'wb');
 		if (!$ofh) {
 			fclose($fh);
 			return 'Unable to open output file in writing mode';

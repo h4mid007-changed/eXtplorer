@@ -52,15 +52,15 @@ class ext_Archive extends ext_Action {
 		if(extGetParam($_POST, 'confirm' ) == 'true' ) {
 			$saveToDir = $GLOBALS['__POST']['saveToDir'];
 			if( !file_exists( get_abs_dir($saveToDir ) )) {
-				ext_Result::sendResult('archive', false, 'The Save-To Directory you have specified does not exist.');
+				ext_Result::sendResult('archive', false, ext_Lang::err('archive_dir_notexists'));
 			}
 			if( !is_writable( get_abs_dir($saveToDir ) )) {
-				ext_Result::sendResult('archive', false, 'Please specify a writable directory to save the archive to.');
+				ext_Result::sendResult('archive', false, ext_Lang::err('archive_dir_unwritable'));
 			}
 			require_once( _EXT_PATH .'/libraries/Archive.php' );
 
 			if( !in_array(strtolower( $GLOBALS['__POST']["type"] ), $allowed_types )) {
-				ext_Result::sendResult('archive', false, 'Unknown Archive Format: '.htmlspecialchars($GLOBALS['__POST']["type"]));
+				ext_Result::sendResult('archive', false, ext_Lang::err('extract_unknowntype').': '.htmlspecialchars($GLOBALS['__POST']["type"]));
 
 			}
 
@@ -128,7 +128,7 @@ class ext_Archive extends ext_Action {
 			$result = File_Archive::extract( $filelist, $archive_name );
 
 			if( PEAR::isError( $result ) ) {
-				ext_Result::sendResult('archive', false, $name.": Failed saving Archive File. Error: ".$result->getMessage() );
+				ext_Result::sendResult('archive', false, $name.': '.ext_Lang::err('archive_creation_failed').' ('.$result->getMessage().')' );
 			}
 			$json = new Services_JSON();
 			if( $cnt_filelist > $startfrom+$files_per_step ) {
@@ -136,7 +136,7 @@ class ext_Archive extends ext_Action {
 				$response = Array( 'startfrom' => $startfrom + $files_per_step,
 				'success' => true,
 				'action' => 'archive',
-				'message' => sprintf( $GLOBALS['messages']['processed_x_files'], $startfrom + $files_per_step, $cnt_filelist )
+				'message' => sprintf( ext_Lang::msg('processed_x_files'), $startfrom + $files_per_step, $cnt_filelist )
 				);
 			}
 			else {
@@ -146,7 +146,7 @@ class ext_Archive extends ext_Action {
 				}
 				$response = Array( 'action' => 'archive',
 				'success' => true,
-				'message' => 'The Archive File has been created!',
+				'message' => ext_Lang::msg('archive_created'),
 				'newlocation' => make_link( 'download', $dir, basename($archive_name) )
 				);
 
@@ -251,7 +251,7 @@ class ext_Archive extends ext_Action {
 						dialog.hide();
 						dialog.destroy();
 					} else {
-						Ext.MessageBox.alert('Success!', action.result.message);
+						Ext.MessageBox.alert('<?php echo ext_Lang::msg('success', true) ?>!', action.result.message);
 						datastore.reload();
 						dialog.hide();
 						dialog.destroy();
@@ -261,7 +261,7 @@ class ext_Archive extends ext_Action {
 			},
 			failure: function(form, action) {
 				if( action.result ) {
-					Ext.MessageBox.alert('Error!', action.result.error);
+					Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>', action.result.error);
 				}
 			},
 			scope: form,

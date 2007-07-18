@@ -87,7 +87,7 @@ if( defined( '_LOGIN_REQUIRED')) return;
 
 // Empty the output buffer if this is a XMLHttpRequest
 if( ext_isXHR() ) {
-	//error_reporting(0);
+	error_reporting(0);
 	while( @ob_end_clean() );
 }
 

@@ -2,6 +2,9 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
+
+- added Server-to-Server transfer capabilities (using fopen, cURL or fsockopen)
+- fixed [#6092] Some strings remained hardcoded
 - fixed [ 1754755 ] Save button when uploading file not translated
 - fixed the Frontend Browsing part (when being used as a Joomla! component)
 - updated finnish and french language file

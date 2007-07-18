@@ -71,7 +71,7 @@ class ext_ftp_authentication {
 				
 				session_write_close();
 				
-				ext_Result::sendResult('ftp_authentication', true, 'Login OK!' );
+				ext_Result::sendResult('ftp_authentication', true, ext_Lang::msg('actlogin_success') );
 			}
 			
 		}
@@ -118,7 +118,7 @@ class ext_ftp_authentication {
 	    })
 	    );
 	
-	simple.addButton('Save', function() {
+	simple.addButton('<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', function() {
 		statusBarMessage( '<?php echo ext_Lang::msg('ftp_login_check', true ) ?>', true );
 	    simple.submit({
 	        //reset: true,
@@ -126,7 +126,7 @@ class ext_ftp_authentication {
 	        success: function(form, action) { location.reload() },
 	        failure: function(form, action) {
 	        	if( !action.result ) return;
-	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
 	        	statusBarMessage( action.result.error, false, false );
 	        },
 	        scope: simple,

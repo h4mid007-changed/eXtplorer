@@ -70,7 +70,7 @@ class ext_Chmod extends ext_Action {
 				}
 			}
 			if( $bin == '0') { // Changing permissions to "none" is not allowed
-				ext_Result::sendResult('chmod', false, $item.": Changing Permissions to <none> is not allowed");
+				ext_Result::sendResult('chmod', false, $item.": ".ext_Lang::err('chmod_none_not_allowed'));
 			}
 			$old_bin = $bin;
 			for($i=0;$i<$cnt;++$i) {
@@ -116,7 +116,7 @@ class ext_Chmod extends ext_Action {
 			if($ok===false || PEAR::isError( $ok ) ) {
 				ext_Result::sendResult('chmod', false, $abs_item.": ".$GLOBALS["error_msg"]["permchange"]);
 			}
-			ext_Result::sendResult('chmod', true, 'Permissions were changed' );
+			ext_Result::sendResult('chmod', true, ext_Lang::msg('permchange') );
 			return;
 		}
 		if( ext_isFTPMode() ) {
@@ -140,7 +140,7 @@ class ext_Chmod extends ext_Action {
 	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
-	        <h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actperms"] ?></h3>
+	        <h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actperms') ?></h3>
 	        <?php echo $text ?>
 	        <div id="adminForm">
 	
@@ -188,7 +188,7 @@ class ext_Chmod extends ext_Action {
 	form.end();
 	
 	form.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
-		statusBarMessage( 'Applying Permissions, please wait...', true );
+		statusBarMessage( '<?php echo ext_Lang::msg( 'permissions_processing', true ) ?>', true );
 	    form.submit({
 	        //reset: true,
 	        reset: false,
@@ -200,7 +200,7 @@ class ext_Chmod extends ext_Action {
 	        },
 	        failure: function(form, action) {
 	        	statusBarMessage( action.result.error, false, false );
-	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
 	        },
 	        scope: form,
 	        // add some vars to the request, similar to hidden fields
