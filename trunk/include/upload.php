@@ -129,7 +129,7 @@ class ext_Upload extends ext_Action {
 		<?php
 		for($i=0;$i<7;$i++) {
 		    echo "new Ext.form.TextField({
-		        fieldLabel: '{$GLOBALS["messages"]["newname"]}',
+		        fieldLabel: '".ext_Lang::msg('file', true ).' '.($i+1)."',
 		        name: 'userfile[$i]',
 		        width:275,
 		        inputType: 'file'
@@ -137,7 +137,7 @@ class ext_Upload extends ext_Action {
 		}
 		?>
 		new Ext.form.Checkbox({
-			fieldLabel: '<?php echo $GLOBALS["messages"]["overwrite_files"] ?>',
+			fieldLabel: '<?php echo ext_Lang::msg('overwrite_files', true ) ?>',
 			name: 'overwrite_files',
 			checked: true
 		})
@@ -178,7 +178,7 @@ class ext_Upload extends ext_Action {
 	<?php
 		for($i=0;$i<7;$i++) {
 		    echo "new Ext.form.TextField({
-		        fieldLabel: '".ext_Lang::msg('newname', true)."',
+		        fieldLabel: '".ext_Lang::msg('url_to_file', true )."',
 		        name: 'userfile[$i]',
 		        width:275
 		    }),";

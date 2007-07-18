@@ -315,6 +315,8 @@ $GLOBALS["messages"] = array(
 	'save_processing' => 'Saving File...',
 	'current_user' => 'This script currently runs with the permissions of the following user:',
 	'your_version' => 'Your Version',
-	'search_processing' => 'Searching, please wait...'
+	'search_processing' => 'Searching, please wait...',
+	'url_to_file' => 'URL of the File',
+	'file' => 'File'
 );
 ?>

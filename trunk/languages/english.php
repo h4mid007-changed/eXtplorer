@@ -127,7 +127,7 @@ $GLOBALS["messages"] = array(
 	
 	// user messages, new in joomlaXplorer 1.3.0
 	'renamelink'	=> 'Rename',
-	'confirm_delete_file' => 'Are you sure you want to delete this file? \\n%s',
+	'confirm_delete_file' => 'Are you sure you want to delete this file? <br />%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',
 	'success_rename_file' => 'The directory/file %s was successfully renamed to %s.',
 	
@@ -213,7 +213,7 @@ $GLOBALS["messages"] = array(
 	'sidirpermsmess'	=> 'To be shure that all functions and features of eXtplorer are working correct, following folders should have permission to write [chmod 0777]',
 	'sionoff'			=> array( 'On', 'Off' ),
 	
-	'extract_warning' => "Do you really want to extract this file? Here?\\nThis will overwrite existing files when not used carefully!",
+	'extract_warning' => "Do you really want to extract this file? Here?<br />This will overwrite existing files when not used carefully!",
 	'extract_success' => "Extraction was successful",
 	'extract_failure' => "Extraction failed",
 	
@@ -317,7 +317,9 @@ $GLOBALS["messages"] = array(
 	'save_processing' => 'Saving File...',
 	'current_user' => 'This script currently runs with the permissions of the following user:',
 	'your_version' => 'Your Version',
-	'search_processing' => 'Searching, please wait...'
+	'search_processing' => 'Searching, please wait...',
+	'url_to_file' => 'URL of the File',
+	'file' => 'File'
 	
 );
 ?>
