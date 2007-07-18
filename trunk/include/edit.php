@@ -171,7 +171,7 @@ class ext_Edit extends ext_Action {
 		})
 	);
 	simple.addButton('<?php echo ext_Lang::msg('btnsave', true ) ?>', function() {
-		statusBarMessage( <?php echo ext_Lang::msg('save_processing', true ) ?>, true );
+		statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
 	    simple.submit({
 	        //waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
@@ -202,7 +202,9 @@ class ext_Edit extends ext_Action {
 	simple.addButton('<?php echo ext_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 	simple.findField('code').setValue(simple.findField( 'code').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
-	CodePress.run();
+	if( !Ext.isSafari ) {
+		CodePress.run();
+	}
 	//Ext.get('positionIndicator').setVisibilityMode(Element.DISPLAY);
 	//Ext.get('positionIndicator').setDisplayed('none');
 	Ext.get('positionIndicator').hide();

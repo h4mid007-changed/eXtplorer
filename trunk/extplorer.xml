@@ -21,7 +21,7 @@
 	  <strong>By default restricted to Superadministrators!</strong>
 	]]></description>
     <files><!-- Frontend Files! -->
-        <filename>configuration.jx.php</filename>
+        <filename>configuration.ext.php</filename>
         <filename>extplorer.php</filename>
         <filename>extplorer.init.php</filename>
         <filename>extplorer.list.php</filename>

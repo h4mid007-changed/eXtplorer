@@ -13,7 +13,7 @@
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
-define( '_MOS_MAMBO_INCLUDED', 1 );
+define( 'EXT_STANDALONE', 1 );
 
 if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 	error_reporting(E_ALL);
