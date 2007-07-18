@@ -310,6 +310,8 @@ $GLOBALS["messages"] = array(
 	'save_processing' => 'Datei wird gespeichert...',
 	'current_user' => 'Diese Anwendung l&auml;ft gegenw&auml;rtig mit den Rechten des folgenden Nutzers:',
 	'your_version' => 'Ihre Version',
-	'search_processing' => 'Suche l&auml;ft, bitte warten Sie...'
+	'search_processing' => 'Suche l&auml;ft, bitte warten Sie...',
+	'url_to_file' => 'Adresse der Datei',
+	'file' => 'Datei'
 );
 ?>

@@ -38,12 +38,37 @@ Installation into Joomla!/Mambo:
   You can now access eXtplorer through "Components" => "eXtplorer"
 
 
+License:
+--------------------
+The software is dual-licensed and subject to the 
+	- Mozilla Public License Version 1.1 (the "License") 
+	or 
+	- to the terms of the GNU General Public License Version 2 or later (the "GPL"); 
+	
+You may not use this software except in compliance with one of these Licenses. 
+
+You may obtain a copy of the Mozilla Public License at http://www.mozilla.org/MPL/.
+You may obtain a copy of the GNU General Public License at http://www.gnu.org/copyleft/gpl.html.
+
+Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+License for the specific language governing rights and limitations under the License.
+
+Alternatively, the software may be used under the terms of the GNU General Public License Version 2 or later (the "GPL"), in
+which case the provisions of the GPL are applicable instead of those above. If you wish to allow use of your version of this software only
+under the terms of the GPL and not to allow others to use your version of this file under the MPL, indicate your decision by
+deleting  the provisions above and replace  them with the notice and other provisions required by the GPL.  If you do not delete
+the provisions above, a recipient may use your version of this software under either the MPL or the GPL.
+
+
 Credits:
 --------------------
 eXtplorer is based on QuiXplorer 2.3.1 (available at http://quixplorer.sourceforge.net/).
 
 eXtplorer makes use of the fabulous ExtJS Javascript Library by Jack Slocum, Ext JS, LCC (http://extjs.com/), and that does indeed explain
-the name eXtplorer.
+the name eXtplorer. 
+Please note that ExtJS is released under the terms of the Lesser General Public license (LPGL). Because the MPL and
+the LGPL are not compliant to each other, you are not allowed to use the ExtJS library in eXtplorer if you decide to use and/or distribute eXtplorer
+under the terms of the MPL.
 
 
 ----------------------------------------------------------------------------------------------------
