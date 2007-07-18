@@ -4,58 +4,58 @@
 
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
-	"dir"	=> "Könyvtár",
-	"exe"	=> "Futtatható fájl",
-	"file"	=> "Fájl",
-	"symlink"	=> "Symbolic Link",
+	"dir"	=> "KÃ¶nyvtÃ¡r",
+	"exe"	=> "FuttathatÃ³ fÃ¡jl",
+	"file"	=> "FÃ¡jl",
+	"symlink"	=> "Szimbolikus hivatkozÃ¡s",
 
 	// text
-	"text"	=> "Szövegfájl",
+	"text"	=> "SzÃ¶vegfÃ¡jl",
 	
 	// programming
-	"php"	=> "PHP parancsfájl",
-	"sql"	=> "SQL fájl",
-	"perl"	=> "PERL parancsfájl",
-	"html"	=> "HTML fájl",
-	"js"	=> "Javascript fájl",
-	"css"	=> "CSS fájl",
-	"cgi"	=> "CGI parancsfájl",
+	"php"	=> "PHP parancsfÃ¡jl",
+	"sql"	=> "SQL fÃ¡jl",
+	"perl"	=> "PERL parancsfÃ¡jl",
+	"html"	=> "HTML fÃ¡jl",
+	"js"	=> "Javascript fÃ¡jl",
+	"css"	=> "CSS fÃ¡jl",
+	"cgi"	=> "CGI parancsfÃ¡jl",
 	// C++
-	"cpps"	=> "C++ forrásfájl",
-	"cpph"	=> "C++ fejlécfájl",
+	"cpps"	=> "C++ forrÃ¡sfÃ¡jl",
+	"cpph"	=> "C++ fejlÃ©cfÃ¡jl",
 	// Java
-	"javas"	=> "Java forrás fájl",
-	"javac"	=> "Java osztály fájl",
+	"javas"	=> "Java forrÃ¡sfÃ¡jl",
+	"javac"	=> "Java osztÃ¡lyfÃ¡jl",
 	// Pascal
-	"pas"	=> "Pascal fájl",
+	"pas"	=> "Pascal fÃ¡jl",
 	
 	// images
-	"gif"	=> "GIF kép",
-	"jpg"	=> "JPG kép",
-	"bmp"	=> "BMP kép",
-	"png"	=> "PNG kép",
+	"gif"	=> "GIF kÃ©p",
+	"jpg"	=> "JPG kÃ©p",
+	"bmp"	=> "BMP kÃ©p",
+	"png"	=> "PNG kÃ©p",
 	
 	// compressed
-	"zip"	=> "ZIP archívum",
-	"tar"	=> "TAR archívum",
-	"gzip"	=> "GZIP archívum",
-	"bzip2"	=> "BZIP2 archívum",
-	"rar"	=> "RAR archívum",
+	"zip"	=> "ZIP archÃ­vum",
+	"tar"	=> "TAR archÃ­vum",
+	"gzip"	=> "GZIP archÃ­vum",
+	"bzip2"	=> "BZIP2 archÃ­vum",
+	"rar"	=> "RAR archÃ­vum",
 	
 	// music
-	"mp3"	=> "MP3 hangfájl",
-	"wav"	=> "WAV hangfájl",
+	"mp3"	=> "MP3 hangfÃ¡jl",
+	"wav"	=> "WAV hangfÃ¡jl",
 	"midi"	=> "MIDI-szekvencia",
-	"real"	=> "RealAudio hangfájl",
+	"real"	=> "RealAudio hangfÃ¡jl",
 	
 	// movie
-	"mpg"	=> "MPG videofájl",
-	"mov"	=> "Movie fájl",
-	"avi"	=> "AVI videofájl",
-	"flash"	=> "Flash-animáció",
+	"mpg"	=> "MPG videofÃ¡jl",
+	"mov"	=> "Movie fÃ¡jl",
+	"avi"	=> "AVI videofÃ¡jl",
+	"flash"	=> "Flash-animÃ¡ciÃ³",
 	
 	// Micosoft / Adobe
 	"word"	=> "Word dokumentum",
-	"excel"	=> "Excel fájl",
+	"excel"	=> "Excel fÃ¡jl",
 	"pdf"	=> "PDF dokumentum"
 ); ?>

@@ -98,7 +98,7 @@ class ext_Upload extends ext_Action {
 				ext_Result::sendResult('upload', false, $err_msg);
 			}
 			
-			ext_Result::sendResult('upload', true, 'Upload successful!');
+			ext_Result::sendResult('upload', true, ext_Lang::msg('upload_completed'));
 			return;
 		}
 		
@@ -109,12 +109,12 @@ class ext_Upload extends ext_Action {
 	
 	        <h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actupload') ?></h3>
 	        <?php echo '<br />
-	        Maximum File Size = <strong>'. ((get_max_file_size() / 1024) / 1024).' MB</strong><br />
-			Maximum Upload Limit = <strong>'. ((get_max_upload_limit() / 1024) / 1024).' MB</strong><br />';
+	         '.ext_Lang::msg('max_file_size').' = <strong>'. ((get_max_file_size() / 1024) / 1024).' MB</strong><br />
+			 '.ext_Lang::msg('max_post_size').' = <strong>'. ((get_max_upload_limit() / 1024) / 1024).' MB</strong><br />';
 			?>
         <div id="adminForm">
 	        <div id="uploadForm"></div>
-	        <div id="transferForm"><h4>Transfer from another Server</h4></div>
+	        <div id="transferForm"><h4><?php echo ext_Lang::msg('acttransfer') ?></h4></div>
         </div>
 	    </div></div></div>
 	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
@@ -144,7 +144,7 @@ class ext_Upload extends ext_Action {
 	    );
 	
 	simple.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
-		statusBarMessage( 'Processing Upload, please wait...', true );
+		statusBarMessage( '<?php echo ext_Lang::msg( 'upload_processing', true ) ?>', true );
 	    simple.submit({
 	        //reset: true,
 	        reset: false,
@@ -155,7 +155,7 @@ class ext_Upload extends ext_Action {
 	        },
 	        failure: function(form, action) {
 	        	if( !action.result ) return;
-	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
 	        	statusBarMessage( action.result.error, false, false );
 	        },
 	        scope: simple,
@@ -192,7 +192,7 @@ class ext_Upload extends ext_Action {
 	    );
 	
 	transfer.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
-		statusBarMessage( 'Processing Server-to-Server Transfer, please wait...', true );
+		statusBarMessage( '<?php echo ext_Lang::msg( 'transfer_processing', true ) ?>', true );
 	    transfer.submit({
 	        //reset: true,
 	        reset: false,
@@ -203,7 +203,7 @@ class ext_Upload extends ext_Action {
 	        },
 	        failure: function(form, action) {
 	        	if( !action.result ) return;
-	        	Ext.MessageBox.alert('Error!', action.result.error);
+	        	Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
 	        	statusBarMessage( action.result.error, false, false );
 	        },
 	        scope: transfer,
@@ -221,7 +221,7 @@ class ext_Upload extends ext_Action {
 	
 	var tabs = new Ext.TabPanel("adminForm");
 	tabs.addTab("uploadForm", '<?php echo ext_Lang::msg('actupload', true) ?>');
-	tabs.addTab("transferForm", '<?php echo 'Transfer from another Server'; /*ext_Lang::msg('actchpwd', true)*/ ?>');
+	tabs.addTab("transferForm", '<?php echo ext_Lang::msg('acttransfer', true) ?>');
 	tabs.activate('uploadForm');
 	</script>
 	<?php

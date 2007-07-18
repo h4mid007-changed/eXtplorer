@@ -161,13 +161,13 @@ function search_items($dir) {			// search for item
 	);
 	form.addButton(\''.ext_Lang::msg( 'btnsearch', true ).'\', function() {
 	    form.submit({
-	        waitMsg: \'Searching, please wait...\',
+	        waitMsg: \''.ext_Lang::msg('search_processing', true ).'\',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {
 	    		dialog_panel.setContent( action.result.message );
 	        },
-	        failure: function(form, action) {Ext.MessageBox.alert(\'Error!\', action.result.error);},
+	        failure: function(form, action) {Ext.MessageBox.alert(\''.ext_Lang::err('error').'!\', action.result.error);},
 	        scope: form,
 	        // add some vars to the request, similar to hidden fields
 	        params: {

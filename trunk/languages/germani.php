@@ -69,7 +69,12 @@ $GLOBALS["error_msg"] = array(
 	"miscuserexist"		=> "Der Benutzer existiert bereits.",
 	"miscnofinduser"	=> "Kann Benutzer nicht finden.",
 	"extract_noarchive" 	=> "Dieses Datei ist leider kein Archiv.",
-	"extract_unknowntype" 	=> "unbekannter Archivtyp!"
+	"extract_unknowntype" 	=> "Archivtyp unbekannt",
+	
+	'chmod_none_not_allowed' => 'Dateirechte k&ouml;nnen nicht leer sein!',
+	'archive_dir_notexists' => 'Das Verzeichnis zum Speichern des Archivs existiert nicht.',
+	'archive_dir_unwritable' => 'Bitte geben Sie ein beschreibbares Verzeichnis an!',
+	'archive_creation_failed' => 'Speichern des Archivs fehlgeschlagen'
 );
 $GLOBALS["messages"] = array(
 	// links
@@ -282,7 +287,7 @@ $GLOBALS["messages"] = array(
 	'paging_page' => 'Seite',
 	'paging_of_X' => 'von {0}',
 	'paging_firstpage' => 'Erste Seite',
-	'paging_lastpage' => 'Letzt Seite',
+	'paging_lastpage' => 'Letzte Seite',
 	'paging_nextpage' => 'N&auml;chste Seite',
 	'paging_prevpage' => 'Vorherige Seite',
 	'paging_info' => 'Zeige Eintr&auml;ge {0} - {1} von {2}',
@@ -293,6 +298,18 @@ $GLOBALS["messages"] = array(
 	'change_password_success' => 'Dein Passwort wurde ge&auml;ndert!',
 	'success' => 'Erfolg',
 	'failure' => 'Fehlgeschlagen',
-	'dialog_title' => 'Webseiten-Dialog'
+	'dialog_title' => 'Webseiten-Dialog',
+	'acttransfer' => '&Uuml;bertragen von einem anderen Server',
+	'transfer_processing' => '&Uuml;bertragung ist im Gange, bitte warten Sie...',
+	'transfer_completed' => '&Uuml;bertragung vollst&auml;ndig!',
+	'max_file_size' => 'Maximale Dateigr&ouml;&szlig;e',
+	'max_post_size' => 'Maximale Upload-Gr&ouml;&szlig;e',
+	'done' => 'Fertig.',
+	'permissions_processing' => 'Rechte werden angepasst, bitte warten Sie...',
+	'archive_created' => 'Das Archiv wurde erstellt!',
+	'save_processing' => 'Datei wird gespeichert...',
+	'current_user' => 'Diese Anwendung l&auml;ft gegenw&auml;rtig mit den Rechten des folgenden Nutzers:',
+	'your_version' => 'Ihre Version',
+	'search_processing' => 'Suche l&auml;ft, bitte warten Sie...'
 );
 ?>

@@ -69,7 +69,12 @@ $GLOBALS["error_msg"] = array(
 	"miscuserexist"		=> "Ο χρήστης υπάρχει ήδη.",
 	"miscnofinduser"	=> "Ο χρήστης δέν μπορεί να βρεθεί.",
 	"extract_noarchive" => "The File is no extractable Archive.",
-	"extract_unknowntype" => "Unknown Archive Type"
+	"extract_unknowntype" => "Unknown Archive Type",
+	
+	'chmod_none_not_allowed' => 'Changing Permissions to <none> is not allowed',
+	'archive_dir_notexists' => 'The Save-To Directory you have specified does not exist.',
+	'archive_dir_unwritable' => 'Please specify a writable directory to save the archive to.',
+	'archive_creation_failed' => 'Failed saving the Archive File'
 );
 $GLOBALS["messages"] = array(
 	// links
@@ -90,7 +95,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'Change (chmod) Rights (Folder/File(s))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Go to the joomlaXplorer Website (new window)', // new mic
+	'logolink'		=> 'Go to the eXtplorer Website (new window)', // new mic
 	
 	// list
 	"nameheader"		=> "Όνομα",
@@ -296,6 +301,20 @@ $GLOBALS["messages"] = array(
 	'change_password_success' => 'Your Password has been changed!',
 	'success' => 'Success',
 	'failure' => 'Failure',
-	'dialog_title' => 'Website Dialog'
+	'dialog_title' => 'Website Dialog',
+	'upload_processing' => 'Processing Upload, please wait...',
+	'upload_completed' => 'Upload successful!',
+	'acttransfer' => 'Transfer from another Server',
+	'transfer_processing' => 'Processing Server-to-Server Transfer, please wait...',
+	'transfer_completed' => 'Transfer completed!',
+	'max_file_size' => 'Maximum File Size',
+	'max_post_size' => 'Maximum Upload Limit',
+	'done' => 'Done.',
+	'permissions_processing' => 'Applying Permissions, please wait...',
+	'archive_created' => 'The Archive File has been created!',
+	'save_processing' => 'Saving File...',
+	'current_user' => 'This script currently runs with the permissions of the following user:',
+	'your_version' => 'Your Version',
+	'search_processing' => 'Searching, please wait...'
 );
 ?>
