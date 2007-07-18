@@ -3,6 +3,7 @@ Changelog for eXtplorer
 Version $Id: $
 ****************************
 
+- fixed header-only problems on Mambo/Joomla! < 1.0.10
 - added Server-to-Server transfer capabilities (using fopen, cURL or fsockopen)
 - fixed [#6092] Some strings remained hardcoded
 - fixed [ 1754755 ] Save button when uploading file not translated
