@@ -321,7 +321,7 @@ function print_table($dir, $list, $allow) {	// print table of files
 			// Extract Link
 			if( jx_isArchive( $item ) && !jx_isFTPMode() ) {
 			  echo "<a ";
-			  echo "onclick=\"javascript: ClearAll(); getElementById('item_$i').checked = true; if( confirm('". ($GLOBALS["messages"]["extract_warning"]) ."') ) { document.selform.do_action.value='extract'; document.selform.submit(); } else {  getElementById('item_$i').checked = false; return false;}\" ";
+			  echo "onclick=\"javascript: ClearAll();if( confirm('". ($GLOBALS["messages"]["extract_warning"]) ."') ) { return true } else { return false;}\" ";
 			  echo "href=\"".make_link("extract",$dir,$item)."\" title=\"".$GLOBALS["messages"]["extractlink"]."\">";
 			  echo "<img border=\"0\" width=\"22\" height=\"20\" ";
 			  echo "src=\""._QUIXPLORER_URL."/images/_extract.png\" alt=\"".$GLOBALS["messages"]["extractlink"];

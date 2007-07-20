@@ -1,6 +1,7 @@
 <?php
-
-// English Mimes Module for v2.3 (translated by Jarmo Keränen)
+// version 1.6.1 by Markku Suominen, dated 13.7.2007
+/// admin@joomlaportal.fi
+// Finnish  Mimes Module for v2.3 (translated by Jarmo Keränen)
 // Modified by by Markku Suominen 10.11.2005, admin@joomlaportal.fi
 // Finnish Joomla translation team, http://www.joomlaportal.fi, 
 
@@ -9,7 +10,7 @@ $GLOBALS["mimes"]=array(
 	"dir"	=> "Hakemisto",
 	"exe"	=> "Suoritettava tiedosto",
 	"Tiedosto"	=> "Tiedosto",
-	"symlink"	=> "Symbolic Link",
+	"symlink"	=> "Symbolinen linkki",
 
 	// text
 	"text"	=> "Tekstitiedosto",
@@ -17,7 +18,7 @@ $GLOBALS["mimes"]=array(
 	// programming
 	"php"	=> "PHP-skripti",
 	"sql"	=> "SQL-tiedosto",
-	"perl"	=> "PERL-sSkripti",
+	"perl"	=> "PERL-skripti",
 	"html"	=> "HTML-sivu",
 	"js"	=> "JavaScript-tiedosto",
 	"css"	=> "CSS-tiedosto",

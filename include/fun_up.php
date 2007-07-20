@@ -84,9 +84,8 @@ function upload_items($dir) {		// upload file
 				if( PEAR::isError( $ok ) ) $errors[$i].= ' ['.$ok->getMessage().']';
 				$err=true;	continue;
 			}
-			else {
-				$mode = jx_isFTPMode() ? 644 : 0644;
-			  	@$GLOBALS['jx_File']->chmod( $abs, $mode );
+			elseif( !jx_isFTPMode()  ) {
+				@$GLOBALS['jx_File']->chmod( $abs, 0644 );
 			}
 		}
 		
