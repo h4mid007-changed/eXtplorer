@@ -67,7 +67,9 @@ class extMainFrame {
 	*/
 	function extMainFrame() {
 		session_name( 'eXtplorer' );
-		
+		if( !is_writable(ini_get('session.save_path'))) {
+			ini_set('session.save_path', realpath( dirname( __FILE__ ).'/../ftp_tmp') );
+		}
 		session_start();
 		if( !isset( $_SESSION['_userstate'])) {
 			$_SESSION['_userstate'] = array();

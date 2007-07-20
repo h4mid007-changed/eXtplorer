@@ -151,7 +151,7 @@ if( class_exists(strtolower($classname))) {
 	  // DEFAULT: LIST FILES & DIRS
 	  case "getdircontents":
 	  		require_once _EXT_PATH . "/include/list.php";
-	  		$requestedDir = stripslashes(str_replace( '_RRR_', $GLOBALS['separator'], extGetParam( $_REQUEST, 'node' )));
+	  		$requestedDir = stripslashes(str_replace( '_RRR_', '/', extGetParam( $_REQUEST, 'node' )));
 	  		if( empty($requestedDir) || $requestedDir == 'ext_root') {
 	  			$requestedDir = $dir;
 	  		}

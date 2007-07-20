@@ -3,6 +3,10 @@ Changelog for eXtplorer
 Version $Id: $
 ****************************
 
+- implemented some changes for compatibility on Windows Systems with IIS running
+
+--- version 2.0.0 beta4 released ----
+
 - fixed header-only problems on Mambo/Joomla! < 1.0.10
 - added Server-to-Server transfer capabilities (using fopen, cURL or fsockopen)
 - fixed [#6092] Some strings remained hardcoded

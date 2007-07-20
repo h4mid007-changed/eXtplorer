@@ -64,8 +64,8 @@ else {
 	else {
 	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = false;
 	}
-	$GLOBALS["separator"] = "/";
 	
+	ini_set( 'track_errors', '1' );
 	
 // the filename of the eXtplorer script: (you rarely need to change this)
 if($_SERVER['SERVER_PORT'] == 443 ) {
@@ -77,11 +77,11 @@ else {
 	$GLOBALS['home_url'] = "http://".$GLOBALS['__SERVER']['HTTP_HOST'].'/'.dirname($GLOBALS['__SERVER']["PHP_SELF"]);
 }
 $GLOBALS['home_url'] = str_replace( '/administrator', '', $GLOBALS['home_url'] );
-$GLOBALS['home_dir'] = str_replace( '\\', '/', $_SERVER['DOCUMENT_ROOT'] );
+$GLOBALS['home_dir'] = !empty( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : '.';
 
 // Important Definitions!
 define ( "_EXT_PATH", realpath(dirname( __FILE__ ).'/..') );
-define ( "_EXT_FTPTMP_PATH", dirname( __FILE__ ).'/ftp_tmp' );
+define ( "_EXT_FTPTMP_PATH", realpath( dirname( __FILE__ ).'/ftp_tmp') );
 if( function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
 	define ( "_EXT_URL", $GLOBALS['home_url']."/administrator/components/com_extplorer" );
 } else {
@@ -95,6 +95,8 @@ if( !class_exists('InputFilter')) {
 	require_once _EXT_PATH . '/libraries/inputfilter.php';
 }
 
+$GLOBALS["separator"] = ext_getSeparator();
+	
 $action = stripslashes(extGetParam( $_REQUEST, "action" ));
 $default_lang = !empty( $GLOBALS['mosConfig_lang'] ) ? $GLOBALS['mosConfig_lang'] : ext_Lang::detect_lang();
 $GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'language', 'lang', $default_lang );
@@ -207,6 +209,11 @@ if($GLOBALS["require_login"]) {	// LOGIN
 		logout();
 	} else {
 		login();
+	}
+}
+if( ext_isWindows() ) {
+	if( strstr($GLOBALS['home_dir'], ':')) {
+		$GLOBALS['home_dir'][0] = strtoupper($GLOBALS['home_dir'][0]);
 	}
 }
 //------------------------------------------------------------------------------
