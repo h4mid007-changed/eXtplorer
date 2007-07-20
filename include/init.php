@@ -65,8 +65,6 @@ else {
 	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = false;
 	}
 	
-	ini_set( 'track_errors', '1' );
-	
 // the filename of the eXtplorer script: (you rarely need to change this)
 if($_SERVER['SERVER_PORT'] == 443 ) {
 	$GLOBALS["script_name"] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].$GLOBALS['__SERVER']["PHP_SELF"];
