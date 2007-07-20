@@ -62,9 +62,9 @@ define ( "_QUIXPLORER_FTPTMP_PATH", $mosConfig_absolute_path."/administrator/com
 define ( "_QUIXPLORER_URL", $mosConfig_live_site."/administrator/components/com_joomlaxplorer" );
 
 //------------------------------------------------------------------------------
-if( defined( 'E_STRICT' )) { // Suppress Strict Standards Warnings
-	$errorlevel=error_reporting();
-	error_reporting($errorlevel & ~E_STRICT);
+if( defined( 'E_STRICT' )) { 
+	// Suppress Strict Standards Warnings (E_ALL doesn't include E_STRICT!)
+	error_reporting( E_ALL);
 }
 //------------------------------------------------------------------------------
 umask(0002); // Added to make created files/dirs group writable
