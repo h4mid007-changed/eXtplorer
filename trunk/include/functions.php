@@ -36,8 +36,6 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * THESE ARE NUMEROUS HELPER FUNCTIONS FOR THE OTHER INCLUDE FILES
  */
 
-$GLOBALS['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
-
 function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages=NULL, $extra=null) {
 	// make link to next page
 	if($_action=="" || $_action==NULL) $_action="list";
@@ -91,9 +89,9 @@ function get_abs_item($dir, $item) {		// get absolute file+path
 		// FTP Mode
 		$abs_item = '/' . get_abs_dir($dir)."/".$item['name'];
 		if( get_is_dir($item)) $abs_item.='/';
-		return $abs_item; 
+		return extPathName($abs_item); 
 	}
-	return get_abs_dir($dir)."/".$item;
+	return extPathName( get_abs_dir($dir)."/".$item );
 }
 /**
  * Returns the LS info array from an ftp directory listing
@@ -309,7 +307,8 @@ function get_dir_list( $dir='' ) {
 		$item = str_replace( '\\', '/', $item );
 		if( get_is_dir($item)) {
 			
-			$index = str_replace( $GLOBALS['home_dir'].$GLOBALS['separator'], '', $item );
+			$index = str_replace( str_replace('\\', '/', $GLOBALS['home_dir'].$GLOBALS['separator']), '', $item );
+			
 			$dirs[$index]= basename($index);
 		}
 	}
@@ -532,6 +531,32 @@ if( !extension_loaded('posix') ) {
 }
 
 //------------------------------------------------------------------------------
+/**
+ * Checks if the User Agent String identifies the browser as Internet Explorer
+ *
+ * @return boolean
+ */
+function ext_isWindows() {
+	if(empty($GLOBALS['isWindows'])) {
+		$GLOBALS['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
+	}
+	return $GLOBALS['isWindows'];
+}
+/**
+ * Returns the valid directory separator for this OS & Webserver combination
+ *
+ * @return string
+ */
+function ext_getSeparator() {
+	if( defined( 'DIRECTORY_SEPARATOR')) {
+		return DIRECTORY_SEPARATOR;
+	}
+	elseif (@preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) {
+		return '\\';
+	} else {
+		return '/';
+	}
+}
 /**
  * Checks if the User Agent String identifies the browser as Internet Explorer
  *
@@ -1076,7 +1101,7 @@ function extReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 * @param string The path
 * @param boolean Add trailing slash
 */
-function extPathName($p_path,$p_addtrailingslash = true) {
+function extPathName($p_path,$p_addtrailingslash = false) {
 	$retval = "";
 
 	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');

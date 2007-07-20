@@ -254,7 +254,7 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 		}
 		if( $is_dir && $sendWhat != 'files') {
 
-			$id = $dir. $GLOBALS['separator'].$item;
+			$id = str_replace('/', $GLOBALS['separator'], $dir). $GLOBALS['separator'].$item;
 			$id = str_replace( $GLOBALS['separator'], '_RRR_', $id );
 
 			$qtip ="<strong>".ext_Lang::mime('dir',true)."</strong><br /><strong>".ext_Lang::msg('miscperms',true).":</strong> ".$perms."<br />";
