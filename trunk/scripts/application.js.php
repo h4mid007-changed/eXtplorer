@@ -321,21 +321,27 @@ function ext_init(){
     		disabled: <?php echo $allow && ini_get('file_uploads') ? 'false' : 'true' ?>,
     		handler: function() { openActionDialog(this, 'upload'); }
     	},
-    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
-	    	{
-    			id: 'tb_archive',
-	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
-	    		tooltip: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
-    			cls:'x-btn-icon',
-	    		handler: function() { openActionDialog(this, 'archive'); }
-	    	},{
+    	{
+			id: 'tb_archive',
+    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
+    		tooltip: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
+			cls:'x-btn-icon',
+			<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
+    		handler: function() { openActionDialog(this, 'archive'); }
+			<?php } else { ?>
+			disabled: true
+    		<?php }  ?>
+    	},{
     		id: 'tb_extract',
     		icon: '<?php echo _EXT_URL ?>/images/extract.gif',
     		tooltip: '<?php echo ext_Lang::msg('extractlink', true ) ?>',
     		cls:'x-btn-icon',
+			<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
     		handler: function() { openActionDialog(this, 'extract'); }
-    		},
-    	<?php } ?>
+			<?php } else { ?>
+			disabled: true
+    		<?php }  ?>
+		},
     	'-',
     	{
     		id: 'tb_info',

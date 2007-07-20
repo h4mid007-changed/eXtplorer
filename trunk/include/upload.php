@@ -84,8 +84,9 @@ class ext_Upload extends ext_Action {
 					$err=true;	continue;
 				}
 				else {
-					$mode = ext_isFTPMode() ? 644 : 0644;
-				  	@$GLOBALS['ext_File']->chmod( $abs, $mode );
+					if( !ext_isFTPMode() ) {
+						@$GLOBALS['ext_File']->chmod( $abs, 0644 );
+					}
 				}
 			}
 			
