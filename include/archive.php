@@ -190,6 +190,7 @@ class ext_Archive extends ext_Action {
 		displayField:'typename',
 		valueField: 'type',
 		name: 'type',
+		value: 'zip',
 	    triggerAction: 'all',
 		hiddenName: 'type',
 		disableKeyFilter: true,

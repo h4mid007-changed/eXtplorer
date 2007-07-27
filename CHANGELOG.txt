@@ -2,7 +2,10 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
-
+- added Swedish and Slovenian Language Files
+- set "zip" as default archive type
+- added message box that prevents eXtplorer usage on Joomla! 1.0.x versions >= 1.0.13 and explains why.
+- added Joomla! version check
 - implemented some changes for compatibility on Windows Systems with IIS running
 
 --- version 2.0.0 beta4 released ----

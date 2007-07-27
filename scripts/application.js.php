@@ -37,13 +37,20 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 ?>
 <script type="text/javascript">
 Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
+
+<?php
+if( ext_isJoomla('1.0.13', '>=')) {
+	echo "Ext.Msg.alert('Joomla >= 1.0.13 detected', 'eXtplorer is not compatible to Joomla! 1.0.x Versions greater than 1.0.13. Please use the latest version of <a href=\"http://joomlacode.org/gf/project/joomlaxplorer/frs/?action=FrsReleaseBrowse&amp;frs_package_id=190\">joomlaXplorer</a> instead!' );";
+	echo '</script>';
+	return;
+}
+?>
 function ext_init(){
     // create the Data Store
     datastore = new Ext.data.Store({
         proxy: new Ext.data.HttpProxy({
             url: '<?php echo $GLOBALS['script_name'] ?>',
             directory: '/',
-            method: 'GET',
             params:{start:0, limit:50, dir: this.directory, option:'com_extplorer', action:'getdircontents' }
         }),
 		directory: '/',
@@ -440,7 +447,6 @@ function ext_init(){
 	    //rootVisible: false,
 	    loader: new Ext.tree.TreeLoader({
 	        dataUrl:'<?php echo basename( $GLOBALS['script_name']) ?>',
-	        requestMethod: 'GET',
 	        baseParams: {option:'com_extplorer', action:'getdircontents', dir: '',sendWhat: 'dirs'} // custom http params
 	    }),
 	    containerScroll: true,
@@ -770,7 +776,7 @@ function ext_init(){
     	if( directory == '' || conn && !conn.isLoading()) {
     		datastore.load({params:{start:0, limit:50, dir: directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
     	}
-		 new Ext.data.Connection().request({
+		Ext.Ajax.request({
 			url: '<?php echo basename( $GLOBALS['script_name']) ?>',
 			params: { action:'chdir_event', dir: directory, option: 'com_extplorer' },
 			callback: function(options, success, response ) {
