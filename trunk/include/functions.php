@@ -638,6 +638,32 @@ function ext_exit() {
 		exit;
 	}
 }
+function ext_isJoomla( $version='', $operator='=', $compare_minor_versions=true) {
+	$this_version = '';
+	if( !empty($GLOBALS['_VERSION']) && is_object($GLOBALS['_VERSION'])) {
+		$jversion =& $GLOBALS['_VERSION'];
+		$this_version = $jversion->RELEASE .'.'. $jversion->DEV_LEVEL;
+	}
+	elseif ( defined('JVERSION')) {
+		$jversion = new JVersion();
+		$this_version = $jversion->RELEASE .'.'. $jversion->DEV_LEVEL;
+	}
+		
+	if( empty( $version ) ) {
+		return empty($this_version);
+	}
+	$allowed_operators = array( '<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne' );
+	
+	if( $compare_minor_versions ) {
+		if( $jversion->RELEASE != substr($version, 0, 3 ) ) {
+			return false;
+		}
+	}
+	if( in_array($operator, $allowed_operators )) {
+		return version_compare( $this_version, $version, $operator );
+	}
+	return false;
+}
 /**
  * Raise the memory limit when it is lower than the needed value
  *
