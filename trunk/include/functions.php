@@ -647,8 +647,9 @@ function ext_isJoomla( $version='', $operator='=', $compare_minor_versions=true)
 	elseif ( defined('JVERSION')) {
 		$jversion = new JVersion();
 		$this_version = $jversion->RELEASE .'.'. $jversion->DEV_LEVEL;
-	}
-		
+	} else {
+		return false;
+	}	
 	if( empty( $version ) ) {
 		return empty($this_version);
 	}

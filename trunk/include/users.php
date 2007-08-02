@@ -64,6 +64,7 @@ function save_users() {
 }
 //------------------------------------------------------------------------------
 function &find_user($user,$pass) {
+	$return = null;
 	$cnt=count($GLOBALS["users"]);
 	for($i=0;$i<$cnt;++$i) {
 		if($user==$GLOBALS["users"][$i][0]) {
@@ -75,7 +76,7 @@ function &find_user($user,$pass) {
 		}
 	}
 	
-	return NULL;
+	return $return;
 }
 //------------------------------------------------------------------------------
 function activate_user($user,$pass) {
