@@ -19,6 +19,7 @@ cd $PATH
 
 /usr/local/lib/p7zip/7za a -tzip -r $PATH/com_extplorer.zip
 /usr/local/lib/p7zip/7za d -r $PATH/com_extplorer.zip .svn/
+/usr/local/lib/p7zip/7za d $PATH/com_extplorer.zip archive
 /usr/local/lib/p7zip/7za d $PATH/com_extplorer.zip scripts/
 
 /usr/local/lib/p7zip/7za d -r $PATH/com_extplorer.zip build_component.sh build_component.bat .project .projectOptions .cache preinstall.php README_PREINSTALL.txt
