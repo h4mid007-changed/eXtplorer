@@ -59,7 +59,7 @@ function find_item($dir,$pat,&$list,$recur) {	// find items
 		if(@eregi($pat,$new_item)) $list[]=array($dir,$new_item);
 		
 		// search sub-directories
-		if(get_is_dir($dir, $new_item) && $recur) {
+		if(get_is_dir($abs_new_item) && $recur) {
 			find_item(get_rel_item($dir,$new_item),$pat,$list,$recur);
 		}
 	}

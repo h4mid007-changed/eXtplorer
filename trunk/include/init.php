@@ -86,11 +86,11 @@ if( function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
 	define ( "_EXT_URL", dirname($GLOBALS['script_name']) );
 }
 
-require_once _EXT_PATH . '/application.php';
-require_once _EXT_PATH."/include/functions.php";
+require_once( _EXT_PATH . '/application.php' );
+require_once( _EXT_PATH.'/include/functions.php' );
 
 if( !class_exists('InputFilter')) {
-	require_once _EXT_PATH . '/libraries/inputfilter.php';
+	require_once( _EXT_PATH . '/libraries/inputfilter.php' );
 }
 
 $GLOBALS["separator"] = ext_getSeparator();
@@ -144,26 +144,26 @@ else {
 
 // Necessary files
 
-require_once _EXT_PATH."/config/conf.php";
+require_once( _EXT_PATH."/config/conf.php" );
 if( file_exists(_EXT_PATH."/languages/".$GLOBALS["language"].".php")) {
-	require_once _EXT_PATH."/languages/".$GLOBALS["language"].".php";
+	require_once( _EXT_PATH."/languages/".$GLOBALS["language"].".php" );
 }
 else {
-	require_once _EXT_PATH."/languages/english.php";
+	require_once( _EXT_PATH."/languages/english.php" );
 }
 if( file_exists(_EXT_PATH."/languages/".$GLOBALS["language"]."_mimes.php")) {
-	require_once _EXT_PATH."/languages/".$GLOBALS["language"]."_mimes.php";
+	require_once( _EXT_PATH."/languages/".$GLOBALS["language"]."_mimes.php" );
 }
 else {
-	require_once _EXT_PATH."/languages/english_mimes.php";
+	require_once( _EXT_PATH."/languages/english_mimes.php" );
 }
 
-require_once _EXT_PATH."/config/mimes.php";
-require_once _EXT_PATH . '/libraries/JSON.php';
-require_once _EXT_PATH."/libraries/File_Operations.php";
-require_once _EXT_PATH."/include/header.php";
-require_once _EXT_PATH."/include/footer.php";
-require_once _EXT_PATH."/include/result.class.php";
+require_once( _EXT_PATH."/config/mimes.php" );
+require_once( _EXT_PATH . '/libraries/JSON.php' );
+require_once( _EXT_PATH."/libraries/File_Operations.php" );
+require_once( _EXT_PATH."/include/header.php" );
+require_once( _EXT_PATH."/include/footer.php" );
+require_once( _EXT_PATH."/include/result.class.php" );
 
 
 //------------------------------------------------------------------------------

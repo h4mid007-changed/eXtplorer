@@ -114,7 +114,7 @@ class ext_Chmod extends ext_Action {
 			}
 			
 			if($ok===false || PEAR::isError( $ok ) ) {
-				ext_Result::sendResult('chmod', false, $abs_item.": ".$GLOBALS["error_msg"]["permchange"]);
+				ext_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["permchange"]);
 			}
 			ext_Result::sendResult('chmod', true, ext_Lang::msg('permchange') );
 			return;
@@ -126,7 +126,7 @@ class ext_Chmod extends ext_Action {
 		}
 		$mode = parse_file_perms(get_file_perms( $abs_item ));
 		if($mode===false) {
-			ext_Result::sendResult('chmod', false, $abs_item.": ".$GLOBALS["error_msg"]["permread"]);
+			ext_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["permread"]);
 		}
 		$pos = "rwx";
 		$text = "";

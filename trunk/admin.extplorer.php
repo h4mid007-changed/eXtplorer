@@ -66,7 +66,7 @@ if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 //------------------------------------------------------------------------------
 umask(0002); // Added to make created files/dirs group writable
 //------------------------------------------------------------------------------
-require_once dirname( __FILE__) . "/include/init.php";	// Init
+require_once( dirname( __FILE__) . "/include/init.php" );	// Init
 //------------------------------------------------------------------------------
 if( $action == "post" )
   $action = extGetParam( $_REQUEST, "do_action" );
@@ -105,27 +105,27 @@ if( class_exists(strtolower($classname))) {
 	//------------------------------------------------------------------------------
 	  // COPY/MOVE FILE(S)/DIR(S)
 	  case "copy":	case "move":
-		  require_once _EXT_PATH ."/include/copy_move.php";
+		  require_once( _EXT_PATH ."/include/copy_move.php" );
 		  copy_move_items($dir);
 	  break;
 	
 	//------------------------------------------------------------------------------
 	  // SEARCH FOR FILE(S)/DIR(S)
 	  case "search":
-		  require_once _EXT_PATH ."/include/search.php";
+		  require_once( _EXT_PATH ."/include/search.php" );
 		  search_items($dir);
 	  break;
 	
 	//------------------------------------------------------------------------------
 	  // USER-ADMINISTRATION
 	  case "admin":
-		  require_once _EXT_PATH . "/include/admin.php";
+		  require_once( _EXT_PATH . "/include/admin.php" );
 		  show_admin($dir);
 	  break;
 	//------------------------------------------------------------------------------
 	  // joomla System Info
 	  case 'sysinfo':
-		  require_once _EXT_PATH . "/include/system_info.php";
+		  require_once( _EXT_PATH . "/include/system_info.php" );
 	  break;
 	//------------------------------------------------------------------------------
 	  case 'ftp_logout':
@@ -150,7 +150,7 @@ if( class_exists(strtolower($classname))) {
 	//------------------------------------------------------------------------------
 	  // DEFAULT: LIST FILES & DIRS
 	  case "getdircontents":
-	  		require_once _EXT_PATH . "/include/list.php";
+	  		require_once( _EXT_PATH . "/include/list.php" );
 	  		$requestedDir = stripslashes(str_replace( '_RRR_', '/', extGetParam( $_REQUEST, 'node' )));
 	  		if( empty($requestedDir) || $requestedDir == 'ext_root') {
 	  			$requestedDir = $dir;
@@ -169,10 +169,10 @@ if( class_exists(strtolower($classname))) {
 			echo $json->encode( $response );
 			break;
 	  case 'get_image':
-	  		require_once _EXT_PATH . "/include/view.php";
+	  		require_once( _EXT_PATH . "/include/view.php" );
 	  		ext_View::sendImage( $dir, $item );
 	  default:
-		  require_once _EXT_PATH . "/include/list.php";
+		  require_once( _EXT_PATH . "/include/list.php" );
 		  ext_List::execAction($dir);
 	//------------------------------------------------------------------------------
 	}
