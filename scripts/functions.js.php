@@ -147,7 +147,7 @@ function openActionDialog( caller, action ) {
             //layout.add('south', dialog_status );
             layout.endUpdate();
             
-            dialog.on( 'hide', function() { dialog_panel.destroy(); dialog.destroy(); } );
+            dialog.on( 'hide', function() { dialog.destroy(true); } );
             
             dialog.show();
             break;

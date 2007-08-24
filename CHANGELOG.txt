@@ -2,6 +2,15 @@
 Changelog for eXtplorer
 Version $Id: $
 ****************************
+
+- fixed [ 1755938 ] status bar messages truncated when path is too long
+- fixed [ 1759450 ] No textfield and browse button in upload file on IE7
+- fixed [ 1762000 ] copy a file from a subfolder to "root" folder doesn't work
+- fixed [ 1766233 ] Chmod error in FTP mode
+- fixed [ 1761083 ] IE7 closing button & seach action (file search - subdirectories weren't included)
+
+--- version 2.0.0 beta5 released ----
+
 - added Swedish and Slovenian Language Files
 - set "zip" as default archive type
 - added message box that prevents eXtplorer usage on Joomla! 1.0.x versions >= 1.0.13 and explains why.

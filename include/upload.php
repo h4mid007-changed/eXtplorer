@@ -173,7 +173,7 @@ class ext_Upload extends ext_Action {
 	
 	var transfer = new Ext.form.Form({
 	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'<?php echo basename( $GLOBALS['script_name']) ?>',
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
 	transfer.add(
 	<?php
