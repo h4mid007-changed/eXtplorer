@@ -36,16 +36,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 ?>
 <script type="text/javascript">
-Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
-
-<?php
-if( ext_isJoomla('1.0.13', '>=')) {
-	echo "Ext.Msg.alert('Joomla >= 1.0.13 detected', 'eXtplorer is not compatible to Joomla! 1.0.x Versions greater than 1.0.13. Please use the latest version of <a href=\"http://joomlacode.org/gf/project/joomlaxplorer/frs/?action=FrsReleaseBrowse&amp;frs_package_id=190\">joomlaXplorer</a> instead!' );";
-	echo '</script>';
-	return;
-}
-?>
 function ext_init(){
+	Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
     // create the Data Store
     datastore = new Ext.data.Store({
         proxy: new Ext.data.HttpProxy({
@@ -868,12 +860,27 @@ function ext_init(){
     }
     ?>    
 }
-if(Ext.isIE){
-	// As this file is included inline (because otherwise it would throw Element not found JS errors in IE)
-	// we need to run the init function onLoad, not onDocumentReady in IE
-	Ext.EventManager.addListener(window, "load", ext_init );
-} else {
-	// Other Browsers eat onReady
-	Ext.onReady( ext_init );
+if( typeof Ext == 'undefined' ) {
+	alert( 'The ExtJS Library could not be found.\nPlease make sure that eXtplorer has been fully installed\nand the file "fetchscript.php" in the\nextplorer directory is not chmodded to 777\n(so chmod to 644 or 666)' );
+	document.location = '<?php echo basename( $GLOBALS['script_name']) ?>';
 }
+
+function startExtplorer() {
+	if(Ext.isIE){
+		// As this file is included inline (because otherwise it would throw Element not found JS errors in IE)
+		// we need to run the init function onLoad, not onDocumentReady in IE
+		Ext.EventManager.addListener(window, "load", ext_init );
+	} else {
+		// Other Browsers eat onReady
+		Ext.onReady( ext_init );
+	}
+}
+<?php
+if( ext_isJoomla('1.0.13', '=')) {
+	echo "	Ext.Msg.confirm('Joomla! = 1.0.13 detected', 'eXtplorer is not compatible with Joomla! 1.0.13. But if you have applied the <br /><a href=\"http://forum.joomla.org/index.php/topic,193707.msg943504.html#msg943504\">Hotfix for Joomla! 1.0.13</a>, you can continue.<br />'
+										+	'<b>Do you have a &quot;hotfixed&quot; version of Joomla! 1.0.13?</b>', function(btn) {  if( btn == 'no' ) document.location='index2.php'; else startExtplorer(); } );\n";
+} else {
+	echo 'startExtplorer();';
+}
+?>
 </script>
