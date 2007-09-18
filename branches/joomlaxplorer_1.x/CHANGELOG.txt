@@ -1,6 +1,7 @@
 *********************************
 Changelog for joomlaXplorer 1.x
 *********************************
+- suppress STRICT standards warnings
 - empty bookmark file generated an error
 - archives couldn't be extracted
 - again fixed a critical error where wrong permissions would be applied to an uploaded file in FTP mode

@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * MAIN FILE! (formerly known as index.php)
  * 
- * @version $Id: $
+ * @version $Id$
  * 
  * @package joomlaXplorer
  * @copyright soeren 2007
