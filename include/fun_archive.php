@@ -7,7 +7,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
- * @version $Id: $
+ * @version $Id$
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
