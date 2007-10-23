@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -68,11 +68,11 @@ else {
 // the filename of the eXtplorer script: (you rarely need to change this)
 if($_SERVER['SERVER_PORT'] == 443 ) {
 	$GLOBALS["script_name"] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].$GLOBALS['__SERVER']["PHP_SELF"];
-	$GLOBALS['home_url'] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].'/'.dirname($GLOBALS['__SERVER']["PHP_SELF"]);
+	$GLOBALS['home_url'] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].dirname($GLOBALS['__SERVER']["PHP_SELF"]);
 }
 else {
 	$GLOBALS["script_name"] = "http://".$GLOBALS['__SERVER']['HTTP_HOST'].$GLOBALS['__SERVER']["PHP_SELF"];
-	$GLOBALS['home_url'] = "http://".$GLOBALS['__SERVER']['HTTP_HOST'].'/'.dirname($GLOBALS['__SERVER']["PHP_SELF"]);
+	$GLOBALS['home_url'] = "http://".$GLOBALS['__SERVER']['HTTP_HOST'].dirname($GLOBALS['__SERVER']["PHP_SELF"]);
 }
 $GLOBALS['home_url'] = str_replace( '/administrator', '', $GLOBALS['home_url'] );
 $GLOBALS['home_dir'] = !empty( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : '.';
