@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -52,8 +52,8 @@ class ext_Download extends ext_Action {
 		}
 		else {
 			$abs_item = get_abs_item($dir,$item);
-			if( !strstr( $abs_item, $GLOBALS['home_dir']) )
-			  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
+			//if( !strstr( $abs_item, $GLOBALS['home_dir']) )
+			//  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
 		}
 		
 		if(($GLOBALS["permissions"]&01)!=01) ext_Result::sendResult( 'download', false, $GLOBALS["error_msg"]["accessfunc"]);
