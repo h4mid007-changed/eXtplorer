@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -135,7 +135,7 @@ function login() {
 		})
 	);
 	
-	simple.addButton('<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', function() {
+	simple.addButton({text: '<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', type: 'submit'}, function() {
 		Ext.get( 'statusBar').update( 'Please wait...' );
 	    simple.submit({
 	        //reset: true,
