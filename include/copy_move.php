@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -43,7 +43,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 	}
 	
 	// Vars
-	$first = $GLOBALS['__POST']["first"];
+	$first = extGetParam($GLOBALS['__POST'], 'first' );
 	if($first=="y") $new_dir=$dir;
 	else $new_dir = stripslashes($GLOBALS['__POST']["new_dir"]);
 	if($new_dir==".") $new_dir="";

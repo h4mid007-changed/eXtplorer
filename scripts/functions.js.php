@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -106,6 +106,7 @@ function openActionDialog( caller, action ) {
                     minWidth:300,
                     minHeight:300,
                     proxyDrag: true,
+                    resizable: true,
                     //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
 					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>',
                     center: {

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <mosinstall type="component">
     <name>eXtplorer</name>
-    <creationDate>24.08.2007</creationDate>
+    <creationDate>29.01.2008</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren@virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
-    <version>2.0.0 RC1</version>
+    <version>2.0.0 RC2</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_extplorer/images/eXtplorer.gif" alt="eXtplorer Logo" /></div>
 	<h2>Successfully installed eXtplorer&nbsp;</h2>
@@ -153,6 +153,7 @@
 			<filename>include/result.class.php</filename>
 			<filename>include/search.php</filename>
 			<filename>include/system_info.php</filename>
+			<filename>include/transfer.php</filename>
 			<filename>include/upload.php</filename>
 			<filename>include/users.php</filename>
 			<filename>include/view.php</filename>
@@ -185,74 +186,35 @@
 			<filename>languages/islenska_mimes.php</filename>
 			<filename>languages/italian.php</filename>
 			<filename>languages/italian_mimes.php</filename>
+			<filename>languages/norwegian.php</filename>
+			<filename>languages/norwegian_mimes.php</filename>
+			<filename>languages/polish.php</filename>
+			<filename>languages/polish_mimes.php</filename>
 			<filename>languages/portuguese.php</filename>
 			<filename>languages/portuguese_mimes.php</filename>
 			<filename>languages/russian.php</filename>
 			<filename>languages/russian_mimes.php</filename>
 			<filename>languages/simplified_chinese.php</filename>
 			<filename>languages/simplified_chinese_mimes.php</filename>
+			<filename>languages/slovenian.php</filename>
+			<filename>languages/slovenian_mimes.php</filename>
 			<filename>languages/spanish.php</filename>
 			<filename>languages/spanish_mimes.php</filename>
+			<filename>languages/swedish.php</filename>
+			<filename>languages/swedish_mimes.php</filename>
 			<filename>languages/traditional_chinese.php</filename>
 			<filename>languages/traditional_chinese_mimes.php</filename>
 			<filename>languages/turkish.php</filename>
 			<filename>languages/turkish_mimes.php</filename>
-			<filename>libraries/Archive.php</filename>
-			<filename>libraries/Archive/Predicate.php</filename>
-			<filename>libraries/Archive/Predicate/And.php</filename>
-			<filename>libraries/Archive/Predicate/Current.php</filename>
-			<filename>libraries/Archive/Predicate/Custom.php</filename>
-			<filename>libraries/Archive/Predicate/Duplicate.php</filename>
-			<filename>libraries/Archive/Predicate/Ereg.php</filename>
-			<filename>libraries/Archive/Predicate/Eregi.php</filename>
-			<filename>libraries/Archive/Predicate/Extension.php</filename>
-			<filename>libraries/Archive/Predicate/False.php</filename>
-			<filename>libraries/Archive/Predicate/Index.php</filename>
-			<filename>libraries/Archive/Predicate/MIME.php</filename>
-			<filename>libraries/Archive/Predicate/MaxDepth.php</filename>
-			<filename>libraries/Archive/Predicate/MinSize.php</filename>
-			<filename>libraries/Archive/Predicate/MinTime.php</filename>
-			<filename>libraries/Archive/Predicate/Not.php</filename>
-			<filename>libraries/Archive/Predicate/Or.php</filename>
-			<filename>libraries/Archive/Predicate/True.php</filename>
-			<filename>libraries/Archive/Predicate/index.html</filename>
-			<filename>libraries/Archive/Reader.php</filename>
-			<filename>libraries/Archive/Reader/Ar.php</filename>
-			<filename>libraries/Archive/Reader/Archive.php</filename>
-			<filename>libraries/Archive/Reader/Bzip2.php</filename>
-			<filename>libraries/Archive/Reader/Cache.php</filename>
-			<filename>libraries/Archive/Reader/ChangeName.php</filename>
-			<filename>libraries/Archive/Reader/Concat.php</filename>
-			<filename>libraries/Archive/Reader/Directory.php</filename>
-			<filename>libraries/Archive/Reader/File.php</filename>
-			<filename>libraries/Archive/Reader/Filter.php</filename>
-			<filename>libraries/Archive/Reader/Gzip.php</filename>
-			<filename>libraries/Archive/Reader/Memory.php</filename>
-			<filename>libraries/Archive/Reader/MimeList.php</filename>
-			<filename>libraries/Archive/Reader/Multi.php</filename>
-			<filename>libraries/Archive/Reader/Relay.php</filename>
-			<filename>libraries/Archive/Reader/Select.php</filename>
-			<filename>libraries/Archive/Reader/Tar.php</filename>
-			<filename>libraries/Archive/Reader/Uncompress.php</filename>
-			<filename>libraries/Archive/Reader/Zip.php</filename>
-			<filename>libraries/Archive/Reader/index.html</filename>
-			<filename>libraries/Archive/Writer.php</filename>
-			<filename>libraries/Archive/Writer/AddBaseName.php</filename>
-			<filename>libraries/Archive/Writer/Ar.php</filename>
-			<filename>libraries/Archive/Writer/Archive.php</filename>
-			<filename>libraries/Archive/Writer/Bzip2.php</filename>
-			<filename>libraries/Archive/Writer/Files.php</filename>
-			<filename>libraries/Archive/Writer/Gzip.php</filename>
-			<filename>libraries/Archive/Writer/Mail.php</filename>
-			<filename>libraries/Archive/Writer/Memory.php</filename>
-			<filename>libraries/Archive/Writer/MemoryArchive.php</filename>
-			<filename>libraries/Archive/Writer/Multi.php</filename>
-			<filename>libraries/Archive/Writer/Output.php</filename>
-			<filename>libraries/Archive/Writer/Tar.php</filename>
-			<filename>libraries/Archive/Writer/UniqueAppender.php</filename>
-			<filename>libraries/Archive/Writer/Zip.php</filename>
-			<filename>libraries/Archive/Writer/index.html</filename>
+			<filename>libraries/Archive/archive.php</filename>
+			<filename>libraries/Archive/file.php</filename>
+			<filename>libraries/Archive/folder.php</filename>
 			<filename>libraries/Archive/index.html</filename>
+			<filename>libraries/Archive/path.php</filename>
+			<filename>libraries/Archive/adapter/bzip2.php</filename>
+			<filename>libraries/Archive/adapter/gzip.php</filename>
+			<filename>libraries/Archive/adapter/index.html</filename>
+			<filename>libraries/Archive/adapter/zip.php</filename>
 			<filename>libraries/compat.php41x.php</filename>
 			<filename>libraries/compat.php42x.php</filename>
 			<filename>libraries/compat.php50x.php</filename>

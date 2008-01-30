@@ -17,7 +17,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 // | Author: Vincent Blavet <vincent@blavet.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id:Tar.php 13 2007-05-13 07:10:43Z soeren $
+// $ Id: Tar.php 6474 2007-02-03 10:47:26Z pasamio $
 
 require_once( dirname(__FILE__) .'/PEAR.php' );
 
@@ -28,7 +28,7 @@ define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@blavet.net>
-* @version  $Revision:13 $
+* @version  $ Revision: 47 $
 * @package  Archive
 */
 class Archive_Tar extends PEAR
@@ -574,8 +574,8 @@ class Archive_Tar extends PEAR
         else
             $this->_error('Unknown or missing compression type ('.$this->_compress_type.')');
 
-        if ($this->_file == 0) {
-            $this->_error('Unable to open in write mode \''.$this->_tarname.'\'');
+        if( !is_resource($this->_file) ) {
+            $this->_error('Unable to open in write mode: "'.$this->_tarname.'", Compression Type: '.$this->_compress_type);
             return false;
         }
 
@@ -1245,6 +1245,7 @@ class Archive_Tar extends PEAR
     function _extractInString($p_filename)
     {
         $v_result_str = "";
+		$v_header = array();
 
         While (strlen($v_binary_data = $this->_readBlock()) != 0)
         {
@@ -1323,6 +1324,7 @@ class Archive_Tar extends PEAR
 
     clearstatcache();
 
+	$v_header = array();
     While (strlen($v_binary_data = $this->_readBlock()) != 0)
     {
       $v_extract_file = FALSE;
@@ -1437,7 +1439,7 @@ class Archive_Tar extends PEAR
           // ----- Check the file size
           clearstatcache();
           if (filesize($v_header['filename']) != $v_header['size']) {
-              $this->_error('Extracted file '.$v_header['filename'].' does not have the correct file size \''.filesize($v_filename).'\' ('.$v_header['size'].' expected). Archive may be corrupted.');
+			  $this->_error('Extracted file '.$v_header['filename'].' does not have the correct file size \''.filesize($v_header['filename']).'\' ('.$v_header['size'].' expected). Archive may be corrupted.');
               return false;
           }
           }

@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -93,8 +93,8 @@ class ext_Result {
 				}
 			}
 			$result = array('action' => $action,
-							'message' => $msg,
-							'error' => $msg,//.print_r($_POST,true),
+							'message' => str_replace("'", "\\'", $msg ),
+							'error' => str_replace("'", "\\'", $msg ),//.print_r($_POST,true),
 							'success' => $success 
 						);
 			foreach( $extra as $key => $value ) {

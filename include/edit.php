@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -151,7 +151,7 @@ class ext_Edit extends ext_Action {
 	        id: 'ext_codefield',
 	        fieldClass: 'codepress <?php echo $cp_lang ?> x-form-field',
 	        value: '<?php echo str_replace(Array("\r", "\n", '<', '>'), Array('\r', '\n', '&lt;', '&gt;') , addslashes($content)) ?>',
-	        width: 650,
+	        width: '100%',
 	        height: 300
 	    })		
 	);

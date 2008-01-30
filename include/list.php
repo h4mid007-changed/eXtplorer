@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -190,7 +190,6 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 	}
 	
 	$i = 0;
-	$toggle = false;
 	$items['totalCount'] = count($list);
 	$items['items'] = array();
 	$dirlist = array();
@@ -199,6 +198,7 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 		// Replaced array_splice, because it resets numeric indexes (like files or dirs with a numeric name)
 		// Here we reduce the list to the range of $limit beginning at $start 
 		$a = 0;
+		$output_array = array();
 		foreach( $list as $key => $value ) {
 			if( $a >= $GLOBALS['start'] && ($a - $GLOBALS['start'] < $GLOBALS['limit'] )) {
 				$output_array[$key] = $value;

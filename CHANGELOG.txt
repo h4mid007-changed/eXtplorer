@@ -1,7 +1,13 @@
 ****************************
 Changelog for eXtplorer
-Version $Id: $
+Version $Id$
 ****************************
+- changed [ 1800028 ] Need to enlarge file edit box, or allow for full screen
+- fixed [ 1791706 ] incorrect error reporting
+- fixed [ 1790536 ] Browsing directory incorrect
+- fixed [ 1782937 ] when unzipping a zip containing a zip: zip not present!
+
+-- version 2.0.0 RC1 released ----
 
 - fixed [ 1755938 ] status bar messages truncated when path is too long
 - fixed [ 1759450 ] No textfield and browse button in upload file on IE7
