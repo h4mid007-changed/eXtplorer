@@ -2,10 +2,10 @@
 /**
 * @version $Id$
 * @package eXtplorer
-* @copyright (C) 2005-2007 Soeren
+* @copyright (C) 2005-2008 Soeren
 * @license GNU / GPL
 * @author soeren
-* joomlaXplorer is Free Software
+* eXtplorer is Free Software
 */
 function com_install(){
 	global $database;
@@ -15,18 +15,21 @@ function com_install(){
 	}
 	$mypath = dirname(__FILE__);
 	require_once($mypath . "/include/functions.php");
-	require_once($mypath . "/libraries/Archive.php");
+	require_once($mypath . "/libraries/Archive/archive.php");
 	
 	ext_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
 	
 	$archive_name = $mypath.'/scripts.zip';
-	$archive_as_dir = $archive_name.'/';
 	$extract_dir = $mypath.'/';
 	
-	$result = File_Archive::extract( $archive_as_dir, $extract_dir );
+	$result = extArchive::extract( $archive_name, $extract_dir );
 	if( !PEAR::isError( $result )) {
 		unlink( $archive_name );
+	} else {
+		echo '<pre style="color:white; font-weight:bold; background-color:red;">Error!
+		'.$result->getMessage().'
+		</pre>';
 	}
 	$database->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_extplorer'" );
 	$id = $database->loadResult();
