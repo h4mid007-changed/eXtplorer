@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -159,13 +159,13 @@ function search_items($dir) {			// search for item
 			checked: true
 		})
 	);
-	form.addButton(\''.ext_Lang::msg( 'btnsearch', true ).'\', function() {
+	form.addButton({ text: "'.ext_Lang::msg( 'btnsearch', true ).'", type: "submit" }, function() {
 	    form.submit({
 	        waitMsg: \''.ext_Lang::msg('search_processing', true ).'\',
 	        //reset: true,
 	        reset: false,
 	        success: function(form, action) {
-	    		dialog_panel.setContent( action.result.message );
+	    		dialog_panel.setContent( action.result.message, true );
 	        },
 	        failure: function(form, action) {Ext.MessageBox.alert(\''.ext_Lang::err('error').'!\', action.result.error);},
 	        scope: form,

@@ -3,7 +3,7 @@
 #
 # Component Install Archive Builder
 #
-# This file is part of joomlaXplorer
+# This file is part of eXtplorer
 #
 # ----------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@
 # It's usually globally accessible (in the directory \usr\local\bin\)
 
 
-set PATH=C:\DOWNLOADS\Joomla\components\joomlaXplorer
+set PATH=C:\DOWNLOADS\Joomla\components\extplorer
 
 cd %PATH%
 

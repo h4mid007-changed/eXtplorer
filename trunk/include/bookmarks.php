@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -138,7 +138,7 @@ function list_bookmarks( $dir ) {
 
 
 	$html = $GLOBALS['messages']['quick_jump'].': ';
-	if( @$dir[0] == '/' ) {
+	if( !empty($dir[0]) && @$dir[0] == '/' ) {
 		$dir = substr( $dir, 1);
 	}
 	$html .= ext_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 200px;"');

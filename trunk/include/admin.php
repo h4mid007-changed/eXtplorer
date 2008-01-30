@@ -7,7 +7,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
- * @version $Id: $
+ * @version $Id$
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -377,7 +377,7 @@ function show_userform( $data = null ) {
 	    new Ext.form.TextField({
 	        fieldLabel: '<?php echo ext_Lang::msg( 'miscusername', true ) ?>',
 	        name: 'nuser',
-	        value: '<?php echo $data[0] ?>',
+	        value: '<?php echo @$data[0] ?>',
 	        width:175,
 	        allowBlank:false
 	    }),
@@ -406,14 +406,14 @@ function show_userform( $data = null ) {
 	    new Ext.form.TextField({
 	        fieldLabel: '<?php echo ext_Lang::msg( 'mischomedir', true ) ?>',
 	        name: 'home_dir',
-	        value: '<?php echo $data[2] ? $data[2] : $_SERVER['DOCUMENT_ROOT'] ?>',
+	        value: '<?php echo !empty($data[2]) ? $data[2] : $_SERVER['DOCUMENT_ROOT'] ?>',
 	        width:175,
 	        allowBlank:false
 	    }),	    
 	    new Ext.form.TextField({
 	        fieldLabel: '<?php echo ext_Lang::msg( 'mischomeurl', true ) ?>',
 	        name: 'home_url',
-	        value: '<?php echo $data[3] ? $data[3] : $GLOBALS["home_url"] ?>',
+	        value: '<?php echo !empty($data[3]) ? $data[3] : $GLOBALS["home_url"] ?>',
 	        width:175,
 	        allowBlank:false
 	    }),		
@@ -424,7 +424,7 @@ function show_userform( $data = null ) {
 		    valueField: 'yesno',
 		    hiddenName: 'show_hidden',
 		    disableKeyFilter: true,
-		    value: '<?php echo ( $data[4] ? $data[4] : (int)$data[4] ) ?>',
+		    value: '<?php echo ( !empty($data[4]) ? $data[4] : (int)$data[4] ) ?>',
 		    editable: false,
 		    triggerAction: 'all',
 		    mode: 'local',
@@ -434,7 +434,7 @@ function show_userform( $data = null ) {
 	    new Ext.form.TextField({
 	        fieldLabel: '<?php echo ext_Lang::msg( 'mischidepattern', true ) ?>',
 	        name: 'no_access',
-	        value: '<?php echo $data[5] ?>',
+	        value: '<?php echo @$data[5] ?>',
 	        width:175,
 	        allowBlank:true
 	    }),
@@ -446,7 +446,7 @@ function show_userform( $data = null ) {
 		    displayField:'text',
 		    hiddenName: 'permissions',
 		    disableKeyFilter: true,
-		    value: '<?php echo (int)$data[6] ?>',
+		    value: '<?php echo (int)@$data[6] ?>',
 		    editable: false,
 		    triggerAction: 'all',
 		    mode: 'local'
@@ -458,8 +458,8 @@ function show_userform( $data = null ) {
 		    valueField: 'yesno',
 		    hiddenName: 'active',
 		    disableKeyFilter: true,
-		    value: '<?php echo ( $data[7] ? $data[7] : (int)$data[7] ) ?>',
-		    disabled: <?php echo $self ? 'true' : 'false' ?>,
+		    value: '<?php echo ( !empty($data[7]) ? $data[7] : 0 ) ?>',
+		    disabled: <?php echo !empty($self) ? 'true' : 'false' ?>,
 		    editable: false,
 		    triggerAction: 'all',
 		    mode: 'local',
@@ -473,7 +473,7 @@ function show_userform( $data = null ) {
 	    userform.submit({
 	        success: function(form, action) {	
 	        	statusBarMessage( action.result.message, false, true );
-				dialog_panel.load({ url: '<?php echo make_link('admin') ?>' });
+				dialog_panel.load({ url: '<?php echo make_link('admin','') ?>' });
 	        },
 	        failure: function(form, action) {
 	        	if( !action.result ) return;
@@ -492,7 +492,7 @@ function show_userform( $data = null ) {
 	});
 	userform.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', 
 		function() { 
-			dialog_panel.load({ url: '<?php echo make_link('admin') ?>' });
+			dialog_panel.load({ url: '<?php echo make_link('admin', '') ?>' });
 		} 
 	);
 	userform.render('adminForm');

@@ -7,7 +7,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
- * @version $Id: $
+ * @version $Id$
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -38,7 +38,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 class ext_Archive extends ext_Action {
 
 	function execAction( $dir ) {
-		global $mosConfig_absolute_path;
+		
 		if(($GLOBALS["permissions"]&01)!=01) {
 			ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["accessfunc"]);
 		}
@@ -57,7 +57,7 @@ class ext_Archive extends ext_Action {
 			if( !is_writable( get_abs_dir($saveToDir ) )) {
 				ext_Result::sendResult('archive', false, ext_Lang::err('archive_dir_unwritable'));
 			}
-			require_once( _EXT_PATH .'/libraries/Archive.php' );
+			require_once( _EXT_PATH .'/libraries/Archive/archive.php' );
 
 			if( !in_array(strtolower( $GLOBALS['__POST']["type"] ), $allowed_types )) {
 				ext_Result::sendResult('archive', false, ext_Lang::err('extract_unknowntype').': '.htmlspecialchars($GLOBALS['__POST']["type"]));
@@ -73,7 +73,6 @@ class ext_Archive extends ext_Action {
 				ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnoname"]);
 			}
 
-			$download = extGetParam( $_REQUEST, 'download', "n" );
 			$startfrom = extGetParam( $_REQUEST, 'startfrom', 0 );
 
 			$archive_name = get_abs_item($saveToDir,$name);
@@ -95,14 +94,14 @@ class ext_Archive extends ext_Action {
 				$selitem=stripslashes($GLOBALS['__POST']["selitems"][$i]);
 
 				if( is_dir( $abs_dir ."/". $selitem )) {
-					$items = mosReadDirectory($abs_dir ."/".  $selitem, '.', true, true );
+					$items = extReadDirectory($abs_dir ."/".  $selitem, '.', true, true );
 					foreach ( $items as $item ) {
 						if( is_dir( $item ) || !is_readable( $item ) || $item == $archive_name ) continue;
-						$v_list[] = $item;
+						$v_list[] = str_replace('\\', '/', $item );
 					}
 				}
 				else {
-					$v_list[] = $abs_dir ."/". $selitem;
+					$v_list[] = str_replace('\\', '/', $abs_dir ."/". $selitem );
 				}
 			}
 			$cnt_filelist = count( $v_list );
@@ -111,11 +110,7 @@ class ext_Archive extends ext_Action {
 			if( $dir ) {
 				$remove_path .= $dir.$GLOBALS['separator'];
 			}
-			for( $i=$startfrom;$i < $cnt_filelist && $i < ($startfrom + $files_per_step); $i++ ) {
 
-				$filelist[] = File_Archive::read( $v_list[$i], str_replace($remove_path, '', $v_list[$i] ) );
-
-			}
 			//echo '<strong>Starting from: '.$startfrom.'</strong><br />';
 			//echo '<strong>Files to process: '.$cnt_filelist.'</strong><br />';
 			//print_r( $filelist );exit;
@@ -124,8 +119,7 @@ class ext_Archive extends ext_Action {
 			ini_set('memory_limit', '128M');
 			@set_time_limit( 0 );
 			error_reporting( E_ERROR | E_PARSE );
-
-			$result = File_Archive::extract( $filelist, $archive_name );
+			$result = extArchive::create( $archive_name, $v_list, $GLOBALS['__POST']["type"], '', $remove_path  );
 
 			if( PEAR::isError( $result ) ) {
 				ext_Result::sendResult('archive', false, $name.': '.ext_Lang::err('archive_creation_failed').' ('.$result->getMessage().')' );

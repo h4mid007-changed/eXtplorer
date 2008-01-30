@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -60,9 +60,9 @@ class ext_Extract extends ext_Action {
 	
 			$ext = $file_info["extension"];
 	
-			require_once(_EXT_PATH . "/libraries/Archive.php");
-			$archive_name .= '/';
-			$result = File_Archive::extract( $archive_name, $extract_dir );
+			require_once(_EXT_PATH . "/libraries/Archive/archive.php");
+			
+			$result = extArchive::extract( $archive_name, $extract_dir );
 			if( PEAR::isError( $result )) {
 				ext_Result::sendResult('extract', false, ext_Lang::err('extract_failure').': '.$result->getMessage() );
 			}

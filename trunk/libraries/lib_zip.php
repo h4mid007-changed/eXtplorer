@@ -140,6 +140,16 @@ class ZipFile {
 			pack('V', strlen($data)).		// offset to start of central dir
 			"\x00\x00";			// .zip file comment length
 	}
+	function addFileList( $filelist, $removePath ) {
+		foreach( $filelist as $file ) {
+			$data = file_get_contents( $file );
+			if( empty( $data )) continue;
+			$cleaned_file = str_replace( $removePath. DS, '', $file );
+			$cleaned_file = str_replace( $removePath, '', $cleaned_file );
+			$this->add_data($data, $cleaned_file, filemtime($file));
+		}
+		return true;
+	}
 //------------------------------------------------------------------------------
 // File functions
 	function add($dir, $name) {
@@ -169,10 +179,8 @@ class ZipFile {
 	}
 	
 	function save($name) {
-		if(($fp=fopen($name,"wb"))===false) return false;
-		fwrite($fp, $this->contents());
-		fclose($fp);
-		return true;
+		$result = file_put_contents($name, $this->contents());
+		return $result;
 	}
 }
 //------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -324,6 +324,9 @@ function get_dir_selects( $dir ) {
 	$dirs = explode( "/", str_replace( "\\", '/', $dir ) );
 	
 	$subdirs = get_dir_list();
+    if( sizeof( $subdirs ) > 0) {
+		$subdirs = array_merge(Array('ext_disabled' => '-'), $subdirs );
+	}
 	if( empty($dirs[0]) ) array_shift($dirs);
 	$dirsCopy = $dirs;
 	$implode = '';
@@ -338,13 +341,14 @@ function get_dir_selects( $dir ) {
 			if( $next !== false ) {
 				$selectedDir .= '/'.$next;
 			} else {
-				if( sizeof( $subdirs ) > 0) {
+	  		  	if( sizeof( $subdirs ) > 0) {
 					$subdirs = array_merge(Array('ext_disabled' => '-'), $subdirs );
 				}
 			}
 			$dir_links .= ' / '.ext_selectList('dirselect'.$i++, $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'ext_disabled\' ) chDir(theDir);"' );
 			$implode .= '/';
 	  	}
+
 	}
 	
 	return $dir_links;
@@ -1086,8 +1090,31 @@ function extStripslashes( &$value ) {
 	}
 	return $ret;
 }
+/**
+ * Recursively creates a new directory
+ *
+ * @param unknown_type $path
+ * @param unknown_type $rights
+ * @return unknown
+ */
+function extMkdirR($path, $rights = 0777) {
+	
+	$folder_path = array(
+	strstr($path, '.') ? dirname($path) : $path);
 
+	while(!@is_dir(dirname(end($folder_path)))
+		&& dirname(end($folder_path)) != '/'
+		&& dirname(end($folder_path)) != '.'
+		&& dirname(end($folder_path)) != '') {
+		array_push($folder_path, dirname(end($folder_path)));
+	}
 
+	while($parent_folder_path = array_pop($folder_path)) {
+		@mkdir($parent_folder_path, $rights);
+	}
+	@mkdir( $path );
+	return is_dir( $path );
+}
 /**
 * Utility function to read the files in a directory
 * @param string The file system path
