@@ -144,7 +144,7 @@ class ZipFile {
 		foreach( $filelist as $file ) {
 			$data = file_get_contents( $file );
 			if( empty( $data )) continue;
-			$cleaned_file = str_replace( $removePath. DS, '', $file );
+			$cleaned_file = str_replace( $removePath. DIRECTORY_SEPARATOR, '', $file );
 			$cleaned_file = str_replace( $removePath, '', $cleaned_file );
 			$this->add_data($data, $cleaned_file, filemtime($file));
 		}

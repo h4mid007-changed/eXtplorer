@@ -50,7 +50,7 @@ class ext_Archive extends ext_Action {
 
 		// If we have something to archive, let's do it now
 		if(extGetParam($_POST, 'confirm' ) == 'true' ) {
-			$saveToDir = $GLOBALS['__POST']['saveToDir'];
+			$saveToDir = utf8_decode($GLOBALS['__POST']['saveToDir']);
 			if( !file_exists( get_abs_dir($saveToDir ) )) {
 				ext_Result::sendResult('archive', false, ext_Lang::err('archive_dir_notexists'));
 			}
@@ -67,7 +67,7 @@ class ext_Archive extends ext_Action {
 			$files_per_step = 2500;
 
 			$cnt=count($GLOBALS['__POST']["selitems"]);
-			$abs_dir=get_abs_dir($dir);
+			$abs_dir= get_abs_dir($dir);
 			$name=basename(stripslashes($GLOBALS['__POST']["name"]));
 			if($name=="") {
 				ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnoname"]);
@@ -92,23 +92,22 @@ class ext_Archive extends ext_Action {
 			for($i=0;$i<$cnt;$i++) {
 
 				$selitem=stripslashes($GLOBALS['__POST']["selitems"][$i]);
-
-				if( is_dir( $abs_dir ."/". $selitem )) {
-					$items = extReadDirectory($abs_dir ."/".  $selitem, '.', true, true );
+				if( is_dir( utf8_decode($abs_dir ."/". $selitem ))) {					
+					$items = extReadDirectory(utf8_decode($abs_dir ."/".  $selitem), '.', true, true );
 					foreach ( $items as $item ) {
 						if( is_dir( $item ) || !is_readable( $item ) || $item == $archive_name ) continue;
 						$v_list[] = str_replace('\\', '/', $item );
 					}
 				}
-				else {
-					$v_list[] = str_replace('\\', '/', $abs_dir ."/". $selitem );
+				else {					
+					$v_list[] = utf8_decode(str_replace('\\', '/', $abs_dir ."/". $selitem ));
 				}
 			}
 			$cnt_filelist = count( $v_list );
 
 			$remove_path = $GLOBALS["home_dir"];
 			if( $dir ) {
-				$remove_path .= $dir.$GLOBALS['separator'];
+				$remove_path .= $dir;
 			}
 
 			//echo '<strong>Starting from: '.$startfrom.'</strong><br />';
@@ -222,7 +221,7 @@ class ext_Archive extends ext_Action {
 		}
 	});
 
-	form.addButton('<?php echo ext_Lang::msg( 'btncreate', true ) ?>', function() { formSubmit(0) });
+	form.addButton({text: '<?php echo ext_Lang::msg( 'btncreate', true ) ?>', type: 'submit' }, function() { formSubmit(0) });
 	form.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.hide();dialog.destroy(); } );
 
 	form.render('adminForm');

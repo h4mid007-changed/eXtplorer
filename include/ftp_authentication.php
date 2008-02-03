@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -118,7 +118,7 @@ class ext_ftp_authentication {
 	    })
 	    );
 	
-	simple.addButton('<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', function() {
+	simple.addButton({text: '<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', type: 'submit' }, function() {
 		statusBarMessage( '<?php echo ext_Lang::msg('ftp_login_check', true ) ?>', true );
 	    simple.submit({
 	        //reset: true,

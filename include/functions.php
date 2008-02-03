@@ -331,6 +331,9 @@ function get_dir_selects( $dir ) {
 	$dirsCopy = $dirs;
 	$implode = '';
 	$selectedDir = @$dirs[0];
+	foreach( $subdirs as $index => $val ) {
+		$subdirs[$index] = utf8_encode($val);
+	}
 	$dir_links = ext_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'ext_disabled\' ) chDir(theDir);"' );
 	$i = 2;
 	foreach( $dirs as $directory ) {
@@ -338,6 +341,10 @@ function get_dir_selects( $dir ) {
 			$implode .= $directory;
 			$next = next($dirsCopy);
 			$subdirs = get_dir_list( $implode );
+	  		foreach( $subdirs as $index => $val ) {
+	  			unset( $subdirs[$index]);
+				$subdirs[utf8_encode($index)] = utf8_encode($val);
+			}
 			if( $next !== false ) {
 				$selectedDir .= '/'.$next;
 			} else {

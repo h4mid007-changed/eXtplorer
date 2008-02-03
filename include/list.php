@@ -218,13 +218,13 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 				$file_info['gid'] = $user_info['gid'];
 			}
 		} else {
-			$abs_item=get_abs_item($dir,$item);
+			$abs_item=get_abs_item(utf8_decode($dir), $item);
 			$file_info = @stat( $abs_item );
 		}
 		$is_dir = get_is_dir($abs_item);
 		
-		$items['items'][$i]['name'] = $item;
-		$items['items'][$i]['is_file'] = get_is_file( $abs_item);
+		$items['items'][$i]['name'] = ext_isFTPMode() ? $item : utf8_encode($item);
+		$items['items'][$i]['is_file'] = get_is_file($abs_item);
 		$items['items'][$i]['is_archive'] = ext_isArchive( $item ) && !ext_isFTPMode();
 		$items['items'][$i]['is_writable'] = $is_writable = @$GLOBALS['ext_File']->is_writable( $abs_item );
 		$items['items'][$i]['is_chmodable'] = $is_chmodable = @$GLOBALS['ext_File']->is_chmodable( $abs_item );
@@ -259,8 +259,8 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 
 			$qtip ="<strong>".ext_Lang::mime('dir',true)."</strong><br /><strong>".ext_Lang::msg('miscperms',true).":</strong> ".$perms."<br />";
 			$qtip.='<strong>'.ext_Lang::msg('miscowner',true).':</strong> '.$items['items'][$i]['owner'];
-			$dirlist[] = array('text' => htmlspecialchars($item),
-								'id' => $id,
+			$dirlist[] = array('text' => htmlspecialchars(ext_isFTPMode() ? $item : utf8_encode($item)),
+								'id' => ext_isFTPMode() ? $id : utf8_encode($id),
 								'qtip' => $qtip,
 								'is_writable' => $is_writable,
 								'is_chmodable' => $is_chmodable,

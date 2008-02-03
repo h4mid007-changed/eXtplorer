@@ -2,6 +2,9 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
+
+- re-added System Info (moved to "About" Window)
+- implemented basic UTF-8 support for file mode
 - changed [ 1800028 ] Need to enlarge file edit box, or allow for full screen
 - fixed [ 1791706 ] incorrect error reporting
 - fixed [ 1790536 ] Browsing directory incorrect

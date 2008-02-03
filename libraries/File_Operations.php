@@ -27,7 +27,7 @@ class ext_File {
 			return $GLOBALS['FTPCONNECTION']->chmod( $item, $mode );
 		}
 		else {
-			return @chmod( $item, $mode );
+			return @chmod( utf8_decode($item), $mode );
 		}
 	}
 	
@@ -36,7 +36,7 @@ class ext_File {
 			return $GLOBALS['FTPCONNECTION']->chmodRecursive( $item, $mode );
 		}
 		else {
-			return chmod_recursive( $item, $mode );
+			return chmod_recursive( utf8_decode($item), $mode );
 		}
 	}
 	function copy( $from, $to ) {
@@ -50,7 +50,7 @@ class ext_File {
 			return $res;
 		}
 		else {
-			return copy( $from, $to );
+			return copy( utf8_decode($from), utf8_decode($to) );
 		}
 	}
 	function copy_dir($abs_item, $abs_new_item) {
@@ -70,7 +70,7 @@ class ext_File {
 			return $res;
 		}
 		else {
-			return mkdir($dir, $perms );
+			return mkdir( utf8_decode($dir), $perms );
 		}
 	}
 	function mkfile( $file ) {
@@ -79,7 +79,7 @@ class ext_File {
 			return $GLOBALS['FTPCONNECTION']->fput( $tmp, $file );
 		}
 		else {
-			return @touch( $file );
+			return @touch( utf8_decode($file) );
 		}
 	}
 	function unlink( $item ) {
@@ -87,7 +87,7 @@ class ext_File {
 			return $GLOBALS['FTPCONNECTION']->rm( $item );
 		}
 		else {
-			return unlink( $item );
+			return unlink( utf8_decode($item) );
 		}
 	}
 	
@@ -104,7 +104,7 @@ class ext_File {
 			return $GLOBALS['FTPCONNECTION']->rm( $item, true );
 		}
 		else {
-			return remove( $item );
+			return remove( utf8_decode($item) );
 		}
 	}
 	function rename( $oldname, $newname ) {
@@ -115,7 +115,7 @@ class ext_File {
 			return $GLOBALS['FTPCONNECTION']->rename( $oldname, $newname );
 		}
 		else {
-			return rename( $oldname, $newname );
+			return rename( utf8_decode($oldname), utf8_decode($newname) );
 		}
 	}
 	function opendir( $dir ) {
@@ -123,7 +123,7 @@ class ext_File {
 			return getCachedFTPListing( $dir );
 		}
 		else {
-			return opendir( $dir );
+			return opendir( utf8_decode($dir) );
 		}
 	}
 	function readdir( &$handle ) {
@@ -172,7 +172,7 @@ class ext_File {
 			return false;
 		}
 		else {
-			return file_exists( $file );
+			return file_exists( utf8_decode($file) );
 		}
 	}
 	function filesize( $file ) {
@@ -246,7 +246,7 @@ class ext_File {
 			}
 		}
 		else {
-			return file_get_contents( $file );
+			return file_get_contents( utf8_decode($file) );
 		}
 	}
 	function file_put_contents( $file, $data ) {
@@ -260,7 +260,7 @@ class ext_File {
 			return $res;
 		} 
 		else {
-			return file_put_contents( $file, $data );
+			return file_put_contents( utf8_decode($file), $data );
 		}
 	}
 	function fileowner( $file ) {

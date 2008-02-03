@@ -82,10 +82,10 @@ class ext_Download extends ext_Action {
 			header('Pragma: no-cache');
 		}
 		@set_time_limit( 0 );
-		@readFileChunked($abs_item);
+		@readFileChunked(utf8_decode($abs_item));
 		
 		if( $unlink==true ) {
-		  	unlink( $abs_item );
+		  	unlink( utf8_decode($abs_item) );
 		}
 	    ob_end_flush();
 		ext_exit();

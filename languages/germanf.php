@@ -10,7 +10,7 @@
 // German Language Module for joomlaXplorer (translated by the QuiX project)
 global $_VERSION;
 
-$GLOBALS["charset"] = "iso-8859-1";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
 $GLOBALS["date_fmt"] = "d.m.Y H:i";
 $GLOBALS["error_msg"] = array(
@@ -269,7 +269,7 @@ $GLOBALS["messages"] = array(
 	'ftp_hostname_port' => 'FTP Hostname und Port <br />(Port ist optional)',
 	'ftp_login_check' => 'FTP Verbindung wird hergestellt...',
 	'ftp_connection_failed' => "Der FTP Server konnte nicht kontaktiert werden. \nStellen Sie bitte sicher, dass auf dem Server ein FTP-Server aktiv ist.",
-	'ftp_login_failed' => "Die Anmeldung am FTP Server ist fehlgeschlagen. \nÜberprüfen Sie den Nutzernamen \nund das Passwort und versuchen Sie es erneut.",
+	'ftp_login_failed' => "Die Anmeldung am FTP Server ist fehlgeschlagen. \nÃœberprÃ¼fen Sie den Nutzernamen \nund das Passwort und versuchen Sie es erneut.",
 	
 	'switch_file_mode' => 'Aktueller Modus: <strong>%s</strong>. Modus wechseln zu: %s.',
 	'symlink_target' => 'Ziel des symbolischen Links',

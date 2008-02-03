@@ -39,10 +39,14 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 
 function read_bookmarks() {
-	global $my;
+	global $my, $user;
 	$bookmarkfile = _EXT_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_';
 	if( empty( $my->id )) {
-		$bookmarkfile .= $GLOBALS['__SESSION']['s_user'].'.php';
+		if( is_object($user) && is_callable(array($user,'get')) ) {
+			$bookmarkfile .= $user->get('id').'.php';
+		} else {
+			$bookmarkfile .= $GLOBALS['__SESSION']['s_user'].'.php';
+		}
 	} else {
 		$bookmarkfile .= $my->id . '.php';
 	}
@@ -64,12 +68,16 @@ function read_bookmarks() {
  * @param string $dir
  */
 function modify_bookmark( $task, $dir ) {
-	global $my;
+	global $my, $user;
 	$alias = substr( extGetParam($_REQUEST,'alias'), 0, 150 );
 	$bookmarks = read_bookmarks();
 		$bookmarkfile = _EXT_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_';
 	if( empty( $my->id )) {
-		$bookmarkfile .= $GLOBALS['__SESSION']['s_user'].'.php';
+		if( is_object($user) && is_callable(array($user=>'get')) ) {
+			$bookmarkfile .= $user->get('id').'.php';
+		} else {
+			$bookmarkfile .= $GLOBALS['__SESSION']['s_user'].'.php';
+		}
 	} else {
 		$bookmarkfile .= $my->id . '.php';
 	}

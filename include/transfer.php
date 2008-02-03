@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -100,7 +100,11 @@ class ext_Transfer extends ext_Action {
 		}
 	}
 }
-
+/**
+ * Abstract DownloadMethod Class for implementing special types
+ * @abstract 
+ *
+ */
 class DownloadMethod {
 	function download($url, $outputFile) {
 		return false;
@@ -315,7 +319,7 @@ class CurlDownloader extends DownloadMethod {
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 		curl_setopt($ch, CURLOPT_FAILONERROR, true);
 		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 20 * 60);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 		curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
