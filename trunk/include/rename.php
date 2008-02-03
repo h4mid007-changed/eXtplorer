@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -102,7 +102,7 @@ class ext_Rename extends ext_Action {
 	    new Ext.form.TextField({
 	        fieldLabel: '<?php echo ext_Lang::msg( 'newname', true ) ?>',
 	        name: 'newitemname',
-	        value: '<?php echo str_replace("'", "\'", stripslashes($GLOBALS['__POST']['item']) ) ?>',
+	        value: '<?php echo str_replace("'", "\'", stripslashes($item) ) ?>',
 	        width:175,
 	        allowBlank:false
 	    })
@@ -139,8 +139,8 @@ class ext_Rename extends ext_Action {
 	        // add some vars to the request, similar to hidden fields
 	        params: {option: 'com_extplorer', 
 	        		action: 'rename', 
-	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
-	        		item: '<?php echo stripslashes($GLOBALS['__POST']["item"]) ?>', 
+	        		dir: '<?php echo stripslashes($dir) ?>', 
+	        		item: '<?php echo stripslashes($item) ?>', 
 	        		confirm: 'true'}
 	    });
 	});

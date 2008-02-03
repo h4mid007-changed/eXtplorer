@@ -47,7 +47,7 @@ class ext_Edit extends ext_Action {
 		}
 		$fname = get_abs_item($dir, $item);
 		
-		if(!get_is_file($fname))  {
+		if(!get_is_file(utf8_decode($fname)))  {
 			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('fileexist' ));
 		}
 		if(!get_show_item($dir, $item)) {
@@ -192,8 +192,8 @@ class ext_Edit extends ext_Action {
 	        params: {option: 'com_extplorer', 
 	        		action: 'edit', 
 	        		code: ext_codefield.getCode(),
-	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
-	        		item: '<?php echo stripslashes($GLOBALS['__POST']["item"]) ?>', 
+	        		dir: '<?php echo stripslashes($dir) ?>', 
+	        		item: '<?php echo stripslashes($item) ?>', 
 	        		dosave: 'yes'
 	        }
 	    });

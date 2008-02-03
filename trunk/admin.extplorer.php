@@ -87,7 +87,7 @@ if( defined( '_LOGIN_REQUIRED')) return;
 
 // Empty the output buffer if this is a XMLHttpRequest
 if( ext_isXHR() ) {
-	//error_reporting(0);
+	error_reporting(0);
 	while( @ob_end_clean() );
 }
 
@@ -123,11 +123,6 @@ if( class_exists(strtolower($classname))) {
 		  show_admin($dir);
 	  break;
 	//------------------------------------------------------------------------------
-	  // joomla System Info
-	  case 'sysinfo':
-		  require_once( _EXT_PATH . "/include/system_info.php" );
-	  break;
-	//------------------------------------------------------------------------------
 	  case 'ftp_logout':
 	  	require_once( _EXT_PATH.'/include/ftp_authentication.php' );
 	  	ftp_logout();
@@ -146,6 +141,8 @@ if( class_exists(strtolower($classname))) {
 	  	break;
 	  case'get_about':
 	  	show_about();
+		  require_once( _EXT_PATH . "/include/system_info.php" );
+		  system_info();
 	  	break;
 	//------------------------------------------------------------------------------
 	  // DEFAULT: LIST FILES & DIRS

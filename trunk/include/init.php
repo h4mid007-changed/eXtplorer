@@ -32,7 +32,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
  * This file initializes most of the variables and constants we need in joomlaXplorer
  */
-// Vars
+// Vars	
 if(isset($_SERVER)) {
 	$GLOBALS['__GET']	=&$_GET;
 	$GLOBALS['__POST']	=&$_POST;
@@ -100,7 +100,7 @@ $default_lang = !empty( $GLOBALS['mosConfig_lang'] ) ? $GLOBALS['mosConfig_lang'
 $GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'language', 'lang', $default_lang );
 // Get Item
 if(isset($_REQUEST["item"])) 
-  $GLOBALS["item"]=$item = stripslashes(urldecode($_REQUEST["item"]));
+  $GLOBALS["item"]=$item = stripslashes(rawurldecode($_REQUEST["item"]));
 else 
   $GLOBALS["item"]=$item ="";
 
@@ -250,7 +250,7 @@ if(!file_exists($GLOBALS["home_dir"])) {
 if(!down_home($abs_dir)) {
 	ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
 }
-if(!get_is_dir($abs_dir))
+if(!get_is_dir(utf8_decode($abs_dir)))
   if(!get_is_dir($abs_dir.$GLOBALS["separator"]))
 	ext_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
 	

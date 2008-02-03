@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -53,22 +53,20 @@ function get_server_software() {
 	}
 }
 
-function system_info( $version, $option ) {
-	global $mosConfig_absolute_path, $database, $_VERSION;
-	$version = $_VERSION->PRODUCT .' <strong style="color: red;">'. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .'</strong> '. $_VERSION->DEV_STATUS .' [ '.$_VERSION->CODENAME .' ] ' . $_VERSION->RELDATE . ' ' . $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
+function system_info() {
+	$version = $GLOBALS['ext_version'];
 	//$tab = extGetParam( $_REQUEST, 'tab', 'tab1' );
 	$width = 400;	// width of 100%
-	$tabs = new mosTabs(0);
+	
 	?>
 	<br />
-	<?php
-	$tabs->startPane( 'sysinfo' );
-	$tabs->startTab( $GLOBALS['messages']['sisysteminfo'], 'system-page' );
-	?>
+	<div id="sysinfo">
+	<div id="system-page" class="x-tab" title="<?php echo ext_Lang::msg( 'sisysteminfo' ) ?>">
+	
 	<table class="adminform">
 	<tr>
 		<td valign="top" width="250" style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['sibuilton']; ?>:
+			<?php echo ext_lang::msg( 'sibuilton' ); ?>:
 		</td>
 		<td>
 		<?php echo php_uname(); ?>
@@ -76,7 +74,7 @@ function system_info( $version, $option ) {
 	</tr>
 	<tr>
 		<td style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['sidbversion']; ?>:
+			<?php echo ext_lang::msg( 'sidbversion' ); ?>:
 		</td>
 		<td>
 		<?php echo mysql_get_server_info(); ?>
@@ -84,7 +82,7 @@ function system_info( $version, $option ) {
 	</tr>
 	<tr>
 		<td valign="top" style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['siphpversion']; ?>:
+			<?php echo ext_lang::msg( 'siphpversion' ); ?>:
 		</td>
 		<td>
 		<?php echo phpversion(); ?>
@@ -94,7 +92,7 @@ function system_info( $version, $option ) {
 	</tr>
 	<tr>
 		<td style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['siwebserver']; ?>:
+			<?php echo ext_lang::msg( 'siwebserver' ); ?>:
 		</td>
 		<td>
 		<?php echo get_server_software(); ?>
@@ -102,7 +100,7 @@ function system_info( $version, $option ) {
 	</tr>
 	<tr>
 		<td style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['siwebsphpif']; ?>:
+			<?php echo ext_lang::msg( 'siwebsphpif' ); ?>:
 		</td>
 		<td>
 		<?php echo php_sapi_name(); ?>
@@ -110,7 +108,7 @@ function system_info( $version, $option ) {
 	</tr>
 	<tr>
 		<td style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['simamboversion']; ?>:
+			<?php echo ext_lang::msg( 'simamboversion' ); ?>:
 		</td>
 		<td>
 		<?php echo $version; ?>
@@ -118,7 +116,7 @@ function system_info( $version, $option ) {
 	</tr>
 	<tr>
 		<td style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['siuseragent']; ?>:
+			<?php echo ext_lang::msg( 'siuseragent' ); ?>:
 		</td>
 		<td>
 		<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
@@ -126,13 +124,13 @@ function system_info( $version, $option ) {
 	</tr>
 	<tr>
 		<td valign="top" style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['sirelevantsettings']; ?>:
+			<?php echo ext_lang::msg( 'sirelevantsettings' ); ?>:
 		</td>
 		<td>
 			<table cellspacing="1" cellpadding="1" border="0">
 			<tr>
 				<td valign="top">
-					<?php echo $GLOBALS['messages']['sisafemode']; ?>:
+					<?php echo ext_lang::msg( 'sisafemode' ); ?>:
 				</td>
 				<td>
 				<?php echo get_php_setting('safe_mode', 0); ?>
@@ -140,7 +138,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sibasedir']; ?>:
+					<?php echo ext_lang::msg( 'sibasedir' ); ?>:
 				</td>
 				<td>
 				<?php echo (($ob = ini_get('open_basedir')) ? $ob : 'none'); ?>
@@ -148,7 +146,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sidisplayerrors']; ?>:
+					<?php echo ext_lang::msg( 'sidisplayerrors' ); ?>:
 				</td>
 				<td>
 				<?php echo get_php_setting('display_errors'); ?>
@@ -156,7 +154,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sishortopentags']; ?>:
+					<?php echo ext_lang::msg( 'sishortopentags' ); ?>:
 				</td>
 				<td>
 				<?php echo get_php_setting('short_open_tag'); ?>
@@ -164,7 +162,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sifileuploads']; ?>:
+					<?php echo ext_lang::msg( 'sifileuploads' ); ?>:
 				</td>
 				<td>
 				<?php echo get_php_setting('file_uploads'); ?>
@@ -172,7 +170,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['simagicquotes']; ?>:
+					<?php echo ext_lang::msg( 'simagicquotes' ); ?>:
 				</td>
 				<td>
 				<?php echo get_php_setting('magic_quotes_gpc'); ?>
@@ -180,7 +178,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['siregglobals']; ?>:
+					<?php echo ext_lang::msg( 'siregglobals' ); ?>:
 				</td>
 				<td>
 				<?php echo get_php_setting('register_globals', 0); ?>
@@ -188,7 +186,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sioutputbuf']; ?>:
+					<?php echo ext_lang::msg( 'sioutputbuf' ); ?>:
 				</td>
 				<td>
 				<?php echo get_php_setting('output_buffering', 0); ?>
@@ -196,7 +194,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sisesssavepath']; ?>:
+					<?php echo ext_lang::msg( 'sisesssavepath' ); ?>:
 				</td>
 				<td>
 				<?php echo (( $sp=ini_get( 'session.save_path' )) ? $sp : 'none' ); ?>
@@ -204,7 +202,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sisessautostart']; ?>:
+					<?php echo ext_lang::msg( 'sisessautostart' ); ?>:
 				</td>
 				<td>
 				<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
@@ -212,7 +210,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sixmlenabled']; ?>:
+					<?php echo ext_lang::msg( 'sixmlenabled' ); ?>:
 				</td>
 				<td>
 					<?php echo extension_loaded('xml') ? '<font style="color: green;">' . $GLOBALS['messages']['miscyesno'][0] . '</font>' : '<font style="color: red;">' . $GLOBALS['messages']['miscyesno'][1] . '</font>'; ?>
@@ -220,7 +218,7 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sizlibenabled']; ?>:
+					<?php echo ext_lang::msg( 'sizlibenabled' ); ?>:
 				</td>
 				<td>
 				<?php echo extension_loaded('zlib') ? '<font style="color: green;">' . $GLOBALS['messages']['miscyesno'][0] . '</font>' : '<font style="color: red;">' . $GLOBALS['messages']['miscyesno'][1] . '</font>'; ?>
@@ -228,63 +226,22 @@ function system_info( $version, $option ) {
 			</tr>
 			<tr>
 				<td>
-					<?php echo $GLOBALS['messages']['sidisabledfuncs']; ?>:
+					<?php echo ext_lang::msg( 'sidisabledfuncs' ); ?>:
 				</td>
 				<td>
 				<?php echo (( $df=ini_get('disable_functions' )) ? $df : 'none' ); ?>
 				</td>
 			</tr>
-			<?php
-			$query = "SELECT name FROM #__mambots"
-			. "\nWHERE folder='editors' AND published='1'"
-			. "\nLIMIT 1";
-			$database->setQuery( $query );
-			$editor = $database->loadResult();
-			?>
-			<tr>
-				<td>
-					<?php echo $GLOBALS['messages']['sieditor']; ?>:
-				</td>
-				<td>
-					<?php echo $editor; ?>
-				</td>
-			</tr>
 			</table>
 		</td>
 	</tr>
-	<tr>
-		<td valign="top" style="font-weight:bold;">
-			<?php echo $GLOBALS['messages']['siconfigfile']; ?>:
-		</td>
-		<td>
-		<?php
-		$cf = file( $mosConfig_absolute_path . '/configuration.php' );
-		foreach ($cf as $k=>$v) {
-			if (eregi( 'mosConfig_host', $v)) {
-				$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
-			} else if (eregi( 'mosConfig_user', $v)) {
-				$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
-			} else if (eregi( 'mosConfig_password', $v)) {
-				$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
-			} else if (eregi( 'mosConfig_db ', $v)) {
-				$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
-			} else if (eregi( '<?php', $v)) {
-				$cf[$k] = '&lt;?php';
-			}
-		}
-		echo implode( '<br>', $cf );
-		?>
-		</td>
-	</tr>
 	</table>
-	<?php
-	$tabs->endTab();
-	$tabs->startTab( $GLOBALS['messages']['siphpinfo'], 'php-page' );
-	?>
+	</div>
+	<div id="php-page" class="x-tab" title="<?php echo ext_Lang::msg('siphpinfo' ); ?>">
 	<table class="adminform">
 	<tr>
 		<th colspan="2">
-			<?php echo $GLOBALS['messages']['siphpinformation']; ?>:
+			<?php echo ext_lang::msg( 'siphpinformation' ); ?>:
 		</th>
 	</tr>
 	<tr>
@@ -304,49 +261,16 @@ function system_info( $version, $option ) {
 		</td>
 	</tr>
 	</table>
-	<?php
-	$tabs->endTab();
-	$tabs->startTab( $GLOBALS['messages']['sipermissions'], 'perms' );
-	?>
-	<table class="adminform">
-	  <tr>
-		<th colspan="2">&nbsp;<?php echo $GLOBALS['messages']['sidirperms']; ?>:</th>
-	  </tr>
-	  <tr>
-		<td colspan="2">
-			<span style="font-weight:bold;"><?php echo $GLOBALS['messages']['sidirpermsmess']; ?>:</span>
-		</td>
-	  </tr>
-	  <tr>
-	  	<td width="50%">
-		<?php
-		  mosHTML::writableCell( 'administrator/backups' );
-		  mosHTML::writableCell( 'administrator/components' );
-		  mosHTML::writableCell( 'administrator/modules' );
-		  mosHTML::writableCell( 'administrator/templates' );
-		  mosHTML::writableCell( 'cache' );
-		  mosHTML::writableCell( 'components' );
-		  mosHTML::writableCell( 'images' );
-		  mosHTML::writableCell( 'images/banners' );
-		  mosHTML::writableCell( 'images/stories' );
-		  mosHTML::writableCell( 'language' );
-		  mosHTML::writableCell( 'mambots' );
-		  mosHTML::writableCell( 'mambots/content' );
-		  mosHTML::writableCell( 'mambots/search' );
-		  mosHTML::writableCell( 'media' );
-		  mosHTML::writableCell( 'modules' );
-		  mosHTML::writableCell( 'templates' );
-?>
-
-		</td>
-	  </tr>
-	</table>
-	<?php
-	$tabs->endTab();
-	$tabs->endPane();
-	?>
+	</div>
+	</div>
+	<script type="text/javascript">
+<!--
+var tabs = new Ext.TabPanel( "sysinfo" );
+tabs.addTab( "system-page","<?php echo ext_Lang::msg( 'sisysteminfo' ) ?>" ); 
+tabs.addTab( "php-page","<?php echo ext_Lang::msg('siphpinfo' ); ?>" ); 
+tabs.activate( "system-page" );
+//-->
+</script>
 	<?php
 }
-show_header( $GLOBALS['messages']['simamsysinfo'] . '&nbsp;&nbsp;<a href="index2.php?option=' . $option . '">[ ' . $GLOBALS['error_msg']['back'] . ']</a>');
-system_info( $version, $option );
 ?>

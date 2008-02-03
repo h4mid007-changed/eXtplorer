@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -61,7 +61,7 @@ class ext_View extends ext_Action {
 		*/
 		
 		if( @eregi($GLOBALS["images_ext"], $item)) {
-			echo '<img src="'.make_link( 'get_image', $dir, $item).'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
+			echo '<img src="'.make_link( 'get_image', $dir, rawurlencode($item)).'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
 		}
 		
 		else {
@@ -120,16 +120,15 @@ class ext_View extends ext_Action {
   			while( @ob_end_clean() );
   			
   			$pathinfo = pathinfo( $item );
-	  			
 			switch(strtolower($pathinfo['extension'])) {
-				case ".gif":
+				case "gif":
 					header ("Content-type: image/gif");
 					break;
-				case ".jpg":
-				case ".jpeg":
+				case "jpg":
+				case "jpeg":
 					header ("Content-type: image/jpeg");
 					break;
-				case ".png":
+				case "png":
 					header ("Content-type: image/png");
 		  			break;
 	  		}

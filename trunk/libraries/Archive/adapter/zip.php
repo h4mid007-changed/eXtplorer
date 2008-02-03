@@ -181,7 +181,7 @@ class extArchiveZip {
 				$buffer = $this->_getFileData( $i ) ;
 				$path = extPath::clean( $destination . DS . $this->_metadata[$i]['name'] ) ;
 				// Make sure the destination folder exists
-				if( ! mkdir( dirname( $path ) ) ) {
+				if( ! extMkdirR( dirname( $path ) ) ) {
 					return PEAR::raiseError( 'Unable to create destination' ) ;
 				}
 				if( file_put_contents( $path, $buffer ) === false ) {
