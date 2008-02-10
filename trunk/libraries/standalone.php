@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: $
+* @version $Id$
 * @package eXtplorer
 * @copyright Copyright (C) 2007 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -373,16 +373,15 @@ $mainframe = new extMainFrame();
 $mypath = realpath( dirname(__FILE__).'/..');
 if( file_exists( $mypath.'/scripts.zip' ) && !file_exists( $mypath .'/scripts/functions.js.php')) {
 	require_once($mypath . "/include/functions.php");
-	require_once($mypath . "/libraries/Archive.php");
+	require_once($mypath . "/libraries/archive/archive.php");
 	
 	ext_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
 	
 	$archive_name = $mypath.'/scripts.zip';
-	$archive_as_dir = $archive_name.'/';
 	$extract_dir = $mypath.'/';
 	
-	$result = File_Archive::extract( $archive_as_dir, $extract_dir );
+	$result = extArchive::extract( $archive_name, $extract_dir );
 	if( !PEAR::isError( $result )) {
 		unlink( $archive_name );
 	} else {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <mosinstall type="component">
+<!-- Mambo/Joomla! 1.0 Installer XML File -->
     <name>eXtplorer</name>
-    <creationDate>29.01.2008</creationDate>
+    <creationDate>10.02.2008</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren@virtuemart.net</authorEmail>
