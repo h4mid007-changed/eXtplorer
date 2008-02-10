@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -124,7 +124,7 @@ class ext_Chmod extends ext_Action {
 		} else {
 			$abs_item = get_abs_item( $dir, $GLOBALS['__POST']["selitems"][0]);
 		}
-		$mode = parse_file_perms(get_file_perms( $abs_item ));
+		$mode = parse_file_perms(get_file_perms( utf8_decode($abs_item) ));
 		if($mode===false) {
 			ext_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["permread"]);
 		}

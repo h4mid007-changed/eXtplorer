@@ -39,7 +39,14 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 **/
 if( @is_object($acl)) {
 	if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
-		extRedirect( 'index2.php', _NOT_AUTH );
+		$url = htmlspecialchars($_SERVER['PHP_SELF']);
+		if (headers_sent()) {
+			echo "<script>document.location.href='$url';</script>\n";
+		} else {
+			@ob_end_clean(); // clear output buffer
+			header( 'HTTP/1.1 403 Forbidden' );
+			header( "Location: ". $url );
+		}
 	}
 }
 // The joomlaXplorer version number
