@@ -2,6 +2,11 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
+
+- fixed MimeType detection for search results
+
+-- version 2.0.0 RC2 released (2008-02-10) ----
+
 - fixed Standalone scripts.zip extraction error
 - re-added System Info (moved to "About" Window)
 - implemented basic UTF-8 support for file mode

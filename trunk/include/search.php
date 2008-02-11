@@ -93,15 +93,15 @@ function get_result_table($list) {			// print table of found items
 			$img = "dir.png";
 			$link = make_link("list",get_rel_item($dir, $item),NULL);
 		} else {
-			$img = get_mime_type($dir, $item, "img");
+			$img = get_mime_type( $item, "img");
 			//if(get_is_editable($dir,$item) || get_is_image($dir,$item)) {
-				$link = $GLOBALS["home_url"]."/".get_rel_item($dir, $item);
-				$target = "_blank";
+			$link = $GLOBALS["home_url"]."/".get_rel_item($dir, $item);
+			$target = "_blank";
 			//}
 		}
 		
 		$response .= "<tr><td>" . "<img border=\"0\" width=\"22\" height=\"22\" ";
-		$response .= "align=\"absmiddle\" src=\""._EXT_URL."/images/" . $img . "\" alt=\"\">&nbsp;";
+		$response .= "align=\"absmiddle\" src=\""._EXT_URL."/images/" . $img . "\" alt=\"\" />&nbsp;";
 		/*if($link!="")*/ 
 		$response .= "<a href=\"".$link."\" target=\"".$target."\">";
 		//else echo "<a>";
