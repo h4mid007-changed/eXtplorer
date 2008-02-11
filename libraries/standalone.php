@@ -373,7 +373,7 @@ $mainframe = new extMainFrame();
 $mypath = realpath( dirname(__FILE__).'/..');
 if( file_exists( $mypath.'/scripts.zip' ) && !file_exists( $mypath .'/scripts/functions.js.php')) {
 	require_once($mypath . "/include/functions.php");
-	require_once($mypath . "/libraries/archive/archive.php");
+	require_once($mypath . "/libraries/Archive/archive.php");
 	
 	ext_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
