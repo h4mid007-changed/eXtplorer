@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
@@ -45,7 +45,7 @@ $GLOBALS["home_url"] = $mosConfig_live_site.'/downloads';
 require( dirname(__FILE__).'/extplorer.init.php');
 include( dirname(__FILE__).'/extplorer.list.php');
 
-if( !empty($GLOBALS['ERROR'])) {
+if( !empty($GLOBALS['ERROR']) || defined('EXPLORER_NOEXEC')) {
 	echo '<h2>'.$GLOBALS['ERROR'].'</h2>';
 	return;
 }

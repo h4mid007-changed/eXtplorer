@@ -138,26 +138,26 @@ class ext_Result {
 				}
 				ext_Result::empty_messages();
 				
-				if( !empty( $_REQUEST['extra'])) echo " - ".urldecode($_REQUEST['extra']);
+				if( !empty( $_REQUEST['extra'])) echo " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
 				echo "</div>\n";
 			}
 			
-			
-			echo "<div class=\"ext_error\"><a name=\"errors\"></a>
-					<h3>".$GLOBALS["error_msg"]["error"].":</strong>"."</h3>\n";
-			
-			foreach ( $_SESSION['ext_error'] as $errortype ) {
-				foreach ( $errortype as $error ) {
-					echo $error ."\n<br/>";
+			if( !empty( $_SESSION['ext_error'])) {
+				echo "<div class=\"ext_error\"><a name=\"errors\"></a>
+						<h3>".$GLOBALS["error_msg"]["error"].":</strong>"."</h3>\n";
+				
+				foreach ( $_SESSION['ext_error'] as $errortype ) {
+					foreach ( $errortype as $error ) {
+						echo $error ."\n<br/>";
+					}
+					echo '<br /><hr /><br />';
 				}
-				echo '<br /><hr /><br />';
+				ext_Result::empty_errors();
 			}
-			ext_Result::empty_errors();
-			
 			echo "<a href=\"".str_replace('&dir=', '&ignore=', make_link("list", '' ))."\">".$GLOBALS["error_msg"]["back"]."</a>";
-			if( !empty( $_REQUEST['extra'])) echo " - ".urldecode($_REQUEST['extra']);
+			if( !empty( $_REQUEST['extra'])) echo " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
 			echo "</div>\n";
-			
+			defined('EXPLORER_NOEXEC') or define('EXPLORER_NOEXEC', 1 );
 		}
 	}
 }
