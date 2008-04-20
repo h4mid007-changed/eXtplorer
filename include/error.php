@@ -117,26 +117,26 @@ function show_error($error,$extra=NULL) {		// show error-message
 			}
 			empty_messages();
 			
-			if( !empty( $_REQUEST['extra'])) echo " - ".urldecode($_REQUEST['extra']);
+			if( !empty( $_REQUEST['extra'])) echo " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
 			echo "</div>\n";
 		}
 		
-		
-		echo "<div class=\"jx_error\"><a name=\"errors\"></a>
+		if( !empty($_SESSION['jx_error'] )) {
+			echo "<div class=\"jx_error\"><a name=\"errors\"></a>
 				<h3>".$GLOBALS["error_msg"]["error"].":</strong>"."</h3>\n";
 		
-		foreach ( $_SESSION['jx_error'] as $errortype ) {
-			foreach ( $errortype as $error ) {
-				echo $error ."\n<br/>";
+			foreach ( $_SESSION['jx_error'] as $errortype ) {
+				foreach ( $errortype as $error ) {
+					echo $error ."\n<br/>";
+				}
+				echo '<br /><hr /><br />';
 			}
-			echo '<br /><hr /><br />';
+			empty_errors();
 		}
-		empty_errors();
-		
 		echo "<a href=\"".str_replace('&dir=', '&ignore=', make_link("list", '' ))."\">".$GLOBALS["error_msg"]["back"]."</a>";
-		if( !empty( $_REQUEST['extra'])) echo " - ".urldecode($_REQUEST['extra']);
+		if( !empty( $_REQUEST['extra'])) echo " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
 		echo "</div>\n";
-		
+		defined('JXPLORER_NOEXEC') or define('JXPLORER_NOEXEC', 1 );
 	}
 }
 //------------------------------------------------------------------------------

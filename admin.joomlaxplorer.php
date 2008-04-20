@@ -41,7 +41,7 @@ if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', _NOT_AUTH );
 }
 // The joomlaXplorer version number
-$GLOBALS['jx_version'] = '1.6.1';
+$GLOBALS['jx_version'] = '1.6.3';
 $GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer/';
 
 /*

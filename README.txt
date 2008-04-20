@@ -1,8 +1,8 @@
 ----------------------------------------------------------------------------------------------------
-joomlaXplorer 1.6.0 - README
+joomlaXplorer 1.6.3 - README
 ----------------------------------------------------------------------------------------------------
 This script is based on QuiXplorer 2.3.1 (available at http://quixplorer.sourceforge.net/).
-This is a Component for Joomla 1.0.x, 1.5.x and Mambo (all versions from 4.5.0 )!
+This is a Component for Joomla 1.0.x, 1.5.x (legacy mode) and Mambo (all versions from 4.5.0 )!
 ----------------------------------------------------------------------------------------------------
 Installation:
 	1. Download the latest version of joomlaXplorer from http://forge.joomla.net/projects/joomlaXplorer/.

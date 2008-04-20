@@ -41,7 +41,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 	// !Note! This has been changed since joomlaXplorer 1.3.0
 	// and now grants access to all directories for one level ABOVE this Site
 	$dir_above = substr( $mosConfig_absolute_path, 0, strrpos( $mosConfig_absolute_path, $GLOBALS["separator"] ));
-	if( !@is_readable($dir_above)) {
+	if( !@is_readable($dir_above) || !is_dir($dir_above) ) {
 		$GLOBALS["home_dir"] = $mosConfig_absolute_path;
 		// the url corresponding with the home directory: (no trailing '/')
 		$GLOBALS["home_url"] = $mosConfig_live_site;

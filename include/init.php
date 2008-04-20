@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package joomlaXplorer
- * @copyright soeren 2007
+ * @copyright soeren 2006-2008
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -208,11 +208,14 @@ if(!file_exists($GLOBALS["home_dir"])) {
 	show_error($GLOBALS["error_msg"]["home"]." (".$GLOBALS["home_dir"].")",$extra);
   }
 }
-if(!down_home($abs_dir)) show_error($GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
-if(!get_is_dir($abs_dir))
-  if(!get_is_dir($abs_dir.$GLOBALS["separator"]))
+if(!down_home($abs_dir)) {
+	show_error($GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
+	$dir = '';
+}
+if(!get_is_dir($abs_dir) && !get_is_dir($abs_dir.$GLOBALS["separator"])) {
 	show_error($abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
-	
+	$dir = '';
+}
 $_SESSION['jx_'.$GLOBALS['file_mode'].'dir'] = $dir;
 //------------------------------------------------------------------------------
 ?>

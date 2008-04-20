@@ -1,6 +1,11 @@
 *********************************
 Changelog for joomlaXplorer 1.x
 *********************************
+
+- fixed "Local Directory Traversal" + XSS security issue
+
+--- version 1.6.2 released ----
+
 - suppress STRICT standards warnings
 - empty bookmark file generated an error
 - archives couldn't be extracted

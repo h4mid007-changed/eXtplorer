@@ -45,7 +45,7 @@ $GLOBALS["home_url"] = $mosConfig_live_site.'/downloads';
 require( $mosConfig_absolute_path.'/components/com_joomlaxplorer/joomlaxplorer.init.php');
 include( $mosConfig_absolute_path.'/components/com_joomlaxplorer/joomlaxplorer.list.php');
 
-if( !empty($GLOBALS['ERROR'])) {
+if( !empty($GLOBALS['ERROR']) || defined( 'JXPLORER_NOEXEC')) {
 	echo '<h2>'.$GLOBALS['ERROR'].'</h2>';
 	return;
 }

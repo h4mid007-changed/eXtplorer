@@ -13,10 +13,9 @@
 DATE=$(date +%Y%m%d)
 PATH='/home/soeren/Joomla/components/joomlaxplorer_1.x'
 cd $PATH
-/usr/local/lib/p7zip/7za a -ttar -r $PATH/com_joomlaxplorer.tar
-/usr/local/lib/p7zip/7za d -r $PATH/com_joomlaxplorer.tar .svn/
+/usr/bin/7za a -ttar -r $PATH/com_joomlaxplorer.tar
+/usr/bin/7za d -r $PATH/com_joomlaxplorer.tar .svn/ archive/ build_component.sh
 
-/usr/local/lib/p7zip/7za d -r $PATH/com_joomlaxplorer.tar build_component.sh
-/usr/local/lib/p7zip/7za a -tgzip $PATH/com_joomlaxplorer_$DATE.tar.gz $PATH/com_joomlaxplorer.tar
+/usr/bin/7za a -tgzip $PATH/com_joomlaxplorer_$DATE.tar.gz $PATH/com_joomlaxplorer.tar
 
 /bin/rm $PATH/com_joomlaxplorer.tar

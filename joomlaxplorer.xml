@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <mosinstall type="component">
     <name>joomlaXplorer</name>
-    <creationDate>22.06.2007</creationDate>
+    <creationDate>20.04.2008</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
-    <authorEmail>soeren@virtuemart.net</authorEmail>
+    <authorEmail>soeren|at|virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
-    <version>1.6.1</version>
+    <version>1.6.3</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_joomlaxplorer/images/logo.gif" alt="joomlaXplorer Logo" /></div>
 	<h2>Successfully installed joomlaXplorer&nbsp;</h2>
