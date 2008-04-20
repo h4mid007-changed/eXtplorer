@@ -91,8 +91,13 @@ if(!file_exists($GLOBALS["home_dir"])) {
 	$GLOBALS['ERROR'] = $GLOBALS["error_msg"]["home"];
   }
 }
-if(!down_home($abs_dir)) ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
-if(!is_dir($abs_dir))
-  if(!is_dir($abs_dir.$GLOBALS["separator"]))
+if(!down_home($abs_dir)) {
+	ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
+	$dir = $GLOBALS['dir'] = $_SESSION['ext_dir'] = '';
+	return false;
+}
+if(!is_dir($abs_dir) && !is_dir($abs_dir.$GLOBALS["separator"])) {
 	$GLOBALS['ERROR'] = $abs_dir." : ".$GLOBALS["error_msg"]["direxist"];
+	$dir = $GLOBALS['dir'] = $_SESSION['ext_dir'] = '';
+}
 //------------------------------------------------------------------------------

@@ -241,7 +241,7 @@ if(!file_exists($GLOBALS["home_dir"])) {
   if(!file_exists($GLOBALS["home_dir"].$GLOBALS["separator"])) {
 	if($GLOBALS["require_login"]) {
 		$extra="<a href=\"".make_link("logout",NULL,NULL)."\">".
-			$GLOBALS["messages"]["btnlogout"]."</A>";
+			$GLOBALS["messages"]["btnlogout"]."</a>";
 	} 
 	else $extra=NULL;
 	ext_Result::sendResult('', false, $GLOBALS["error_msg"]["home"]." (".$GLOBALS["home_dir"].")",$extra);
@@ -249,11 +249,12 @@ if(!file_exists($GLOBALS["home_dir"])) {
 }
 if(!down_home($abs_dir)) {
 	ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
+	$dir = '';
 }
-if(!get_is_dir(utf8_decode($abs_dir)))
-  if(!get_is_dir($abs_dir.$GLOBALS["separator"]))
+if(!get_is_dir(utf8_decode($abs_dir)) && !get_is_dir($abs_dir.$GLOBALS["separator"])) {
 	ext_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
-	
+	$dir = '';
+}
 $_SESSION['ext_'.$GLOBALS['file_mode'].'dir'] = $dir;
 //------------------------------------------------------------------------------
 ?>
