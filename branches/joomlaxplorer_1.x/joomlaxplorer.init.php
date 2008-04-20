@@ -102,8 +102,13 @@ if(!file_exists($GLOBALS["home_dir"])) {
 	$GLOBALS['ERROR'] = $GLOBALS["error_msg"]["home"];
   }
 }
-if(!down_home($abs_dir)) show_error($GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
-if(!is_dir($abs_dir))
-  if(!is_dir($abs_dir.$GLOBALS["separator"]))
+if(!down_home($abs_dir)) {
+	show_error($GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
+	$_SESSION['jx_dir'] = $dir = '';
+}
+if(!is_dir($abs_dir) && !is_dir($abs_dir.$GLOBALS["separator"])) {
 	$GLOBALS['ERROR'] = $abs_dir." : ".$GLOBALS["error_msg"]["direxist"];
+	$_SESSION['jx_dir'] = $dir = '';
+}
 //------------------------------------------------------------------------------
+?>

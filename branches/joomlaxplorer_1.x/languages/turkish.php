@@ -1,6 +1,6 @@
 <?php
 
-// Turkish Language for joomlaXplorer (Translated by Sinan Ata 'From Turkey'(contact@mambo.gen.tr))
+// Turkish Language for joomlaXplorer (Translated by Sinan Ata, Tolga Þancý'(cumla.blogspot.com))
 
 $GLOBALS["charset"] = "iso-8859-9";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
@@ -19,8 +19,8 @@ $GLOBALS["error_msg"] = array(
 	"direxist"		=> "Bu klasör oluþturulamadý.",
 	//"filedoesexist"	=> "Bu dosya zaten var.",
 	"fileexist"		=> "Bu dosya oluþturulamadý.",
-	"itemdoesexist"		=> "Bu madde zaten var.",
-	"itemexist"		=> "Bu madde oluþturulamadý.",
+	"itemdoesexist"		=> "Bu öðe zaten var.",
+	"itemexist"		=> "Bu öðe oluþturulamadý.",
 	"targetexist"		=> "Hedef klasör oluþturulmamýþ.",
 	"targetdoesexist"	=> "Hedef madde zaten oluþturumuþ.",
 	
@@ -31,7 +31,7 @@ $GLOBALS["error_msg"] = array(
 	// access
 	"accessdir"		=> "Bu klasöre ulaþmak için izinleriniz yetersiz.",
 	"accessfile"		=> "Bu dosyaya ulaþmak için izinleriniz yetersiz.",
-	"accessitem"		=> "Bu maddeye ulaþmak için izinleriniz yetersiz.",
+	"accessitem"		=> "Bu öðeye ulaþmak için izinleriniz yetersiz.",
 	"accessfunc"		=> "Bu fonksiyonu kullanmak için izinleriniz yetersiz.",
 	"accesstarget"		=> "Hedef klasöre ulaþmak için izinleriniz yetersiz.",
 	
@@ -57,8 +57,8 @@ $GLOBALS["error_msg"] = array(
 	"miscfilesize"		=> "Dosya maksimum boyutu aþtý.",
 	"miscfilepart"		=> "Dosyanýn yalnýzca bir kýsmý yüklenebildi.",
 	"miscnoname"		=> "Bir isim girmelisiniz.",
-	"miscselitems"		=> "Hiçbir madde(ler) seçmediniz.",
-	"miscdelitems"		=> " \"+num+\" maddelerini silmek istediðinizden eminmisiniz?",
+	"miscselitems"		=> "Hiçbir öðe(ler) seçmediniz.",
+	"miscdelitems"		=> " \"+num+\" öðelerini silmek istediðinizden eminmisiniz?",
 	"miscdeluser"		=> "'\"+user+\"' kullanýcýsýný silmek istediðinizden eminmisiniz?",
 	"miscnopassdiff"	=> "Yeni þifre eskisinden farklý deðil.",
 	"miscnopassmatch"	=> "Þifreler eþleþmiyor.",
@@ -118,30 +118,30 @@ $GLOBALS["messages"] = array(
 	"btnremove"		=> "Kaldýr",
 	
 	// user messages, new in joomlaXplorer 1.3.0
-	'renamelink'	=> 'RENAME',
-	'confirm_delete_file' => 'Are you sure you want to delete this file? \\n%s',
-	'success_delete_file' => 'Item(s) successfully deleted.',
-	'success_rename_file' => 'The directory/file %s was successfully renamed to %s.',
+	'renamelink'	=> 'YENÝDEN ADLANDIR',
+	'confirm_delete_file' => 'Bu dosyayý silmek istediðinize eminmisiniz? \\n%s',
+	'success_delete_file' => 'Öðe(ler) baþarýyla silindi.',
+	'success_rename_file' => 'Dizin/dosya %s baþarýyla yeniden atlandýrýldý  %s.',
 	
 	// actions
 	"actdir"		=> "Klasör",
 	"actperms"		=> "Ýzinleri Deðiþtir",
 	"actedit"		=> "Dosyayý Deðiþtir",
 	"actsearchresults"	=> "Arama Sonuçlarý",
-	"actcopyitems"		=> "Madde(ler)i kopyala",
+	"actcopyitems"		=> "öðe(ler)i kopyala",
 	"actcopyfrom"		=> " /%s dan /%s ya ",
-	"actmoveitems"		=> "Madde(ler)i taþý",
+	"actmoveitems"		=> "öðe(ler)i taþý",
 	"actmovefrom"		=> " /%s dan /%s ya taþý ",
 	"actlogin"		=> "Giriþ",
 	"actloginheader"	=> "QuiXplorer kullanýmý için giriþ yap",
 	"actadmin"		=> "Yönetim",
 	"actchpwd"		=> "Þifre Deðiþtir",
 	"actusers"		=> "Kullanýcýlar",
-	"actarchive"		=> "Madde(ler)i Yedekle",
+	"actarchive"		=> "öðe(ler)i Yedekle",
 	"actupload"		=> "Dosya(lar)i Yükle",
 	
 	// misc
-	"miscitems"		=> "Madde(ler)",
+	"miscitems"		=> "öðe(ler)",
 	"miscfree"		=> "Serbest",
 	"miscusername"		=> "Kullanýcý Adý",
 	"miscpassword"		=> "Þifre",
@@ -152,10 +152,10 @@ $GLOBALS["messages"] = array(
 	"miscchpass"		=> "Þifre Deðiþtir",
 	"mischomedir"		=> "Ana Klasör",
 	"mischomeurl"		=> "Baþ URL",
-	"miscshowhidden"	=> "Gizli Maddeleri Göster",
+	"miscshowhidden"	=> "Gizli öðeleri Göster",
 	"mischidepattern"	=> "Resim Gizle",
 	"miscperms"		=> "Ýzinler",
-	"miscuseritems"		=> "(isim, ana klasör, gizli maddeleri göster, izinler, Aktif)",
+	"miscuseritems"		=> "(isim, ana klasör, gizli öðeleri göster, izinler, Aktif)",
 	"miscadduser"		=> "Kullanýcý ekle",
 	"miscedituser"		=> "'%s' kullanýcýsýný deðiþtir",
 	"miscactive"		=> "Aktif",
@@ -167,24 +167,24 @@ $GLOBALS["messages"] = array(
 	"miscyesno"		=> array("Evet","Hayýr","E","H"),
 	"miscchmod"		=> array("Sahip", "Grup", "Halk"),
 	// from here all new by mic
-	'miscowner'			=> 'Owner',
-	'miscownerdesc'		=> '<strong>Description:</strong><br />User (UID) /<br />Group (GID)<br />Current rights:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
+	'miscowner'			=> 'Sahip',
+	'miscownerdesc'		=> '<strong>Açýklama:</strong><br />User (UID) /<br />Group (GID)<br />Current rights:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' System Info',
-	'sisysteminfo'		=> 'System Info',
-	'sibuilton'			=> 'Operating System',
-	'sidbversion'		=> 'Database Version (MySQL)',
-	'siphpversion'		=> 'PHP Version',
-	'siphpupdate'		=> 'INFORMATION: <span style="color: red;">The PHP version you use is <strong>not</strong> actual!</span><br />To guarantee all functions and features of '.$_VERSION->PRODUCT.' and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!',
+	'simamsysinfo'		=> $_VERSION->PRODUCT.' Sistem bilgisi',
+	'sisysteminfo'		=> 'Sistem Bilgisi',
+	'sibuilton'			=> 'Ýþletim Sistemi',
+	'sidbversion'		=> 'Veritabaný Versiyonu (MySQL)',
+	'siphpversion'		=> 'PHP Versiyonu',
+	'siphpupdate'		=> 'Bilgi: <span style="color: red;">The PHP version you use is <strong>not</strong> actual!</span><br />To guarantee all functions and features of '.$_VERSION->PRODUCT.' and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!',
 	'siwebserver'		=> 'Webserver',
 	'siwebsphpif'		=> 'WebServer - PHP Interface',
 	'simamboversion'	=> $_VERSION->PRODUCT.' Version',
-	'siuseragent'		=> 'Browser Version',
-	'sirelevantsettings' => 'Important PHP Settings',
+	'siuseragent'		=> 'Tarayýcý Versiyonu',
+	'sirelevantsettings' => 'Önemli PHP Ayarlarý',
 	'sisafemode'		=> 'Safe Mode',
 	'sibasedir'			=> 'Open basedir',
-	'sidisplayerrors'	=> 'PHP Errors',
+	'sidisplayerrors'	=> 'PHP Hatalarý',
 	'sishortopentags'	=> 'Short Open Tags',
 	'sifileuploads'		=> 'Datei Uploads',
 	'simagicquotes'		=> 'Magic Quotes',
@@ -199,77 +199,77 @@ $GLOBALS["messages"] = array(
 	'siconfigfile'		=> 'Config file',
 	'siphpinfo'			=> 'PHP Info',
 	'siphpinformation'	=> 'PHP Information',
-	'sipermissions'		=> 'Permissions',
+	'sipermissions'		=> 'Ýzinler',
 	'sidirperms'		=> 'Directory permissions',
 	'sidirpermsmess'	=> 'To be shure that all functions and features of '.$_VERSION->PRODUCT.' are working correct, following folders should have permission to write [chmod 0777]',
 	'sionoff'			=> array( 'On', 'Off' ),
 	
-	'extract_warning' => "Do you really want to extract this file? Here?\\nThis will overwrite existing files when not used carefully!",
+	'extract_warning' => "Gerçetten bu dosyayý çýkartmak istiyormusunuz? Buraya?\\nThis will overwrite existing files when not used carefully!",
 	'extract_success' => "Extraction was successful",
 	'extract_failure' => "Extraction failed",
 	
-	'overwrite_files' => 'Overwrite existing file(s)?',
-	"viewlink"		=> "VIEW",
-	"actview"		=> "Showing source of file",
+	'overwrite_files' => 'Varolan dosyanýn üzerine yaz?',
+	"viewlink"		=> "GÖSTER",
+	"actview"		=> "Kaynak dosyasýný göster",
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_chmod.php file
 	'recurse_subdirs'	=> 'Recurse into subdirectories?',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to footer.php file
-	'check_version'	=> 'Check for latest version',
+	'check_version'	=> 'Son sürümü kontrol et',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_rename.php file
-	'rename_file'	=>	'Rename a directory or file...',
-	'newname'		=>	'New Name',
+	'rename_file'	=>	'Dizini yada dosyayý yenidien adlandýr...',
+	'newname'		=>	'Yeni Ýsim',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_edit.php file
-	'returndir'	=>	'Return to directory after saving?',
+	'returndir'	=>	'Kaydettikten sonra dizine geri dön?',
 	'line'		=> 	'Line',
 	'column'	=>	'Column',
 	'wordwrap'	=>	'Wordwrap: (IE only)',
 	'copyfile'	=>	'Copy file into this filename',
 	
 	// Bookmarks
-	'quick_jump' => 'Quick Jump To',
-	'already_bookmarked' => 'This directory is already bookmarked',
-	'bookmark_was_added' => 'This directory was added to the bookmark list.',
-	'not_a_bookmark' => 'This directory is not a bookmark.',
-	'bookmark_was_removed' => 'This directory was removed from the bookmark list.',
+	'quick_jump' => 'Hýzlý Atlama',
+	'already_bookmarked' => 'Bu dizin zaten yer imlerinde',
+	'bookmark_was_added' => 'Bu dizin yer imleri listesine eklendi.',
+	'not_a_bookmark' => 'Bu dizin yer imlerinde deðil.',
+	'bookmark_was_removed' => 'Bu dizin yer imleri listesinden çýkartýldý.',
 	'bookmarkfile_not_writable' => "Failed to %s the bookmark.\n The Bookmark File '%s' \nis not writable.",
 	
-	'lbl_add_bookmark' => 'Add this Directory as Bookmark',
-	'lbl_remove_bookmark' => 'Remove this Directory from the Bookmark List',
+	'lbl_add_bookmark' => 'Bu dizini yerimlerine ekle',
+	'lbl_remove_bookmark' => 'Bu dizini yer imleri listesinden çýkart',
 	
-	'enter_alias_name' => 'Please enter the alias name for this bookmark',
+	'enter_alias_name' => 'Lütfen bu yer imi için takma ad girin',
 	
-	'normal_compression' => 'normal compression',
-	'good_compression' => 'good compression',
-	'best_compression' => 'best compression',
-	'no_compression' => 'no compression',
+	'normal_compression' => 'normal sýkýþtýrma',
+	'good_compression' => 'iyi sýkýþtýrma',
+	'best_compression' => 'en iyi sýkýþtýrma',
+	'no_compression' => 'sýkýþtýrma yok',
 	
-	'creating_archive' => 'Creating Archive File...',
+	'creating_archive' => 'Arþiv dosyasý oluþtur...',
 	'processed_x_files' => 'Processed %s of %s Files',
 	
 	'ftp_header' => 'Local FTP Authentication',
 	'ftp_login_lbl' => 'Please enter the login credentials for the FTP server',
-	'ftp_login_name' => 'FTP User Name',
-	'ftp_login_pass' => 'FTP Password',
+	'ftp_login_name' => 'FTP Kullanýcý Adý',
+	'ftp_login_pass' => 'FTP Þifresi',
 	'ftp_hostname_port' => 'FTP Server Hostname and Port <br />(Port is optional)',
-	'ftp_login_check' => 'Checking FTP connection...',
+	'ftp_login_check' => 'FTP baðlantýsý Kontrol ediliyor...',
 	'ftp_connection_failed' => "The FTP server could not be contacted. \nPlease check that the FTP server is running on your server.",
 	'ftp_login_failed' => "The FTP login failed. Please check the username and password and try again.",
 		
-	'switch_file_mode' => 'Current mode: <strong>%s</strong>. You could switch to %s mode.',
+	'switch_file_mode' => 'Þimdiki mod: <strong>%s</strong>. Dilerseniz %s moduna geçebilirsiniz.',
 	'symlink_target' => 'Target of the Symbolic Link',
 	
 	"permchange"		=> "CHMOD Success:",
-	"savefile"		=> "The File was saved.",
-	"moveitem"		=> "Moving succeeded.",
-	"copyitem"		=> "Copying succeeded.",
-	'archive_name' 	=> 'Name of the Archive File',
-	'archive_saveToDir' 	=> 'Save the Archive in this directory',
+	"savefile"		=> "Dosya kaydedildi.",
+	"moveitem"		=> "Taþýma Tamamlandý.",
+	"copyitem"		=> "Kopyalama Tamamlandý.",
+	'archive_name' 	=> 'Arþiv dosyasý ismi',
+	'archive_saveToDir' 	=> 'Arþivi bu dizine kaydet',
 	
-	'editor_simple'	=> 'Simple Editor Mode',
+	'editor_simple'	=> 'Basit Editör Modu',
 	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode'
 );
 ?>
