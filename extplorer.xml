@@ -2,10 +2,10 @@
 <mosinstall type="component">
 <!-- Mambo/Joomla! 1.0 Installer XML File -->
     <name>eXtplorer</name>
-    <creationDate>20.04.2008</creationDate>
+    <creationDate>26.05.2008</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
-    <authorEmail>soeren@virtuemart.net</authorEmail>
+    <authorEmail>soeren|at|virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
     <version>2.0.0 RC3</version>
     <description><![CDATA[

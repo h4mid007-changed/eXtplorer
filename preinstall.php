@@ -47,8 +47,8 @@ $downloadUrls = array();
 /*   Latest stable release */
 $downloadUrls['stable'] = '';
 /*   Latest beta version */
-$downloadUrls['latest']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC2.zip';
-$downloadUrls['beta']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC2.zip';
+$downloadUrls['latest']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC3.zip';
+$downloadUrls['beta']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC3.zip';
 
 /* The page on GMC that lists the latest versions */
 /* FOR GR, we request pages from sf.net which then redirects to GMC, e.g. to /release, /beta, .. */
