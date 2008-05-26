@@ -371,14 +371,14 @@ function ampReplace( $text ) {
 $mainframe = new extMainFrame();
 
 $mypath = realpath( dirname(__FILE__).'/..');
-if( file_exists( $mypath.'/scripts.zip' ) && !file_exists( $mypath .'/scripts/functions.js.php')) {
+$archive_name = $mypath.'/scripts.tar.gz';
+if( file_exists( $archive_name ) && !file_exists( $mypath .'/scripts/functions.js.php')) {
 	require_once($mypath . "/include/functions.php");
 	require_once($mypath . "/libraries/Archive/archive.php");
 	
 	ext_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
-	
-	$archive_name = $mypath.'/scripts.zip';
+
 	$extract_dir = $mypath.'/';
 	
 	$result = extArchive::extract( $archive_name, $extract_dir );

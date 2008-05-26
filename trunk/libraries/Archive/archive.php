@@ -58,7 +58,7 @@ class extArchive {
 			case 'gzip' :
 				$adapter = & extArchive::getAdapter( 'gzip' ) ;
 				if( $adapter ) {
-					$tmpfname = _EXT_FTPTMP_PATH .'/' . uniqid( 'gzip' ) ;
+					$tmpfname = (defined('_EXT_FTPTMP_PATH' ) ? _EXT_FTPTMP_PATH.'/' : $extractdir )  . uniqid( 'gzip' ) ;
 					$gzresult = $adapter->extract( $archivename, $tmpfname ) ;
 					if( !$gzresult ) {
 						unlink( $tmpfname ) ;
@@ -127,6 +127,7 @@ class extArchive {
 				if( file_exists( $path ) ) {
 					require_once ($path) ;
 				} else {
+					echo 'Unknown Archive Type: '.$class;
 					ext_Result::sendResult('archive', false, 'Unable to load archive' ) ;
 				}
 			}

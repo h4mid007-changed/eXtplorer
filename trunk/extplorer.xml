@@ -215,6 +215,7 @@
 			<filename>libraries/Archive/adapter/bzip2.php</filename>
 			<filename>libraries/Archive/adapter/gzip.php</filename>
 			<filename>libraries/Archive/adapter/index.html</filename>
+			<filename>libraries/Archive/adapter/tar.php</filename>
 			<filename>libraries/Archive/adapter/zip.php</filename>
 			<filename>libraries/compat.php41x.php</filename>
 			<filename>libraries/compat.php42x.php</filename>
@@ -246,7 +247,7 @@
 			<filename>libraries/Tar.php</filename>
 			<filename>libraries/index.html</filename>
 			<filename>libraries/lib_zip.php</filename>
-			<filename>scripts.zip</filename>
+			<filename>scripts.tar.gz</filename>
 			<filename>style/index.html</filename>
 			<filename>style/opacity.js</filename>
 			<filename>style/style.css</filename>
