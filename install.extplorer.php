@@ -20,7 +20,7 @@ function com_install(){
 	ext_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
 	
-	$archive_name = $mypath.'/scripts.zip';
+	$archive_name = $mypath.'/scripts.tar.gz';
 	$extract_dir = $mypath.'/';
 	
 	$result = extArchive::extract( $archive_name, $extract_dir );
