@@ -114,15 +114,8 @@ class ext_Edit extends ext_Action {
 	
 	        <h3 style="margin-bottom:5px;"><?php 
 	        	echo $GLOBALS["messages"]["actedit"].": /".$s_item .'&nbsp;&nbsp;&nbsp;&nbsp;';
-	        	echo '[<a href="javascript:;" onclick="Ext.get(\'positionIndicator\').toggle(); ext_codefield.toggleEditor();return false;">'.$GLOBALS['messages']['editor_simple'].' / '.$GLOBALS['messages']['editor_syntaxhighlight'].'</a>]';
 	        	?></h3>
-	    <div id="positionIndicator">
-		<?php echo $GLOBALS["messages"]["line"] ?>: <input type="text" value="" name="txtLine" id="txtLine" class="inputbox" size="6" onchange="setCaretPosition( codetextarea, this.value);return false;" />&nbsp;&nbsp;&nbsp;
-		<?php echo $GLOBALS["messages"]["column"] ?>: <input type="text" value="" name="txtColumn" id="txtColumn" class="inputbox" size="6" readonly="readonly" />
-		</div>
-    <br />
-
-
+    
 	        <div id="adminForm">
 	
 	        </div>
@@ -147,9 +140,9 @@ class ext_Edit extends ext_Action {
 	simple.add(		
 	    new Ext.form.TextArea({
 	        fieldLabel: 'File Contents',
-	        name: 'code',
+	        name: 'thecode',
 	        id: 'ext_codefield',
-	        fieldClass: 'codepress <?php echo $cp_lang ?> x-form-field',
+	        fieldClass: 'x-form-field',
 	        value: '<?php echo str_replace(Array("\r", "\n", '<', '>'), Array('\r', '\n', '&lt;', '&gt;') , addslashes($content)) ?>',
 	        width: '100%',
 	        height: 300
@@ -172,6 +165,7 @@ class ext_Edit extends ext_Action {
 	);
 	simple.addButton('<?php echo ext_Lang::msg('btnsave', true ) ?>', function() {
 		statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
+
 	    simple.submit({
 	        //waitMsg: 'Processing Data, please wait...',
 	        //reset: true,
@@ -191,7 +185,7 @@ class ext_Edit extends ext_Action {
 	        // add some vars to the request, similar to hidden fields
 	        params: {option: 'com_extplorer', 
 	        		action: 'edit', 
-	        		code: ext_codefield.getCode(),
+	        		code: editAreaLoader.getValue("ext_codefield"),
 	        		dir: '<?php echo stripslashes($dir) ?>', 
 	        		item: '<?php echo stripslashes($item) ?>', 
 	        		dosave: 'yes'
@@ -201,16 +195,15 @@ class ext_Edit extends ext_Action {
 	
 	simple.addButton('<?php echo ext_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
-	simple.findField('code').setValue(simple.findField( 'code').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
-	if( !Ext.isSafari ) {
-		CodePress.run();
-	}
-	//Ext.get('positionIndicator').setVisibilityMode(Element.DISPLAY);
-	//Ext.get('positionIndicator').setDisplayed('none');
-	Ext.get('positionIndicator').hide();
-	codetextarea = ext_codefield.textarea;
-	Ext.EventManager.addListener( codetextarea, 'keyup', function() { updatePosition( codetextarea ) } );
-	Ext.EventManager.addListener( codetextarea, 'click', function() { updatePosition( codetextarea ) } );
+	simple.findField('thecode').setValue(simple.findField( 'thecode').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
+	
+	editAreaLoader.init({
+		id : "ext_codefield"		// textarea id
+		,syntax: "<?php echo $cp_lang ?>"			// syntax to be uses for highgliting
+		,start_highlight: true		// to display with highlight mode on start-up
+		,display: "later"
+	});
+	editAreaLoader.start("ext_codefield");
 	// -->
 	</script><?php
 	

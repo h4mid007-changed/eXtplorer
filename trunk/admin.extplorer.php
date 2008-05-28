@@ -169,7 +169,7 @@ if( class_exists(strtolower($classname))) {
 	  		$response = Array( 'dirselects' => get_dir_selects( $dir ),
 	  							'bookmarks' => list_bookmarks($dir)
 	  						);
-			$json = new Services_JSON();
+			$json = new ext_Json();
 			echo $json->encode( $response );
 			break;
 	  case 'get_image':

@@ -66,10 +66,9 @@ function login() {
 			$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );
 			$GLOBALS['mainframe']->addcustomheadtag( '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
-			.'subdir[0]=scripts/codepress/&amp;file[0]=codepress.js'
-			.'&amp;subdir[1]=scripts/extjs/&amp;file[1]=yui-utilities.js'
-			.'&amp;subdir[2]=scripts/extjs/&amp;file[2]=ext-yui-adapter.js'
-			.'&amp;subdir[3]=scripts/extjs/&amp;file[3]=ext-all.js&amp;gzip=1"></script>
+			.'&amp;subdir[0]=scripts/extjs/&amp;file[0]=yui-utilities.js'
+			.'&amp;subdir[1]=scripts/extjs/&amp;file[1]=ext-yui-adapter.js'
+			.'&amp;subdir[2]=scripts/extjs/&amp;file[2]=ext-all.js&amp;gzip=1"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>	
 		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip=1" />');
 			

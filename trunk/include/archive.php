@@ -123,7 +123,7 @@ class ext_Archive extends ext_Action {
 			if( PEAR::isError( $result ) ) {
 				ext_Result::sendResult('archive', false, $name.': '.ext_Lang::err('archive_creation_failed').' ('.$result->getMessage().')' );
 			}
-			$json = new Services_JSON();
+			$json = new ext_Json()
 			if( $cnt_filelist > $startfrom+$files_per_step ) {
 
 				$response = Array( 'startfrom' => $startfrom + $files_per_step,

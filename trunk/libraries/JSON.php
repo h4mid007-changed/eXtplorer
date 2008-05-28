@@ -46,7 +46,7 @@
  * DAMAGE.
  *
  * @category
- * @package     Services_JSON
+ * @package     ext_Json
  * @author      Michal Migurski <mike-json@teczno.com>
  * @author      Matt Knapp <mdknapp[at]gmail[dot]com>
  * @author      Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
@@ -57,39 +57,39 @@
  */
 
 /**
- * Marker constant for Services_JSON::decode(), used to flag stack state
+ * Marker constant for ext_Json::decode(), used to flag stack state
  */
-define('SERVICES_JSON_SLICE',   1);
+defined('SERVICES_JSON_SLICE') or define('SERVICES_JSON_SLICE',   1);
 
 /**
- * Marker constant for Services_JSON::decode(), used to flag stack state
+ * Marker constant for ext_Json::decode(), used to flag stack state
  */
-define('SERVICES_JSON_IN_STR',  2);
+defined('SERVICES_JSON_IN_STR') or define('SERVICES_JSON_IN_STR',  2);
 
 /**
- * Marker constant for Services_JSON::decode(), used to flag stack state
+ * Marker constant for ext_Json::decode(), used to flag stack state
  */
-define('SERVICES_JSON_IN_ARR',  3);
+defined('SERVICES_JSON_IN_ARR') or define('SERVICES_JSON_IN_ARR',  3);
 
 /**
- * Marker constant for Services_JSON::decode(), used to flag stack state
+ * Marker constant for ext_Json::decode(), used to flag stack state
  */
-define('SERVICES_JSON_IN_OBJ',  4);
+defined('SERVICES_JSON_IN_OBJ') or define('SERVICES_JSON_IN_OBJ',  4);
 
 /**
- * Marker constant for Services_JSON::decode(), used to flag stack state
+ * Marker constant for ext_Json::decode(), used to flag stack state
  */
-define('SERVICES_JSON_IN_CMT', 5);
+defined('SERVICES_JSON_IN_CMT') or define('SERVICES_JSON_IN_CMT', 5);
 
 /**
- * Behavior switch for Services_JSON::decode()
+ * Behavior switch for ext_Json::decode()
  */
-define('SERVICES_JSON_LOOSE_TYPE', 16);
+defined('SERVICES_JSON_LOOSE_TYPE') or define('SERVICES_JSON_LOOSE_TYPE', 16);
 
 /**
- * Behavior switch for Services_JSON::decode()
+ * Behavior switch for ext_Json::decode()
  */
-define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
+defined('SERVICES_JSON_SUPPRESS_ERRORS') or define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
 
 /**
  * Converts to and from JSON format.
@@ -97,8 +97,8 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  * Brief example of use:
  *
  * <code>
- * // create a new instance of Services_JSON
- * $json = new Services_JSON();
+ * // create a new instance of ext_Json
+ * $json = new ext_Json();
  *
  * // convert a complexe value to JSON notation, and send it to the browser
  * $value = array('foo', 'bar', array(1, 2, 'baz'), array(3, array(4)));
@@ -112,7 +112,7 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  * $value = $json->decode($input);
  * </code>
  */
-class Services_JSON
+class ext_Json
 {
    /**
     * constructs a new JSON instance
@@ -130,7 +130,7 @@ class Services_JSON
     *                                   bubble up with an error, so all return values
     *                                   from encode() should be checked with isError()
     */
-    function Services_JSON($use = 0)
+    function ext_Json($use = 0)
     {
         $this->use = $use;
     }
@@ -227,7 +227,7 @@ class Services_JSON
     * encodes an arbitrary variable into JSON format
     *
     * @param    mixed   $var    any number, boolean, string, array, or object to be encoded.
-    *                           see argument 1 to Services_JSON() above for array-parsing behavior.
+    *                           see argument 1 to ext_Json() above for array-parsing behavior.
     *                           if var is a strng, note that encode() always expects it
     *                           to be in ASCII or UTF-8 format!
     *
@@ -381,7 +381,7 @@ class Services_JSON
                                             array_values($var));
 
                     foreach($properties as $property) {
-                        if(Services_JSON::isError($property)) {
+                        if(ext_Json::isError($property)) {
                             return $property;
                         }
                     }
@@ -393,7 +393,7 @@ class Services_JSON
                 $elements = array_map(array($this, 'encode'), $var);
 
                 foreach($elements as $element) {
-                    if(Services_JSON::isError($element)) {
+                    if(ext_Json::isError($element)) {
                         return $element;
                     }
                 }
@@ -408,7 +408,7 @@ class Services_JSON
                                         array_values($vars));
 
                 foreach($properties as $property) {
-                    if(Services_JSON::isError($property)) {
+                    if(ext_Json::isError($property)) {
                         return $property;
                     }
                 }
@@ -418,7 +418,7 @@ class Services_JSON
             default:
                 return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS)
                     ? 'null'
-                    : new Services_JSON_Error(gettype($var)." can not be encoded as JSON string");
+                    : new ext_Json_Error(gettype($var)." can not be encoded as JSON string");
         }
     }
 
@@ -435,7 +435,7 @@ class Services_JSON
     {
         $encoded_value = $this->encode($value);
 
-        if(Services_JSON::isError($encoded_value)) {
+        if(ext_Json::isError($encoded_value)) {
             return $encoded_value;
         }
 
@@ -476,7 +476,7 @@ class Services_JSON
     *
     * @return   mixed   number, boolean, string, array, or object
     *                   corresponding to given JSON input string.
-    *                   See argument 1 to Services_JSON() above for object-output behavior.
+    *                   See argument 1 to ext_Json() above for object-output behavior.
     *                   Note that decode() always returns strings
     *                   in ASCII or UTF-8 format!
     * @access   public
@@ -778,9 +778,9 @@ class Services_JSON
 
 if (class_exists('PEAR_Error')) {
 
-    class Services_JSON_Error extends PEAR_Error
+    class ext_Json_Error extends PEAR_Error
     {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
+        function ext_Json_Error($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
             parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
@@ -792,9 +792,9 @@ if (class_exists('PEAR_Error')) {
     /**
      * @todo Ultimately, this class shall be descended from PEAR_Error
      */
-    class Services_JSON_Error
+    class ext_Json_Error
     {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
+        function ext_Json_Error($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
 
