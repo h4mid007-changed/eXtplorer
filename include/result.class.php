@@ -100,7 +100,7 @@ class ext_Result {
 			foreach( $extra as $key => $value ) {
 				$result[$key] = $value;
 			}
-			$json = new Services_JSON();
+			$json = new ext_Json();
 			$jresult = $json->encode($result);
 			print $jresult;
 			ext_exit();

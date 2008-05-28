@@ -3,6 +3,12 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- fixed compatibility problem with JomComment+MyBlog (Services_JSON was redeclared)
+- switched from "Codepress" to "EditArea" (http://www.cdolivet.net/index.php?page=editArea), which gives a lot of advantages:
+	* faster loading of large files
+	* built-in toggle feature
+	* built-in Find, Search+Replace and Jump-To-Line Features
+	
 -- version 2.0.0 RC3 released (2008-05-26) ----
 
 - fixed Cross-Site Scripting & File Disclosure Vulnerability

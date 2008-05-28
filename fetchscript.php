@@ -183,6 +183,7 @@ $countFiles = sizeof($files);
 $newest_mdate = 0;
 
 for( $i = 0; $i < $countFiles; $i++ ) {
+	if( empty( $files[$i] )) continue;
 	$file = $files[$i];
 	$subdir = $subdirs[$i];
 	
