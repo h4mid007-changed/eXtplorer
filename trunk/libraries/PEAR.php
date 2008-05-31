@@ -21,7 +21,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 //
 // $Id:PEAR.php 13 2007-05-13 07:10:43Z soeren $
 //
-
+if( !class_exists('pear')) {
 define('PEAR_ERROR_RETURN',     1);
 define('PEAR_ERROR_PRINT',      2);
 define('PEAR_ERROR_TRIGGER',    4);
@@ -965,7 +965,7 @@ class PEAR_Error
 }
 
 register_shutdown_function("_PEAR_call_destructors");
-
+}
 /*
  * Local Variables:
  * mode: php

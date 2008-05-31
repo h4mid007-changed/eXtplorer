@@ -310,11 +310,11 @@ class ext_List extends ext_Action {
 		show_header();
 		$scriptTag = '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
+			.'&amp;subdir[]=scripts/editarea/&amp;file[]=edit_area_full_with_plugins.js'
 			.'&amp;subdir[]=scripts/extjs/&amp;file[]=yui-utilities.js'
 			.'&amp;subdir[]=scripts/extjs/&amp;file[]=ext-yui-adapter.js'
 			.'&amp;subdir[]=scripts/extjs/&amp;file[]=ext-all.js&amp;gzip=1"></script>
-		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>	
-		<script type="text/javascript" src="'._EXT_URL.'/scripts/editarea/edit_area_compressor.php?plugins"></script>	
+		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>		
 		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip=1" />';
 		
 		if( defined( 'EXT_STANDALONE' )) {

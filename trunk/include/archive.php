@@ -63,8 +63,8 @@ class ext_Archive extends ext_Action {
 				ext_Result::sendResult('archive', false, ext_Lang::err('extract_unknowntype').': '.htmlspecialchars($GLOBALS['__POST']["type"]));
 
 			}
-
-			$files_per_step = 2500;
+			// This controls how many files are processed per Step (it's split up into steps to prevent time-outs)
+			$files_per_step = 2000;
 
 			$cnt=count($GLOBALS['__POST']["selitems"]);
 			$abs_dir= get_abs_dir($dir);
@@ -74,7 +74,10 @@ class ext_Archive extends ext_Action {
 			}
 
 			$startfrom = extGetParam( $_REQUEST, 'startfrom', 0 );
-
+			
+			$dir_contents_cache_name = 'ext_'.md5(implode(null, $GLOBALS['__POST']["selitems"]));
+			$dir_contents_cache_file = _EXT_FTPTMP_PATH.'/'.$dir_contents_cache_name.'.txt';
+			
 			$archive_name = get_abs_item($saveToDir,$name);
 			$fileinfo = pathinfo( $archive_name );
 
@@ -88,31 +91,49 @@ class ext_Archive extends ext_Action {
 					}
 				}
 			}
-
-			for($i=0;$i<$cnt;$i++) {
-
-				$selitem=stripslashes($GLOBALS['__POST']["selitems"][$i]);
-				if( is_dir( utf8_decode($abs_dir ."/". $selitem ))) {					
-					$items = extReadDirectory(utf8_decode($abs_dir ."/".  $selitem), '.', true, true );
-					foreach ( $items as $item ) {
-						if( is_dir( $item ) || !is_readable( $item ) || $item == $archive_name ) continue;
-						$v_list[] = str_replace('\\', '/', $item );
+			if( $startfrom == 0 ) {
+				for($i=0;$i<$cnt;$i++) {
+	
+					$selitem=stripslashes($GLOBALS['__POST']["selitems"][$i]);
+					if( $selitem == 'ext_root') { 
+						$selitem = '';
+					}
+					if( is_dir( utf8_decode($abs_dir ."/". $selitem ))) {					
+						$items = extReadDirectory(utf8_decode($abs_dir ."/".  $selitem), '.', true, true );
+						foreach ( $items as $item ) {
+							if( is_dir( $item ) || !is_readable( $item ) || $item == $archive_name ) continue;
+							$v_list[] = str_replace('\\', '/', $item );
+						}
+					}
+					else {					
+						$v_list[] = utf8_decode(str_replace('\\', '/', $abs_dir ."/". $selitem ));
 					}
 				}
-				else {					
-					$v_list[] = utf8_decode(str_replace('\\', '/', $abs_dir ."/". $selitem ));
+				if( count($v_list) > $files_per_step ) {
+					if( file_put_contents($dir_contents_cache_file, implode("\n", $v_list )) == false ) {
+						ext_Result::sendResult('archive', false, 'Failed to create a temporary list of the directory contents' );
+					}
 				}
+			} else {
+				$file_list_string = file_get_contents($dir_contents_cache_file);
+				if( empty( $file_list_string )) {
+					ext_Result::sendResult('archive', false, 'Failed to retrieve the temporary list of the directory contents' );
+				}
+				$v_list = explode("\n", $file_list_string );
 			}
 			$cnt_filelist = count( $v_list );
-
+			// Now we go to the right range of files and "slice" the array
+			$v_list = array_slice( $v_list, $startfrom, $files_per_step-1  );
+			
 			$remove_path = $GLOBALS["home_dir"];
 			if( $dir ) {
 				$remove_path .= $dir;
 			}
 
-			//echo '<strong>Starting from: '.$startfrom.'</strong><br />';
-			//echo '<strong>Files to process: '.$cnt_filelist.'</strong><br />';
-			//print_r( $filelist );exit;
+			$debug = 'Starting from: '.$startfrom."\n";
+			$debug .= 'Files to process: '.$cnt_filelist."\n";
+			$debug .= implode( "\n", $v_list );
+			//file_put_contents( 'log.txt', $debug, FILE_APPEND );
 
 			// Do some setup stuff
 			ini_set('memory_limit', '128M');
@@ -121,19 +142,20 @@ class ext_Archive extends ext_Action {
 			$result = extArchive::create( $archive_name, $v_list, $GLOBALS['__POST']["type"], '', $remove_path  );
 
 			if( PEAR::isError( $result ) ) {
-				ext_Result::sendResult('archive', false, $name.': '.ext_Lang::err('archive_creation_failed').' ('.$result->getMessage().')' );
+				ext_Result::sendResult('archive', false, $name.': '.ext_Lang::err('archive_creation_failed').' ('.$result->getMessage().$archive_name.')' );
 			}
-			$json = new ext_Json()
+			$json = new ext_Json();
 			if( $cnt_filelist > $startfrom+$files_per_step ) {
 
 				$response = Array( 'startfrom' => $startfrom + $files_per_step,
+				'totalitems' => $cnt_filelist,
 				'success' => true,
 				'action' => 'archive',
 				'message' => sprintf( ext_Lang::msg('processed_x_files'), $startfrom + $files_per_step, $cnt_filelist )
 				);
 			}
 			else {
-				
+				@unlink($dir_contents_cache_file);
 				if( $GLOBALS['__POST']["type"] == 'tgz' || $GLOBALS['__POST']["type"] == 'tbz') {
 					chmod( $archive_name, 0644 );
 				}
@@ -227,15 +249,27 @@ class ext_Archive extends ext_Action {
 	form.render('adminForm');
 
 	function formSubmit( startfrom, msg ) {
+		if( startfrom == 0 ) {
+			Ext.MessageBox.show({
+		           title: 'Please wait',
+		           msg: msg ? msg : '<?php echo ext_Lang::msg( 'creating_archive', true ) ?>',
+		           progressText: 'Initializing...',
+		           width:300,
+		           progress:true,
+		           closable:false,
+       		});
+       	}
 		form.submit({
-			waitMsg: msg ? msg : '<?php echo ext_Lang::msg( 'creating_archive', true ) ?>',
-			//reset: true,
 			reset: false,
 			success: function(form, action) {
 				if( !action.result ) return;
 				
 				if( action.result.startfrom > 0 ) {
 					formSubmit( action.result.startfrom, action.result.message );
+			       
+					i = action.result.startfrom/action.result.totalitems;
+			       Ext.MessageBox.updateProgress(i, action.result.startfrom + " of "+action.result.totalitems + " (" + Math.round(100*i)+'% completed)');
+			        
 					return
 				} else {
 
