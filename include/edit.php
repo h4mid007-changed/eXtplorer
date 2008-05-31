@@ -196,7 +196,7 @@ class ext_Edit extends ext_Action {
 	simple.addButton('<?php echo ext_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
 	simple.render('adminForm');
 	simple.findField('thecode').setValue(simple.findField( 'thecode').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
-	
+	editAreaLoader.baseURL = "<?php echo _EXT_URL ?>/scripts/editarea/";
 	editAreaLoader.init({
 		id : "ext_codefield"		// textarea id
 		,syntax: "<?php echo $cp_lang ?>"			// syntax to be uses for highgliting

@@ -162,15 +162,28 @@ class extArchive {
 			
 			$tar = new Archive_Tar( $archive, $compress ) ;
 			$tar->setErrorHandling( PEAR_ERROR_PRINT ) ;
-			$result = $tar->createModify( $files, $addPath, $removePath ) ;
+			$result = $tar->addModify( $files, $addPath, $removePath ) ;
 			
 			return $result;
 		}
 		if( $compress == 'zip' ) {
-			require_once( _EXT_PATH.'/libraries/lib_zip.php' );
+			/*require_once( _EXT_PATH.'/libraries/lib_zip.php' );
 			$zip = new ZipFile();
 			$zip->addFileList($files, $removePath );
 			return $zip->save($archive);
+			*/
+			
+			require_once( _EXT_PATH.'/libraries/Zip.php' );
+			$zip = new Archive_Zip( $archive ) ;
+			$result = $zip->add( $files, array( 'add_path' => $addPath, 'remove_path' => $removePath) ) ;
+			
+			/*require_once( _EXT_PATH.'/libraries/pclzip.lib.php' );
+			$zip = new PclZip($archive);
+			$result = $zip->add($files, PCLZIP_OPT_ADD_PATH, $addPath, PCLZIP_OPT_REMOVE_PATH, $removePath );
+			*/
+			if($result == 0) {
+				return new PEAR_Error( 'Unrecoverable error "'.$zip->errorInfo(true).'"' );
+			}
 		}
 	}
 }

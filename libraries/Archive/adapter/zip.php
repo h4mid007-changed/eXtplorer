@@ -216,7 +216,7 @@ class extArchiveZip {
 					if( substr( zip_entry_name( $file ), strlen( zip_entry_name( $file ) ) - 1 ) != "/" ) {
 						$buffer = zip_entry_read( $file, zip_entry_filesize( $file ) ) ;
 						if( !extMkdirR(dirname($destination . DS . zip_entry_name( $file ))) || file_put_contents( $destination . DS . zip_entry_name( $file ), $buffer ) === false ) {
-							return PEAR::raiseError( 'Unable to write entry: '. zip_entry_name( $file ) ) ;
+							return PEAR::raiseError( 'Unable to write entry: '.$destination . DS. zip_entry_name( $file ) ) ;
 						}
 						zip_entry_close( $file ) ;
 					}

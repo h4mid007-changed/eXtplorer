@@ -62,6 +62,11 @@ class Archive_Tar extends PEAR
     * @var string Local Tar name of a remote Tar (http:// or ftp://)
     */
     var $_temp_tarname='';
+    
+    /**
+     * @var array Holds PEAR_error Objects
+     */
+    var $_errors;
 
     // {{{ constructor
     /**
@@ -550,7 +555,7 @@ class Archive_Tar extends PEAR
     function _error($p_message)
     {
         // ----- To be completed
-        $this->raiseError($p_message);
+        $this->_errors[] = $this->raiseError($p_message);
     }
     // }}}
 
@@ -558,17 +563,25 @@ class Archive_Tar extends PEAR
     function _warning($p_message)
     {
         // ----- To be completed
-        $this->raiseError($p_message);
+        $this->_errors[] = $this->raiseError($p_message);
     }
     // }}}
-
+	function getErrors() {
+		$errorString = '';
+		foreach( $this->_errors as $PEAR_Error ) {
+			if( PEAR::isError($PEAR_Error)) {
+				$errorString .= $PEAR_Error->getMessage.'<br />';
+			}
+		}
+		return $errorString;
+	}
     // {{{ _openWrite()
     function _openWrite()
     {
         if ($this->_compress_type == 'gz')
             $this->_file = @gzopen($this->_tarname, "wb");
         else if ($this->_compress_type == 'bz2')
-            $this->_file = @bzopen($this->_tarname, "wb");
+            $this->_file = @bzopen($this->_tarname, "w");
         else if ($this->_compress_type == 'none')
             $this->_file = @fopen($this->_tarname, "wb");
         else
@@ -802,9 +815,10 @@ class Archive_Tar extends PEAR
           return false;
       }
 
-      if (sizeof($p_list) == 0)
-          return true;
-
+      if (sizeof($p_list) == 0) {
+      	$this->_warning('Nothing to add!');
+        return true;
+      }
       for ($j=0; ($j<count($p_list)) && ($v_result); $j++) {
         $v_filename = $p_list[$j];
 
@@ -821,9 +835,10 @@ class Archive_Tar extends PEAR
         }
 
         // ----- Add the file or directory header
-        if (!$this->_addFile($v_filename, $v_header, $p_add_dir, $p_remove_dir))
+        if (!$this->_addFile($v_filename, $v_header, $p_add_dir, $p_remove_dir)) {
+        	$this->_error('Failed to add '.$v_filename);        
             return false;
-
+        }
         if (@is_dir($v_filename)) {
             if (!($p_hdir = opendir($v_filename))) {
                 $this->_warning("Directory '$v_filename' can not be read");
@@ -892,9 +907,10 @@ class Archive_Tar extends PEAR
               return true;
           }
 
-          if (!$this->_writeHeader($p_filename, $v_stored_filename))
+          if (!$this->_writeHeader($p_filename, $v_stored_filename)) {
+          		$this->_error('Failed to write the file '.$p_filename.' into the header');
               return false;
-
+          }
           while (($v_buffer = fread($v_file, 512)) != '') {
               $v_binary_data = pack("a512", "$v_buffer");
               $this->_writeBlock($v_binary_data);
@@ -904,8 +920,10 @@ class Archive_Tar extends PEAR
 
       } else {
           // ----- Only header for dir
-          if (!$this->_writeHeader($p_filename, $v_stored_filename))
+          if (!$this->_writeHeader($p_filename, $v_stored_filename)) {
+ 	         	$this->_error('Failed to add the file '.$p_filename.' into the header');
               return false;
+          }
       }
 
       return true;
@@ -1489,7 +1507,7 @@ class Archive_Tar extends PEAR
             if ($this->_compress_type == 'gz')
                 $v_temp_tar = @gzopen($this->_tarname.".tmp", "rb");
             elseif ($this->_compress_type == 'bz2')
-                $v_temp_tar = @bzopen($this->_tarname.".tmp", "rb");
+                $v_temp_tar = @bzopen($this->_tarname.".tmp", "r");
                 
             if ($v_temp_tar == 0) {
                 $this->_error('Unable to open file \''.$this->_tarname.'.tmp\' in binary read mode');

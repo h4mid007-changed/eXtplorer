@@ -2,7 +2,7 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
-
+- [ 1944163 ] In germanf.php fehlt ein Eintrag
 - fixed compatibility problem with JomComment+MyBlog (Services_JSON was redeclared)
 - switched from "Codepress" to "EditArea" (http://www.cdolivet.net/index.php?page=editArea), which gives a lot of advantages:
 	* faster loading of large files
