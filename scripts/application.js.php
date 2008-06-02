@@ -3,10 +3,10 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2008
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @license
- * @version $Id: $
+ * @version $Id$
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -85,10 +85,11 @@ function ext_init(){
             }
         }
 	}
-    datastore.on('beforeload', function(ds, options) {
+    datastore.on("beforeload", function(ds, options) {
     								options.params.dir = options.params.dir ? options.params.dir : ds.directory;
-    								options.params.option = 'com_extplorer';
-    								options.params.action = 'getdircontents';
+    								options.params.option = "com_extplorer";
+    								options.params.action = "getdircontents";
+    								options.params.sendWhat = datastore.sendWhat;    								
     								}
     							 );
 
