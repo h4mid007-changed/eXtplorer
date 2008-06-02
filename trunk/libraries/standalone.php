@@ -40,8 +40,11 @@ if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 	if ( isset( $_SERVER['QUERY_STRING'] ) && !empty( $_SERVER['QUERY_STRING'] ) ) {
 		$request_uri .= '?' . $_SERVER['QUERY_STRING'];
 	}
+	$_SERVER['REQUEST_URI'] = $request_uri;
 }
-$_SERVER['REQUEST_URI'] = $request_uri;
+if( empty( $_SERVER['PHP_SELF'])) {
+	$_SERVER['PHP_SELF'] = $_SERVER['SCRIPT_NAME'];
+}
 
 // current server time
 $now = date( 'Y-m-d H:i', time() );
