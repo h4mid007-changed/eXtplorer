@@ -2,12 +2,12 @@
 <mosinstall type="component">
 <!-- Mambo/Joomla! 1.0 Installer XML File -->
     <name>eXtplorer</name>
-    <creationDate>26.05.2008</creationDate>
+    <creationDate>04.06.2008</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren|at|virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
-    <version>2.0.0 RC3</version>
+    <version>2.0.0 RC4</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_extplorer/images/eXtplorer.gif" alt="eXtplorer Logo" /></div>
 	<h2>Successfully installed eXtplorer&nbsp;</h2>
