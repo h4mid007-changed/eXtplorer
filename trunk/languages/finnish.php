@@ -1,14 +1,14 @@
 <?php
-// Finnish Language file for extXplorer 
-// version 1.0 dated 13.7.2007
-// based on JoomlaXplorer 1.6.1 language file
+// Finnish Language file for eXtplorer 2.0.0 RC4 UTF-8
+// Version 1.0 dated 04.06.2008
+// Based on JoomlaXplorer 1.6.1 language file
 // Markku Suominen / admin@joomlaportal.fi
-// Finnish Joomla translation team, http://www.joomlaportal.fi, admin@joomlaportal.fi
+// Finnish Joomla translation team, http://www.joomlaportal.fi
 global $_VERSION;
 
-$GLOBALS["charset"] = "iso-8859-1";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
-$GLOBALS["date_fmt"] = "j.n.Y H:i";
+$GLOBALS["date_fmt"] = "d.m.Y H:i";
 $GLOBALS["error_msg"] = array(
 	// error
 	"error"			=> "virheet",
@@ -17,8 +17,8 @@ $GLOBALS["error_msg"] = array(
 	
 	// root
 	"home"			=> "Kotihakemistoa ei ole, tarkista asetuksesi.",
-	"abovehome"		=> "Nykyinen hakemisto ei saa olla kotihakemiston yl‰puolella.",
-	"targetabovehome"	=> "Kohdehakemisto ei saa olla kotihakemiston yl‰puolella.",
+	"abovehome"		=> "Nykyinen hakemisto ei saa olla kotihakemiston yl√§puolella.",
+	"targetabovehome"	=> "Kohdehakemisto ei saa olla kotihakemiston yl√§puolella.",
 	
 	// exist
 	"direxist"		=> "Hakemistoa ei ole.",
@@ -34,62 +34,63 @@ $GLOBALS["error_msg"] = array(
 	"readdir"		=> "Hakemistoa ei voi lukea.",
 	
 	// access
-	"accessdir"		=> "Sinulla ei ole valtuuksia t‰h‰n hakemistoon.",
-	"accessfile"		=> "Sinulla ei ole valtuuksia t‰h‰n tiedostoon.",
-	"accessitem"		=> "Sinulla ei ole valtuuksia t‰h‰n nimikkeeseen.",
-	"accessfunc"		=> "Sinulla ei ole valtuuksia t‰h‰n toimintoon.",
+	"accessdir"		=> "Sinulla ei ole valtuuksia t√§h√§n hakemistoon.",
+	"accessfile"		=> "Sinulla ei ole valtuuksia t√§h√§n tiedostoon.",
+	"accessitem"		=> "Sinulla ei ole valtuuksia t√§h√§n nimikkeeseen.",
+	"accessfunc"		=> "Sinulla ei ole valtuuksia t√§h√§n toimintoon.",
 	"accesstarget"		=> "Sinulla ei ole valtuuksia kohdehakemistoon.",
 	
 	// actions
-	"permread"		=> "K‰yttˆoikeuksien luku ep‰onnistui.",
-	"permchange"		=> "K‰ytt‰oikeuksien muutos ep‰onnistui.",
-	"openfile"		=> "Tiedoston avaaminen ep‰onnistui.",
-	"savefile"		=> "Tiedoston tallennus ep‰onnistui.",
-	"createfile"		=> "Tiedoston luonti ep‰onnistui.",
-	"createdir"		=> "Hakemiston luonti ep‰onnistui.",
-	"uploadfile"		=> "Tiedoston vienti palvelimelle ep‰onnistui.",
-	"copyitem"		=> "Kopiointi ep‰onnistui.",
-	"moveitem"		=> "Siirto ep‰onnistui.",
-	"delitem"		=> "Poisto ep‰onnistui.",
-	"chpass"		=> "Salasanan vaihto ep‰onnistui.",
-	"deluser"		=> "K‰ytt‰j‰n poisto ep‰onnistui.",
-	"adduser"		=> "K‰ytt‰j‰n lis‰ys ep‰onnistui.",
-	"saveuser"		=> "K‰ytt‰j‰n tallennus ep‰onnistui.",
-	"searchnothing"		=> "Sinun pit‰‰ antaa jotain etsitt‰v‰‰.",
+	"permread"		=> "K√§ytt√∂oikeuksien luku ep√§onnistui.",
+	"permchange"		=> "K√§ytt√∂oikeuksien muutos ep√§onnistui.",
+	"openfile"		=> "Tiedoston avaaminen ep√§onnistui.",
+	"savefile"		=> "Tiedoston tallennus ep√§onnistui.",
+	"createfile"		=> "Tiedoston luonti ep√§onnistui.",
+	"createdir"		=> "Hakemiston luonti ep√§onnistui.",
+	"uploadfile"		=> "Tiedoston vienti palvelimelle ep√§onnistui.",
+	"copyitem"		=> "Kopiointi ep√§onnistui.",
+	"moveitem"		=> "Siirto ep√§onnistui.",
+	"delitem"		=> "Poisto ep√§onnistui.",
+	"chpass"		=> "Salasanan vaihto ep√§onnistui.",
+	"deluser"		=> "K√§ytt√§j√§n poisto ep√§onnistui.",
+	"adduser"		=> "K√§ytt√§j√§n lis√§ys ep√§onnistui.",
+	"saveuser"		=> "K√§ytt√§j√§n tallennus ep√§onnistui.",
+	"searchnothing"		=> "Sinun pit√§√§ antaa jotain etsitt√§v√§√§.",
 	
 	// misc
-	"miscnofunc"		=> "Toiminto ei ole k‰ytett‰viss‰.",
-	"miscfilesize"		=> "Tiedosto koko ylitt‰‰ suurimman sallitun arvon.",
+	"miscnofunc"		=> "Toiminto ei ole k√§ytett√§viss√§.",
+	"miscfilesize"		=> "Tiedosto koko ylitt√§√§ suurimman sallitun arvon.",
 	"miscfilepart"		=> "Tiedoston vienti palvelimelle onnistui vain osittain.",
 	"miscnoname"		=> "Anna nimi.",
-	"miscselitems"		=> "Et ole valinnut yht‰‰n nimikett‰.",
-	"miscdelitems"		=> "Haluatko varmasti poistaa n‰m‰ \"+num+\" nimikett‰?",
-	"miscdeluser"		=> "Haluatko varmasti poistaa k‰ytt‰j‰n '\"+user+\"'?",
-	"miscnopassdiff"	=> "Uusi salasana ei eroa nykyisest‰.",
-	"miscnopassmatch"	=> "Salasanat eiv‰t t‰sm‰‰.",
-	"miscfieldmissed"	=> "Ohitit t‰rke‰n kent‰n.",
-	"miscnouserpass"	=> "K‰ytt‰j‰nimi tai salasana on v‰‰r‰.",
+	"miscselitems"		=> "Et ole valinnut yht√§√§n nimikett√§.",
+	"miscdelitems"		=> "Haluatko varmasti poistaa n√§m√§ {0} nimikett√§?",
+	"miscdeluser"		=> "Haluatko varmasti poistaa k√§ytt√§j√§n '{0}'?",
+	"miscnopassdiff"	=> "Uusi salasana ei eroa nykyisest√§.",
+	"miscnopassmatch"	=> "Salasanat eiv√§t t√§sm√§√§.",
+	"miscfieldmissed"	=> "Ohitit t√§rke√§n kent√§n.",
+	"miscnouserpass"	=> "K√§ytt√§j√§nimi tai salasana on v√§√§r√§.",
 	"miscselfremove"	=> "Et voi poistaa omaa tunnustasi.",
-	"miscuserexist"		=> "K‰ytt‰j‰ on jo olemassa.",
-	"miscnofinduser"	=> "K‰ytt‰j‰‰ ei lˆydy.",
+	"miscuserexist"		=> "K√§ytt√§j√§ on jo olemassa.",
+	"miscnofinduser"	=> "K√§ytt√§j√§√§ ei l√∂ydy.",
 	"extract_noarchive" => "Tiedoston tyyppi ei ole sellainen joka voidaan purkaa.",
 	"extract_unknowntype" => "Tuntematon arkistointimuoto",
 	
-	'chmod_none_not_allowed' => 'Changing Permissions to <none> is not allowed',
+	'chmod_none_not_allowed' => 'K√§ytt√∂oikeuksien muutos <none> ei ole sallittu',
 	'archive_dir_notexists' => 'The Save-To Directory you have specified does not exist.',
 	'archive_dir_unwritable' => 'Please specify a writable directory to save the archive to.',
-	'archive_creation_failed' => 'Failed saving the Archive File'
+	'archive_creation_failed' => 'Arkistotiedoston tallennus ep√§onnistui'
+	
 );
 $GLOBALS["messages"] = array(
 	// links
 	"permlink"		=> "Muuta oikeuksia",
 	"editlink"		=> "Muokkaa",
 	"downlink"		=> "Lataa",
-	"uplink"		=> "Ylˆs",
+	"uplink"		=> "Yl√∂s",
 	"homelink"		=> "Juurihakemisto",
-	"reloadlink"	=> "P‰ivit‰",
+	"reloadlink"	=> "P√§ivit√§",
 	"copylink"		=> "Kopioi",
-	"movelink"		=> "Siirr‰",
+	"movelink"		=> "Siirr√§",
 	"dellink"		=> "Poista",
 	"comprlink"		=> "Arkistoi",
 	"adminlink"		=> "Hallinta",
@@ -98,8 +99,8 @@ $GLOBALS["messages"] = array(
 	"searchlink"	=> "Etsi",
 	"extractlink"	=> "Pura arkistotiedosto",
 	'chmodlink'		=> 'Muuta (chmod) oikeudet (kansio/tiedosto(t))', // new mic
-	'mossysinfolink'	=> $_VERSION->PRODUCT.' J‰rjestelm‰tiedot ('.$_VERSION->PRODUCT.', palvelin, PHP, mySQL)', // new mic
-	'logolink'		=> 'Siirry extXplorer sivustolle(uusi ikkuna)', // new mic
+	'mossysinfolink'	=> 'eXtplorer j√§rjestelm√§tiedot (eXtplorer, palvelin, PHP, mySQL)', // new mic
+	'logolink'		=> 'Siirry eXtplorer sivustolle(uusi ikkuna)', // new mic
 	
 	// list
 	"nameheader"		=> "Nimi",
@@ -120,17 +121,17 @@ $GLOBALS["messages"] = array(
 	"btnsearch"		=> "Etsi",
 	"btnupload"		=> "Vie palvelimelle",
 	"btncopy"		=> "Kopioi",
-	"btnmove"		=> "Siirr‰",
+	"btnmove"		=> "Siirr√§",
 	"btnlogin"		=> "Kirjaudu",
 	"btnlogout"		=> "Poistu",
-	"btnadd"		=> "Lis‰‰",
+	"btnadd"		=> "Lis√§√§",
 	"btnedit"		=> "Muokkaa",
 	"btnremove"		=> "Poista",
 	
 	// user messages, new in joomlaXplorer 1.3.0
-	'renamelink'	=> 'Nime‰',
+	'renamelink'	=> 'Nime√§',
 	'confirm_delete_file' => 'Haluatko varmasti poistaa tiedoston? \\n%s',
-	'success_delete_file' => 'Nimike(tt‰) poistettu .',
+	'success_delete_file' => 'Nimike(tt√§) poistettu .',
 	'success_rename_file' => 'Hakemisto/tiedosto  %s nimettiin, uusi nimi on %s.',
 	
 	// actions
@@ -140,20 +141,20 @@ $GLOBALS["messages"] = array(
 	"actsearchresults"	=> "Haun tulokset",
 	"actcopyitems"		=> "Kopioi nimikkeet",
 	"actcopyfrom"		=> "Kopioi kohteesta /%s kohteeseen /%s ",
-	"actmoveitems"		=> "Siirr‰ nimikkeet",
-	"actmovefrom"		=> "Siirr‰ kohteesta /%s kohteeseen /%s ",
+	"actmoveitems"		=> "Siirr√§ nimikkeet",
+	"actmovefrom"		=> "Siirr√§ kohteesta /%s kohteeseen /%s ",
 	"actlogin"		=> "Kirjaudu",
-	"actloginheader"	=> "Kirjaudu k‰ytt‰‰ksesi joomlaXploreria",
+	"actloginheader"	=> "Kirjaudu k√§ytt√§√§ksesi joomlaXploreria",
 	"actadmin"		=> "Hallinta",
 	"actchpwd"		=> "Muuta salasana",
-	"actusers"		=> "K‰ytt‰j‰t",
+	"actusers"		=> "K√§ytt√§j√§t",
 	"actarchive"		=> "Arkistoi nimikkeet",
 	"actupload"		=> "Vie tiedostot palvelimelle",
 	
 	// misc
-	"miscitems"		=> "Nimikett‰",
+	"miscitems"		=> "Nimikett√§",
 	"miscfree"		=> "Vapaana",
-	"miscusername"		=> "K‰ytt‰j‰nimi",
+	"miscusername"		=> "K√§ytt√§j√§nimi",
 	"miscpassword"		=> "Salasana",
 	"miscoldpass"		=> "Vanha salasana",
 	"miscnewpass"		=> "Uusi salasana",
@@ -162,37 +163,37 @@ $GLOBALS["messages"] = array(
 	"miscchpass"		=> "Muuta salasana",
 	"mischomedir"		=> "Kotihakemisto",
 	"mischomeurl"		=> "Koti URL",
-	"miscshowhidden"	=> "N‰yt‰ piilotetut nimikkeet",
+	"miscshowhidden"	=> "N√§yt√§ piilotetut nimikkeet",
 	"mischidepattern"	=> "Piilota kuvio",
 	"miscperms"		=> "Oikeudet",
-	"miscuseritems"		=> "(nimi, kotihakemisto, n‰yt‰ piilotetut nimikkeet, oikeudet, aktiivi)",
-	"miscadduser"		=> "lis‰‰ k‰ytt‰j‰",
-	"miscedituser"		=> "muokkaa k‰ytt‰j‰‰ '%s'",
+	"miscuseritems"		=> "(nimi, kotihakemisto, n√§yt√§ piilotetut nimikkeet, oikeudet, aktiivi)",
+	"miscadduser"		=> "lis√§√§ k√§ytt√§j√§",
+	"miscedituser"		=> "muokkaa k√§ytt√§j√§√§ '%s'",
 	"miscactive"		=> "Aktiivi",
 	"misclang"		=> "Kieli",
 	"miscnoresult"		=> "Ei tuloksia.",
 	"miscsubdirs"		=> "Etsi alahakemistoista",
 	"miscpermnames"		=> array("Vain katselu","Muokkaa","Muuta salasana","Muokkaa ja muuta salasana",
 					"Hallinta"),
-	"miscyesno"		=> array("Kyll‰","Ei","K","E"),
-	"miscchmod"		=> array("Omistaja", "Ryhm‰", "Julkinen"),
+	"miscyesno"		=> array("Kyll√§","Ei","K","E"),
+	"miscchmod"		=> array("Omistaja", "Ryhm√§", "Julkinen"),
 
 	// from here all new by mic
 	'miscowner'			=> 'Omistaja',
-	'miscownerdesc'		=> '<strong>Kuvaus:</strong><br />K‰ytt‰j‰ (UID) /<br />Ryhm‰ (GID)<br />Nykyiset oikeudet:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
+	'miscownerdesc'		=> '<strong>Kuvaus:</strong><br />K√§ytt√§j√§ (UID) /<br />Ryhm√§ (GID)<br />Nykyiset oikeudet:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	'simamsysinfo'		=> $_VERSION->PRODUCT.' J‰rjestelm‰n tiedot',
-	'sisysteminfo'		=> 'J‰rjestelm‰n tiedot',
-	'sibuilton'			=> 'K‰yttˆj‰rjestelm‰',
+	'simamsysinfo'		=> "eXtplorer j√§rjestelm√§n tiedot",
+	'sisysteminfo'		=> 'J√§rjestelm√§n tiedot',
+	'sibuilton'			=> 'K√§ytt√∂j√§rjestelm√§',
 	'sidbversion'		=> 'Tietokannan versio (MySQL)',
 	'siphpversion'		=> 'PHP versio',
-	'siphpupdate'		=> 'TIETOJA: <span style="color: red;">K‰ytt‰m‰si PHP-versio <strong>ei ole </strong> riitt‰v‰n uusi</span><br />K‰ytt‰‰ksesi tuotteen toimintoja '.$_VERSION->PRODUCT.' ja lis‰osia,<br />vanhin hyv‰ksytty versio on <strong>PHP 4.3</strong>!',
+	'siphpupdate'		=> 'TIETOJA: <span style="color: red;">K√§ytt√§m√§si PHP-versio <strong>ei ole </strong> riitt√§v√§n uusi</span><br />K√§ytt√§√§ksesi tuotteen toimintoja ja lis√§osia,<br />vanhin hyv√§ksytty versio on <strong>PHP 4.3</strong>!',
 	'siwebserver'		=> 'Web-palvelin',
 	'siwebsphpif'		=> 'Web-palvelin - PHP rajapinta',
-	'simamboversion'	=> $_VERSION->PRODUCT.' versio',
+	'simamboversion'	=> 'eXtplorer versio',
 	'siuseragent'		=> 'Selaimen versio',
-	'sirelevantsettings' => 'T‰rke‰t PHP-asetukset',
+	'sirelevantsettings' => 'T√§rke√§t PHP-asetukset',
 	'sisafemode'		=> 'Safe Mode',
 	'sibasedir'			=> 'Open basedir',
 	'sidisplayerrors'	=> 'PHP-virheet',
@@ -202,53 +203,53 @@ $GLOBALS["messages"] = array(
 	'siregglobals'		=> 'Register Globals',
 	'sioutputbuf'		=> 'Output Buffer',
 	'sisesssavepath'	=> 'Istunnon tallennuspolku',
-	'sisessautostart'	=> 'Istunnon automaattinen k‰ynnistys',
-	'sixmlenabled'		=> 'XML k‰ytˆss‰',
-	'sizlibenabled'		=> 'ZLIB k‰ytˆss‰',
+	'sisessautostart'	=> 'Istunnon automaattinen k√§ynnistys',
+	'sixmlenabled'		=> 'XML k√§yt√∂ss√§',
+	'sizlibenabled'		=> 'ZLIB k√§yt√∂ss√§',
 	'sidisabledfuncs'	=> 'Estetyt funktiot',
 	'sieditor'			=> 'WYSIWYG-editori',
 	'siconfigfile'		=> 'Asetustiedosto',
 	'siphpinfo'			=> 'PHP-tiedot',
 	'siphpinformation'	=> 'PHP-tiedot',
-	'sipermissions'		=> 'K‰yttˆoikeudet',
-	'sidirperms'		=> 'Hakemiston k‰yttˆoikeudet',
-	'sidirpermsmess'	=> 'Jotta kaikki tuotteen toiminnot ja funktiot toimivat oikein '.$_VERSION->PRODUCT.' , seuraavien kansioihin tulee voida kirjoittaa [chmod 0777]',
-	'sionoff'			=> array( 'Pois', 'P‰‰ll‰' ),
+	'sipermissions'		=> 'K√§ytt√∂oikeudet',
+	'sidirperms'		=> 'Hakemiston k√§ytt√∂oikeudet',
+	'sidirpermsmess'	=> 'Jotta kaikki tuotteen toiminnot ja funktiot toimivat oikein, seuraavien kansioihin tulee voida kirjoittaa [chmod 0777]',
+	'sionoff'			=> array( 'Pois', 'P√§√§ll√§' ),
 	
-	'extract_warning' => "Haluatko purkaa tiedoston t‰h‰n hakemistoon? \\nK‰yt‰ toimintoa varoen, sill‰ olemassa olevat tiedostot ylikirjoitetaan arkistotiedoston tiedostoilla.",
+	'extract_warning' => "Haluatko purkaa tiedoston t√§h√§n hakemistoon? \\nK√§yt√§ toimintoa varoen, sill√§ olemassa olevat tiedostot ylikirjoitetaan arkistotiedoston tiedostoilla.",
 	'extract_success' => "Tiedoston purkaminen onnistui",
-	'extract_failure' => "Purkaminen ep‰onnistui",
+	'extract_failure' => "Purkaminen ep√§onnistui",
 	
 	'overwrite_files' => 'Korvaa nykyiset tiedostot?',
-	"viewlink"		=> "N‰yt‰",
-	"actview"		=> "N‰ytet‰‰n tiedoston sis‰ltˆ",
+	"viewlink"		=> "N√§yt√§",
+	"actview"		=> "N√§ytet√§√§n tiedoston sis√§lt√∂",
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_chmod.php file
-	'recurse_subdirs'	=> 'Kohdista toiminto myˆs alihakemistoihin?',
+	'recurse_subdirs'	=> 'Kohdista toiminto my√∂s alihakemistoihin?',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to footer.php file
 	'check_version'	=> 'Tarkista viimeisin versio',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_rename.php file
-	'rename_file'	=>	'Nime‰ tiedosto tai hakemisto...',
+	'rename_file'	=>	'Nime√§ tiedosto tai hakemisto...',
 	'newname'		=>	'Uusi nimi',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_edit.php file
-	'returndir'	=>	'Palaa hakemistoon tallentamisen j‰lkeen?',
+	'returndir'	=>	'Palaa hakemistoon tallentamisen j√§lkeen?',
 	'line'		=> 	'Rivi',
 	'column'	=>	'Sarake',
-	'wordwrap'	=>	'Rivit‰: (vain IE)',
-	'copyfile'	=>	'Kopioi tiedosto t‰lle nimelle',
+	'wordwrap'	=>	'Rivit√§: (vain IE)',
+	'copyfile'	=>	'Kopioi tiedosto t√§lle nimelle',
 	
 	// Bookmarks
 	'quick_jump' => 'Siirry kohteeseen',
 	'already_bookmarked' => 'Hakemisto on jo kirjanmerkitty',
-	'bookmark_was_added' => 'Hakemisto lis‰ttiin kirjanmerkkien listaan.',
+	'bookmark_was_added' => 'Hakemisto lis√§ttiin kirjanmerkkien listaan.',
 	'not_a_bookmark' => 'Hakemisto ei ole kirjanmerkki.',
 	'bookmark_was_removed' => 'Hakemisto poistettiin kirjanmerkkien listasta.',
-	'bookmarkfile_not_writable' => "Kirjanmerkkiin liittyv‰ toiminto %s ep‰onnistui.\n Kirjanmerkkitiedosto '%s' \n on kirjoitussuojattu.",
+	'bookmarkfile_not_writable' => "Kirjanmerkkiin liittyv√§ toiminto %s ep√§onnistui.\n Kirjanmerkkitiedosto '%s' \n on kirjoitussuojattu.",
 	
-	'lbl_add_bookmark' => 'Lis‰‰ hakemisto kirjanmerkkeihin',
+	'lbl_add_bookmark' => 'Lis√§√§ hakemisto kirjanmerkkeihin',
 	'lbl_remove_bookmark' => 'Poista hakemisto kirjanmerkkilistasta',
 	
 	'enter_alias_name' => 'Anna kirjanmerkin alias',
@@ -259,16 +260,16 @@ $GLOBALS["messages"] = array(
 	'no_compression' => 'ei pakkausta',
 	
 	'creating_archive' => 'Luodaan arkistotiedosto ...',
-	'processed_x_files' => 'K‰yty l‰pi %s / %s tiedostoa',
+	'processed_x_files' => 'K√§yty l√§pi %s / %s tiedostoa',
 	
 	'ftp_header' => 'Paikallinen FTP-autentikointi',
 	'ftp_login_lbl' => 'Anna FTP-palvelimen vaatimat kirjatumistiedot',
-	'ftp_login_name' => 'FTP k‰ytt‰j‰tunnus',
+	'ftp_login_name' => 'FTP k√§ytt√§j√§tunnus',
 	'ftp_login_pass' => 'FTP salasana',
 	'ftp_hostname_port' => 'FTP-palvelimen nimi ja portti<br />(portti on valinnainen)',
-	'ftp_login_check' => 'Tarkistetaan FTP-yhteytt‰...',
-	'ftp_connection_failed' => "FTP-palvelimeen ei saada yhteytt‰. \nTarkista ett‰ FTP-palvelin on toiminnassa.",
-	'ftp_login_failed' => "FTP-kirjautuminen ei onnistunut. Tarkista k‰ytt‰j‰tunnus ja salasana ja yrit‰ uudelleen.",
+	'ftp_login_check' => 'Tarkistetaan FTP-yhteytt√§...',
+	'ftp_connection_failed' => "FTP-palvelimeen ei saada yhteytt√§. \nTarkista ett√§ FTP-palvelin on toiminnassa.",
+	'ftp_login_failed' => "FTP-kirjautuminen ei onnistunut. Tarkista k√§ytt√§j√§tunnus ja salasana ja yrit√§ uudelleen.",
 		
 	'switch_file_mode' => 'Nykyinen tila: <strong>%s</strong>. Voit vaihtaa tilaan %s.',
 	'symlink_target' => 'Symbolisen linkin kohde',
@@ -278,50 +279,50 @@ $GLOBALS["messages"] = array(
 	"moveitem"		=> "Siirto onnistui.",
 	"copyitem"		=> "Kopiointi onnistui.",
 	'archive_name' 	=> 'Arkistotiedoston nimi',
-	'archive_saveToDir' 	=> 'Tallenna arkistotiedosto t‰h‰n hakemistoon',
+	'archive_saveToDir' 	=> 'Tallenna arkistotiedosto t√§h√§n hakemistoon',
 	
 	'editor_simple'	=> 'Yksinkertainen editori -tila',
 	'editor_syntaxhighlight'	=> 'Syntaksin korostus -tila',
 	
 	'newlink'	=> 'Uusi tiedosto/hakemisto',
-	'show_directories' => 'N‰yt‰ hakemistot',
+	'show_directories' => 'N√§yt√§ hakemistot',
 	'actlogin_success' => 'Kirjautuminen onnistui',
-	'actlogin_failure' => 'Kirjautuminen ep‰onnistui, yrit‰ uudelleen.',
+	'actlogin_failure' => 'Kirjautuminen ep√§onnistui, yrit√§ uudelleen.',
 	'directory_tree' => 'Hakemistopuu',
 	'browsing_directory' => 'Selataan hakemistoa',
 	'filter_grid' => 'Suodatin',
 	'paging_page' => 'Sivu',
 	'paging_of_X' => '/ {0}',
-	'paging_firstpage' => 'Ensimm‰inen sivu',
+	'paging_firstpage' => 'Ensimm√§inen sivu',
 	'paging_lastpage' => 'Viimeinen sivu',
 	'paging_nextpage' => 'Seuraava sivu',
 	'paging_prevpage' => 'Edellinen sivu',
 	
-	'paging_info' => 'N‰ytet‰‰n nimikkeet {0} - {1} / {2}',
-	'paging_noitems' => 'N‰ytett‰vi‰ nimikkeit‰ ei ole',
+	'paging_info' => 'N√§ytet√§√§n nimikkeet {0} - {1} / {2}',
+	'paging_noitems' => 'N√§ytett√§vi√§ nimikkeit√§ ei ole',
 	'aboutlink' => 'Tietoja...',
-	'password_warning_title' => 'T‰rke‰‰ - muuta salasanasi',
-	'password_warning_text' => 'Olet kirjautunut eXtplorer-sovellukseen oletusk‰ytt‰j‰tilin (k‰ytt‰j‰tunnus admin, salasana admin) avulla. eXtplorerin v‰‰rink‰yttˆ on mahdollista, joten vaihda admin-k‰ytt‰j‰n salasana v‰littˆm‰sti.',
+	'password_warning_title' => 'T√§rke√§√§ - muuta salasanasi',
+	'password_warning_text' => 'Olet kirjautunut eXtplorer-sovellukseen oletusk√§ytt√§j√§tilin (k√§ytt√§j√§tunnus admin, salasana admin) avulla. eXtplorerin v√§√§rink√§ytt√∂ on mahdollista, joten vaihda admin-k√§ytt√§j√§n salasana v√§litt√∂m√§sti.',
 	'change_password_success' => 'Salasanasi on muutettu',
 	'success' => 'Onnistui',
-	'failure' => 'Ep‰onnistui',
+	'failure' => 'Ep√§onnistui',
 	'dialog_title' => 'Web-sivuston valintaikkuna',
-	'upload_processing' => 'Processing Upload, please wait...',
-	'upload_completed' => 'Upload successful!',
-	'acttransfer' => 'Transfer from another Server',
-	'transfer_processing' => 'Processing Server-to-Server Transfer, please wait...',
-	'transfer_completed' => 'Transfer completed!',
-	'max_file_size' => 'Maximum File Size',
-	'max_post_size' => 'Maximum Upload Limit',
-	'done' => 'Done.',
-	'permissions_processing' => 'Applying Permissions, please wait...',
-	'archive_created' => 'The Archive File has been created!',
-	'save_processing' => 'Saving File...',
-	'current_user' => 'This script currently runs with the permissions of the following user:',
-	'your_version' => 'Your Version',
-	'search_processing' => 'Searching, please wait...',
-	'url_to_file' => 'URL of the File',
-	'file' => 'File'
+	'upload_processing' => 'Lataus k√§ynniss√§...',
+	'upload_completed' => 'Lataus onnistui.',
+	'acttransfer' => 'Siirr√§ toiselta palvelimelta',
+	'transfer_processing' => 'Siirto toiselta palvelimelta k√§ynniss√§...',
+	'transfer_completed' => 'Siirto suoritettu.',
+	'max_file_size' => 'Suurin tiedosto koko',
+	'max_post_size' => 'Suurin lataus raja',
+	'done' => 'Valmis.',
+	'permissions_processing' => 'K√§ytt√∂oikeuksien lis√§ys k√§ynniss√§...',
+	'archive_created' => 'Arkistotiedosto on luotu',
+	'save_processing' => 'Tallennetaan tiedostoa...',
+	'current_user' => 'T√§m√§ skripti ajetaan seuraavien k√§ytt√§jien k√§ytt√∂oikeuksilla:',
+	'your_version' => 'Versiosi',
+	'search_processing' => 'Etsit√§√§n...',
+	'url_to_file' => 'Tiedoston URL',
+	'file' => 'Tiedosto'
 	
 );
 ?>

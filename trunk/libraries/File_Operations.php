@@ -416,9 +416,12 @@ function ext_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 }
 
 function &getCachedFTPListing( $dir, $force_refresh=false ) {
+	
 	if( $dir != '' && $dir[0] != '/') {
 		$dir = '/'.$dir;
 	}
+	
+	$dir = str_replace($GLOBALS['home_dir'], '', $dir);
 	if( empty( $GLOBALS['ftp_ls'][$dir] ) || $force_refresh ) {
 		if( $dir == $GLOBALS['FTPCONNECTION']->pwd() ) {
 			$dir = '';

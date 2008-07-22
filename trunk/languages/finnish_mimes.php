@@ -1,14 +1,14 @@
 <?php
-// Finnish Language file for extXplorer 
-// version 1.0 dated 13.7.2007
-// based on JoomlaXplorer 1.6.1 language file
+// Finnish Language file for eXtplorer 2.0.0 RC4 UTF-8 
+// Version 1.0 dated 04.06.2008
+// Based on JoomlaXplorer 1.6.1 language file
 // Markku Suominen / admin@joomlaportal.fi
-// Finnish Joomla translation team, http://www.joomlaportal.fi, admin@joomlaportal.fi
+// Finnish Joomla translation team, http://www.joomlaportal.fi
 $GLOBALS["mimes"]=array(
-	// dir, exe, File
+	// dir, exe, file
 	"dir"	=> "Hakemisto",
 	"exe"	=> "Suoritettava tiedosto",
-	"Tiedosto"	=> "Tiedosto",
+	"file"	=> "Tiedosto",
 	"symlink"	=> "Symbolinen linkki",
 
 	// text
@@ -23,10 +23,10 @@ $GLOBALS["mimes"]=array(
 	"css"	=> "CSS-tiedosto",
 	"cgi"	=> "CGI-skripti",
 	// C++
-	"cpps"	=> "C++ -lähdetiedosto",
+	"cpps"	=> "C++ -lÃ¤hdetiedosto",
 	"cpph"	=> "C++ header -tiedosto",
 	// Java
-	"javas"	=> "Java-lähdetiedosto",
+	"javas"	=> "Java-lÃ¤hdetiedosto",
 	"javac"	=> "Java Class -tiedosto",
 	// Pascal
 	"pas"	=> "Pascal-tiedosto",

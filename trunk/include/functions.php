@@ -301,17 +301,26 @@ function get_show_item($dir, $item) {		// show this file?
 }
 //------------------------------------------------------------------------------
 function get_dir_list( $dir='' ) {
-	$files = extReadDirectory( get_abs_dir( $dir), '.', false, true );
+	if( ext_isFTPMode()) {
+		$files = getCachedFTPListing(empty($dir) ? '.' : $dir);
+	} else {
+		$files = extReadDirectory( get_abs_dir( $dir), '.', false, true );
+	}
+	
 	$dirs =array();
 	foreach( $files as $item) {
-		$item = str_replace( '\\', '/', $item );
+		$itemname = ext_isFTPMode() ? (empty($dir) ? '' : $dir.'/') .$item['name'] :  $item;
+		
+		$itemname = str_replace( '\\', '/', $itemname );
 		if( get_is_dir($item)) {
-			
-			$index = str_replace( str_replace('\\', '/', $GLOBALS['home_dir'].$GLOBALS['separator']), '', $item );
+			$index = str_replace( 
+						str_replace('\\', '/', $GLOBALS['home_dir'].$GLOBALS['separator']), 
+							'', $itemname );
 			
 			$dirs[$index]= basename($index);
 		}
 	}
+	
 	return $dirs;
 }
 /**
@@ -327,6 +336,7 @@ function get_dir_selects( $dir ) {
     if( sizeof( $subdirs ) > 0) {
 		$subdirs = array_merge(Array('ext_disabled' => '-'), $subdirs );
 	}
+	
 	if( empty($dirs[0]) ) array_shift($dirs);
 	$dirsCopy = $dirs;
 	$implode = '';
@@ -334,6 +344,7 @@ function get_dir_selects( $dir ) {
 	foreach( $subdirs as $index => $val ) {
 		$subdirs[$index] = utf8_encode($val);
 	}
+	
 	$dir_links = ext_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'ext_disabled\' ) chDir(theDir);"' );
 	$i = 2;
 	foreach( $dirs as $directory ) {
@@ -341,6 +352,7 @@ function get_dir_selects( $dir ) {
 			$implode .= $directory;
 			$next = next($dirsCopy);
 			$subdirs = get_dir_list( $implode );
+			
 	  		foreach( $subdirs as $index => $val ) {
 	  			unset( $subdirs[$index]);
 				$subdirs[utf8_encode($index)] = utf8_encode($val);
@@ -357,7 +369,7 @@ function get_dir_selects( $dir ) {
 	  	}
 
 	}
-	
+	//echo '<pre>'.htmlspecialchars($dir_links).'</pre>';exit;
 	return $dir_links;
 }
 //------------------------------------------------------------------------------
@@ -1131,14 +1143,15 @@ function extMkdirR($path, $rights = 0777) {
 */
 function extReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
 	$arr = array();
-	if (!@is_dir( $path )) {
+	if (!@get_is_dir( $path )) {
 		return $arr;
 	}
-	$handle = opendir( $path );
+	$handle = ext_File::opendir( $path );
 
-	while ($file = readdir($handle)) {
+	while ($file = ext_File::readdir($handle)) {
+		if( is_array( $file )) $file = $file['name'];
 		$dir = extPathName( $path.'/'.$file, false );
-		$isDir = @is_dir( $dir );
+		$isDir = @get_is_dir( $dir );
 		if (($file != ".") && ($file != "..")) {
 			if (preg_match( "/$filter/", $file )) {
 				if ($fullpath) {
@@ -1153,7 +1166,7 @@ function extReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 			}
 		}
 	}
-	closedir($handle);
+	ext_File::closedir($handle);
 	asort($arr);
 	return $arr;
 }
