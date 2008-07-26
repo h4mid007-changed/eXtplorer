@@ -272,7 +272,7 @@ $GLOBALS["messages"] = array(
 	"moveitem"		=> "Das Verschieben war erfolgreich.",
 	"copyitem"		=> "Das Kopieren war erfolgreich.",
 	'archive_name' 	=> 'Name des Archivs',
-	'archive_saveToDir' 	=> 'Speichere das Archiv in foldendem Verzeichnis',
+	'archive_saveToDir' 	=> 'Speichere das Archiv in folgendem Verzeichnis',
 	
 	'editor_simple'	=> 'Einfacher Editormodus',
 	'editor_syntaxhighlight'	=> 'Syntax-Hervorhebungsmodus',
