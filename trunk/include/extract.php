@@ -1,6 +1,7 @@
 <?php
 // ensure this file is being included by a parent file
-if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
+if( ! defined( '_JEXEC' ) && ! defined( '_VALID_MOS' ) )
+	die( 'Restricted access' ) ;
 /**
  * @version $Id$
  * @package eXtplorer
@@ -37,38 +38,70 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  *
  */
 class ext_Extract extends ext_Action {
-
+	
 	function execAction( $dir, $item ) {
 		
-		global $mosConfig_absolute_path;
-	
-		if( !ext_isArchive( $item )) {
-			ext_Result::sendResult('archive', false, ext_Lang::err('extract_noarchive'));
-		}
-		else {
-	
-			$archive_name = realpath(get_abs_item($dir,$item));
-	
-			$file_info = pathinfo($archive_name);
-	
-			if( empty( $dir )) {
-				$extract_dir = realpath($GLOBALS['home_dir']);
-			}
-			else {
-				$extract_dir = realpath( $GLOBALS['home_dir']."/".$dir );
-			}
-	
-			$ext = $file_info["extension"];
-	
-			require_once(_EXT_PATH . "/libraries/Archive/archive.php");
+		global $mosConfig_absolute_path ;
+		
+		if( ! ext_isArchive( $item ) ) {
+			ext_Result::sendResult( 'archive', false, ext_Lang::err( 'extract_noarchive' ) ) ;
+		} else {
 			
-			$result = extArchive::extract( $archive_name, $extract_dir );
-			if( PEAR::isError( $result )) {
-				ext_Result::sendResult('extract', false, ext_Lang::err('extract_failure').': '.$result->getMessage() );
+			$archive_name = realpath( get_abs_item( $dir, $item ) ) ;
+			
+			$file_info = pathinfo( $archive_name ) ;
+			
+			if( empty( $dir ) ) {
+				$extract_dir = realpath( $GLOBALS['home_dir'] ) ;
+			} else {
+				$extract_dir = realpath( $GLOBALS['home_dir'] . "/" . $dir ) ;
 			}
 			
-			ext_Result::sendResult('extract', true, ext_Lang::msg('extract_success') );
-	
+			$ext = $file_info["extension"] ;
+			
+			switch( $ext) {
+				case "zip" :
+					
+					require_once (_EXT_PATH . "/libraries/Zip.php") ;
+					$extract_dir = str_replace('\\', '/', $extract_dir );
+					$zip = new Archive_Zip( $archive_name ) ;
+					$res = $zip->extract( array( 'add_path' => $extract_dir) ) ;
+					if( $res == 0 ) {
+						ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_failure' ).' ('.$zip->errorInfo(true).')');
+					} else
+						ext_Result::sendResult( 'extract', false, ext_Lang::msg( 'extract_success' ).print_r($res,true));
+				
+				break ;
+				
+				case "gz" : // a
+				case "bz" : // lot
+				case "bz2" : // of
+				case "bzip2" : // fallthroughs,
+				case "tbz" : // don't
+				case "tar" : // wonder
+					require_once (_EXT_PATH . "/libraries/Tar.php") ;
+					$archive = new Archive_Tar( $archive_name ) ;
+					if( $archive->extract( $extract_dir ) )
+						ext_Result::sendResult( 'extract', true, ext_Lang::msg( 'extract_success' ));
+					else
+						ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_failure' ));
+				break ;
+				
+				default :
+						ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_unknowntype' ));
+				
+				break ;
+			}
+			/*
+			require_once (_EXT_PATH . "/libraries/Archive/archive.php") ;
+			
+			$result = extArchive::extract( $archive_name, $extract_dir ) ;
+			if( PEAR::isError( $result ) ) {
+				ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_failure' ) . ': ' . $result->getMessage() ) ;
+			}
+			*/
+			ext_Result::sendResult( 'extract', true, ext_Lang::msg( 'extract_success' ) ) ;
+		
 		}
 	}
 }

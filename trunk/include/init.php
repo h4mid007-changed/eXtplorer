@@ -175,7 +175,7 @@ $GLOBALS['ext_File'] = new ext_File();
 
 if( ext_isFTPMode() ) {
 	// Try to connect to the FTP server.    	HOST,   PORT, TIMEOUT
-	$ftp_host = extGetParam( $_POST, 'ftp_host', 'localhost:21' );
+	$ftp_host = extGetParam( $_SESSION, 'ftp_host', 'localhost:21' );
 	$url = @parse_url( 'ftp://' . $ftp_host);
 	$port = empty($url['port']) ? 21 : $url['port'];
 	$ftp = new Net_FTP( $url['host'], $port, 20 );

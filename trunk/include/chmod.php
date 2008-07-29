@@ -107,6 +107,7 @@ class ext_Chmod extends ext_Action {
 							$mode = bindec($bin);
 						}
 					}
+					//ext_Result::sendResult('chmod', false, $GLOBALS['FTPCONNECTION']->pwd());
 					$ok = @$GLOBALS['ext_File']->chmod( $abs_item, $mode );
 				}
 	
@@ -114,7 +115,9 @@ class ext_Chmod extends ext_Action {
 			}
 			
 			if($ok===false || PEAR::isError( $ok ) ) {
-				ext_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["permchange"]);
+				$msg = $item.": ".$GLOBALS["error_msg"]["permchange"];
+				$msg .= PEAR::isError( $ok ) ? ' [' . $ok->getMessage().']' : '';
+				ext_Result::sendResult('chmod', false, $msg );
 			}
 			ext_Result::sendResult('chmod', true, ext_Lang::msg('permchange') );
 			return;
@@ -123,8 +126,10 @@ class ext_Chmod extends ext_Action {
 			$abs_item = get_item_info( $dir, $GLOBALS['__POST']["selitems"][0]);
 		} else {
 			$abs_item = get_abs_item( $dir, $GLOBALS['__POST']["selitems"][0]);
+			$abs_item = utf8_decode($abs_item);
 		}
-		$mode = parse_file_perms(get_file_perms( utf8_decode($abs_item) ));
+		
+		$mode = parse_file_perms(get_file_perms( $abs_item ));
 		if($mode===false) {
 			ext_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["permread"]);
 		}
@@ -141,7 +146,7 @@ class ext_Chmod extends ext_Action {
 	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	
 	        <h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actperms') ?></h3>
-	        <?php echo $text ?>
+	        <?php echo $text  ?>
 	        <div id="adminForm">
 	
 	        </div>
@@ -167,7 +172,7 @@ class ext_Chmod extends ext_Action {
 			        for($j=0;$j<3;++$j) {
 			        	?>
 				        new Ext.form.Checkbox({
-				            boxLabel:'<?php echo $pos{$j} ?>',
+				            boxLabel:'<?php echo $pos{$j}  ?>',
 				            <?php if($mode{(3*$i)+$j} != "-") echo 'checked:true,' ?>
 				            name:'<?php echo "r_". $i.$j ?>'
 				        })     <?php
