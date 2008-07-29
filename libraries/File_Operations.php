@@ -219,10 +219,11 @@ class ext_File {
 			if( is_array( $uploadedfile )) {
 				$uploadedfile = $uploadedfile['name'];
 			}
+			$uploadedfile = str_replace( "\\", '/', $uploadedfile );
+			$to = str_replace( "\\", '/', $to );
 			$res = $GLOBALS['FTPCONNECTION']->put( $uploadedfile, $to );
-			if( !PEAR::isError( $res )) {
-				return $res;
-			}
+			return $res;
+			
 		}
 		else {
 			return move_uploaded_file( $uploadedfile, $to );
@@ -231,6 +232,9 @@ class ext_File {
 	function file_get_contents( $file ) {
 		if( ext_isFTPMode() ) {
 			$fh = tmpfile();
+			
+			$file = str_replace( "\\", '/', $file );
+			if( $file[0] != '/' ) $file = '/'. $file; 
 			$res = $GLOBALS['FTPCONNECTION']->fget( $file, $fh );
 			if( PEAR::isError( $res )) {
 				return false;
@@ -391,13 +395,16 @@ function ext_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 		return $tmp_dir;
 	}
 	
+	$abs_item = str_replace( "\\", '/', $abs_item );
+	if( $abs_item[0] != '/' ) $abs_item = '/'. $abs_item; 
+	
 	if( !$use_filehandle ) {
 		$tmp_file = tempnam( _EXT_FTPTMP_PATH, 'ext_ftp_dl_' );
 	
 		if( $tmp_file == 'false') {
 			ext_Result::sendResult( 'list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
 		}
-		$res = $GLOBALS['FTPCONNECTION']->get( '/'.$abs_item, $tmp_file, true );
+		$res = $GLOBALS['FTPCONNECTION']->get( $abs_item, $tmp_file, true );
 		if( PEAR::isError( $res )) {
 			ext_Result::sendResult( 'list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
 		}
@@ -416,21 +423,24 @@ function ext_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 }
 
 function &getCachedFTPListing( $dir, $force_refresh=false ) {
-	
+	if( $dir == '\\') $dir = '.';
+	$dir = str_replace( '\\', '/', $dir );
 	if( $dir != '' && $dir[0] != '/') {
 		$dir = '/'.$dir;
 	}
 	
 	$dir = str_replace($GLOBALS['home_dir'], '', $dir);
+	
 	if( empty( $GLOBALS['ftp_ls'][$dir] ) || $force_refresh ) {
 		if( $dir == $GLOBALS['FTPCONNECTION']->pwd() ) {
 			$dir = '';
 		}
-		$GLOBALS['ftp_ls'][$dir] = $GLOBALS['FTPCONNECTION']->ls( $dir );
+		$GLOBALS['ftp_ls'][$dir] = $GLOBALS['FTPCONNECTION']->ls( empty($dir) ? '.' : $dir );
 		if( PEAR::isError( $GLOBALS['ftp_ls'][$dir] )) {
-			ext_Result::sendResult( 'list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
+			//ext_Result::sendResult( 'list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
 		}
 	}
+
 	return $GLOBALS['ftp_ls'][$dir];
 }
 ?>

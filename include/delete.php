@@ -67,7 +67,7 @@ class ext_Delete extends ext_Action {
 			}
 			
 			// Delete
-			if( ext_isFTPMode() ) $abs = get_abs_item($dir,$abs);
+			if( ext_isFTPMode() ) $abs = str_replace('\\', '/', get_abs_item($dir,$abs) );
 			
 			$ok= $GLOBALS['ext_File']->remove( $abs );
 			

@@ -44,7 +44,7 @@ class ext_ftp_authentication {
 		
 		if( $ftp_login != '' || $ftp_pass != '' ) {
 	
-			$ftp_host = extGetParam( $_POST, 'ftp_host', 'localhost:21' );
+			$ftp_host = extGetParam( $_POST, 'ftp_hostname_port', 'localhost:21' );
 			$url = @parse_url( 'ftp://' . $ftp_host);
 			if( empty( $url )) {			
 				ext_Result::sendResult('ftp_authentication', false, 'Unable to parse the specified Host Name. Please use a hostname in this format: hostname:21' );
@@ -54,7 +54,7 @@ class ext_ftp_authentication {
 			
 			$res = $ftp->connect();
 			if( PEAR::isError( $res )) {
-				ext_Result::sendResult('ftp_authentication', false, $GLOBALS['messages']['ftp_connection_failed'] );
+				ext_Result::sendResult('ftp_authentication', false, $GLOBALS['messages']['ftp_connection_failed'].' ('.$url['host'].')' );
 			}
 			else {
 				$res = $ftp->login( $ftp_login, $ftp_pass );
@@ -66,7 +66,7 @@ class ext_ftp_authentication {
 				
 				$_SESSION['ftp_login'] = $ftp_login;
 				$_SESSION['ftp_pass'] = $ftp_pass;
-				$_SESSION['ftp_host'] = $_POST['ftp_host'];
+				$_SESSION['ftp_host'] = $ftp_host;
 				$_SESSION['file_mode'] = 'ftp';
 				
 				session_write_close();

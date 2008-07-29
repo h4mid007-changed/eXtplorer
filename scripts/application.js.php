@@ -560,7 +560,7 @@ function ext_init(){
     		handler: function() { openActionDialog(this,'download'); }
     	},
     	'-',
-    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
+    	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) ) { ?>
 	    	{
     			id: 'gc_archive',
 	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
