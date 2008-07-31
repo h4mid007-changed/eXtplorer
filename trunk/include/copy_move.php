@@ -105,10 +105,10 @@ function copy_move_items($dir) {		// copy/move file/dir
 				
 			} 
 			elseif(@get_is_dir($abs_item)) {
-				$dir = ext_isFTPMode() ? '/'.$dir.'/'.$abs_item['name'].'/' : $abs_item;
+				$copy_dir = ext_isFTPMode() ? '/'.$dir.'/'.$abs_item['name'].'/' : $abs_item;
 				if( ext_isFTPMode() ) $abs_new_item .= '/';
 				
-				$ok=$GLOBALS['ext_File']->copy_dir( $dir, $abs_new_item);
+				$ok=$GLOBALS['ext_File']->copy_dir( $copy_dir, $abs_new_item);
 			}
 		}
 		else {
