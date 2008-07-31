@@ -2,7 +2,8 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
-
+- added .csv to the editable file types
+- when copying/moving multiple directories, only the first directory was processed
 - fixed extraction of larger archives
 - updated Editarea to 0.7.1.3
 - fixed browsing & working on external FTP servers
