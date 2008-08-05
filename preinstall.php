@@ -47,8 +47,8 @@ $downloadUrls = array();
 /*   Latest stable release */
 $downloadUrls['stable'] = '';
 /*   Latest beta version */
-$downloadUrls['latest']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC3.zip';
-$downloadUrls['beta']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC3.zip';
+$downloadUrls['latest']= 'http://joomlacode.org/gf/download/frsrelease/8187/29823/com_eXtplorer_2.0.0.zip';
+$downloadUrls['beta']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC4.zip';
 
 /* The page on GMC that lists the latest versions */
 /* FOR GR, we request pages from sf.net which then redirects to GMC, e.g. to /release, /beta, .. */
@@ -62,7 +62,7 @@ $folderPermissionList = array('777', '755', '555');
 $availableExtensions = array('zip', 'tar.gz');
 /* Available versions of extplorer */
 //$availableVersions = array('stable', 'rc', 'beta');
-$availableVersions = array('beta');
+$availableVersions = array('stable');
 
 /*****************************************************************
 * M A I N
