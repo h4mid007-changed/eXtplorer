@@ -1,33 +1,33 @@
-<?php
+ï»¿<?php
 
-// Turkish Language for QuiX (Translated by Sinan Ata 'From Turkey'(contact@mambo.gen.tr))
+// Turkish Language for QuiX (Translated by Sinan Ata 'From Turkey'(cumla.blogspot.com))
 
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
-	"dir"	=> "Klasör",
-	"exe"	=> "Açýlabilir Dosya",
+	"dir"	=> "KlasÃ¶r",
+	"exe"	=> "AÃ§Ä±labilir Dosya",
 	"file"	=> "Dosya",
 	"symlink"	=> "Symbolic Link",
 
 	// text
-	"text"	=> "Metin Dosyasý",
+	"text"	=> "Metin DosyasÄ±",
 	
 	// programming
-	"php"	=> "PHP Yazýlým",
-	"sql"	=> "SQL Dosyasý",
-	"perl"	=> "PERL Yazýlým",
-	"html"	=> "HTML Sayfasý",
-	"js"	=> "JavaScript Dosyasý",
-	"css"	=> "CSS Dosyasý",
-	"cgi"	=> "CGI Yazýlým",
+	"php"	=> "PHP Betik",
+	"sql"	=> "SQL DosyasÄ±",
+	"perl"	=> "PERL BetiÄŸi",
+	"html"	=> "HTML SayfasÄ±",
+	"js"	=> "JavaScript DosyasÄ±",
+	"css"	=> "CSS DosyasÄ±",
+	"cgi"	=> "CGI Betik",
 	// C++
-	"cpps"	=> "C++ Kaynak Dosyasý",
-	"cpph"	=> "C++ Baþlýk Dosyasý",
+	"cpps"	=> "C++ Kaynak DosyasÄ±",
+	"cpph"	=> "C++ BaÅŸlÄ±k DosyasÄ±",
 	// Java
-	"javas"	=> "Java Kaynak Dosyasý",
-	"javac"	=> "Java Sýnýf Dosyasý",
+	"javas"	=> "Java Kaynak DosyasÄ±",
+	"javac"	=> "Java SÄ±nÄ±f DosyasÄ±",
 	// Pascal
-	"pas"	=> "Pascal Dosyasý",
+	"pas"	=> "Pascal DosyasÄ±",
 	
 	// images
 	"gif"	=> "GIF Resmi",
@@ -36,26 +36,26 @@ $GLOBALS["mimes"]=array(
 	"png"	=> "PNG Resmi",
 	
 	// compressed
-	"zip"	=> "ZIP Arþivi",
-	"tar"	=> "TAR Arþivi",
-	"gzip"	=> "GZIP Arþivi",
-	"bzip2"	=> "BZIP2 Arþivi",
-	"rar"	=> "RAR Arþivi",
+	"zip"	=> "ZIP ArÅŸivi",
+	"tar"	=> "TAR ArÅŸivi",
+	"gzip"	=> "GZIP ArÅŸivi",
+	"bzip2"	=> "BZIP2 ArÅŸivi",
+	"rar"	=> "RAR ArÅŸivi",
 	
 	// music
-	"mp3"	=> "MP3 Ses Dosyasý",
-	"wav"	=> "WAV Ses Dosyasý",
-	"midi"	=> "MIDI Ses Dosyasý",
-	"real"	=> "RealSes Dosyasý",
+	"mp3"	=> "MP3 Ses DosyasÄ±",
+	"wav"	=> "WAV Ses DosyasÄ±",
+	"midi"	=> "MIDI Ses DosyasÄ±",
+	"real"	=> "RealAudio Ses DosyasÄ±",
 	
 	// movie
-	"mpg"	=> "MPG Video Dosyasý",
-	"mov"	=> "Movie Dosyasý",
-	"avi"	=> "AVI Video Dosyasý",
-	"flash"	=> "Flash Film Dosyasý",
+	"mpg"	=> "MPG Video DosyasÄ±",
+	"mov"	=> "Movie DosyasÄ±",
+	"avi"	=> "AVI Video DosyasÄ±",
+	"flash"	=> "Flash Film DosyasÄ±",
 	
 	// Micosoft / Adobe
-	"word"	=> "Word Dökümaný",
-	"excel"	=> "Excel Dökümaný",
-	"pdf"	=> "PDF Dosyasý"
+	"word"	=> "Word DÃ¶kÃ¼manÄ±",
+	"excel"	=> "Excel DÃ¶kÃ¼manÄ±",
+	"pdf"	=> "PDF DosyasÄ±"
 ); ?>
