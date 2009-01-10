@@ -97,7 +97,7 @@ $GLOBALS["separator"] = ext_getSeparator();
 	
 $action = stripslashes(extGetParam( $_REQUEST, "action" ));
 $default_lang = !empty( $GLOBALS['mosConfig_lang'] ) ? $GLOBALS['mosConfig_lang'] : ext_Lang::detect_lang();
-$GLOBALS["language"] = $mainframe->getUserStateFromRequest( 'language', 'lang', $default_lang );
+$GLOBALS["language"] = basename($mainframe->getUserStateFromRequest( 'language', 'lang', $default_lang ));
 // Get Item
 if(isset($_REQUEST["item"])) 
   $GLOBALS["item"]=$item = stripslashes(rawurldecode($_REQUEST["item"]));

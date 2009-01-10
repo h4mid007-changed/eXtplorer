@@ -1,9 +1,11 @@
 <?php
-// Finnish Language file for eXtplorer 2.0.0 RC4 UTF-8 
-// Version 1.0 dated 04.06.2008
+// Finnish language file for eXtplorer 2.0.0 Stable UTF-8
+// Dated 06.08.2008
 // Based on JoomlaXplorer 1.6.1 language file
-// Markku Suominen / admin@joomlaportal.fi
+// Author: Markku Suominen / admin@joomlaportal.fi
+// Author/Editor: Sami Haaranen / mortti@joomlaportal.fi
 // Finnish Joomla translation team, http://www.joomlaportal.fi
+
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
 	"dir"	=> "Hakemisto",

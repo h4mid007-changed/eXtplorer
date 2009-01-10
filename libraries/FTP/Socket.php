@@ -28,8 +28,6 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @since      File available since Release 0.0.1
  */
 
-error_reporting(E_ALL|E_STRICT);
-
 /**
 * Default FTP extension constants
 */

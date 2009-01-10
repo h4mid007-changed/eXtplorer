@@ -2,6 +2,12 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
+
+- added script for WebDAV access (disabled by default, requires 2 database tables and DB login credentials)
+- fixed a security issue within script initialization
+
+-- version 2.0.0 stable released (2008-08-05) ----
+
 - added .csv to the editable file types
 - when copying/moving multiple directories, only the first directory was processed
 - fixed failing extraction of larger archives ("Failed to connect to the server")

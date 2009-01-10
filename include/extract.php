@@ -69,7 +69,7 @@ class ext_Extract extends ext_Action {
 					if( $res == 0 ) {
 						ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_failure' ).' ('.$zip->errorInfo(true).')');
 					} else
-						ext_Result::sendResult( 'extract', false, ext_Lang::msg( 'extract_success' ).print_r($res,true));
+						ext_Result::sendResult( 'extract', false, ext_Lang::msg( 'extract_success' ));
 				
 				break ;
 				
