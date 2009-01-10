@@ -110,6 +110,7 @@ class ext_Lang {
 	}
 	function detect_lang() {
 		$default = 'english';
+		if( empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) return $default;
 		
 		 $_AL=strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		 $_UA=strtolower($_SERVER['HTTP_USER_AGENT']);

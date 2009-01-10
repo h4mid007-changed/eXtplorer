@@ -1,8 +1,9 @@
 <?php
-// Finnish Language file for eXtplorer 2.0.0 RC4 UTF-8
-// Version 1.0 dated 04.06.2008
+// Finnish language file for eXtplorer 2.0.0 Stable UTF-8
+// Dated 06.08.2008
 // Based on JoomlaXplorer 1.6.1 language file
-// Markku Suominen / admin@joomlaportal.fi
+// Author: Markku Suominen / admin@joomlaportal.fi
+// Author/Editor: Sami Haaranen / mortti@joomlaportal.fi
 // Finnish Joomla translation team, http://www.joomlaportal.fi
 global $_VERSION;
 
@@ -56,7 +57,7 @@ $GLOBALS["error_msg"] = array(
 	"adduser"		=> "Käyttäjän lisäys epäonnistui.",
 	"saveuser"		=> "Käyttäjän tallennus epäonnistui.",
 	"searchnothing"		=> "Sinun pitää antaa jotain etsittävää.",
-	
+
 	// misc
 	"miscnofunc"		=> "Toiminto ei ole käytettävissä.",
 	"miscfilesize"		=> "Tiedosto koko ylittää suurimman sallitun arvon.",
@@ -72,12 +73,12 @@ $GLOBALS["error_msg"] = array(
 	"miscselfremove"	=> "Et voi poistaa omaa tunnustasi.",
 	"miscuserexist"		=> "Käyttäjä on jo olemassa.",
 	"miscnofinduser"	=> "Käyttäjää ei löydy.",
-	"extract_noarchive" => "Tiedoston tyyppi ei ole sellainen joka voidaan purkaa.",
+	"extract_noarchive" => "Tiedostomuoto ei ole sellainen joka voidaan purkaa.",
 	"extract_unknowntype" => "Tuntematon arkistointimuoto",
 	
 	'chmod_none_not_allowed' => 'Käyttöoikeuksien muutos <none> ei ole sallittu',
-	'archive_dir_notexists' => 'The Save-To Directory you have specified does not exist.',
-	'archive_dir_unwritable' => 'Please specify a writable directory to save the archive to.',
+	'archive_dir_notexists' => 'Tallennuksiin määriteltyä hakemistoa ei ole olemassa.',
+	'archive_dir_unwritable' => 'Määrittele kirjoitettava hakemisto tallentaaksesi arkisto sinne.',
 	'archive_creation_failed' => 'Arkistotiedoston tallennus epäonnistui'
 	
 );
@@ -101,7 +102,7 @@ $GLOBALS["messages"] = array(
 	'chmodlink'		=> 'Muuta (chmod) oikeudet (kansio/tiedosto(t))', // new mic
 	'mossysinfolink'	=> 'eXtplorer järjestelmätiedot (eXtplorer, palvelin, PHP, mySQL)', // new mic
 	'logolink'		=> 'Siirry eXtplorer sivustolle(uusi ikkuna)', // new mic
-	
+
 	// list
 	"nameheader"		=> "Nimi",
 	"sizeheader"		=> "Koko",
@@ -110,7 +111,7 @@ $GLOBALS["messages"] = array(
 	"permheader"		=> "Oikeudet",
 	"actionheader"		=> "Toiminnot",
 	"pathheader"		=> "Polku",
-	
+
 	// buttons
 	"btncancel"		=> "Peru",
 	"btnsave"		=> "Tallenna",
@@ -266,7 +267,7 @@ $GLOBALS["messages"] = array(
 	'ftp_login_lbl' => 'Anna FTP-palvelimen vaatimat kirjatumistiedot',
 	'ftp_login_name' => 'FTP käyttäjätunnus',
 	'ftp_login_pass' => 'FTP salasana',
-	'ftp_hostname_port' => 'FTP-palvelimen nimi ja portti<br />(portti on valinnainen)',
+	'ftp_hostname_port' => 'FTP-palvelimen nimi ja portti <br />(portti on valinnainen)',
 	'ftp_login_check' => 'Tarkistetaan FTP-yhteyttä...',
 	'ftp_connection_failed' => "FTP-palvelimeen ei saada yhteyttä. \nTarkista että FTP-palvelin on toiminnassa.",
 	'ftp_login_failed' => "FTP-kirjautuminen ei onnistunut. Tarkista käyttäjätunnus ja salasana ja yritä uudelleen.",

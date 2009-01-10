@@ -97,7 +97,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'Change (chmod) Rights (Folder/File(s))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Go to the joomlaXplorer Website (new window)', // new mic
+	'logolink'		=> 'Go to the eXtplorer Website (new window)', // new mic
 
 	// list
 	"nameheader"		=> "Name",
