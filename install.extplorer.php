@@ -19,7 +19,7 @@ function com_install(){
 	require_once($mypath . "/include/functions.php");
 	require_once($mypath . "/libraries/Archive/archive.php");
 	
-	ext_RaiseMemoryLimit( '16M' );
+	ext_RaiseMemoryLimit( '50M' );
 	error_reporting( E_ALL ^ E_NOTICE );
 	
 	$archive_name = $mypath.'/scripts.tar.gz';

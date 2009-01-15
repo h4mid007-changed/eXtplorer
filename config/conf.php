@@ -14,7 +14,7 @@ $GLOBALS['DB_HOST'] = 'localhost';
 $GLOBALS['DB_NAME'] = 'webdav';
 $GLOBALS['DB_USER'] = 'root';
 $GLOBALS['DB_PASSWORD'] = 'root';
-$GLOBALS['DB_TYPE'] = 'mysql'; // Name of the Database Server Type
+$GLOBALS['DB_TYPE'] = 'mysql'; // Name of the Database Server Type (see http://en.php.net/manual/en/pdo.drivers.php for more)
 
 //------------------------------------------------------------------------------
 // Global User Variables (used when $require_login==false)

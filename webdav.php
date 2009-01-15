@@ -22,7 +22,7 @@ define('_JEXEC', 1 );
 require_once(dirname(__FILE__)."/webdav_authenticate.php");
 include_once(dirname(__FILE__)."/config/conf.php");
 
-if( empty($GLOBALS['allow_webdav'] )) {
+if( empty($GLOBALS['allow_webdav'] ) || isset( $_REQUEST['allow_webdav'] ) ) {
 	header('HTTP/1.0 403 Forbidden');
 	die('403 Forbidden');
 }
