@@ -66,18 +66,15 @@ function system_info() {
 	<table class="adminform">
 	<tr>
 		<td valign="top" width="250" style="font-weight:bold;">
+		Logged in as:
+		</td>
+		<td><?php echo $_SESSION['s_user'] ?></td>
+	<tr>
+		<td valign="top" width="250" style="font-weight:bold;">
 			<?php echo ext_lang::msg( 'sibuilton' ); ?>:
 		</td>
 		<td>
 		<?php echo php_uname(); ?>
-		</td>
-	</tr>
-	<tr>
-		<td style="font-weight:bold;">
-			<?php echo ext_lang::msg( 'sidbversion' ); ?>:
-		</td>
-		<td>
-		<?php echo mysql_get_server_info(); ?>
 		</td>
 	</tr>
 	<tr>
