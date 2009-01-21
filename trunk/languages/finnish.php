@@ -1,7 +1,6 @@
 <?php
-// Finnish language file for eXtplorer 2.0.0 Stable UTF-8
-// Dated 06.08.2008
-// Based on JoomlaXplorer 1.6.1 language file
+// Finnish language file for eXtplorer 2.0.1 Stable UTF-8
+// Dated 16.01.2009
 // Author: Markku Suominen / admin@joomlaportal.fi
 // Author/Editor: Sami Haaranen / mortti@joomlaportal.fi
 // Finnish Joomla translation team, http://www.joomlaportal.fi
@@ -13,14 +12,14 @@ $GLOBALS["date_fmt"] = "d.m.Y H:i";
 $GLOBALS["error_msg"] = array(
 	// error
 	"error"			=> "virheet",
-	"message"			=> "viestit",
+	"message"			=> "viesti(ä)",
 	"back"			=> "Palaa",
-	
+
 	// root
 	"home"			=> "Kotihakemistoa ei ole, tarkista asetuksesi.",
 	"abovehome"		=> "Nykyinen hakemisto ei saa olla kotihakemiston yläpuolella.",
 	"targetabovehome"	=> "Kohdehakemisto ei saa olla kotihakemiston yläpuolella.",
-	
+
 	// exist
 	"direxist"		=> "Hakemistoa ei ole.",
 	//"filedoesexist"	=> "This file already exists.",
@@ -29,18 +28,18 @@ $GLOBALS["error_msg"] = array(
 	"itemexist"		=> "Nimike ei ole olemassa.",
 	"targetexist"		=> "Kohdehakemistoa ei ole.",
 	"targetdoesexist"	=> "Kohdenimike on jo olemassa.",
-	
+
 	// open
 	"opendir"		=> "Hakemistoa ei voi avata.",
 	"readdir"		=> "Hakemistoa ei voi lukea.",
-	
+
 	// access
 	"accessdir"		=> "Sinulla ei ole valtuuksia tähän hakemistoon.",
 	"accessfile"		=> "Sinulla ei ole valtuuksia tähän tiedostoon.",
 	"accessitem"		=> "Sinulla ei ole valtuuksia tähän nimikkeeseen.",
 	"accessfunc"		=> "Sinulla ei ole valtuuksia tähän toimintoon.",
 	"accesstarget"		=> "Sinulla ei ole valtuuksia kohdehakemistoon.",
-	
+
 	// actions
 	"permread"		=> "Käyttöoikeuksien luku epäonnistui.",
 	"permchange"		=> "Käyttöoikeuksien muutos epäonnistui.",
@@ -59,20 +58,20 @@ $GLOBALS["error_msg"] = array(
 	"searchnothing"		=> "Sinun pitää antaa jotain etsittävää.",
 
 	// misc
-	"miscnofunc"		=> "Toiminto ei ole käytettävissä.",
-	"miscfilesize"		=> "Tiedosto koko ylittää suurimman sallitun arvon.",
+	"miscnofunc"		=> "Toiminto ei ole k&auml;ytettäviss&auml;.",
+	"miscfilesize"		=> "Tiedosto koko ylitt&auml;&auml; suurimman sallitun arvon.",
 	"miscfilepart"		=> "Tiedoston vienti palvelimelle onnistui vain osittain.",
 	"miscnoname"		=> "Anna nimi.",
-	"miscselitems"		=> "Et ole valinnut yhtään nimikettä.",
-	"miscdelitems"		=> "Haluatko varmasti poistaa nämä {0} nimikettä?",
-	"miscdeluser"		=> "Haluatko varmasti poistaa käyttäjän '{0}'?",
-	"miscnopassdiff"	=> "Uusi salasana ei eroa nykyisestä.",
-	"miscnopassmatch"	=> "Salasanat eivät täsmää.",
-	"miscfieldmissed"	=> "Ohitit tärkeän kentän.",
-	"miscnouserpass"	=> "Käyttäjänimi tai salasana on väärä.",
+	"miscselitems"		=> "Et ole valinnut yht&auml;&auml;n nimikett&auml;.",
+	"miscdelitems"		=> "Haluatko varmasti poistaa n&auml;m&auml; {0} nimike(tt&auml;)?",
+	"miscdeluser"		=> "Haluatko varmasti poistaa k&auml;ytt&auml;j&auml;n '{0}'?",
+	"miscnopassdiff"	=> "Uusi salasana ei eroa nykyisest&auml;.",
+	"miscnopassmatch"	=> "Salasanat eivät t&auml;sm&auml;&auml;.",
+	"miscfieldmissed"	=> "Ohitit t&auml;rke&auml;n kent&auml;n.",
+	"miscnouserpass"	=> "K&auml;ytt&auml;j&auml;nimi tai salasana on v&auml;&auml;r&auml;.",
 	"miscselfremove"	=> "Et voi poistaa omaa tunnustasi.",
-	"miscuserexist"		=> "Käyttäjä on jo olemassa.",
-	"miscnofinduser"	=> "Käyttäjää ei löydy.",
+	"miscuserexist"		=> "K&auml;ytt&auml;j&auml; on jo olemassa.",
+	"miscnofinduser"	=> "K&auml;ytt&auml;j&auml;&auml; ei l&oumlydy.",
 	"extract_noarchive" => "Tiedostomuoto ei ole sellainen joka voidaan purkaa.",
 	"extract_unknowntype" => "Tuntematon arkistointimuoto",
 	
@@ -101,7 +100,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Pura arkistotiedosto",
 	'chmodlink'		=> 'Muuta (chmod) oikeudet (kansio/tiedosto(t))', // new mic
 	'mossysinfolink'	=> 'eXtplorer järjestelmätiedot (eXtplorer, palvelin, PHP, mySQL)', // new mic
-	'logolink'		=> 'Siirry eXtplorer sivustolle(uusi ikkuna)', // new mic
+	'logolink'		=> 'Siirry eXtplorer sivustolle (uusi ikkuna)', // new mic
 
 	// list
 	"nameheader"		=> "Nimi",
@@ -131,9 +130,9 @@ $GLOBALS["messages"] = array(
 	
 	// user messages, new in joomlaXplorer 1.3.0
 	'renamelink'	=> 'Nimeä',
-	'confirm_delete_file' => 'Haluatko varmasti poistaa tiedoston? \\n%s',
-	'success_delete_file' => 'Nimike(ttä) poistettu .',
-	'success_rename_file' => 'Hakemisto/tiedosto  %s nimettiin, uusi nimi on %s.',
+	'confirm_delete_file' => 'Haluatko varmasti poistaa tiedoston? <br />%s',
+	'success_delete_file' => 'Nimike poistettu.',
+	'success_rename_file' => 'Hakemisto/tiedosto  %s nimettiin nimellä %s.',
 	
 	// actions
 	"actdir"		=> "Hakemisto",
@@ -151,9 +150,9 @@ $GLOBALS["messages"] = array(
 	"actusers"		=> "Käyttäjät",
 	"actarchive"		=> "Arkistoi nimikkeet",
 	"actupload"		=> "Vie tiedostot palvelimelle",
-	
+
 	// misc
-	"miscitems"		=> "Nimikettä",
+	"miscitems"		=> "Nimike(ttä)",
 	"miscfree"		=> "Vapaana",
 	"miscusername"		=> "Käyttäjänimi",
 	"miscpassword"		=> "Salasana",
@@ -284,7 +283,7 @@ $GLOBALS["messages"] = array(
 	
 	'editor_simple'	=> 'Yksinkertainen editori -tila',
 	'editor_syntaxhighlight'	=> 'Syntaksin korostus -tila',
-	
+
 	'newlink'	=> 'Uusi tiedosto/hakemisto',
 	'show_directories' => 'Näytä hakemistot',
 	'actlogin_success' => 'Kirjautuminen onnistui',

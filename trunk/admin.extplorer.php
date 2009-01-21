@@ -7,7 +7,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id$
  * 
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -50,7 +50,7 @@ if( @is_object($acl)) {
 	}
 }
 // The joomlaXplorer version number
-$GLOBALS['ext_version'] = '2.0.0';
+$GLOBALS['ext_version'] = '2.0.1';
 $GLOBALS['ext_home'] = 'http://extplorer.sourceforge.net';
 
 /*
