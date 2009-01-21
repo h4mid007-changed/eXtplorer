@@ -1,7 +1,6 @@
 <?php
-// Finnish language file for eXtplorer 2.0.0 Stable UTF-8
-// Dated 06.08.2008
-// Based on JoomlaXplorer 1.6.1 language file
+// Finnish language file for eXtplorer 2.0.1 Stable UTF-8
+// Dated 16.01.2009
 // Author: Markku Suominen / admin@joomlaportal.fi
 // Author/Editor: Sami Haaranen / mortti@joomlaportal.fi
 // Finnish Joomla translation team, http://www.joomlaportal.fi
