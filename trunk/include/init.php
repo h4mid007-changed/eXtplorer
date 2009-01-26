@@ -145,6 +145,9 @@ else {
 // Necessary files
 
 require_once( _EXT_PATH."/config/conf.php" );
+if (extension_loaded('mbstring') && file_exists( _EXT_PATH."/config/mb_conf.php" )) {
+	require_once( _EXT_PATH."/config/mb_conf.php" );
+}
 if( file_exists(_EXT_PATH."/languages/".$GLOBALS["language"].".php")) {
 	require_once( _EXT_PATH."/languages/".$GLOBALS["language"].".php" );
 }
