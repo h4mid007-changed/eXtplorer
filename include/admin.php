@@ -240,7 +240,7 @@ function changepwd($dir) {			// Change Password
 	
 	$data[1]=extEncodePassword(stripslashes($GLOBALS['__POST']["newpwd1"]));
 	if(!update_user($data[0],$data)) {
-		ext_Result::sendResult('changepwd', false, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
+		ext_Result::sendResult('changepwd', true, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
 	}
 	activate_user($data[0],NULL);
 	

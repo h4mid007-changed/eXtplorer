@@ -62,6 +62,11 @@ function read_bookmarks() {
 		}
 	}
 }
+
+function strip_invalid_key_char($s, $replacement ="") {
+  return preg_replace('/[{}|&~![()"]/u', $replacement, $s);
+}
+
 /**
  * Adds a new bookmark to the bookmark ini file
  *
@@ -91,7 +96,8 @@ function modify_bookmark( $task, $dir ) {
 			if( in_array( $dir, $bookmarks )) {
 				echo ext_alertBox( $GLOBALS['messages']['already_bookmarked'] ); exit;
 			}
-			$alias = preg_replace('~[^\w-.\/\\\]~','', $alias ); // Make the alias ini-safe by removing all non-word characters
+ 			//$alias = preg_replace('~[^\w-.\/\\\]~','', $alias ); // Make the alias ini-safe by removing all non-word characters
+ 			$alias = strip_invalid_key_char($alias, "_");
 			$bookmarks[$alias] = $dir; //we deal with the flippped array here
 			$msg = ext_alertBox( $GLOBALS['messages']['bookmark_was_added'] );
 			break;
