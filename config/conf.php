@@ -32,6 +32,9 @@ $GLOBALS["permissions"] = 7;
 // System Charset
 $GLOBALS["system_charset"] = 'UTF-8';
 
+// Set Locale
+setlocale(LC_ALL, 'en_US.UTF8');
+
 //------------------------------------------------------------------------------
 /* NOTE:
 	Users can be defined by using the Admin-section,
