@@ -82,7 +82,7 @@ elseif( empty( $action ))
 
 if( $action == 'include_javascript' ) {
   	while (@ob_end_clean());
-  	header("Content-type: application/x-javascript; charset=iso-8859-1");
+  	header("Content-type: application/x-javascript; charset=".$GLOBALS["charset"]);
   	include( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php');
   	ext_exit();
 }
