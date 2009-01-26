@@ -35,6 +35,9 @@ $GLOBALS["system_charset"] = 'UTF-8';
 // Set Locale
 setlocale(LC_ALL, 'en_US.UTF8');
 
+// SECURTY //
+$GLOBALS['ext_conf']['symlink_allow_abovehome'] = FALSE;
+
 //------------------------------------------------------------------------------
 /* NOTE:
 	Users can be defined by using the Admin-section,

@@ -40,6 +40,7 @@
 			<filename>config/.htaccess</filename>
 			<filename>config/.htusers.php</filename>
 			<filename>config/conf.php</filename>
+			<filename>config/mb_conf.php</filename>
 			<filename>config/index.html</filename>
 			<filename>config/mimes.php</filename>
 			<filename>eXtplorer.ico</filename>

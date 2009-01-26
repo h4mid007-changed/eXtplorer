@@ -220,7 +220,11 @@ function get_file_date( $item) {		// file date
 }
 //------------------------------------------------------------------------------
 function parse_file_date($date) {		// parsed file date
-	return @date($GLOBALS["date_fmt"],$date);
+	if ($date) {
+		return @date($GLOBALS["date_fmt"],$date);
+	} else {
+		return " (unknown) ";
+	}
 }
 //------------------------------------------------------------------------------
 function get_is_image( $abs_item ) {		// is this file an image?
@@ -342,7 +346,15 @@ function get_dir_selects( $dir ) {
 	$implode = '';
 	$selectedDir = @$dirs[0];
 	foreach( $subdirs as $index => $val ) {
-		$subdirs[$index] = utf8_encode($val);
+		if ($GLOBALS['use_mb']) {
+			if (mb_detect_encoding($val) == 'ASCII') {
+				$subdirs[$index] = utf8_encode($val);
+			} else {
+				$subdirs[$index] = $val;
+			}
+		} else {
+			$subdirs[$index] = utf8_encode($val);
+		}
 	}
 	
 	$dir_links = ext_selectList('dirselect1', $selectedDir, $subdirs, 1, '', 'onchange="theDir=this.options[this.selectedIndex].value;if(theDir!=\'ext_disabled\' ) chDir(theDir);"' );
@@ -355,7 +367,23 @@ function get_dir_selects( $dir ) {
 			
 	  		foreach( $subdirs as $index => $val ) {
 	  			unset( $subdirs[$index]);
-				$subdirs[utf8_encode($index)] = utf8_encode($val);
+				if ($GLOBALS['use_mb']) {
+					if (mb_detect_encoding($index) == 'ASCII') {
+						if (mb_detect_encoding($val) == 'ASCII') {
+							$subdirs[utf8_encode($index)] = utf8_encode($val);
+						} else {
+							$subdirs[utf8_encode($index)] = $val;
+						}
+					} else {
+						if (mb_detect_encoding($val) == 'ASCII') {
+							$subdirs[$index] = utf8_encode($val);
+						} else {
+							$subdirs[$index] = $val;
+						}
+					}
+				} else {
+					$subdirs[utf8_encode($index)] = utf8_encode($val);
+				}
 			}
 			if( $next !== false ) {
 				$selectedDir .= '/'.$next;
@@ -1078,7 +1106,7 @@ function extGetParam( &$arr, $name, $def=null, $mask=0 ) {
 
 			// account for magic quotes setting
 			if (!get_magic_quotes_gpc()) {
-				$return = addslashes( $return );
+				$return = stripslashes( $return );
 			}
 		}
 
