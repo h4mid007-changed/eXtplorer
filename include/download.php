@@ -67,13 +67,14 @@ class ext_Download extends ext_Action {
 		}
 		$browser=id_browser();
 		header('Content-Type: '.(($browser=='IE' || $browser=='OPERA')?
-			'application/octetstream':'application/octet-stream'));
+			'application/octetstream':'application/octet-stream').'; Charset='.$GLOBALS["system_charset"]);
 		header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: '.filesize(realpath($abs_item)));
 	    //header("Content-Encoding: none");
 		if($browser=='IE') {
-			header('Content-Disposition: attachment; filename="'.$item.'"');
+			// http://support.microsoft.com/kb/436616/ja
+			header('Content-Disposition: attachment; filename="'.urlencode($item).'"');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
 		} else {
