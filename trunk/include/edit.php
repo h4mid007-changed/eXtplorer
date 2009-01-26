@@ -317,9 +317,9 @@ class ext_Edit extends ext_Action {
 		id : "ext_codefield"		// textarea id
 		,syntax: "<?php echo $cp_lang ?>"			// syntax to be uses for highgliting
 		,start_highlight: true		// to display with highlight mode on start-up
+		,display: "later"
 		,toolbar: "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help" 
 		<?php if (array_key_exists($langs, $this->lang_tbl)){?>,language: "<?php echo $this->lang_tbl[$langs] ?>"<?php }?>
-		,display: "later"
 	});
 	editAreaLoader.start("ext_codefield");
 	// -->

@@ -250,15 +250,15 @@ if(!file_exists($GLOBALS["home_dir"])) {
 	ext_Result::sendResult('', false, $GLOBALS["error_msg"]["home"]." (".$GLOBALS["home_dir"].")",$extra);
   }
 }
-if(!down_home($abs_dir)) {
-	ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
-	$dir = '';
-}
 if (!$GLOBALS['ext_conf']['symlink_allow_abovehome']) {
-	if(!get_is_dir(utf8_decode($abs_dir)) && !get_is_dir($abs_dir.$GLOBALS["separator"])) {
-		ext_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
+	if(!down_home($abs_dir)) {
+		ext_Result::sendResult('', false, $GLOBALS["dir"]." : ".$GLOBALS["error_msg"]["abovehome"]);
 		$dir = '';
 	}
+}
+if(!get_is_dir(utf8_decode($abs_dir)) && !get_is_dir($abs_dir.$GLOBALS["separator"])) {
+	ext_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
+	$dir = '';
 }
 $_SESSION['ext_'.$GLOBALS['file_mode'].'dir'] = $dir;
 //------------------------------------------------------------------------------
