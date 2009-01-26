@@ -38,7 +38,25 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  *
  */
 class ext_Edit extends ext_Action {
-	
+	var	$lang_tbl = Array(
+		'czech' => 'cs',
+		'german' => 'de',
+		'danish' => 'dk',
+		'english' => 'en',
+		'esperanto' => 'eo',
+		'spanish' => 'es',
+		'french' => 'fr',
+		'croatian' => 'hr',
+		'italian' => 'it',
+		'japanese' => 'ja',
+		'macedonian' => 'mk',
+		'dutch' => 'nl',
+		'polish' => 'pl',
+		'portuguese' => 'pt',
+		'russian' => 'ru',
+		'slovenian' => 'sk'
+	);
+
 	function execAction($dir, $item) {		// edit file
 		global $mainframe, $mosConfig_live_site;
 		
@@ -72,7 +90,29 @@ class ext_Edit extends ext_Action {
 			ext_Result::sendResult('edit', true, ext_Lang::msg('savefile').': '.$item );
 			
 		}
-		
+		if(isset($GLOBALS['__POST']["doreopen"]) && $GLOBALS['__POST']["doreopen"]=="yes") {
+			// File Reopen
+			$extra = Array();
+			$content = $GLOBALS['ext_File']->file_get_contents( $fname );
+			if( get_magic_quotes_runtime()) {
+				$content = stripslashes( $content );
+			}
+
+			$langs = $GLOBALS["language"];
+			if ($langs == "japanese"){
+				$_encoding = $GLOBALS['__POST']["file_encoding"];
+				if ($content){
+					$content = mb_convert_encoding($content, "UTF-8", $_encoding);
+				}
+				$extra["file_encoding"] = $_encoding;
+			}
+
+			$extra["content"] = $content;
+
+			ext_Result::sendResult('edit', true, ext_Lang::msg('reopenfile').': '.$item, $extra);
+
+		}
+
 		// header
 		$s_item=get_rel_item($dir,$item);	if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
 		$s_info = pathinfo( $s_item );
@@ -129,6 +169,28 @@ class ext_Edit extends ext_Action {
 	if( get_magic_quotes_runtime()) {
 		$content = stripslashes( $content );
 	}
+	$cw = 250;
+	$langs = $GLOBALS["language"];
+	if ($langs == "japanese"){
+		$cw = 200;
+		if ($content){
+			$_encoding = strtoupper(mb_detect_encoding($content, Array("ASCII", "ISO-2022-JP", "UTF-8", "EUCJP-WIN", "SJIS-WIN"), true));
+			$content = mb_convert_encoding($content, "UTF-8", $_encoding);
+			if ($_encoding == "SJIS-WIN"){
+				$_encoding_label = "SJIS";
+			} elseif ($_encoding == "EUCJP-WIN"){
+				$_encoding_label = "EUC-JP";
+			} elseif ($_encoding == "ISO-2022-JP"){
+				$_encoding_label = "JIS";
+			} elseif ($_encoding == "ASCII"){
+				$_encoding_label = "UTF-8";
+			} else {
+				$_encoding_label = $_encoding;
+			}
+		} else {
+			$_encoding_label = "UTF-8";
+		}
+	}
 	//$content = htmlspecialchars( $content );
 		
 	?><script type="text/javascript">//<!--
@@ -148,7 +210,7 @@ class ext_Edit extends ext_Action {
 	        height: 300
 	    })		
 	);
-	simple.column( {width: 250 }, 
+	simple.column( {width: <?php echo $cw ?> }, 
 		new Ext.form.TextField({
 	        fieldLabel: '<?php echo ext_Lang::msg('copyfile', true ) ?>',
 	        name: 'fname',
@@ -156,13 +218,40 @@ class ext_Edit extends ext_Action {
 	        width:175
 		})
 	);
-	simple.column( {width: 250, style:'margin-left:10px', clear:true }, 
+	simple.column( {width: <?php echo $cw ?>, style:'margin-left:10px', clear:true },
 		new Ext.form.Checkbox({
 	        fieldLabel: '<?php echo ext_Lang::msg('returndir', true ) ?>',
 	        name: 'return_to_dir',
 	        width:175
 		})
 	);
+
+<?php if ($langs == "japanese"){ ?>
+	simple.column( {width: <?php echo $cw ?>,  style:'margin-left:10px', clear:true },
+		new Ext.form.ComboBox({
+		fieldLabel: '<?php echo ext_Lang::msg('fileencoding', true ) ?>',
+	        name: 'file_encoding',
+	        width:175,
+		store: new Ext.data.SimpleStore({
+			fields: ['encoding', 'encoding_label'],
+			data : [
+				['UTF-8', 'UTF-8'],
+				['SJIS-WIN', 'SJIS'],
+				['EUCJP-WIN', 'EUC-JP'],
+				['ISO-2022-JP','JIS']
+			    ]
+			}),
+		displayField : 'encoding_label',
+		valueField : 'encoding',
+		value : '<?php echo $_encoding_label ?>',
+		typeAhead: true,
+		mode: 'local',
+		triggerAction: 'all',
+		editable: false,
+		forceSelection: true
+		})
+	);
+<?php } ?>
 	simple.addButton('<?php echo ext_Lang::msg('btnsave', true ) ?>', function() {
 		statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
 
@@ -194,6 +283,33 @@ class ext_Edit extends ext_Action {
 	});
 	
 	simple.addButton('<?php echo ext_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
+	simple.addButton('<?php echo ext_Lang::msg('btnreopen', true ) ?>', function() { 
+		statusBarMessage( '<?php echo ext_Lang::msg('reopen_processing', true ) ?>', true );
+
+	    simple.submit({
+	        //waitMsg: 'Processing Data, please wait...',
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {
+	        	datastore.reload();
+	        	statusBarMessage( action.result.message, false, true );
+			editAreaLoader.setValue("ext_codefield", action.result.content);
+	        },
+	        failure: function(form, action) {
+	        	statusBarMessage( action.result.error, false, false );
+	        	Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
+	        },
+	        scope: simple,
+	        // add some vars to the request, similar to hidden fields
+	        params: {option: 'com_extplorer', 
+	        		action: 'edit', 
+	        		dir: '<?php echo stripslashes($dir) ?>', 
+	        		item: '<?php echo stripslashes($item) ?>', 
+	        		doreopen: 'yes'
+	        }
+	    });
+	});
+
 	simple.render('adminForm');
 	simple.findField('thecode').setValue(simple.findField( 'thecode').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
 	editAreaLoader.baseURL = "<?php echo _EXT_URL ?>/scripts/editarea/";
@@ -201,6 +317,8 @@ class ext_Edit extends ext_Action {
 		id : "ext_codefield"		// textarea id
 		,syntax: "<?php echo $cp_lang ?>"			// syntax to be uses for highgliting
 		,start_highlight: true		// to display with highlight mode on start-up
+		,toolbar: "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help" 
+		<?php if (array_key_exists($langs, $this->lang_tbl)){?>,language: "<?php echo $this->lang_tbl[$langs] ?>"<?php }?>
 		,display: "later"
 	});
 	editAreaLoader.start("ext_codefield");
@@ -214,6 +332,13 @@ class ext_Edit extends ext_Action {
 		}
 		else {
 			$code = $GLOBALS['__POST']["code"];
+		}
+		$langs = $GLOBALS["language"];
+		if ($langs == "japanese"){
+			$_encoding = $GLOBALS['__POST']["file_encoding"];
+			if ($_encoding != "UTF-8"){
+				$code = mb_convert_encoding($code, $_encoding, "UTF-8");
+			}
 		}
 		
 		$res = $GLOBALS['ext_File']->file_put_contents( $file_name, $code );

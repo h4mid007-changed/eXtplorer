@@ -83,8 +83,15 @@ class ext_Download extends ext_Action {
 			header('Pragma: no-cache');
 		}
 		@set_time_limit( 0 );
-		@readFileChunked(utf8_decode($abs_item));
-		
+ 		if($GLOBALS['use_mb']) {
+ 			if (mb_detect_encoding($abs_item) == 'ASCII') {
+ 				@readFileChunked(utf8_decode($abs_item));
+ 			} else {
+ 				@readFileChunked($abs_item);
+ 			}
+ 		} else {
+ 			@readFileChunked(utf8_decode($abs_item));
+ 		}
 		if( $unlink==true ) {
 		  	unlink( utf8_decode($abs_item) );
 		}

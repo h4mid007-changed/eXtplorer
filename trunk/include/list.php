@@ -223,7 +223,17 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 		}
 		$is_dir = get_is_dir($abs_item);
 		
-		$items['items'][$i]['name'] = ext_isFTPMode() ? $item : utf8_encode($item);
+		if ( $GLOBALS['use_mb'] ) {
+			if (ext_isFTPMode()) {
+				$items['items'][$i]['name'] = $item;
+			} else if ( mb_detect_encoding( $item ) == 'ASCII') {
+				$items['items'][$i]['name'] = utf8_encode($item);
+			} else {
+				$items['items'][$i]['name'] = $item;
+			}
+		} else {
+			$items['items'][$i]['name'] = ext_isFTPMode() ? $item : utf8_encode($item);
+		}
 		$items['items'][$i]['is_file'] = get_is_file($abs_item);
 		$items['items'][$i]['is_archive'] = ext_isArchive( $item ) && !ext_isFTPMode();
 		$items['items'][$i]['is_writable'] = $is_writable = @$GLOBALS['ext_File']->is_writable( $abs_item );
@@ -240,15 +250,24 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 		$items['items'][$i]['modified'] = parse_file_date( get_file_date($abs_item) );
 	// permissions
 		$perms = get_file_perms( $abs_item );
-		if( strlen($perms)>3) {
-			$perms = substr( $perms, 2 );
+		if ($perms) {
+			if( strlen($perms)>3) {
+				$perms = substr( $perms, 2 );
+			}
+			$items['items'][$i]['perms'] = $perms. ' ('. parse_file_perms( $perms ).')';
+		} else {
+			$items['items'][$i]['perms'] = ' (unknown) ';
 		}
 		$items['items'][$i]['perms'] = $perms. ' ('. parse_file_perms( $perms ).')';
 			
 		if( extension_loaded( "posix" )) {
-			$user_info = posix_getpwuid( $file_info["uid"] );
-			//$group_info = posix_getgrgid($file_info["gid"] );
-			$items['items'][$i]['owner'] = $user_info["name"]. " (".$file_info["uid"].")";
+			if ($file_info["uid"]) {
+				$user_info = posix_getpwuid( $file_info["uid"] );
+				//$group_info = posix_getgrgid($file_info["gid"] );
+				$items['items'][$i]['owner'] = $user_info["name"]. " (".$file_info["uid"].")";
+			} else {
+				$items['items'][$i]['owner'] = " (unknown) ";
+			}
 		} else {
 			$items['items'][$i]['owner'] = 'n/a';
 		}
@@ -259,14 +278,45 @@ function send_dircontents($dir, $sendWhat='files') {	// print table of files
 
 			$qtip ="<strong>".ext_Lang::mime('dir',true)."</strong><br /><strong>".ext_Lang::msg('miscperms',true).":</strong> ".$perms."<br />";
 			$qtip.='<strong>'.ext_Lang::msg('miscowner',true).':</strong> '.$items['items'][$i]['owner'];
-			$dirlist[] = array('text' => htmlspecialchars(ext_isFTPMode() ? $item : utf8_encode($item)),
-								'id' => ext_isFTPMode() ? $id : utf8_encode($id),
-								'qtip' => $qtip,
-								'is_writable' => $is_writable,
-								'is_chmodable' => $is_chmodable,
-								'is_readable' => $is_readable,
-								'is_deletable' => $is_deletable,
-								'cls' => 'folder');
+			if ( $GLOBALS['use_mb'] ) {
+				if (ext_isFTPMode()) {
+					$dirlist[] = array('text' => htmlspecialchars($item),
+					                                        'id' => $id,
+					                                        'qtip' => $qtip,
+					                                        'is_writable' => $is_writable,
+					    	                                'is_chmodable' => $is_chmodable,
+					            	                        'is_readable' => $is_readable,
+					                    	                'is_deletable' => $is_deletable,
+					                            	        'cls' => 'folder');
+				} else if ( mb_detect_encoding( $item ) == 'ASCII') {
+					$dirlist[] = array('text' => htmlspecialchars(utf8_encode($item)),
+					                                        'id' => utf8_encode($id),
+					                                        'qtip' => $qtip,
+					                                        'is_writable' => $is_writable,
+					                                        'is_chmodable' => $is_chmodable,
+					                                        'is_readable' => $is_readable,
+					                                        'is_deletable' => $is_deletable,
+					                                        'cls' => 'folder');
+				} else {
+					$dirlist[] = array('text' => htmlspecialchars($item),
+					                                        'id' => $id,
+					                                        'qtip' => $qtip,
+					                                        'is_writable' => $is_writable,
+					                                        'is_chmodable' => $is_chmodable,
+					                                        'is_readable' => $is_readable,
+					                                        'is_deletable' => $is_deletable,
+					                                        'cls' => 'folder');
+				}
+			} else {
+				$dirlist[] = array('text' => htmlspecialchars(ext_isFTPMode() ? $item : utf8_encode($item)),
+									'id' => ext_isFTPMode() ? $id : utf8_encode($id),
+									'qtip' => $qtip,
+									'is_writable' => $is_writable,
+									'is_chmodable' => $is_chmodable,
+									'is_readable' => $is_readable,
+									'is_deletable' => $is_deletable,
+									'cls' => 'folder');
+			}
 		}
 		if( !$is_dir && $sendWhat == 'files' || $sendWhat == 'both') {
 			$i++;

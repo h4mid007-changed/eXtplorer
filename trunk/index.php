@@ -61,7 +61,7 @@ echo '<?xml version="1.0" encoding="'. $GLOBALS["charset"].'">';
 	<head>
 		<?php echo $mainframe->getHead(); ?>
 		<link rel="shortcut icon" href="<?php echo _EXT_URL ?>/eXtplorer.ico" />
-		<meta http-equiv="Content-Type" content="text/html; <?php echo $GLOBALS["charset"]; ?>" />
+ 		<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $GLOBALS["charset"]; ?>" />
 		<meta name="robots" content="noindex, nofollow" />
 	</head>
 	<body>

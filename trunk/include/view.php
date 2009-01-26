@@ -84,8 +84,8 @@ class ext_View extends ext_Action {
 				else {
 					$geshi->set_source( file_get_contents( $file ));
 				}
-				if( is_callable( array($geshi,'getlanguagesuage_name_from_extension'))) {
-					$lang = $geshi->getlanguagesuage_name_from_extension( $pathinfo['extension'] );
+				if( is_callable( array($geshi,'get_language_name_from_extension'))) {
+					$lang = $geshi->get_language_name_from_extension( $pathinfo['extension'] );
 				}
 				else {
 					$pathinfo = pathinfo($item);
@@ -95,7 +95,30 @@ class ext_View extends ext_Action {
 				$geshi->set_language( $lang );
 				$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
 			
+				$langs = $GLOBALS["language"];
+				if ($langs == "japanese"){
+					$enc_list = Array("ASCII", "ISO-2022-JP", "UTF-8", "EUCJP-WIN", "SJIS-WIN");
+					$_e0 = strtoupper(mb_detect_encoding($geshi->source, $enc_list, true));
+					if ($_e0 == "SJIS-WIN"){
+						$_encoding = "Shift_JIS";
+					} elseif ($_e0 == "EUCJP-WIN"){
+						$_e0 = "EUC-JP";
+					} elseif ($_e0 == "ASCII"){
+						$_e0 = "UTF-8";
+					} else {
+						$_encoding = $_e0;
+					}
+					$geshi->set_encoding( $_encoding );
+				}
+
 				$text = $geshi->parse_code();
+
+				if ($langs == "japanese"){
+					if (empty($lang) || strtoupper(mb_detect_encoding($text, $enc_list)) != "UTF-8"){
+						$text = mb_convert_encoding($text, "UTF-8", $_e0 );
+					}
+				}
+
 				
 				if( ext_isFTPMode() ) {
 					unlink( $file );
