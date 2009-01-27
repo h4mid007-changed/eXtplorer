@@ -96,8 +96,8 @@ function modify_bookmark( $task, $dir ) {
 			if( in_array( $dir, $bookmarks )) {
 				echo ext_alertBox( $GLOBALS['messages']['already_bookmarked'] ); exit;
 			}
- 			//$alias = preg_replace('~[^\w-.\/\\\]~','', $alias ); // Make the alias ini-safe by removing all non-word characters
- 			$alias = strip_invalid_key_char($alias, "_");
+			//$alias = preg_replace('~[^\w-.\/\\\]~','', $alias ); // Make the alias ini-safe by removing all non-word characters
+			$alias = strip_invalid_key_char($alias, "_");
 			$bookmarks[$alias] = $dir; //we deal with the flippped array here
 			$msg = ext_alertBox( $GLOBALS['messages']['bookmark_was_added'] );
 			break;
