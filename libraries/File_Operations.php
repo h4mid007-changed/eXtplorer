@@ -1,184 +1,191 @@
 <?php
 /** ensure this file is being included by a parent file */
-if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
+if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
 /**
  * This file allows to dynamically switch between file.system based mode and FTP based mode
  */
 
-require_once( dirname(__FILE__).'/FTP.php');
-if( !extension_loaded('ftp')) {
-	require_once( dirname(__FILE__).'/FTP/Socket.php');	
+require_once(dirname(__FILE__).'/FTP.php');
+if (!extension_loaded('ftp')) {
+	require_once(dirname(__FILE__).'/FTP/Socket.php');
 }
 
-function ext_isFTPMode() {	
+function ext_isFTPMode() {
 	return $GLOBALS['file_mode'] == 'ftp';
 }
+
 /**
  * This class is a wrapper for all of the needed filesystem functions.
  * It allows us to use the same function name for FTP and File System Mode
  *
  */
 class ext_File {
-	function chmod( $item, $mode ) {
-		if( ext_isFTPMode() ) {
-			if( !empty( $item['name'])) {
+	function chmod($item, $mode) {
+		if (ext_isFTPMode()) {
+			if (!empty($item['name'])) {
 				$item = $item['name'];
 			}
-			return $GLOBALS['FTPCONNECTION']->chmod( $item, $mode );
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+			return $GLOBALS['FTPCONNECTION']->chmod($item, $mode);
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($item) == 'ASCII'){
-					return @chmod( utf8_decode($item), $mode );
+					return @chmod(utf8_decode($item), $mode);
 				} else {
-					return @chmod( $item, $mode );
+					return @chmod($item, $mode);
 				}
 			} else {
-				return @chmod( utf8_decode($item), $mode );
+				return @chmod(utf8_decode($item), $mode);
 			}
 		}
 	}
-	
-	function chmodRecursive( $item, $mode ) {
-		if( ext_isFTPMode() ) {
-			return $GLOBALS['FTPCONNECTION']->chmodRecursive( $item, $mode );
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+
+
+	function chmodRecursive($item, $mode) {
+		if (ext_isFTPMode()) {
+			return $GLOBALS['FTPCONNECTION']->chmodRecursive($item, $mode);
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($item) == 'ASCII'){
-					return chmod_recursive( utf8_decode($item), $mode );
+					return chmod_recursive(utf8_decode($item), $mode);
 				} else {
-					return chmod_recursive( $item, $mode );
+					return chmod_recursive($item, $mode);
 				}
 			} else {
-				return chmod_recursive( utf8_decode($item), $mode );
+				return chmod_recursive(utf8_decode($item), $mode);
 			}
 		}
 	}
-	function copy( $from, $to ) {
-		if( ext_isFTPMode() ) {
-			
-			$fh = ext_ftp_make_local_copy( $from, true );
-			$res = $GLOBALS['FTPCONNECTION']->fput( $fh, $to );
-			
-			fclose( $fh );
-			
+
+
+	function copy($from, $to) {
+		if (ext_isFTPMode()) {
+
+			$fh = ext_ftp_make_local_copy($from, true);
+			$res = $GLOBALS['FTPCONNECTION']->fput($fh, $to);
+
+			fclose($fh);
+
 			return $res;
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($from) == 'ASCII'){
 					if (mb_detect_encoding($to) == 'ASCII'){
-						return copy( utf8_decode($from), utf8_decode($to) );
+						return copy(utf8_decode($from), utf8_decode($to));
 					} else {
-						return copy( utf8_decode($from), $to );
+						return copy(utf8_decode($from), $to);
 					}
 				} else {
 					if (mb_detect_encoding($to) == 'ASCII'){
-						return copy( $from, utf8_decode($to) );
+						return copy($from, utf8_decode($to));
 					} else {
-						return copy( $from, $to );
+						return copy($from, $to);
 					}
 				}
 			} else {
-				return copy( utf8_decode($from), utf8_decode($to) );
+				return copy(utf8_decode($from), utf8_decode($to));
 			}
 		}
 	}
+
+
 	function copy_dir($abs_item, $abs_new_item) {
-		if( ext_isFTPMode() ) {
-			$tmp_dir = ext_ftp_make_local_copy( $abs_item );
-			$res = $GLOBALS['FTPCONNECTION']->putRecursive( $tmp_dir, $abs_new_item );
-			remove( $tmp_dir );
+		if (ext_isFTPMode()) {
+			$tmp_dir = ext_ftp_make_local_copy($abs_item);
+			$res = $GLOBALS['FTPCONNECTION']->putRecursive($tmp_dir, $abs_new_item);
+			remove($tmp_dir);
 			return $res;
-		}
-		else {
+		} else {
 			return copy_dir($abs_item,$abs_new_item);
 		}
 	}
-	function mkdir( $dir, $perms ) {
-		if( ext_isFTPMode() ) {
-			$res = $GLOBALS['FTPCONNECTION']->mkdir( $dir );
+
+
+	function mkdir($dir, $perms) {
+		if (ext_isFTPMode()) {
+			$res = $GLOBALS['FTPCONNECTION']->mkdir($dir);
 			return $res;
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($dir) == 'ASCII'){
-					return mkdir( utf8_decode($dir), $perms );
+					return mkdir(utf8_decode($dir), $perms);
 				} else {
-					return mkdir( $dir, $perms );
+					return mkdir($dir, $perms);
 				}
 			} else {
-				return mkdir( utf8_decode($dir), $perms );
+				return mkdir(utf8_decode($dir), $perms);
 			}
 		}
 	}
-	function mkfile( $file ) {
-		if( ext_isFTPMode() ) {
+
+
+	function mkfile($file) {
+		if (ext_isFTPMode()) {
 			$tmp = tmpfile();
-			return $GLOBALS['FTPCONNECTION']->fput( $tmp, $file );
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+			return $GLOBALS['FTPCONNECTION']->fput($tmp, $file);
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($file) == 'ASCII'){
-					return @touch( utf8_decode($file) );
+					return @touch(utf8_decode($file));
 				} else {
 					return @touch($file);
 				}
 			} else {
-				return @touch( utf8_decode($file) );
+				return @touch(utf8_decode($file));
 			}
 		}
 	}
-	function unlink( $item ) {
-		if( ext_isFTPMode() ) {
-			return $GLOBALS['FTPCONNECTION']->rm( $item );
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+
+
+	function unlink($item) {
+		if (ext_isFTPMode()) {
+			return $GLOBALS['FTPCONNECTION']->rm($item);
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($item) == 'ASCII'){
-					return unlink( utf8_decode($item) );
+					return unlink(utf8_decode($item));
 				} else {
 					return unlink($item);
 				}
 			} else {
-				return unlink( utf8_decode($item) );
+				return unlink(utf8_decode($item));
 			}
 		}
 	}
-	
-	function rmdir( $dir ) {
-		if( ext_isFTPMode() ) {
-			return $GLOBALS['FTPCONNECTION']->rm( $item );
-		}
-		else {
-			return rmdir( $dir );
+
+
+	function rmdir($dir) {
+		if (ext_isFTPMode()) {
+			return $GLOBALS['FTPCONNECTION']->rm($item);
+		} else {
+			return rmdir($dir);
 		}
 	}
-	function remove( $item ) {
-		if( ext_isFTPMode() ) {
-			return $GLOBALS['FTPCONNECTION']->rm( $item, true );
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+
+
+	function remove($item) {
+		if (ext_isFTPMode()) {
+			return $GLOBALS['FTPCONNECTION']->rm($item, true);
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($item) == 'ASCII'){
-					return remove( utf8_decode($item) );
+					return remove(utf8_decode($item));
 				} else {
 					return remove($item);
 				}
 			} else {
-				return remove( utf8_decode($item) );
+				return remove(utf8_decode($item));
 			}		}
 	}
-	function rename( $oldname, $newname ) {
-		if( ext_isFTPMode() ) {
-			if( is_array( $oldname )) {
+
+
+	function rename($oldname, $newname) {
+		if (ext_isFTPMode()) {
+			if (is_array($oldname)) {
 				$oldname = $oldname['name'];
 			}
-			return $GLOBALS['FTPCONNECTION']->rename( $oldname, $newname );
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+			return $GLOBALS['FTPCONNECTION']->rename($oldname, $newname);
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($oldname) == 'ASCII'){
 					if (mb_detect_encoding($oldname) == 'ASCII'){
 						return rename(utf8_decode($oldname), utf8_decode($newname));
@@ -193,264 +200,293 @@ class ext_File {
 					}
 				}
 			} else {
-				return rename( utf8_decode($oldname), utf8_decode($newname) );
+				return rename(utf8_decode($oldname), utf8_decode($newname));
 			}
 		}
 	}
-	function opendir( $dir ) {
-		if( ext_isFTPMode() ) {
-			return getCachedFTPListing( $dir );
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+
+
+	function opendir($dir) {
+		if (ext_isFTPMode()) {
+			return getCachedFTPListing($dir);
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($dir) == 'ASCII') {
-					return opendir( utf8_decode($dir) );
+					return opendir(utf8_decode($dir));
 				} else {
-					return opendir( $dir );
+					return opendir($dir);
 				}
 			} else {
-				return opendir( utf8_decode($dir) );
+				return opendir(utf8_decode($dir));
 			}
 		}
 	}
-	function readdir( &$handle ) {
-		if( ext_isFTPMode() ) {
-			$current = current($handle );next( $handle );
+
+
+	function readdir(&$handle) {
+		if (ext_isFTPMode()) {
+			$current = current($handle);next($handle);
 			return $current;
-		}
-		else {
-			return readdir( $handle );
-		}
-	}
-	function scandir( $dir ) {
-		if( ext_isFTPMode() ) {
-			return getCachedFTPListing( $dir );
-		}
-		else {
-			return scandir( $dir );
+		} else {
+			return readdir($handle);
 		}
 	}
-	function closedir( &$handle ) {		
-		if( ext_isFTPMode() ) {
+
+
+	function scandir($dir) {
+		if (ext_isFTPMode()) {
+			return getCachedFTPListing($dir);
+		} else {
+			return scandir($dir);
+		}
+	}
+
+
+	function closedir(&$handle) {
+		if (ext_isFTPMode()) {
 			return;
-		}
-		else {
-			return closedir( $handle );
+		} else {
+			return closedir($handle);
 		}
 	}
-	function file_exists( $file ) {
-		if( ext_isFTPMode() ) {
-			if( $file == '/' ) return true; // The root directory always exists
-			
+
+
+	function file_exists($file) {
+		if (ext_isFTPMode()) {
+			if ($file == '/') return true; // The root directory always exists
+
 			$dir = $GLOBALS['FTPCONNECTION']->pwd();
-			if( !is_array( $file )) {
-				$dir = dirname( $file );
-				$file = array( 'name' => basename( $file ) );
+
+			if (!is_array($file)) {
+				$dir = dirname($file);
+				$file = array('name' => basename($file));
 			}
-			$list = getCachedFTPListing( $dir );
-			
-			if( is_array( $list )) {
-				
-				foreach( $list as $item ) {
-					if( $item['name'] == $file['name'] )
+
+			$list = getCachedFTPListing($dir);
+
+			if (is_array($list)) {
+				foreach($list as $item) {
+					if ($item['name'] == $file['name'])
 						return true;
 				}
 			}
 			return false;
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($file) == 'ASCII') {
-					return file_exists( utf8_decode($file) );
+					return file_exists(utf8_decode($file));
 				} else {
 					return file_exists($file);
 				}
 			} else {
-				return file_exists( utf8_decode($file) );
+				return file_exists(utf8_decode($file));
 			}
 		}
 	}
-	function filesize( $file ) {
-		if( ext_isFTPMode() ) {
-			if( isset( $file['size'])) {
-				return ( $file['size']);
+
+
+	function filesize($file) {
+		if (ext_isFTPMode()) {
+			if (isset($file['size'])) {
+				return ($file['size']);
 			}
-			return $GLOBALS['FTPCONNECTION']->size( $file );
-		}
-		else {
-			return filesize( $file);
+			return $GLOBALS['FTPCONNECTION']->size($file);
+		} else {
+			return filesize($file);
 		}
 	}
-	function fileperms( $file ) {
-		if( ext_isFTPMode() ) {
-			if( isset( $file['rights'])) {
+
+
+	function fileperms($file) {
+		if (ext_isFTPMode()) {
+			if (isset($file['rights'])) {
 				$perms = $file['rights'];
 			} else {
-				$info = get_item_info( dirname( $file), basename( $file ) );
+				$info = get_item_info(dirname($file), basename($file));
 				$perms = $info['rights'];
 			}
-			return decoct(bindec(decode_ftp_rights( $perms )));
+			return decoct(bindec(decode_ftp_rights($perms)));
+		} else {
+			return @fileperms($file);
 		}
-		else {
-			return @fileperms( $file);
-		}		
 	}
-	function filemtime( $file ) {
-		if( ext_isFTPMode() ) {
-			if( isset( $file['stamp'])) {
+
+
+	function filemtime($file) {
+		if (ext_isFTPMode()) {
+			if (isset($file['stamp'])) {
 				return $file['stamp'];
 			}
-			$res = $GLOBALS['FTPCONNECTION']->mdtm( $file['name'] );
-			if( !PEAR::isError( $res )) {
+
+			$res = $GLOBALS['FTPCONNECTION']->mdtm($file['name']);
+			if (!PEAR::isError($res)) {
 				return $res;
 			}
-		}
-		else {
-			return filemtime( $file);
+
+		}else {
+			return filemtime($file);
 		}
 	}
-	function move_uploaded_file( $uploadedfile, $to ) {
-		if( ext_isFTPMode() ) {
-			if( is_array( $uploadedfile )) {
+
+
+	function move_uploaded_file($uploadedfile, $to) {
+		if (ext_isFTPMode()) {
+			if (is_array($uploadedfile)) {
 				$uploadedfile = $uploadedfile['name'];
 			}
-			$uploadedfile = str_replace( "\\", '/', $uploadedfile );
-			$to = str_replace( "\\", '/', $to );
-			$res = $GLOBALS['FTPCONNECTION']->put( $uploadedfile, $to );
+
+			$uploadedfile = str_replace("\\", '/', $uploadedfile);
+			$to = str_replace("\\", '/', $to);
+			$res = $GLOBALS['FTPCONNECTION']->put($uploadedfile, $to);
 			return $res;
-			
-		}
-		else {
-			return move_uploaded_file( $uploadedfile, $to );
+		} else {
+			return move_uploaded_file($uploadedfile, $to);
 		}
 	}
-	function file_get_contents( $file ) {
-		if( ext_isFTPMode() ) {
+
+
+	function file_get_contents($file) {
+		if (ext_isFTPMode()) {
 			$fh = tmpfile();
-			
-			$file = str_replace( "\\", '/', $file );
-			if( $file[0] != '/' ) $file = '/'. $file; 
-			$res = $GLOBALS['FTPCONNECTION']->fget( $file, $fh );
-			if( PEAR::isError( $res )) {
+
+			$file = str_replace("\\", '/', $file);
+			if ($file[0] != '/') $file = '/'. $file; 
+			$res = $GLOBALS['FTPCONNECTION']->fget($file, $fh);
+
+			if (PEAR::isError($res)) {
 				return false;
-			}
-			else {
-				rewind( $fh );
+			} else {
+				rewind($fh);
 				$contents = '';
-				while( !feof( $fh)) {
-					$contents .= fread( $fh, 2048 );
+				while(!feof($fh)) {
+					$contents .= fread($fh, 2048);
 				}
-				fclose( $fh );
+				fclose($fh);
 				return $contents;
 			}
-		}
-		else {
-			if($GLOBALS['use_mb']) {
+
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($file) == 'ASCII') {
-					return file_get_contents( utf8_decode($file) );
+					return file_get_contents(utf8_decode($file));
 				} else {
 					return file_get_contents($file);
 				}
 			} else {
-				return file_get_contents( utf8_decode($file) );
+				return file_get_contents(utf8_decode($file));
 			}
 		}
 	}
-	function file_put_contents( $file, $data ) {
-		if( ext_isFTPMode() ) {
+
+
+	function file_put_contents($file, $data) {
+		if (ext_isFTPMode()) {
 			$tmp_file = tmpfile();
-			fputs( $tmp_file, $data );
-			rewind( $tmp_file );
-			$res = $GLOBALS['FTPCONNECTION']->fput( $tmp_file, $file, true );
-			
-			fclose( $tmp_file );
+			fputs($tmp_file, $data);
+			rewind($tmp_file);
+			$res = $GLOBALS['FTPCONNECTION']->fput($tmp_file, $file, true);
+
+			fclose($tmp_file);
 			return $res;
-		} 
-		else {
-			if($GLOBALS['use_mb']) {
+		} else {
+			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($file) == 'ASCII') {
-					return file_put_contents( utf8_decode($file), $data );
+					return file_put_contents(utf8_decode($file), $data);
 				} else {
-					return file_put_contents( $file, $data );
+					return file_put_contents($file, $data);
 				}
 			} else {
-				return file_put_contents( utf8_decode($file), $data );
+				return file_put_contents(utf8_decode($file), $data);
 			}
 		}
 	}
-	function fileowner( $file ) {
-		if( ext_isFTPMode() ) {
-			$info = posix_getpwnam( $file['user'] );
+
+
+	function fileowner($file) {
+		if (ext_isFTPMode()) {
+			$info = posix_getpwnam($file['user']);
 			return $info['uid'];
-		}
-		else {
-			return fileowner( $file );
+		} else {
+			return fileowner($file);
 		}
 	}
+
+
 	function geteuid() {
-		if( ext_isFTPMode() ) {
-			$info = posix_getpwnam( $_SESSION['ftp_login'] );
-			return $info['uid'];			
-		}
-		else {
+		if (ext_isFTPMode()) {
+			$info = posix_getpwnam($_SESSION['ftp_login']);
+			return $info['uid'];
+		} else {
 			return posix_geteuid();
 		}
 	}
-	function is_link( $abs_item ) {
-		if( ext_isFTPMode() ) {
+
+
+	function is_link($abs_item) {
+		if (ext_isFTPMode()) {
 			return false;
 		} else {
-			return is_link( $abs_item );
+			return is_link($abs_item);
 		}
 	}
-	function is_writable( $file ) {
+
+
+	function is_writable($file) {
 		global $isWindows;
-		if( ext_isFTPMode() ) {
-			if( $isWindows ) return true;
-			if( !is_array( $file )) {
+		if (ext_isFTPMode()) {
+
+			if ($isWindows) return true;
+
+			if (!is_array($file)) {
 				$file = get_item_info(dirname($file), basename($file));
 			}
-			if( empty($file['rights'])) return true;
+
+			if (empty($file['rights'])) return true;
 			$perms = $file['rights'];
-			if( $_SESSION['ftp_login'] == $file['user']) {
+
+			if ($_SESSION['ftp_login'] == $file['user']) {
 				// FTP user is owner of the file
 				return $perms[1] == 'w';
 			}
-			$fileinfo = posix_getpwnam( $file['user'] );
-			$userinfo = posix_getpwnam( $_SESSION['ftp_login'] );
-			
-			if( $fileinfo['gid'] == $userinfo['gid']) {
+
+			$fileinfo = posix_getpwnam($file['user']);
+			$userinfo = posix_getpwnam($_SESSION['ftp_login']);
+
+			if ($fileinfo['gid'] == $userinfo['gid']) {
 				return $perms[4] == 'w';
-			}
-			else {
+			} else {
 				return $perms[7] == 'w';
 			}
-		}
-		else {
-			return is_writable( $file );
+
+		} else {
+			return is_writable($file);
 		}
 	}
-	function is_readable( $file ) {
-		if( ext_isFTPMode() ) {
+
+
+	function is_readable($file) {
+		if (ext_isFTPMode()) {
 			$perms = $file['rights'];
-			if( $_SESSION['ftp_login'] == $file['user']) {
+			if ($_SESSION['ftp_login'] == $file['user']) {
 				// FTP user is owner of the file
 				return $perms[0] == 'r';
 			}
-			$fileinfo = posix_getpwnam( $file['user'] );
-			$userinfo = posix_getpwnam( $_SESSION['ftp_login'] );
-			
-			if( $fileinfo['gid'] == $userinfo['gid']) {
+			$fileinfo = posix_getpwnam($file['user']);
+			$userinfo = posix_getpwnam($_SESSION['ftp_login']);
+
+			if ($fileinfo['gid'] == $userinfo['gid']) {
 				return $perms[3] == 'r';
 			}
 			else {
 				return $perms[6] == 'r';
 			}
-		}
-		else {
-			return is_readable( $file );
+		} else {
+			return is_readable($file);
 		}
 	}
+
+
 	/**
 	 * determines if a file is deletable based on directory ownership, permissions,
 	 * and php safemode.
@@ -458,97 +494,107 @@ class ext_File {
 	 * @param string $dir The full path to the file
 	 * @return boolean
 	 */
-	function is_deletable( $file ) {
+	function is_deletable($file) {
 		global $isWindows;
-	
+
 		// Note that if the directory is not owned by the same uid as this executing script, it will
 		// be unreadable and I think unwriteable in safemode regardless of directory permissions.
-		if(ini_get('safe_mode') == 1 && @$GLOBALS['ext_File']->geteuid() != $GLOBALS['ext_File']->fileowner($file)) {
+		if (ini_get('safe_mode') == 1 && @$GLOBALS['ext_File']->geteuid() != $GLOBALS['ext_File']->fileowner($file)) {
 			return false;
 		}
-	
+
 		// if dir owner not same as effective uid of this process, then perms must be full 777.
 		// No other perms combo seems reliable across system implementations
-		
-		if(!$isWindows && @$GLOBALS['ext_File']->geteuid() !== @$GLOBALS['ext_File']->fileowner($file)) {
-			return (substr(decoct(@fileperms($file)),-3) == '777' || @is_writable(dirname($file)) );
+		if (!$isWindows && @$GLOBALS['ext_File']->geteuid() !== @$GLOBALS['ext_File']->fileowner($file)) {
+			return (substr(decoct(@fileperms($file)),-3) == '777' || @is_writable(dirname($file)));
 		}
-		if($isWindows && $GLOBALS['ext_File']->geteuid() != $GLOBALS['ext_File']->fileowner($file)) {
+
+		if ($isWindows && $GLOBALS['ext_File']->geteuid() != $GLOBALS['ext_File']->fileowner($file)) {
 			return (substr(decoct(fileperms($file)),-3) == '777');
 		}
+
 		// otherwise if this process owns the directory, we can chmod it ourselves to delete it
 		return @is_writable(dirname($file));
 	}
-	
-	function is_chmodable( $file ) {
+
+
+
+	function is_chmodable($file) {
 		global $isWindows;
-		
-		if( $isWindows ) {
+
+		if ($isWindows) {
 			return true;
 		}
-		if( ext_isFTPMode() ) {
+
+		if (ext_isFTPMode()) {
 			return $_SESSION['ftp_login'] == $file['user'];
 		} else {
-			return @$GLOBALS['ext_File']->fileowner( $file ) == @$GLOBALS['ext_File']->geteuid();
+			return @$GLOBALS['ext_File']->fileowner($file) == @$GLOBALS['ext_File']->geteuid();
 		}
 
 	}
 }
 
-function ext_ftp_make_local_copy( $abs_item, $use_filehandle=false ) {
 
-	if( get_is_dir( $abs_item )) {
+
+function ext_ftp_make_local_copy($abs_item, $use_filehandle = false) {
+
+	if (get_is_dir($abs_item)) {
 		$tmp_dir = _EXT_FTPTMP_PATH.'/'.uniqid('ext_tmpdir_').'/';
-		$res = $GLOBALS['FTPCONNECTION']->getRecursive( $abs_item, $tmp_dir, true );
-		if( PEAR::isError( $res )) {
-			ext_Result::sendResult( 'list', false, 'Failed to fetch the directory via FTP: '.$res->getMessage() );
+		$res = $GLOBALS['FTPCONNECTION']->getRecursive($abs_item, $tmp_dir, true);
+		if (PEAR::isError($res)) {
+			ext_Result::sendResult('list', false, 'Failed to fetch the directory via FTP: '.$res->getMessage());
 		}
 		return $tmp_dir;
 	}
-	
-	$abs_item = str_replace( "\\", '/', $abs_item );
-	if( $abs_item[0] != '/' ) $abs_item = '/'. $abs_item; 
-	
-	if( !$use_filehandle ) {
-		$tmp_file = tempnam( _EXT_FTPTMP_PATH, 'ext_ftp_dl_' );
-	
-		if( $tmp_file == 'false') {
-			ext_Result::sendResult( 'list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
+
+	$abs_item = str_replace("\\", '/', $abs_item);
+	if ($abs_item[0] != '/') $abs_item = '/'. $abs_item; 
+
+	if (!$use_filehandle) {
+		$tmp_file = tempnam(_EXT_FTPTMP_PATH, 'ext_ftp_dl_');
+
+		if ($tmp_file == 'false') {
+			ext_Result::sendResult('list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
 		}
-		$res = $GLOBALS['FTPCONNECTION']->get( $abs_item, $tmp_file, true );
-		if( PEAR::isError( $res )) {
-			ext_Result::sendResult( 'list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage() );
+
+		$res = $GLOBALS['FTPCONNECTION']->get($abs_item, $tmp_file, true);
+		if (PEAR::isError($res)) {
+			ext_Result::sendResult('list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage());
 		}
-	}
-	else {
+	} else {
 		$tmp_file = tmpfile();
-	
-		$res = $GLOBALS['FTPCONNECTION']->fget( '/'.$abs_item, $tmp_file, true );
-		if( PEAR::isError( $res )) {
-			ext_Result::sendResult( 'list', false, 'Failed to fetch the file via FTP: '.$res->getMessage() );
+
+		$res = $GLOBALS['FTPCONNECTION']->fget('/'.$abs_item, $tmp_file, true);
+		if (PEAR::isError($res)) {
+			ext_Result::sendResult('list', false, 'Failed to fetch the file via FTP: '.$res->getMessage());
 		}
-		rewind( $tmp_file );
+		rewind($tmp_file);
 	}
 	return $tmp_file;
-	
+
 }
 
-function &getCachedFTPListing( $dir, $force_refresh=false ) {
-	if( $dir == '\\') $dir = '.';
-	$dir = str_replace( '\\', '/', $dir );
-	if( $dir != '' && $dir[0] != '/') {
+function &getCachedFTPListing($dir, $force_refresh=false) {
+	if ($dir == '\\') $dir = '.';
+	$dir = str_replace('\\', '/', $dir);
+
+	if ($dir != '' && $dir[0] != '/') {
 		$dir = '/'.$dir;
 	}
-	
+
 	$dir = str_replace($GLOBALS['home_dir'], '', $dir);
-	
-	if( empty( $GLOBALS['ftp_ls'][$dir] ) || $force_refresh ) {
-		if( $dir == $GLOBALS['FTPCONNECTION']->pwd() ) {
+
+	if (empty($GLOBALS['ftp_ls'][$dir]) || $force_refresh) {
+
+		if ($dir == $GLOBALS['FTPCONNECTION']->pwd()) {
 			$dir = '';
 		}
-		$GLOBALS['ftp_ls'][$dir] = $GLOBALS['FTPCONNECTION']->ls( empty($dir) ? '.' : $dir );
-		if( PEAR::isError( $GLOBALS['ftp_ls'][$dir] )) {
-			//ext_Result::sendResult( 'list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
+
+		$GLOBALS['ftp_ls'][$dir] = $GLOBALS['FTPCONNECTION']->ls(empty($dir) ? '.' : $dir);
+
+		if (PEAR::isError($GLOBALS['ftp_ls'][$dir])) {
+			//ext_Result::sendResult('list', false, $GLOBALS['ftp_ls'][$dir]->getMessage().': '.$dir);
 		}
 	}
 
