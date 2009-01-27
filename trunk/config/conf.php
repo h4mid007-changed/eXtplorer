@@ -29,6 +29,11 @@ $GLOBALS["no_access"] = ''; // "^\.ht";
 // user permissions bitfield: (1=modify, 2=password, 4=admin, add the numbers)
 $GLOBALS["permissions"] = 7;
 
+// Support Multi-byte
+if (extension_loaded('mbstring') {
+	$GLOBALS["use_mb"] = TRUE;
+}
+
 // System Charset
 $GLOBALS["system_charset"] = 'UTF-8';
 
@@ -37,6 +42,7 @@ setlocale(LC_ALL, 'en_US.UTF8');
 
 // SECURTY //
 $GLOBALS['ext_conf']['symlink_allow_abovehome'] = FALSE;
+
 
 //------------------------------------------------------------------------------
 /* NOTE:
