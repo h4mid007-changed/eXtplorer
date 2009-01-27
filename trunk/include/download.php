@@ -1,6 +1,6 @@
 <?php
 // ensure this file is being included by a parent file
-if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
+if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
 /**
  * @version $Id$
  * @package eXtplorer
@@ -32,46 +32,60 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
  * 
  */
-	
+
 /**
  * File-Download Functions
  *
  */
 class ext_Download extends ext_Action {
-	
-	function execAction($dir, $item, $unlink=false) {		// download file
+
+	// download file
+	function execAction($dir, $item, $unlink=false) {
 		global $action, $mosConfig_cache_path;
 		// Security Fix:
-		$item=basename($item);
-	
-		while( @ob_end_clean() );
+		$item = basename($item);
+
+		while (@ob_end_clean());
 	    ob_start();
-		
-		if( ext_isFTPMode() ) {
-			$abs_item = $dir.'/'.$item;
-		}
-		else {
+
+		if (ext_isFTPMode()) {
+			$abs_item = $dir . '/' . $item;
+		} else {
 			$abs_item = get_abs_item($dir,$item);
 			//if( !strstr( $abs_item, $GLOBALS['home_dir']) )
 			//  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
 		}
-		
-		if(($GLOBALS["permissions"]&01)!=01) ext_Result::sendResult( 'download', false, $GLOBALS["error_msg"]["accessfunc"]);
-		if(!$GLOBALS['ext_File']->file_exists($abs_item)) ext_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
-		if(!get_show_item($dir, $item)) ext_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);
-	
-		if( ext_isFTPMode() ) {
-	
+
+		if (($GLOBALS["permissions"]&01) != 01) {
+			ext_Result::sendResult( 'download', false, $GLOBALS["error_msg"]["accessfunc"]);
+		}
+
+		if (!$GLOBALS['ext_File']->file_exists($abs_item)) {
+			ext_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["fileexist"]);
+		}
+
+		if (!get_show_item($dir, $item)) {
+			ext_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);
+		}
+
+		if (ext_isFTPMode()) {
 			$abs_item = ext_ftp_make_local_copy( $abs_item );
 			$unlink = true;
 		}
-		$browser=id_browser();
-		header('Content-Type: '.(($browser=='IE' || $browser=='OPERA')?
-			'application/octetstream':'application/octet-stream').'; Charset='.$GLOBALS["system_charset"]);
+
+		$browser = id_browser();
+
+		if ($browser=='IE' || $browser=='OPERA') {
+			header('Content-Type: application/octetstream; Charset='  . $GLOBALS["system_charset"]);
+		} else {
+			header('Content-Type: application/octet-stream; Charset=' . $GLOBALS["system_charset"]);
+		}
+
 		header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: '.filesize(realpath($abs_item)));
 	    //header("Content-Encoding: none");
+
 		if($browser=='IE') {
 			// http://support.microsoft.com/kb/436616/ja
 			header('Content-Disposition: attachment; filename="'.urlencode($item).'"');
@@ -82,7 +96,9 @@ class ext_Download extends ext_Action {
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Pragma: no-cache');
 		}
+
 		@set_time_limit( 0 );
+
  		if($GLOBALS['use_mb']) {
  			if (mb_detect_encoding($abs_item) == 'ASCII') {
  				@readFileChunked(utf8_decode($abs_item));
@@ -95,8 +111,10 @@ class ext_Download extends ext_Action {
 		if( $unlink==true ) {
 		  	unlink( utf8_decode($abs_item) );
 		}
+
 	    ob_end_flush();
 		ext_exit();
+
 	}
 }
 //------------------------------------------------------------------------------
