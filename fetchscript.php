@@ -27,15 +27,15 @@
  */
 function initGzip() {
 	global $do_gzip_compress;
-	
+
 	$gzip = isset( $_GET['gzip'] ) ? (boolean)$_GET['gzip'] : false;
-	
+
 	$do_gzip_compress = FALSE;
 	if ($gzip) {
 		$phpver 	= phpversion();
 		$useragent 	= isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$canZip 	= isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : '';
-		
+
 		$gzip_check 	= 0;
 		$zlib_check 	= 0;
 		$gz_check		= 0;
@@ -43,10 +43,10 @@ function initGzip() {
 		$sid_check		= 0;
 		if ( strpos( $canZip, 'gzip' ) !== false) {
 			$gzip_check = 1;
-		}		
+		}
 		if ( extension_loaded( 'zlib' ) ) {
 			$zlib_check = 1;
-		}		
+		}
 		if ( function_exists('ob_gzhandler') ) {
 			$gz_check = 1;
 		}
@@ -60,17 +60,17 @@ function initGzip() {
 				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
 				ob_start( 'ob_gzhandler' );
-				
+
 				return;
 			}
 		} else if ( $phpver > '4.0' ) {
 			if ( $gzip_check ) {
-				
+
 				if ( $zlib_check ) {
 					$do_gzip_compress = TRUE;
 					ob_start();
 					ob_implicit_flush(0);
-					
+
 					header( 'Content-Encoding: gzip' );
 					return;
 				}
@@ -133,33 +133,33 @@ function cssUrl( $ref, $subdir ) {
  * @link   http://simon.incutio.com/archive/2003/04/23/conditionalGet
  */
 function http_conditionalRequest($timestamp){
-    // A PHP implementation of conditional get, see 
-    //   http://fishbowl.pastiche.org/archives/001132.html
-    $last_modified = gmdate( 'D, d M Y H:i:s', $timestamp ) . ' GMT';
-    $etag = '"'.md5($last_modified).'"';
-    // Send the headers
-    header("Last-Modified: $last_modified");
-    header("ETag: $etag");
-    // See if the client has provided the required headers
-    $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
-        stripslashes($_SERVER['HTTP_IF_MODIFIED_SINCE']) :
-        false;
-    $if_none_match = isset($_SERVER['HTTP_IF_NONE_MATCH']) ?
-        stripslashes($_SERVER['HTTP_IF_NONE_MATCH']) : 
-        false;
-    if (!$if_modified_since && !$if_none_match) {
-        return;
-    }
-    // At least one of the headers is there - check them
-    if ($if_none_match && $if_none_match != $etag) {
-        return; // etag is there but doesn't match
-    }
-    if ($if_modified_since && $if_modified_since != $last_modified) {
-        return; // if-modified-since is there but doesn't match
-    }
-    // Nothing has changed since their last request - serve a 304 and exit
-    header('HTTP/1.0 304 Not Modified');
-    exit;
+	// A PHP implementation of conditional get, see 
+	//	http://fishbowl.pastiche.org/archives/001132.html
+	$last_modified = gmdate( 'D, d M Y H:i:s', $timestamp ) . ' GMT';
+	$etag = '"'.md5($last_modified).'"';
+	// Send the headers
+	header("Last-Modified: $last_modified");
+	header("ETag: $etag");
+	// See if the client has provided the required headers
+	$if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
+		stripslashes($_SERVER['HTTP_IF_MODIFIED_SINCE']) :
+		false;
+	$if_none_match = isset($_SERVER['HTTP_IF_NONE_MATCH']) ?
+		stripslashes($_SERVER['HTTP_IF_NONE_MATCH']) : 
+		false;
+	if (!$if_modified_since && !$if_none_match) {
+		return;
+	}
+	// At least one of the headers is there - check them
+	if ($if_none_match && $if_none_match != $etag) {
+		return; // etag is there but doesn't match
+	}
+	if ($if_modified_since && $if_modified_since != $last_modified) {
+		return; // if-modified-since is there but doesn't match
+	}
+	// Nothing has changed since their last request - serve a 304 and exit
+	header('HTTP/1.0 304 Not Modified');
+	exit;
 }
 
 initGzip();
@@ -186,15 +186,15 @@ for( $i = 0; $i < $countFiles; $i++ ) {
 	if( empty( $files[$i] )) continue;
 	$file = $files[$i];
 	$subdir = $subdirs[$i];
-	
-	$dir = realpath( $base_dir . '/' .  $subdir );
+
+	$dir = realpath( $base_dir . '/' .	$subdir );
 	$file = $dir . '/' . basename( $file );
-	
+
 	if( !file_exists( $file ) || !stristr( $dir, $base_dir )) {
 		if( $countFiles == 1 ) {
-		    header("HTTP/1.0 404 Not Found");
-		    echo 'Not Found';
-		    exit;
+			header("HTTP/1.0 404 Not Found");
+			echo 'Not Found';
+			exit;
 		}
 		continue;
 	}
@@ -210,8 +210,8 @@ $processed_files = 0;
 for( $i = 0; $i < $countFiles; $i++ ) {
 	$file = $files[$i];
 	$subdir = $subdirs[$i];
-	
-	$dir = realpath( $base_dir . '/' .  $subdir );
+
+	$dir = realpath( $base_dir . '/' .	$subdir );
 	$file = $dir . '/' . basename( $file );
 	if( !file_exists( $file ) || !stristr( $dir, $base_dir ) || !is_readable( $file )) {
 		continue;
@@ -223,35 +223,35 @@ for( $i = 0; $i < $countFiles; $i++ ) {
 			$mime_type = 'text/css'; 
 			header( 'Content-Type: '.$mime_type.';');
 			$css = implode( '', file( $file ));
-			
-			$str_css =   preg_replace("/url\((.+?)\)/ie","cssUrl('\\1', '$subdir')", $css);
+
+			$str_css =	preg_replace("/url\((.+?)\)/ie","cssUrl('\\1', '$subdir')", $css);
 			echo $str_css;
-			
+
 			break;
-			
+
 		case 'js': 
 			$mime_type = 'application/x-javascript'; 
 			header( 'Content-Type: '.$mime_type.';');
-			
+
 			readfile( $file );
-			
+
 			break;
-			
+
 		default: 
 			continue;
-		
+
 	}
 }
 if( $processed_files == 0 ) {
 	if( !file_exists( $file ) ) {
-	    header("HTTP/1.0 404 Not Found");
-	    echo 'Not Found';
-	    exit;
+		header("HTTP/1.0 404 Not Found");
+		echo 'Not Found';
+		exit;
 	}
 	if( !is_readable( $file ) ) {
-	    header("HTTP/1.0 500 Internal Server Error");
-	    echo "Could not read ".basename($file)." - bad permissions?";
-	  	exit;
+		header("HTTP/1.0 500 Internal Server Error");
+		echo "Could not read ".basename($file)." - bad permissions?";
+		exit;
 	}
 }
 // Tell the user agent to cache this script/stylesheet for an hour

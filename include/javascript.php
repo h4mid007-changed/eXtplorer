@@ -19,7 +19,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		if(e.checked) CheckAll();
 		else ClearAll();
 	}
-	
+
 	function CheckAll() {
 		var ml = document.selform;
 		var len = ml.elements.length;
@@ -54,7 +54,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		}
 		return true;
 	}
-	
+
 	function NumChecked() {
 		ml = document.selform;
 		len = ml.elements.length;
@@ -64,8 +64,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		}
 		return num;
 	}
-	
-	
+
+
 	// Row highlight
 
 	function Highlight(e) {
@@ -91,11 +91,11 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 			r.className = "rowdata";
 		}
 	}
-	
+
 <?php if($allow) { ?>
-	
+
 	// Copy / Move / Delete
-	
+
 	function Copy() {
 		if(NumChecked()==0) {
 			alert("<?php echo $GLOBALS["error_msg"]["miscselitems"]; ?>");
@@ -104,7 +104,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		document.selform.do_action.value = "copy";
 		document.selform.submit();
 	}
-	
+
 	function Move() {
 		if(NumChecked()==0) {
 			alert("<?php echo $GLOBALS["error_msg"]["miscselitems"]; ?>");
@@ -113,7 +113,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		document.selform.do_action.value = "move";
 		document.selform.submit();
 	}
-	
+
 	function Chmod() {
 		if(NumChecked()==0) {
 			alert("<?php echo $GLOBALS["error_msg"]["miscselitems"]; ?>");
@@ -122,7 +122,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		document.selform.do_action.value = "chmod";
 		document.selform.submit();
 	}
-	
+
 	function Delete() {
 		num=NumChecked();
 		if(num==0) {
@@ -134,7 +134,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 			document.selform.submit();
 		}
 	}
-	
+
 	function Archive() {
 		if(NumChecked()==0) {
 			alert("<?php echo $GLOBALS["error_msg"]["miscselitems"]; ?>");
@@ -143,7 +143,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		document.selform.do_action.value = "arch";
 		document.selform.submit();
 	}
-	
+
 <?php } ?>
 
 // -->

@@ -291,41 +291,41 @@ function send_dircontents($dir, $sendWhat = 'files') {	// print table of files
 			if ($GLOBALS['use_mb']) {
 				if (ext_isFTPMode()) {
 					$dirlist[] = array('text' => htmlspecialchars($item),
-									'id'		   => $id,
-									'qtip'		   => $qtip,
+									'id'		=> $id,
+									'qtip'		=> $qtip,
 									'is_writable'  => $is_writable,
 									'is_chmodable' => $is_chmodable,
 									'is_readable'  => $is_readable,
 									'is_deletable' => $is_deletable,
-									'cls'		   => 'folder');
+									'cls'		=> 'folder');
 				} else if (mb_detect_encoding($item) == 'ASCII') {
 					$dirlist[] = array('text' => htmlspecialchars(utf8_encode($item)),
-									'id'		   => utf8_encode($id),
-									'qtip'		   => $qtip,
+									'id'		=> utf8_encode($id),
+									'qtip'		=> $qtip,
 									'is_writable'  => $is_writable,
 									'is_chmodable' => $is_chmodable,
 									'is_readable'  => $is_readable,
 									'is_deletable' => $is_deletable,
-									'cls'		   => 'folder');
+									'cls'		=> 'folder');
 				} else {
 					$dirlist[] = array('text' => htmlspecialchars($item),
-									'id'		   => $id,
-									'qtip'		   => $qtip,
+									'id'		=> $id,
+									'qtip'		=> $qtip,
 									'is_writable'  => $is_writable,
 									'is_chmodable' => $is_chmodable,
 									'is_readable'  => $is_readable,
 									'is_deletable' => $is_deletable,
-									'cls'		   => 'folder');
+									'cls'		=> 'folder');
 				}
 			} else {
 				$dirlist[] = array('text' => htmlspecialchars(ext_isFTPMode() ? $item : utf8_encode($item)),
-									'id'           => ext_isFTPMode() ? $id : utf8_encode($id),
-									'qtip'         => $qtip,
+									'id'		=> ext_isFTPMode() ? $id : utf8_encode($id),
+									'qtip'		=> $qtip,
 									'is_writable'  => $is_writable,
 									'is_chmodable' => $is_chmodable,
 									'is_readable'  => $is_readable,
 									'is_deletable' => $is_deletable,
-									'cls'          => 'folder');
+									'cls'		=> 'folder');
 			}
 		}
 		if (!$is_dir && $sendWhat == 'files' || $sendWhat == 'both') {

@@ -7,18 +7,18 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 // function to parse the http auth header
 function http_digest_parse($txt)
 {
-    // protect against missing data
-    $needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
-    $data = array();
+	// protect against missing data
+	$needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
+	$data = array();
 
-    preg_match_all('@(\w+)=([\'"]?)([%a-zA-Z0-9=./\_-]+)\2@', $txt, $matches, PREG_SET_ORDER);
+	preg_match_all('@(\w+)=([\'"]?)([%a-zA-Z0-9=./\_-]+)\2@', $txt, $matches, PREG_SET_ORDER);
 
-    foreach ($matches as $m) {
-        $data[$m[1]] = $m[3];
-        unset($needed_parts[$m[1]]);
-    }
+	foreach ($matches as $m) {
+		$data[$m[1]] = $m[3];
+		unset($needed_parts[$m[1]]);
+	}
 
-    return $needed_parts ? false : $data;
+	return $needed_parts ? false : $data;
 }
 
 function AuthenticationDigestHTTP($realm, $users, $phpcgi=0) {
@@ -37,12 +37,12 @@ function AuthenticationDigestHTTP($realm, $users, $phpcgi=0) {
 		header('HTTP/1.1 401 Unauthorized');
 		die('401 Unauthorized');
 	}
-		
+
 	// generate the valid response
 	$A1 = md5($data['username'] . ':' . $realm . ':' . $users[$data['username']]);
 	$A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 	$valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
-	
+
 	if ($data['response'] != $valid_response) {
 		header('HTTP/1.1 401 Unauthorized');
 		die('401 Unauthorized');
@@ -51,15 +51,15 @@ function AuthenticationDigestHTTP($realm, $users, $phpcgi=0) {
 }
 
 function AuthenticationBasicHTTP($realm, $users, $phpcgi=0) {
-	
+
 	if (empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['REDIRECT_REMOTE_USER'])) {
 		header('WWW-Authenticate: Basic realm="'.$realm.'"');
 		header('HTTP/1.0 401 Unauthorized');
 		die('401 Unauthorized');
 	}
-	
+
 	$user = $_SERVER['PHP_AUTH_USER'];
-	if ($phpcgi == 1) {		
+	if ($phpcgi == 1) {
 		$matches = explode(' ', $_SERVER['REDIRECT_REMOTE_USER']);
 		list($name, $password) = explode(':', base64_decode($matches[1]));
 		$_SERVER['PHP_AUTH_USER'] = $user = strip_tags($name);

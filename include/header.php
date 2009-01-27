@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -46,7 +46,7 @@ function show_header($dirlinks='') {
 		echo "<a href=\"index2.php\">Back to ".( !empty($GLOBALS['_VERSION']->PRODUCT) ? @$GLOBALS['_VERSION']->PRODUCT : 'Joomla!' ).'</a>';
 
 	} else {
-		echo ext_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=\''.$GLOBALS['script_name'].'?lang=\' + this.options[this.selectedIndex].value;"');		
+		echo ext_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=\''.$GLOBALS['script_name'].'?lang=\' + this.options[this.selectedIndex].value;"');
 	}
 	// Logo
 	echo "</td><td style=\"color:black;\" width=\"10%\">";
@@ -58,7 +58,7 @@ function show_header($dirlinks='') {
 	echo "<td style=\"padding-left: 15px; color:black;\" id=\"bookmark_container\" width=\"35%\"></td>\n";
 	echo "<td width=\"25%\" style=\"padding-left: 15px; color:black;\">".sprintf( $GLOBALS['messages']['switch_file_mode'], $mode . $logoutlink, "<a id=\"switch_file_mode\" href=\"$url".$url_appendix."file_mode=$alternate_mode\">$alternate_mode</a>" ). "
 	</td>\n";
-	
+
 	echo '</tr></table>';
 	echo '</div>';
 }

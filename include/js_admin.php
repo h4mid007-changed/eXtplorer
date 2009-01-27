@@ -1,4 +1,5 @@
 <?php
+/** @version $Id$ */
 /** ensure this file is being included by a parent file */
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 ?>
@@ -15,15 +16,15 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 		}
 		return true;
 	}
-	
-	
+
+
 	// Edit / Delete
-	
+
 	function Edit() {
 		document.userform.action2.value = "edituser";
 		document.userform.submit();
 	}
-	
+
 	function Delete() {
 		var ml = document.userform;
 		var len = ml.elements.length;
@@ -35,7 +36,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 				break;
 			}
 		}
-		
+
 		if(confirm("<?php echo $GLOBALS["error_msg"]["miscdeluser"]; ?>")) {
 			document.userform.action2.value = "rmuser";
 			document.userform.submit();

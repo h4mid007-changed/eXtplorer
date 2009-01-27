@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -32,7 +32,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
  * 
  */
-	
+
 /**
  * File-Edit Functions
  *
@@ -59,36 +59,36 @@ class ext_Edit extends ext_Action {
 
 	function execAction($dir, $item) {		// edit file
 		global $mainframe, $mosConfig_live_site;
-		
+
 		if(($GLOBALS["permissions"]&01)!=01) {
 			ext_Result::sendResult('edit', false, ext_Lang::err('accessfunc' ));
 		}
 		$fname = get_abs_item($dir, $item);
-		
+
 		if(!get_is_file(utf8_decode($fname)))  {
 			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('fileexist' ));
 		}
 		if(!get_show_item($dir, $item)) {
-			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('accessfile' ));	
+			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('accessfile' ));
 		}
-		
+
 		if(isset($GLOBALS['__POST']["dosave"]) && $GLOBALS['__POST']["dosave"]=="yes") {
 			// Save / Save As
 			$item=basename(stripslashes($GLOBALS['__POST']["fname"]));
 			$fname2=get_abs_item($dir, $item);
-			
+
 			if(!isset($item) || $item=="") {
 				ext_Result::sendResult('edit', false, ext_Lang::err('miscnoname' ));
 			}
 			if($fname!=$fname2 && @$GLOBALS['ext_File']->file_exists($fname2)) {
 				ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('itemdoesexist' ));
 			}
-			  
+
 			$this->savefile($fname2);
 			$fname=$fname2;
-			
+
 			ext_Result::sendResult('edit', true, ext_Lang::msg('savefile').': '.$item );
-			
+
 		}
 		if(isset($GLOBALS['__POST']["doreopen"]) && $GLOBALS['__POST']["doreopen"]=="yes") {
 			// File Reopen
@@ -149,21 +149,21 @@ class ext_Edit extends ext_Action {
 		}
 	?>
 	<div style="width:auto;">
-	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-	
-	        <h3 style="margin-bottom:5px;"><?php 
-	        	echo $GLOBALS["messages"]["actedit"].": /".$s_item .'&nbsp;&nbsp;&nbsp;&nbsp;';
-	        	?></h3>
-    
-	        <div id="adminForm">
-	
-	        </div>
-	    </div></div></div>
-	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+
+			<h3 style="margin-bottom:5px;"><?php 
+				echo $GLOBALS["messages"]["actedit"].": /".$s_item .'&nbsp;&nbsp;&nbsp;&nbsp;';
+				?></h3>
+
+			<div id="adminForm">
+
+			</div>
+		</div></div></div>
+		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 	</div>
-	
-	<?php	
+
+	<?php
 	// Show File In TextArea
 	$content = $GLOBALS['ext_File']->file_get_contents( $fname );
 	if( get_magic_quotes_runtime()) {
@@ -192,37 +192,37 @@ class ext_Edit extends ext_Action {
 		}
 	}
 	//$content = htmlspecialchars( $content );
-		
+
 	?><script type="text/javascript">//<!--
 	dialog.setContentSize( 700, 500 );
 	simple = new Ext.form.Form({
-	    labelAlign: 'top',
-	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
+		labelAlign: 'top',
+		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
-	simple.add(		
-	    new Ext.form.TextArea({
-	        fieldLabel: 'File Contents',
-	        name: 'thecode',
-	        id: 'ext_codefield',
-	        fieldClass: 'x-form-field',
-	        value: '<?php echo str_replace(Array("\r", "\n", '<', '>'), Array('\r', '\n', '&lt;', '&gt;') , addslashes($content)) ?>',
-	        width: '100%',
-	        height: 300
-	    })		
+	simple.add(
+		new Ext.form.TextArea({
+			fieldLabel: 'File Contents',
+			name: 'thecode',
+			id: 'ext_codefield',
+			fieldClass: 'x-form-field',
+			value: '<?php echo str_replace(Array("\r", "\n", '<', '>'), Array('\r', '\n', '&lt;', '&gt;') , addslashes($content)) ?>',
+			width: '100%',
+			height: 300
+		})
 	);
 	simple.column( {width: <?php echo $cw ?> }, 
 		new Ext.form.TextField({
-	        fieldLabel: '<?php echo ext_Lang::msg('copyfile', true ) ?>',
-	        name: 'fname',
-	        value: '<?php echo $item ?>',
-	        width:175
+			fieldLabel: '<?php echo ext_Lang::msg('copyfile', true ) ?>',
+			name: 'fname',
+			value: '<?php echo $item ?>',
+			width:175
 		})
 	);
 	simple.column( {width: <?php echo $cw ?>, style:'margin-left:10px', clear:true },
 		new Ext.form.Checkbox({
-	        fieldLabel: '<?php echo ext_Lang::msg('returndir', true ) ?>',
-	        name: 'return_to_dir',
-	        width:175
+			fieldLabel: '<?php echo ext_Lang::msg('returndir', true ) ?>',
+			name: 'return_to_dir',
+			width:175
 		})
 	);
 
@@ -230,8 +230,8 @@ class ext_Edit extends ext_Action {
 	simple.column( {width: <?php echo $cw ?>,  style:'margin-left:10px', clear:true },
 		new Ext.form.ComboBox({
 		fieldLabel: '<?php echo ext_Lang::msg('fileencoding', true ) ?>',
-	        name: 'file_encoding',
-	        width:175,
+			name: 'file_encoding',
+			width:175,
 		store: new Ext.data.SimpleStore({
 			fields: ['encoding', 'encoding_label'],
 			data : [
@@ -239,7 +239,7 @@ class ext_Edit extends ext_Action {
 				['SJIS-WIN', 'SJIS'],
 				['EUCJP-WIN', 'EUC-JP'],
 				['ISO-2022-JP','JIS']
-			    ]
+				]
 			}),
 		displayField : 'encoding_label',
 		valueField : 'encoding',
@@ -255,59 +255,59 @@ class ext_Edit extends ext_Action {
 	simple.addButton('<?php echo ext_Lang::msg('btnsave', true ) ?>', function() {
 		statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
 
-	    simple.submit({
-	        //waitMsg: 'Processing Data, please wait...',
-	        //reset: true,
-	        reset: false,
-	        success: function(form, action) {
-	        	datastore.reload();
-	        	statusBarMessage( action.result.message, false, true );
-	        	if( simple.findField('return_to_dir').getValue() ) {
-	        		dialog.destroy();
-	        	}
-	        },
-	        failure: function(form, action) {
-	        	statusBarMessage( action.result.error, false, false );
-	        	Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
-	        },
-	        scope: simple,
-	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_extplorer', 
-	        		action: 'edit', 
-	        		code: editAreaLoader.getValue("ext_codefield"),
-	        		dir: '<?php echo stripslashes($dir) ?>', 
-	        		item: '<?php echo stripslashes($item) ?>', 
-	        		dosave: 'yes'
-	        }
-	    });
+		simple.submit({
+			//waitMsg: 'Processing Data, please wait...',
+			//reset: true,
+			reset: false,
+			success: function(form, action) {
+				datastore.reload();
+				statusBarMessage( action.result.message, false, true );
+				if( simple.findField('return_to_dir').getValue() ) {
+					dialog.destroy();
+				}
+			},
+			failure: function(form, action) {
+				statusBarMessage( action.result.error, false, false );
+				Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
+			},
+			scope: simple,
+			// add some vars to the request, similar to hidden fields
+			params: {option: 'com_extplorer', 
+					action: 'edit', 
+					code: editAreaLoader.getValue("ext_codefield"),
+					dir: '<?php echo stripslashes($dir) ?>', 
+					item: '<?php echo stripslashes($item) ?>', 
+					dosave: 'yes'
+			}
+		});
 	});
-	
+
 	simple.addButton('<?php echo ext_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
 	simple.addButton('<?php echo ext_Lang::msg('btnreopen', true ) ?>', function() { 
 		statusBarMessage( '<?php echo ext_Lang::msg('reopen_processing', true ) ?>', true );
 
-	    simple.submit({
-	        //waitMsg: 'Processing Data, please wait...',
-	        //reset: true,
-	        reset: false,
-	        success: function(form, action) {
-	        	datastore.reload();
-	        	statusBarMessage( action.result.message, false, true );
+		simple.submit({
+			//waitMsg: 'Processing Data, please wait...',
+			//reset: true,
+			reset: false,
+			success: function(form, action) {
+				datastore.reload();
+				statusBarMessage( action.result.message, false, true );
 			editAreaLoader.setValue("ext_codefield", action.result.content);
-	        },
-	        failure: function(form, action) {
-	        	statusBarMessage( action.result.error, false, false );
-	        	Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
-	        },
-	        scope: simple,
-	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_extplorer', 
-	        		action: 'edit', 
-	        		dir: '<?php echo stripslashes($dir) ?>', 
-	        		item: '<?php echo stripslashes($item) ?>', 
-	        		doreopen: 'yes'
-	        }
-	    });
+			},
+			failure: function(form, action) {
+				statusBarMessage( action.result.error, false, false );
+				Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
+			},
+			scope: simple,
+			// add some vars to the request, similar to hidden fields
+			params: {option: 'com_extplorer', 
+					action: 'edit', 
+					dir: '<?php echo stripslashes($dir) ?>', 
+					item: '<?php echo stripslashes($item) ?>', 
+					doreopen: 'yes'
+			}
+		});
 	});
 
 	simple.render('adminForm');
@@ -324,7 +324,7 @@ class ext_Edit extends ext_Action {
 	editAreaLoader.start("ext_codefield");
 	// -->
 	</script><?php
-	
+
 	}
 	function savefile($file_name) {			// save edited file
 		if( get_magic_quotes_gpc() ) {
@@ -340,9 +340,9 @@ class ext_Edit extends ext_Action {
 				$code = mb_convert_encoding($code, $_encoding, "UTF-8");
 			}
 		}
-		
+
 		$res = $GLOBALS['ext_File']->file_put_contents( $file_name, $code );
-		
+
 		if( $res==false || PEAR::isError( $res )) {
 			$err = basename($file_name).": ".ext_Lang::err('savefile' );
 			if( PEAR::isError( $res ) ) {
@@ -350,7 +350,7 @@ class ext_Edit extends ext_Action {
 			}
 			ext_Result::sendResult( 'edit', false, $err );
 		}
-		
+
 	}
 }
 //------------------------------------------------------------------------------

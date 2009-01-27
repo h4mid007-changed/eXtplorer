@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
@@ -72,8 +72,8 @@ $item = extGetParam( $_REQUEST, 'item', '');
 switch( $action ) {
 	case 'download':
 		require _EXT_PATH . "/include/download.php";
-	  	ext_Download::execAction($dir, $item);
-	  	exit;
+		ext_Download::execAction($dir, $item);
+		exit;
 	case 'list':
 	default:
 		list_dir($dir);
@@ -86,5 +86,5 @@ echo '<br style="clear:both;"/>
 	<a class="title" href="'.$GLOBALS['ext_home'].'" target="_blank">powered by eXtplorer</a>
 	</small>
 	';
-	
+
 ?>

@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -36,42 +36,42 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 function find_item($dir,$pat,&$list,$recur) {	// find items
 	$homedir = realpath($GLOBALS['home_dir']);
 	$handle = @$GLOBALS['ext_File']->opendir(get_abs_dir($dir));
-	
+
 	if($handle===false && $dir=="") {
-	  	$handle = @$GLOBALS['ext_File']->opendir($homedir . $GLOBALS['separator']);
+		$handle = @$GLOBALS['ext_File']->opendir($homedir . $GLOBALS['separator']);
 	}
-	
+
 	if($handle===false) {
 		ext_Result::sendResult('search', false, $dir.": ".$GLOBALS["error_msg"]["opendir"]);
 	}
-	
+
 	while(($new_item=$GLOBALS['ext_File']->readdir($handle))!==false) {
-		if( is_array( $new_item ))  {
+		if( is_array( $new_item ))	{
 			$abs_new_item = $new_item;
 		} else {
 			$abs_new_item = get_abs_item($dir, $new_item);
 		}
 		if(!$GLOBALS['ext_File']->file_exists($abs_new_item)) continue;
-		
+
 		if(!get_show_item($dir, $new_item)) continue;
-		
+
 		// match?
 		if(@eregi($pat,$new_item)) $list[]=array($dir,$new_item);
-		
+
 		// search sub-directories
 		if(get_is_dir($abs_new_item) && $recur) {
 			find_item(get_rel_item($dir,$new_item),$pat,$list,$recur);
 		}
 	}
-	
+
 	$GLOBALS['ext_File']->closedir($handle);
-	
+
 }
 //------------------------------------------------------------------------------
 function make_list($dir,$item,$subdir) {	// make list of found items
 	// convert shell-wildcards to PCRE Regex Syntax
 	$pat="^".str_replace("?",".",str_replace("*",".*",str_replace(".","\.",$item)))."$";
-	
+
 	// search
 	find_item($dir,$pat,$list,$subdir);
 	if(is_array($list)) sort($list);
@@ -80,7 +80,7 @@ function make_list($dir,$item,$subdir) {	// make list of found items
 //------------------------------------------------------------------------------
 function get_result_table($list) {			// print table of found items
 	if(!is_array($list)) return;
-	
+
 	$cnt = count($list);
 	$response = '';
 	for($i=0;$i<$cnt;++$i) {
@@ -88,7 +88,7 @@ function get_result_table($list) {			// print table of found items
 		$s_dir=$dir;	if(strlen($s_dir)>65) $s_dir=substr($s_dir,0,62)."...";
 		$s_item=$item;	if(strlen($s_item)>45) $s_item=substr($s_item,0,42)."...";
 		$link = "";	$target = "";
-		
+
 		if(get_is_dir($dir,$item)) {
 			$img = "dir.png";
 			$link = make_link("list",get_rel_item($dir, $item),NULL);
@@ -99,7 +99,7 @@ function get_result_table($list) {			// print table of found items
 			$target = "_blank";
 			//}
 		}
-		
+
 		$response .= "<tr><td>" . "<img border=\"0\" width=\"22\" height=\"22\" ";
 		$response .= "align=\"absmiddle\" src=\""._EXT_URL."/images/" . $img . "\" alt=\"\" />&nbsp;";
 		/*if($link!="")*/ 
@@ -120,39 +120,39 @@ function search_items($dir) {			// search for item
 		$searchitem=NULL;
 		$subdir=true;
 	}
-	
-	
+
+
 	if(!empty($searchitem)) {
 		$msg=$GLOBALS["messages"]["actsearchresults"];
 		$msg.=": (/" . get_rel_item($dir, $searchitem).")";
 	} else {
 		$msg = $GLOBALS["messages"]["searchlink"];
 	}
-	
+
 	// Search Box
 	$response = '		<div>
-	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-	
-	        <h3 style="margin-bottom:5px;">'.$msg.'</h3>
-	        <div id="adminForm">
-	
-	        </div>
-	    </div></div></div>
-	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+
+			<h3 style="margin-bottom:5px;">'.$msg.'</h3>
+			<div id="adminForm">
+
+			</div>
+		</div></div></div>
+		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 	</div>
 	<script type="text/javascript">
 	var form = new Ext.form.Form({
-	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:\''. basename( $GLOBALS['script_name']) .'\'
+		labelWidth: 125, // label settings here cascade unless overridden
+		url:\''. basename( $GLOBALS['script_name']) .'\'
 	});
 	form.add(
-	    new Ext.form.TextField({
-	        fieldLabel: \''. ext_Lang::msg( 'nameheader', true ) .'\',
-	        name: \'searchitem\',
-	        width:175,
-	        allowBlank:false
-	    }),
+		new Ext.form.TextField({
+			fieldLabel: \''. ext_Lang::msg( 'nameheader', true ) .'\',
+			name: \'searchitem\',
+			width:175,
+			allowBlank:false
+		}),
 		new Ext.form.Checkbox({
 			fieldLabel: \''.ext_Lang::msg( 'miscsubdirs', true ) .'?\',
 			name: \'subdir\',
@@ -160,22 +160,22 @@ function search_items($dir) {			// search for item
 		})
 	);
 	form.addButton({ text: "'.ext_Lang::msg( 'btnsearch', true ).'", type: "submit" }, function() {
-	    form.submit({
-	        waitMsg: \''.ext_Lang::msg('search_processing', true ).'\',
-	        //reset: true,
-	        reset: false,
-	        success: function(form, action) {
-	    		dialog_panel.setContent( action.result.message, true );
-	        },
-	        failure: function(form, action) {Ext.MessageBox.alert(\''.ext_Lang::err('error').'!\', action.result.error);},
-	        scope: form,
-	        // add some vars to the request, similar to hidden fields
-	        params: {
-	        	option: \'com_extplorer\', 
-	        	action: \'search\', 
-	        	dir: \''.$GLOBALS['__POST']["dir"] .'\'
-	        }
-	    });
+		form.submit({
+			waitMsg: \''.ext_Lang::msg('search_processing', true ).'\',
+			//reset: true,
+			reset: false,
+			success: function(form, action) {
+				dialog_panel.setContent( action.result.message, true );
+			},
+			failure: function(form, action) {Ext.MessageBox.alert(\''.ext_Lang::err('error').'!\', action.result.error);},
+			scope: form,
+			// add some vars to the request, similar to hidden fields
+			params: {
+				option: \'com_extplorer\', 
+				action: \'search\', 
+				dir: \''.$GLOBALS['__POST']["dir"] .'\'
+			}
+		});
 	});
 	form.addButton("'. ext_Lang::msg( 'btncancel', true ) .'", function() { dialog.hide();dialog.destroy(); } );
 
@@ -190,7 +190,7 @@ function search_items($dir) {			// search for item
 			$response .= "<tr>\n<td width=\"42%\" class=\"header\"><b>".$GLOBALS["messages"]["nameheader"];
 			$response .= "</b></td>\n<td width=\"58%\" class=\"header\"><b>".$GLOBALS["messages"]["pathheader"];
 			$response .= "</b></td></tr>\n<tr><td colspan=\"2\"><hr></td></tr>\n";
-	
+
 			// make & print table of found items
 			$response .= get_result_table($list);
 

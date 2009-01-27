@@ -16,7 +16,7 @@ $passPhrase = '';
 *
 * This program is distributed in the hope that it will be useful, but
 * WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
 * General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
@@ -25,9 +25,9 @@ $passPhrase = '';
 */
 /**
  * Script to:
- *    - download the extplorer.zip / tar.gz from a known server directly to the
- *      server where the script is running.
- *    - extract the extplorer.zip / tar.gz archive directly on the server
+ *	- download the extplorer.zip / tar.gz from a known server directly to the
+ *		server where the script is running.
+ *	- extract the extplorer.zip / tar.gz archive directly on the server
  * @package Preinstaller
  * @author: Andy Staudacher <ast@gmx.ch>
  * @version $Revision$
@@ -42,11 +42,11 @@ set_time_limit(900);
 /* Download Location */
 $downloadUrls = array();
 /* Hardcoded defaults / fallbacks (we try to find out these URLs during runtime) */
-/*   Latest Release Candidate */
+/*	Latest Release Candidate */
 //$downloadUrls['rc'] = 'http://prdownloads.sourceforge.net/gallery/gallery-2.2-rc-2-full';
-/*   Latest stable release */
+/*	Latest stable release */
 $downloadUrls['stable'] = '';
-/*   Latest beta version */
+/*	Latest beta version */
 $downloadUrls['latest']= 'http://joomlacode.org/gf/download/frsrelease/8187/29823/com_eXtplorer_2.0.0.zip';
 $downloadUrls['beta']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC4.zip';
 
@@ -115,7 +115,7 @@ class PreInstaller {
 					$extractor = new $method;
 					if ($extractor->isSupported()) {
 						$archiveName = dirname(__FILE__) . '/' .
-						$archiveBaseName .  '.' . $extractor->getSupportedExtension();
+						$archiveBaseName .	'.' . $extractor->getSupportedExtension();
 						if (file_exists($archiveName)) {
 							$results = $extractor->extract($archiveName);
 							if ($results === true) {
@@ -193,7 +193,7 @@ class PreInstaller {
 				$capabilities = $this->discoverCapabilities();
 				$capabilities['extplorerFolderName'] = $this->findExtplorerFolder();
 				if (file_exists(dirname(__FILE__).'/'.$capabilities['extplorerFolderName'].'/index.php')) {
-					$statusMessage  = '<a href="index.php" title="Go to eXtplorer now!">Ready for usage</a> (<span style="color:green;font-weight:bold;">eXtplorer seems to be installed!</span>)';
+					$statusMessage	= '<a href="index.php" title="Go to eXtplorer now!">Ready for usage</a> (<span style="color:green;font-weight:bold;">eXtplorer seems to be installed!</span>)';
 				} else if (!empty($capabilities['anyArchiveExists'])) {
 					$statusMessage = 'Archive ready for extraction';
 				} else {
@@ -887,295 +887,295 @@ function render($renderType, $args=array()) {
 		'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'; ?>
 <html>
   <head>
-    <title>eXtplorer Pre-Installer</title>
-    <?php printHtmlStyle(); ?>
-    <?php printJs(); ?>
+	<title>eXtplorer Pre-Installer</title>
+	<?php printHtmlStyle(); ?>
+	<?php printJs(); ?>
   </head>
   <body>
-     <h1>eXtplorer Pre-Installer</h1>
+	<h1>eXtplorer Pre-Installer</h1>
 
-     <div class="box important">
-       <p>
-	 Do not forget to <b>delete this <?php print $self; ?> file once you are done!</b> If other
-	 users guess the password, they can seriously harm your installation with this script!
-       <p>
-     </div>
+	<div class="box important">
+	<p>
+	Do not forget to <b>delete this <?php print $self; ?> file once you are done!</b> If other
+	users guess the password, they can seriously harm your installation with this script!
+	<p>
+	</div>
 
-     <div class="box">
-     <h2>Instructions</h2>
-     <span id="instructions-toggle" class="blockToggle"
-	  onclick="BlockToggle('instructions', 'instructions-toggle', 'instructions')">
-	  Show instructions
-     </span>
-     <div id="instructions" style="display: none;">
-       <p>
-	 eXtplorer is a web application with hundreds of files and folders.
-	 Uploading these files and folders with an FTP program can take more than an hour and
-	 is error-prone depending on the quality of your connection to your webhost and the
-	 quality of the server itself.
-       </p>
-       <p>
-	 In short, <b>this pre-installer gets the eXtplorer software on your server</b>. It is an
-	 alternative to uploading all files via FTP or extracting the archive yourself if you
-	 have ssh access. In detail, this pre-installer does for you the following:
-       </p>
-       <ol>
-	 <li>
-	   <b>Download/transfer</b> the archived eXtplorer.tar.gz or eXtplorer.zip from the official
-	   download server directly to your webserver. No need to download / upload the file
-	   yourself.
-	 </li>
-	 <li>
-	   <b>Extract</b> the archive directly on your server. No
-	   need to upload thousands of files.
-	 </li>
-       </ol>
-       <p>
-	 Once eXtplorer is extracted, you can also use these convenience functions:
-       </p>
-       <ul>
-	 <li>
-	   <b>Change permissions</b>: Since the eXtplorer files have been extracted by the webserver
-	    and not by yourself, these files and folders are not owned by you. That means that you
-	    are not allowed to rename the eXtplorer folder or to do much else with it unless you use
-	    this script to change the permissions.
-	 </li>
-	 <li>
-	   <b>Rename</b> the eXtplorer folder if you want it to be rather &quot;filemanager/&quot; or
-	   &quot;fileadmin/&quot;, etc. than the default folder name which is &quot;extplorer/&quot;.
-	 </li>
-       </ul>
-       <p>
-	 <b>Upgrade notes:</b> If you need to upgrade an eXtplorer installation that was extracted
-	 with this script (the eXtplorer folder is owned by the webserver in this case) you need
-	 just to make sure the eXtplorer folder is named &quot;extplorer&quot; and that it has
-	 permissions 755 or 777. Then download the latest release and extract it. It will just
-	 extract the new files over the existing installation.
-       </p>
-     </div>
-     </div>
+	<div class="box">
+	<h2>Instructions</h2>
+	<span id="instructions-toggle" class="blockToggle"
+	onclick="BlockToggle('instructions', 'instructions-toggle', 'instructions')">
+	Show instructions
+	</span>
+	<div id="instructions" style="display: none;">
+	<p>
+	eXtplorer is a web application with hundreds of files and folders.
+	Uploading these files and folders with an FTP program can take more than an hour and
+	is error-prone depending on the quality of your connection to your webhost and the
+	quality of the server itself.
+	</p>
+	<p>
+	In short, <b>this pre-installer gets the eXtplorer software on your server</b>. It is an
+	alternative to uploading all files via FTP or extracting the archive yourself if you
+	have ssh access. In detail, this pre-installer does for you the following:
+	</p>
+	<ol>
+	<li>
+	<b>Download/transfer</b> the archived eXtplorer.tar.gz or eXtplorer.zip from the official
+	download server directly to your webserver. No need to download / upload the file
+	yourself.
+	</li>
+	<li>
+	<b>Extract</b> the archive directly on your server. No
+	need to upload thousands of files.
+	</li>
+	</ol>
+	<p>
+	Once eXtplorer is extracted, you can also use these convenience functions:
+	</p>
+	<ul>
+	<li>
+	<b>Change permissions</b>: Since the eXtplorer files have been extracted by the webserver
+		and not by yourself, these files and folders are not owned by you. That means that you
+		are not allowed to rename the eXtplorer folder or to do much else with it unless you use
+		this script to change the permissions.
+	</li>
+	<li>
+	<b>Rename</b> the eXtplorer folder if you want it to be rather &quot;filemanager/&quot; or
+	&quot;fileadmin/&quot;, etc. than the default folder name which is &quot;extplorer/&quot;.
+	</li>
+	</ul>
+	<p>
+	<b>Upgrade notes:</b> If you need to upgrade an eXtplorer installation that was extracted
+	with this script (the eXtplorer folder is owned by the webserver in this case) you need
+	just to make sure the eXtplorer folder is named &quot;extplorer&quot; and that it has
+	permissions 755 or 777. Then download the latest release and extract it. It will just
+	extract the new files over the existing installation.
+	</p>
+	</div>
+	</div>
 
-     <?php if (!empty($args['statusMessage'])): ?>
-     <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
-     <?php endif; ?>
+	<?php if (!empty($args['statusMessage'])): ?>
+	<div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
+	<?php endif; ?>
 
 
-     <?php if ($renderType == 'missingPassword' || $renderType == 'passwordForm'): ?>
-     <h2>
+	<?php if ($renderType == 'missingPassword' || $renderType == 'passwordForm'): ?>
+	<h2>
 	You are attempting to access a secure section. You can't
 	proceed until you pass the security check.
-     </h2>
-     <?php endif; ?>
+	</h2>
+	<?php endif; ?>
 
-     <?php if ($renderType == 'missingPassword'): ?>
-     <div class="error">
-       You must enter a setup password in your <?php print $self; ?> file in order
-       to be able to access this script.
-     </div>
-     <?php elseif ($renderType == 'passwordTooShort'): ?>
-     <div class="error">
-       The setup password in your <?php print $self; ?> file is too short. It must be at least
-       6 characters long.
-     </div>
-     <?php elseif ($renderType == 'passwordForm'): ?>
-     <div class="password_form">
-       <div class="box">
-	 <span class="message">
-	   In order to verify you, we require you to enter your pre-install setup password.  This is
-	   the password that is stored in the config section at the top of this script.
-	 </span>
-	 <form id="loginForm" method="post">
-	   Password:
-	   <input type="password" name="ext_password"/>
-	   <script type="text/javascript">document.getElementById('loginForm')['ext_password'].focus();</script>
-	   <input type="submit" value="Verify Me" onclick="this.disabled=true;this.form.submit();"/>
-	 </form>
-	 <?php if (!empty($args['incorrectPassword'])): ?>
-	 <div class="error">
-	   Password incorrect!
-	 </div>
-	 <?php endif; ?>
-       </div>
-     </div>
+	<?php if ($renderType == 'missingPassword'): ?>
+	<div class="error">
+	You must enter a setup password in your <?php print $self; ?> file in order
+	to be able to access this script.
+	</div>
+	<?php elseif ($renderType == 'passwordTooShort'): ?>
+	<div class="error">
+	The setup password in your <?php print $self; ?> file is too short. It must be at least
+	6 characters long.
+	</div>
+	<?php elseif ($renderType == 'passwordForm'): ?>
+	<div class="password_form">
+	<div class="box">
+	<span class="message">
+	In order to verify you, we require you to enter your pre-install setup password.  This is
+	the password that is stored in the config section at the top of this script.
+	</span>
+	<form id="loginForm" method="post">
+	Password:
+	<input type="password" name="ext_password"/>
+	<script type="text/javascript">document.getElementById('loginForm')['ext_password'].focus();</script>
+	<input type="submit" value="Verify Me" onclick="this.disabled=true;this.form.submit();"/>
+	</form>
+	<?php if (!empty($args['incorrectPassword'])): ?>
+	<div class="error">
+	Password incorrect!
+	</div>
+	<?php endif; ?>
+	</div>
+	</div>
 
-     <?php elseif ($renderType == 'options'): ?>
-       <!-- Show available and unavailable options -->
-       <?php if (empty($args['anyExtensionSupported'])): ?>
-       <div class="error">
-	   <h2>This platform has not the ability to extract any of our archive types!</h2>
-       <span>
-	  <?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
-	    <?php if (!$supported): ?><span class="disabled"><?php endif; ?>
-	    <?php if (!$first) print ', '; else $first = false; ?>
-	    <?php print $ext; ?>
-	    <?php if (!$supported): ?></span><?php endif; ?>
-	  <?php endforeach; ?>
-       </span>
-       </div>
-       <?php endif; ?>
+	<?php elseif ($renderType == 'options'): ?>
+	<!-- Show available and unavailable options -->
+	<?php if (empty($args['anyExtensionSupported'])): ?>
+	<div class="error">
+	<h2>This platform has not the ability to extract any of our archive types!</h2>
+	<span>
+	<?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
+		<?php if (!$supported): ?><span class="disabled"><?php endif; ?>
+		<?php if (!$first) print ', '; else $first = false; ?>
+		<?php print $ext; ?>
+		<?php if (!$supported): ?></span><?php endif; ?>
+	<?php endforeach; ?>
+	</span>
+	</div>
+	<?php endif; ?>
 
-       <!-- DOWNLOAD SECTION -->
-       <?php
-       $label = empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? 'Hide ' : 'Show ';
-       $display = empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? '' : 'style="display: none;"';
-       ?>
-       <div class="box">
-       <h2>[1] Download / Transfer Methods (download eXtplorer from another server directly to this server)</h2>
-       <span id="download-toggle" class="blockToggle"
-	    onclick="BlockToggle('download', 'download-toggle', 'download methods')">
-	    <?php print $label . 'download methods'; ?>
-       </span>
-       <div id="download" <?php print $display; ?>>
-	 <br/>
-	 <?php if (!empty($args['downloadMethods']) && !empty($args['anyExtensionSupported'])): ?>
-	 <form id="downloadForm" method="post">
-	 <span class="subtitle">Select the eXtplorer version:</span>
-	 <table class="choice">
-	   <tr><td><select name="version">
-	   <?php
-	   foreach ($args['downloadMethods'] as $method) {
-	   	if( !empty($method['isSupported']) ) {
-	   		$downloader = new $method['command']();
-	   		break;
-	   	}
-	   }
-	   $versions = PreInstaller::getLatestVersions( $downloader );
-	   $isfirst = true;
-	   foreach ( $versions as $versionName => $versionDownload ) {
-	   	if( $isfirst ) {
-	   		$selected = 'selected="selected"';
-	   		$isfirst = false;
-	   	} else {
-	   		$selected = '';
-	   	}
-	   	echo '<option value="'.$versionName.'">'.$versionName."</option>\n";
-	   } ?>
-	   </select></td></tr>
-	 </table>
-	 <span class="subtitle">Select a download method:</span>
-	 <table class="choice">
-	 <?php 
-	 $first = true; $i = 0;
-	 foreach ($args['downloadMethods'] as $method):
-	 $disabled = empty($method['isSupported']) ? 'disabled="disabled"' : '';
-	 $notSupported = empty($method['isSupported']) ? '<strong>not supported by this platform</strong>' : '&nbsp;';
-	 $checked = '';
-	 if ($first && !empty($method['isSupported'])) {
-	 	$checked = 'checked="checked"'; $first = false;
-	 }
-	 printf('<tr><td><input type="radio" id="method'.$i.'" name="method" %s value="%s" %s/></td><td><label for="method'.$i.'">%s</label></td><td>%s</td></tr>',
-	 $disabled, $method['command'], $checked, $method['name'], $notSupported);
-	 $i++;
-	 endforeach;
-	 	?>
-	 </table>
-	 <input type="hidden" name="extension" value="zip"/>
-	 <input type="hidden" name="command" value="download"/>
-	 <input type="submit" value="Download"
+	<!-- DOWNLOAD SECTION -->
+	<?php
+	$label = empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? 'Hide ' : 'Show ';
+	$display = empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? '' : 'style="display: none;"';
+	?>
+	<div class="box">
+	<h2>[1] Download / Transfer Methods (download eXtplorer from another server directly to this server)</h2>
+	<span id="download-toggle" class="blockToggle"
+		onclick="BlockToggle('download', 'download-toggle', 'download methods')">
+		<?php print $label . 'download methods'; ?>
+	</span>
+	<div id="download" <?php print $display; ?>>
+	<br/>
+	<?php if (!empty($args['downloadMethods']) && !empty($args['anyExtensionSupported'])): ?>
+	<form id="downloadForm" method="post">
+	<span class="subtitle">Select the eXtplorer version:</span>
+	<table class="choice">
+	<tr><td><select name="version">
+	<?php
+	foreach ($args['downloadMethods'] as $method) {
+		if( !empty($method['isSupported']) ) {
+			$downloader = new $method['command']();
+			break;
+		}
+	}
+	$versions = PreInstaller::getLatestVersions( $downloader );
+	$isfirst = true;
+	foreach ( $versions as $versionName => $versionDownload ) {
+		if( $isfirst ) {
+			$selected = 'selected="selected"';
+			$isfirst = false;
+		} else {
+			$selected = '';
+		}
+		echo '<option value="'.$versionName.'">'.$versionName."</option>\n";
+	} ?>
+	</select></td></tr>
+	</table>
+	<span class="subtitle">Select a download method:</span>
+	<table class="choice">
+	<?php 
+	$first = true; $i = 0;
+	foreach ($args['downloadMethods'] as $method):
+	$disabled = empty($method['isSupported']) ? 'disabled="disabled"' : '';
+	$notSupported = empty($method['isSupported']) ? '<strong>not supported by this platform</strong>' : '&nbsp;';
+	$checked = '';
+	if ($first && !empty($method['isSupported'])) {
+		$checked = 'checked="checked"'; $first = false;
+	}
+	printf('<tr><td><input type="radio" id="method'.$i.'" name="method" %s value="%s" %s/></td><td><label for="method'.$i.'">%s</label></td><td>%s</td></tr>',
+	$disabled, $method['command'], $checked, $method['name'], $notSupported);
+	$i++;
+	endforeach;
+		?>
+	</table>
+	<input type="hidden" name="extension" value="zip"/>
+	<input type="hidden" name="command" value="download"/>
+	<input type="submit" value="Download"
 		onclick="this.disabled=true;this.form.submit();"/>
-	 </form>
-	 <?php elseif (!empty($args['anyExtensionSupported'])): ?>
-	 <div class="warning">
-	   This platform does not support any of our download / transfer methods. You can upload
-	   the extplorer.zip archive via FTP and extract it then with this tool.
-	 </div>
-	 <?php elseif (!empty($args['downloadMethods'])): ?>
-	 <div class="warning">
-	   This platform cannot extract archives, therefore downloading is also disabled.
-	 </div>
-	 <?php else: ?>
-	 <div class="warning">
-	   This platform does not support any of our download / transfer methods.
-	 </div>
-	 <?php endif; ?>
-       </div>
-       </div>
+	</form>
+	<?php elseif (!empty($args['anyExtensionSupported'])): ?>
+	<div class="warning">
+	This platform does not support any of our download / transfer methods. You can upload
+	the extplorer.zip archive via FTP and extract it then with this tool.
+	</div>
+	<?php elseif (!empty($args['downloadMethods'])): ?>
+	<div class="warning">
+	This platform cannot extract archives, therefore downloading is also disabled.
+	</div>
+	<?php else: ?>
+	<div class="warning">
+	This platform does not support any of our download / transfer methods.
+	</div>
+	<?php endif; ?>
+	</div>
+	</div>
 
-       <!-- EXTRACTION METHODS -->
-       <?php
-       $label = !empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? 'Hide ' : 'Show ';
-       $display = !empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? '' : 'style="display: none;"';
-       ?>
-       <div class="box">
-       <h2>[2] Extract Methods (extract a extplorer.zip file in the current working directory)</h2>
-       <span id="extract-toggle" class="blockToggle"
-	    onclick="BlockToggle('extract', 'extract-toggle', 'extraction methods')">
-	    <?php print $label .  'extraction methods'; ?>
-       </span>
-       <div id="extract" <?php print $display; ?>>
-       <?php if (!empty($args['anyExtensionSupported'])): ?>
-       <form id="extractForm" method="post">
-	 <table class="choice">
-	 <?php $first = true; foreach ($args['extractMethods'] as $method):
-	 $disabled = 'disabled="true"';
-	 if (empty($method['isSupported'])) {
-	 	$message = 'not supported by this platform';
-	 } else if (!$method['archiveExists']){
-	 	$message = '<span class="warning">first download the ' . $method['archiveName'] .
-	 	' archive</span>';
-	 } else {
-	 	$message = '<span class="success">ready for extraction!</span>';
-	 	$disabled = '';
-	 }
-	 $checked = '';
-	 if ($first && empty($disabled) && !empty($method['isSupported'])) {
-	 	$checked = 'checked'; $first = false;
-	 }
-	 printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
-	 $disabled, $method['command'], $checked, $method['name'], $message);
-	 endforeach; ?>
-	 </table>
-	 <input type="hidden" name="command" value="extract"/>
-	 <input type="submit" value="Extract"
-		 onclick="this.disabled=true;this.form.submit();"/>
-       </form>
-       <?php else: ?>
-	 <div class="warning">
-	   This platform cannot extract archives. Ask your webhost to extract the archive for you
-	   or if that is not an option you will have to extract the archive on your
-	   computer and upload the hundreds of files and folders via FTP.
-	 </div>
-       <?php endif; ?>
-       </div>
-       </div>
+	<!-- EXTRACTION METHODS -->
+	<?php
+	$label = !empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? 'Hide ' : 'Show ';
+	$display = !empty($args['anyArchiveExists']) && empty($args['extplorerFolderName']) ? '' : 'style="display: none;"';
+	?>
+	<div class="box">
+	<h2>[2] Extract Methods (extract a extplorer.zip file in the current working directory)</h2>
+	<span id="extract-toggle" class="blockToggle"
+		onclick="BlockToggle('extract', 'extract-toggle', 'extraction methods')">
+		<?php print $label .  'extraction methods'; ?>
+	</span>
+	<div id="extract" <?php print $display; ?>>
+	<?php if (!empty($args['anyExtensionSupported'])): ?>
+	<form id="extractForm" method="post">
+	<table class="choice">
+	<?php $first = true; foreach ($args['extractMethods'] as $method):
+	$disabled = 'disabled="true"';
+	if (empty($method['isSupported'])) {
+		$message = 'not supported by this platform';
+	} else if (!$method['archiveExists']){
+		$message = '<span class="warning">first download the ' . $method['archiveName'] .
+		' archive</span>';
+	} else {
+		$message = '<span class="success">ready for extraction!</span>';
+		$disabled = '';
+	}
+	$checked = '';
+	if ($first && empty($disabled) && !empty($method['isSupported'])) {
+		$checked = 'checked'; $first = false;
+	}
+	printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
+	$disabled, $method['command'], $checked, $method['name'], $message);
+	endforeach; ?>
+	</table>
+	<input type="hidden" name="command" value="extract"/>
+	<input type="submit" value="Extract"
+		onclick="this.disabled=true;this.form.submit();"/>
+	</form>
+	<?php else: ?>
+	<div class="warning">
+	This platform cannot extract archives. Ask your webhost to extract the archive for you
+	or if that is not an option you will have to extract the archive on your
+	computer and upload the hundreds of files and folders via FTP.
+	</div>
+	<?php endif; ?>
+	</div>
+	</div>
 
-     <?php elseif ($renderType == 'results'): ?>
-     <h2> Results </h2>
-     <?php if (!empty($args['failure'])): ?>
-     <div class="error">
-       <?php print $args['failure']; ?>
-       <?php if (!empty($args['fix'])): ?>
-       <div class="suggested_fix">
-	 <h2> Suggested fix: </h2>
-	 <?php print $args['fix']; ?>
-       </div>
-     </div>
-     <?php endif; ?>
-     <?php endif; ?>
-     <?php if (!empty($args['success'])): ?>
-     <div class="success">
-       <?php print $args['success']; ?>
-     </div>
-     <?php endif; ?>
-     <div>
-       <a href="<?php print $self; ?>">Go back to the overview</a>
-     </div>
-     <?php endif; ?>
+	<?php elseif ($renderType == 'results'): ?>
+	<h2> Results </h2>
+	<?php if (!empty($args['failure'])): ?>
+	<div class="error">
+	<?php print $args['failure']; ?>
+	<?php if (!empty($args['fix'])): ?>
+	<div class="suggested_fix">
+	<h2> Suggested fix: </h2>
+	<?php print $args['fix']; ?>
+	</div>
+	</div>
+	<?php endif; ?>
+	<?php endif; ?>
+	<?php if (!empty($args['success'])): ?>
+	<div class="success">
+	<?php print $args['success']; ?>
+	</div>
+	<?php endif; ?>
+	<div>
+	<a href="<?php print $self; ?>">Go back to the overview</a>
+	</div>
+	<?php endif; ?>
 
-     <div class="box important">
-       <p>
-	 Do not forget to <b>delete this <?php print $self; ?> file once you are done!</b> If other
-	 users guess the password, they can seriously harm your installation with this script!
-       <p>
-     </div>
+	<div class="box important">
+	<p>
+	Do not forget to <b>delete this <?php print $self; ?> file once you are done!</b> If other
+	users guess the password, they can seriously harm your installation with this script!
+	<p>
+	</div>
   </body>
 </html>
 <?php
 }
 
 function printHtmlStyle() {
-    ?>
-    <style type="text/css">
+	?>
+	<style type="text/css">
 	html {
 		font-family: "Lucida Grande", Verdana, Arial, sans-serif;
 		font-size: 62.5%;
@@ -1335,9 +1335,9 @@ function BlockToggle(objId, togId, text) {
 // http://www.phpconcept.net
 // --------------------------------------------------------------------------------
 // Note:
-//    Small changes have been made by Andy Staudacher <ast@gmx.ch> to incorporate
-//    the code in this script. Code to create new archives has been removed,
-//    we only need to extract archives. Date: 2006/02/03
+//	Small changes have been made by Andy Staudacher <ast@gmx.ch> to incorporate
+//	the code in this script. Code to create new archives has been removed,
+//	we only need to extract archives. Date: 2006/02/03
 // --------------------------------------------------------------------------------
 // ----- Global variables
 $g_pcltar_version = "1.3";
@@ -1345,25 +1345,25 @@ $g_pcltar_version = "1.3";
 // --------------------------------------------------------------------------------
 // Function : PclTarExtract()
 // Description :
-//   Extract all the files present in the archive $p_tarname, in the directory
-//   $p_path. The relative path of the archived files are keep and become
-//   relative to $p_path.
-//   If a file with the same name already exists it will be replaced.
-//   If the path to the file does not exist, it will be created.
-//   Depending on the $p_tarname extension (.tar, .tar.gz or .tgz) the
-//   function will determine the type of the archive.
+//	Extract all the files present in the archive $p_tarname, in the directory
+//	$p_path. The relative path of the archived files are keep and become
+//	relative to $p_path.
+//	If a file with the same name already exists it will be replaced.
+//	If the path to the file does not exist, it will be created.
+//	Depending on the $p_tarname extension (.tar, .tar.gz or .tgz) the
+//	function will determine the type of the archive.
 // Parameters :
-//   $p_tarname : Name of an existing tar file.
-//   $p_path : Path where the files will be extracted. The files will use
-//             their memorized path from $p_path.
-//             If $p_path is "", files will be extracted in "./".
-//   $p_remove_path : Path to remove (from the file memorized path) while writing the
-//                    extracted files. If the path does not match the file path,
-//                    the file is extracted with its memorized path.
-//                    $p_path and $p_remove_path are commulative.
-//   $p_mode : 'tar' or 'tgz', if not set, will be determined by $p_tarname extension
+//	$p_tarname : Name of an existing tar file.
+//	$p_path : Path where the files will be extracted. The files will use
+//			their memorized path from $p_path.
+//			If $p_path is "", files will be extracted in "./".
+//	$p_remove_path : Path to remove (from the file memorized path) while writing the
+//					extracted files. If the path does not match the file path,
+//					the file is extracted with its memorized path.
+//					$p_path and $p_remove_path are commulative.
+//	$p_mode : 'tar' or 'tgz', if not set, will be determined by $p_tarname extension
 // Return Values :
-//   Same as PclTarList()
+//	Same as PclTarList()
 // --------------------------------------------------------------------------------
 function PclTarExtract($p_tarname, $p_path="./", $p_remove_path="", $p_mode="")
 {
@@ -1391,28 +1391,28 @@ function PclTarExtract($p_tarname, $p_path="./", $p_remove_path="", $p_mode="")
 
 // --------------------------------------------------------------------------------
 // ***** UNDER THIS LINE ARE DEFINED PRIVATE INTERNAL FUNCTIONS *****
-// *****                                                        *****
-// *****       THESES FUNCTIONS MUST NOT BE USED DIRECTLY       *****
+// *****														*****
+// *****	THESES FUNCTIONS MUST NOT BE USED DIRECTLY		*****
 // --------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------
 // Function : PclTarHandleExtract()
 // Description :
 // Parameters :
-//   $p_tarname : Filename of the tar (or tgz) archive
-//   $p_file_list : An array which contains the list of files to extract, this
-//                  array may be empty when $p_mode is 'complete'
-//   $p_list_detail : An array where will be placed the properties of  each extracted/listed file
-//   $p_mode : 'complete' will extract all files from the archive,
-//             'partial' will look for files in $p_file_list
-//             'list' will only list the files from the archive without any extract
-//   $p_path : Path to add while writing the extracted files
-//   $p_tar_mode : 'tar' for GNU TAR archive, 'tgz' for compressed archive
-//   $p_remove_path : Path to remove (from the file memorized path) while writing the
-//                    extracted files. If the path does not match the file path,
-//                    the file is extracted with its memorized path.
-//                    $p_remove_path does not apply to 'list' mode.
-//                    $p_path and $p_remove_path are commulative.
+//	$p_tarname : Filename of the tar (or tgz) archive
+//	$p_file_list : An array which contains the list of files to extract, this
+//					array may be empty when $p_mode is 'complete'
+//	$p_list_detail : An array where will be placed the properties of  each extracted/listed file
+//	$p_mode : 'complete' will extract all files from the archive,
+//			'partial' will look for files in $p_file_list
+//			'list' will only list the files from the archive without any extract
+//	$p_path : Path to add while writing the extracted files
+//	$p_tar_mode : 'tar' for GNU TAR archive, 'tgz' for compressed archive
+//	$p_remove_path : Path to remove (from the file memorized path) while writing the
+//					extracted files. If the path does not match the file path,
+//					the file is extracted with its memorized path.
+//					$p_remove_path does not apply to 'list' mode.
+//					$p_path and $p_remove_path are commulative.
 // Return Values :
 // --------------------------------------------------------------------------------
 function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode, $p_path, $p_tar_mode, $p_remove_path)
@@ -1877,13 +1877,13 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
 // --------------------------------------------------------------------------------
 // Function : PclTarHandlerDirCheck()
 // Description :
-//   Check if a directory exists, if not it creates it and all the parents directory
-//   which may be useful.
+//	Check if a directory exists, if not it creates it and all the parents directory
+//	which may be useful.
 // Parameters :
-//   $p_dir : Directory path to check (without / at the end).
+//	$p_dir : Directory path to check (without / at the end).
 // Return Values :
-//    1 : OK
-//   -1 : Unable to create directory
+//	1 : OK
+//	-1 : Unable to create directory
 // --------------------------------------------------------------------------------
 function PclTarHandlerDirCheck($p_dir)
 {

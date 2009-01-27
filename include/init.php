@@ -6,7 +6,7 @@ if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -34,13 +34,13 @@ if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
  */
 // Vars
 if (isset($_SERVER)) {
-	$GLOBALS['__GET']    = &$_GET;
-	$GLOBALS['__POST']   = &$_POST;
+	$GLOBALS['__GET']	= &$_GET;
+	$GLOBALS['__POST']	= &$_POST;
 	$GLOBALS['__SERVER'] = &$_SERVER;
 	$GLOBALS['__FILES']  = &$_FILES;
 } elseif (isset($HTTP_SERVER_VARS)) {
-	$GLOBALS['__GET']    = &$HTTP_GET_VARS;
-	$GLOBALS['__POST']   = &$HTTP_POST_VARS;
+	$GLOBALS['__GET']	= &$HTTP_GET_VARS;
+	$GLOBALS['__POST']	= &$HTTP_POST_VARS;
 	$GLOBALS['__SERVER'] = &$HTTP_SERVER_VARS;
 	$GLOBALS['__FILES']  = &$HTTP_POST_FILES;
 } else {
@@ -59,26 +59,26 @@ if (isset($_SERVER)) {
 
 	// if gzcompress is available, we can use Zip, Tar and TGz
 	if ( function_exists("gzcompress")) {
-	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = true;
+		$GLOBALS["zip"] = $GLOBALS["tgz"] = true;
 	}
 	else {
-	  	$GLOBALS["zip"] = $GLOBALS["tgz"] = false;
+		$GLOBALS["zip"] = $GLOBALS["tgz"] = false;
 	}
 
 // the filename of the eXtplorer script: (you rarely need to change this)
 if ($_SERVER['SERVER_PORT'] == 443 ) {
 	$GLOBALS["script_name"] = "https://" . $GLOBALS['__SERVER']['HTTP_HOST'] . $GLOBALS['__SERVER']["PHP_SELF"];
-	$GLOBALS['home_url']    = "https://" . $GLOBALS['__SERVER']['HTTP_HOST'] . dirname($GLOBALS['__SERVER']["PHP_SELF"]);
+	$GLOBALS['home_url']	= "https://" . $GLOBALS['__SERVER']['HTTP_HOST'] . dirname($GLOBALS['__SERVER']["PHP_SELF"]);
 } else {
 	$GLOBALS["script_name"] = "http://"  . $GLOBALS['__SERVER']['HTTP_HOST'] . $GLOBALS['__SERVER']["PHP_SELF"];
-	$GLOBALS['home_url']    = "http://"  . $GLOBALS['__SERVER']['HTTP_HOST'] . dirname($GLOBALS['__SERVER']["PHP_SELF"]);
+	$GLOBALS['home_url']	= "http://"  . $GLOBALS['__SERVER']['HTTP_HOST'] . dirname($GLOBALS['__SERVER']["PHP_SELF"]);
 }
 
 $GLOBALS['home_url'] = str_replace( '/administrator', '', $GLOBALS['home_url'] );
 $GLOBALS['home_dir'] = !empty( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : '.';
 
 // Important Definitions!
-define ("_EXT_PATH",        realpath(dirname( __FILE__ ) . '/..'));
+define ("_EXT_PATH",		realpath(dirname( __FILE__ ) . '/..'));
 define ("_EXT_FTPTMP_PATH", realpath(dirname( __FILE__ ) . '/../ftp_tmp'));
 
 if (function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
@@ -96,8 +96,8 @@ if (!class_exists('InputFilter')) {
 
 $GLOBALS["separator"] = ext_getSeparator();
 
-$action              = stripslashes(extGetParam( $_REQUEST, "action" ));
-$default_lang        = !empty( $GLOBALS['mosConfig_lang'] ) ? $GLOBALS['mosConfig_lang'] : ext_Lang::detect_lang();
+$action 			= stripslashes(extGetParam( $_REQUEST, "action" ));
+$default_lang		= !empty( $GLOBALS['mosConfig_lang'] ) ? $GLOBALS['mosConfig_lang'] : ext_Lang::detect_lang();
 $GLOBALS["language"] = basename($mainframe->getUserStateFromRequest( 'language', 'lang', $default_lang ));
 
 // Get Item
@@ -119,11 +119,11 @@ if (!empty( $GLOBALS['__POST']["selitems"] )) {
 }
 
 // Get Sort
-$GLOBALS["order"]     = extGetParam( $_REQUEST, 'order', 'name');
+$GLOBALS["order"]	= extGetParam( $_REQUEST, 'order', 'name');
 // Get Sortorder
 $GLOBALS["direction"] = extGetParam( $_REQUEST, 'direction', 'ASC');
-$GLOBALS["start"]     = extGetParam( $_REQUEST, 'start', 0);
-$GLOBALS["limit"]     = extGetParam( $_REQUEST, 'limit', 50);
+$GLOBALS["start"]	= extGetParam( $_REQUEST, 'start', 0);
+$GLOBALS["limit"]	= extGetParam( $_REQUEST, 'limit', 50);
 
 //------------------------------------------------------------------------------
 
@@ -175,11 +175,11 @@ ext_RaiseMemoryLimit( '8M' );
 $GLOBALS['ext_File'] = new ext_File();
 
 if ( ext_isFTPMode() ) {
-	// Try to connect to the FTP server.    	HOST,   PORT, TIMEOUT
+	// Try to connect to the FTP server.		HOST,	PORT, TIMEOUT
 	$ftp_host = extGetParam( $_SESSION, 'ftp_host', 'localhost:21' );
-	$url      = @parse_url( 'ftp://' . $ftp_host);
-	$port     = empty($url['port']) ? 21 : $url['port'];
-	$ftp      = new Net_FTP( $url['host'], $port, 20 );
+	$url	= @parse_url( 'ftp://' . $ftp_host);
+	$port	= empty($url['port']) ? 21 : $url['port'];
+	$ftp	= new Net_FTP( $url['host'], $port, 20 );
 	/** @global Net_FTP $GLOBALS['FTPCONNECTION'] */
 	$GLOBALS['FTPCONNECTION'] = new Net_FTP( $url['host'], $port, 20 );
 	$res = $GLOBALS['FTPCONNECTION']->connect();

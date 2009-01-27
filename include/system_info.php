@@ -57,12 +57,12 @@ function system_info() {
 	$version = $GLOBALS['ext_version'];
 	//$tab = extGetParam( $_REQUEST, 'tab', 'tab1' );
 	$width = 400;	// width of 100%
-	
+
 	?>
 	<br />
 	<div id="sysinfo">
 	<div id="system-page" class="x-tab" title="<?php echo ext_Lang::msg( 'sisysteminfo' ) ?>">
-	
+
 	<table class="adminform">
 	<tr>
 		<td valign="top" width="250" style="font-weight:bold;">
