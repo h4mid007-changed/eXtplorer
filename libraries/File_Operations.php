@@ -187,7 +187,7 @@ class ext_File {
 		} else {
 			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($oldname) == 'ASCII'){
-					if (mb_detect_encoding($oldname) == 'ASCII'){
+					if (mb_detect_encoding($newname) == 'ASCII'){
 						return rename(utf8_decode($oldname), utf8_decode($newname));
 					} else {
 						return rename($oldname, utf8_decode($newname));
