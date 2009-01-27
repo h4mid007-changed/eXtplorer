@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -180,8 +180,7 @@ function list_bookmarks( $dir ) {
 				.'}); '
 			.'}'
 		.'}); return false;" title="'.$GLOBALS['messages']['lbl_add_bookmark'].'" >'.$img_add.'</a>';
-	}
-	elseif( $dir != '' && $dir != '/' ) {
+	} elseif( $dir != '' && $dir != '/' ) {
 		$removelink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=remove" onclick="'
 		.'Ext.Msg.confirm(\''.ext_Lang::msg('lbl_remove_bookmark', true ).'\',\''.ext_Lang::msg('lbl_remove_bookmark', true ).'?\', '
 		.'function(btn, text){ '

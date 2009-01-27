@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
@@ -39,7 +39,7 @@ function showLoadingIndicator( el, replaceContent ) {
 	if( !el ) return;
 	var loadingimg = 'components/com_extplorer/images/indicator.gif';
 	var imgtag = '<img src="'+ loadingimg + '" alt="Loading..." border="0" name="Loading" align="absmiddle" />';
-	
+
 	if( replaceContent ) {
 		el.innerHTML = imgtag;
 	}
@@ -54,15 +54,15 @@ function getURLParam( strParamName, myWindow){
   var strReturn = "";
   var strHref = myWindow.location.href;
   if ( strHref.indexOf("?") > -1 ){
-    var strQueryString = strHref.substr(strHref.indexOf("?")).toLowerCase();
-    var aQueryString = strQueryString.split("&");
-    for ( var iParam = 0; iParam < aQueryString.length; iParam++ ){
-      if ( aQueryString[iParam].indexOf(strParamName + "=") > -1 ){
-        var aParam = aQueryString[iParam].split("=");        
-        strReturn = aParam[1];
-        break;
-      }
-    }
+	var strQueryString = strHref.substr(strHref.indexOf("?")).toLowerCase();
+	var aQueryString = strQueryString.split("&");
+	for ( var iParam = 0; iParam < aQueryString.length; iParam++ ){
+	if ( aQueryString[iParam].indexOf(strParamName + "=") > -1 ){
+		var aParam = aQueryString[iParam].split("=");
+		strReturn = aParam[1];
+		break;
+	}
+	}
   }
   return strReturn;
 }
@@ -97,45 +97,45 @@ function openActionDialog( caller, action ) {
 		case 'view':
 			requestParams = getRequestParams();
 			requestParams.action = action;
-									
-            dialog = new Ext.LayoutDialog("action-dlg", { 
-                    autoCreate: true,
-                    modal:true,
-                    width:600,
-                    height:400,
-                    shadow:true,
-                    minWidth:300,
-                    minHeight:300,
-                    proxyDrag: true,
-                    resizable: true,
-                    //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
+
+			dialog = new Ext.LayoutDialog("action-dlg", { 
+					autoCreate: true,
+					modal:true,
+					width:600,
+					height:400,
+					shadow:true,
+					minWidth:300,
+					minHeight:300,
+					proxyDrag: true,
+					resizable: true,
+					//animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
 					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>',
-                    center: {
-                        autoScroll:true
-                    }/*,
-                    south: {
-			            initialSize: 22,
-			            titlebar: false,
-			            collapsible: false,
-			            resizable: false
-                    }*/
-					
-            });
-            dialog.addKeyListener(27, dialog.hide, dialog);
+					center: {
+						autoScroll:true
+					}/*,
+					south: {
+						initialSize: 22,
+						titlebar: false,
+						collapsible: false,
+						resizable: false
+					}*/
+
+			});
+			dialog.addKeyListener(27, dialog.hide, dialog);
 			dialog_panel = new Ext.ContentPanel('dialog-center', {
 									autoCreate: true,
 									fitToFrame: true
 								});
 			//dialog_status = new Ext.ContentPanel('dialog-status', { autoCreate: true } );
 			//dialog_status.getEl().addClass(['ext_statusbar', 'done']);
-			
+
 			dialog_panel.load( { url: '<?php echo basename($GLOBALS['script_name']) ?>', 
 								params: Ext.urlEncode( requestParams ),
 								scripts: true,
 								callback: function(oElement, bSuccess, oResponse) {
 											if( oResponse && oResponse.responseText ) {
 											try{ json = Ext.decode( oResponse.responseText );
-												if( json.error != '' && typeof json.error != 'xml' ) {													
+												if( json.error != '' && typeof json.error != 'xml' ) {
 													Ext.Msg.alert( '<?php echo ext_Lang::err('error', true ) ?>', json.error );
 													dialog.destroy();
 												}
@@ -143,17 +143,17 @@ function openActionDialog( caller, action ) {
 											}
 										}
 							});
-            var layout = dialog.getLayout();
-            layout.beginUpdate();
-            layout.add('center', dialog_panel );
-            //layout.add('south', dialog_status );
-            layout.endUpdate();
-            
-            dialog.on( 'hide', function() { dialog.destroy(true); } );
-            
-            dialog.show();
-            break;
-            
+			var layout = dialog.getLayout();
+			layout.beginUpdate();
+			layout.add('center', dialog_panel );
+			//layout.add('south', dialog_status );
+			layout.endUpdate();
+
+			dialog.on( 'hide', function() { dialog.destroy(true); } );
+
+			dialog.show();
+			break;
+
 		case 'delete':
 			var num = selectedRows.length;
 			Ext.Msg.confirm('<?php echo ext_Lang::msg('dellink', true ) ?>?', String.format("<?php echo ext_Lang::err('miscdelitems', true ) ?>", num ), deleteFiles);
@@ -168,7 +168,7 @@ function openActionDialog( caller, action ) {
 }
 function handleCallback(requestParams, node) {
 	var conn = new Ext.data.Connection();
-	
+
 	conn.request({
 		url: '<?php echo basename($GLOBALS['script_name']) ?>',
 		params: requestParams,
@@ -198,7 +198,7 @@ function handleCallback(requestParams, node) {
 			else {
 				Ext.Msg.alert( 'Error', 'Failed to connect to the server.');
 			}
-			
+
 		}
 	});
 }
@@ -222,7 +222,7 @@ function getRequestParams() {
 	}
 	else {
 		selitems = Array(selectedRows.length);
-	
+
 		if( selectedRows.length > 0 ) {
 			for( i=0; i < selectedRows.length;i++) {
 				selitems[i] = selectedRows[i].get('name');
@@ -284,8 +284,8 @@ function statusBarMessage( msg, isLoading, success ) {
 		msg = '<span class="error"><?php echo ext_Lang::err('error', true ) ?>: </span>' + msg;
 	}
 	statusBar.update( msg );
-	try { dialog_status.setContent( msg );  } catch(e){}
-    
+	try { dialog_status.setContent( msg );	} catch(e){}
+
 }
 
 /**
@@ -297,11 +297,11 @@ function var_dump(obj) {
 		if( isNaN( prop.toString() )) {
 			vartext += "\t->"+prop+" = "+ eval( "obj."+prop.toString()) +"\n";
 		}
-    }
+	}
    	if(typeof obj == "object") {
-    	return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "") + "\n" + vartext;
+		return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "") + "\n" + vartext;
    	} else {
-      	return "Type: "+typeof(obj)+"\n" + vartext;
+		return "Type: "+typeof(obj)+"\n" + vartext;
 	}
 }//end function var_dump
 
@@ -349,7 +349,7 @@ function setCaretPosition( textarea, linenum ) {
 	var txt = textarea.value;
 	var len = txt.length;
 	var erg = txt.split("\n");
-		
+
 	var ind = 0;
 	var pos = 0;
 	var nonempty = -1;
@@ -365,11 +365,11 @@ function setCaretPosition( textarea, linenum ) {
 		nonempty++;
 	}
 	try {
-		pos -= erg[ind-1].length;	
+		pos -= erg[ind-1].length;
 	} catch(e) {}
-	
+
 	textarea.focus();
-	
+
 	if(textarea.setSelectionRange)
 	{
 		pos += nonempty;
@@ -381,7 +381,7 @@ function setCaretPosition( textarea, linenum ) {
 		range.collapse(true);
 		range.moveEnd('character', pos);
 		range.moveStart('character', pos);
-		
+
 		range.select();
 	}
 }
@@ -391,9 +391,9 @@ function setCaretPosition( textarea, linenum ) {
 function updatePosition(textBox) {
 	var posArray = doGetCaretPosition(textBox);
 	if( posArray[0] ) {
-	    Ext.fly( 'txtLine' ).set( { value: posArray[0] } );
+		Ext.fly( 'txtLine' ).set( { value: posArray[0] } );
 	}
 	if( posArray[1] ) {
-	    Ext.fly( 'txtColumn' ).set( { value: posArray[1] } );
+		Ext.fly( 'txtColumn' ).set( { value: posArray[1] } );
 	}
 }

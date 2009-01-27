@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -39,7 +39,7 @@ function load_users() {
 function save_users() {
 	$cnt=count($GLOBALS["users"]);
 	if($cnt>0) sort($GLOBALS["users"]);
-	
+
 	// Make PHP-File
 	$content='<?php 
 	/** ensure this file is being included by a parent file */
@@ -53,13 +53,13 @@ function save_users() {
 			$GLOBALS["users"][$i][7].'),';
 	}
 	$content.="\r\n); \r\n?>";
-	
+
 	// Write to File
 	if( !is_writable(_EXT_PATH."/config/.htusers.php") && !chmod( _EXT_PATH."/config/.htusers.php", 0644 ) ) {
 		return false;
 	}
 	file_put_contents( _EXT_PATH."/config/.htusers.php", $content);
-	
+
 	return true;
 }
 //------------------------------------------------------------------------------
@@ -75,14 +75,14 @@ function &find_user($user,$pass) {
 			}
 		}
 	}
-	
+
 	return $return;
 }
 //------------------------------------------------------------------------------
 function activate_user($user,$pass) {
 	$data=find_user($user,$pass);
 	if($data==NULL) return false;
-	
+
 	// Set Login
 	$_SESSION['s_user']	= $data[0];
 	$_SESSION['s_pass']	= $data[1];
@@ -91,21 +91,21 @@ function activate_user($user,$pass) {
 	$GLOBALS["show_hidden"]	= $data[4];
 	$GLOBALS["no_access"]	= $data[5];
 	$GLOBALS["permissions"]	= $data[6];
-	
+
 	return true;
 }
 //------------------------------------------------------------------------------
 function update_user($user,$new_data) {
 	$data=&find_user($user,NULL);
 	if($data==NULL) return false;
-	
+
 	$data=$new_data;
 	return save_users();
 }
 //------------------------------------------------------------------------------
 function add_user($data) {
 	if(find_user($data[0],NULL)) return false;
-	
+
 	$GLOBALS["users"][]=$data;
 	return save_users();
 }
@@ -113,10 +113,10 @@ function add_user($data) {
 function remove_user($user) {
 	$data=&find_user($user,NULL);
 	if($data==NULL) return false;
-	
+
 	// Remove
 	$data=NULL;
-	
+
 	// Copy Valid Users
 	$cnt=count($GLOBALS["users"]);
 	for($i=0;$i<$cnt;++$i) {
@@ -130,7 +130,7 @@ function remove_user($user) {
 function num_users($active=true) {
 	$cnt=count($GLOBALS["users"]);
 	if(!$active) return $cnt;
-	
+
 	for($i=0, $j=0;$i<$cnt;++$i) {
 		if($GLOBALS["users"][$i][7]) ++$j;
 	}

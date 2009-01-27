@@ -7,7 +7,7 @@ if( ! defined( '_JEXEC' ) && ! defined( '_VALID_MOS' ) )
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -38,30 +38,30 @@ if( ! defined( '_JEXEC' ) && ! defined( '_VALID_MOS' ) )
  *
  */
 class ext_Extract extends ext_Action {
-	
+
 	function execAction( $dir, $item ) {
-		
+
 		global $mosConfig_absolute_path ;
-		
+
 		if( ! ext_isArchive( $item ) ) {
 			ext_Result::sendResult( 'archive', false, ext_Lang::err( 'extract_noarchive' ) ) ;
 		} else {
-			
+
 			$archive_name = realpath( get_abs_item( $dir, $item ) ) ;
-			
+
 			$file_info = pathinfo( $archive_name ) ;
-			
+
 			if( empty( $dir ) ) {
 				$extract_dir = realpath( $GLOBALS['home_dir'] ) ;
 			} else {
 				$extract_dir = realpath( $GLOBALS['home_dir'] . "/" . $dir ) ;
 			}
-			
+
 			$ext = $file_info["extension"] ;
-			
+
 			switch( $ext) {
 				case "zip" :
-					
+
 					require_once (_EXT_PATH . "/libraries/Zip.php") ;
 					$extract_dir = str_replace('\\', '/', $extract_dir );
 					$zip = new Archive_Zip( $archive_name ) ;
@@ -70,9 +70,9 @@ class ext_Extract extends ext_Action {
 						ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_failure' ).' ('.$zip->errorInfo(true).')');
 					} else
 						ext_Result::sendResult( 'extract', true, ext_Lang::msg( 'extract_success' ));
-				
+
 				break ;
-				
+
 				case "gz" : // a
 				case "bz" : // lot
 				case "bz2" : // of
@@ -86,22 +86,22 @@ class ext_Extract extends ext_Action {
 					else
 						ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_failure' ));
 				break ;
-				
+
 				default :
 						ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_unknowntype' ));
-				
+
 				break ;
 			}
 			/*
 			require_once (_EXT_PATH . "/libraries/Archive/archive.php") ;
-			
+
 			$result = extArchive::extract( $archive_name, $extract_dir ) ;
 			if( PEAR::isError( $result ) ) {
 				ext_Result::sendResult( 'extract', false, ext_Lang::err( 'extract_failure' ) . ': ' . $result->getMessage() ) ;
 			}
 			*/
 			ext_Result::sendResult( 'extract', true, ext_Lang::msg( 'extract_success' ) ) ;
-		
+
 		}
 	}
 }

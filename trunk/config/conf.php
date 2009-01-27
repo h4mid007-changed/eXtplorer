@@ -1,4 +1,5 @@
 <?php
+/** @version $Id$ */
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
@@ -30,7 +31,8 @@ $GLOBALS["no_access"] = ''; // "^\.ht";
 $GLOBALS["permissions"] = 7;
 
 // Support Multi-byte
-if (extension_loaded('mbstring') {
+$GLOBALS["use_mb"] = FALSE;
+if (extension_loaded('mbstring')) {
 	$GLOBALS["use_mb"] = TRUE;
 }
 

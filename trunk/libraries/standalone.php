@@ -100,7 +100,7 @@ class extMainFrame {
 		} else {
 			$this->_head['title'] = $title.' - ' . $this->_head['title'];
 		}
-		
+
 	}
 	/**
 	* @param string The value of the name attibute
@@ -156,9 +156,9 @@ class extMainFrame {
 		$this->addMetaTag( $name, $content );
 	}
 	/**
-	 * Adds a custom html string to the head block
-	 * @param string The html to add to the head
-	 */
+	* Adds a custom html string to the head block
+	* @param string The html to add to the head
+	*/
 	function addCustomHeadTag( $html ) {
 		$this->_head['custom'][] = trim( $html );
 	}
@@ -220,9 +220,9 @@ class extMainFrame {
 	* @param string The default value for the variable if not found
 	*/
 	function getUserStateFromRequest( $var_name, $req_name, $var_default=null ) {
-		
+
 		if (is_array( $this->_userstate )) {
-			
+
 			if (isset( $_REQUEST[$req_name] )) {
 				$this->setUserState( $var_name, $_REQUEST[$req_name] );
 			} else if (!isset( $this->_userstate[$var_name] )) {
@@ -261,7 +261,7 @@ class extMainFrame {
 
 	/**
 	* @param string The name of the property
-	* @param mixed  The default value
+	* @param mixed	The default value
 	* @return mixed The value of the property
 	*/
 	function get($property, $default=null) {
@@ -284,7 +284,7 @@ function extInitGzip() {
 		$phpver 	= phpversion();
 		$useragent 	= extGetParam( $_SERVER, 'HTTP_USER_AGENT', '' );
 		$canZip 	= extGetParam( $_SERVER, 'HTTP_ACCEPT_ENCODING', '' );
-	
+
 		$gzip_check 	= 0;
 		$zlib_check 	= 0;
 		$gz_check		= 0;
@@ -305,7 +305,7 @@ function extInitGzip() {
 		if ( ini_get('session.use_trans_sid') ) {
 			$sid_check = 1;
 		}
-	
+
 		if ( $phpver >= '4.0.4pl1' && ( strpos($useragent,'compatible') !== false || strpos($useragent,'Gecko')	!== false ) ) {
 			// Check for gzip header or northon internet securities or session.use_trans_sid
 			if ( ( $gzip_check || isset( $_SERVER['---------------']) ) && $zlib_check && $gz_check && !$zlibO_check && !$sid_check ) {
@@ -320,7 +320,7 @@ function extInitGzip() {
 					$do_gzip_compress = TRUE;
 					ob_start();
 					ob_implicit_flush(0);
-	
+
 					header( 'Content-Encoding: gzip' );
 					return;
 				}
@@ -378,12 +378,12 @@ $archive_name = $mypath.'/scripts.tar.gz';
 if( file_exists( $archive_name ) && !file_exists( $mypath .'/scripts/functions.js.php')) {
 	require_once($mypath . "/include/functions.php");
 	require_once($mypath . "/libraries/Archive/archive.php");
-	
+
 	ext_RaiseMemoryLimit( '16M' );
 	error_reporting( E_ALL ^ E_NOTICE );
 
 	$extract_dir = $mypath.'/';
-	
+
 	$result = extArchive::extract( $archive_name, $extract_dir );
 	if( !PEAR::isError( $result )) {
 		unlink( $archive_name );

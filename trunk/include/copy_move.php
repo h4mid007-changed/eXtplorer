@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -41,16 +41,16 @@ function copy_move_items($dir) {		// copy/move file/dir
 	if(($GLOBALS["permissions"]&01)!=01){
 		ext_Result::sendResult( $action, false, $GLOBALS["error_msg"]["accessfunc"]);
 	}
-	
+
 	// Vars
 	$first = extGetParam($GLOBALS['__POST'], 'first' );
 	if($first=="y") $new_dir=$dir;
 	else $new_dir = stripslashes($GLOBALS['__POST']["new_dir"]);
 	if($new_dir==".") $new_dir="";
 	$cnt=count($GLOBALS['__POST']["selitems"]);
-	
+
 	// DO COPY/MOVE
-	
+
 	// ALL OK?
 	if(!@$GLOBALS['ext_File']->file_exists(get_abs_dir($new_dir))) {
 		ext_Result::sendResult( $action, false, get_abs_dir($new_dir).": ".$GLOBALS["error_msg"]["targetexist"]);
@@ -60,14 +60,14 @@ function copy_move_items($dir) {		// copy/move file/dir
 	}
 	if(!down_home(get_abs_dir($new_dir))) {
 		ext_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["targetabovehome"]);
-	}	
-	
+	}
+
 	// copy / move files
 	$err=false;
 	for($i=0;$i<$cnt;++$i) {
 		$tmp = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
 		$new = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
-		
+
 		if( ext_isFTPMode() ) {
 			$abs_item = get_item_info($dir,$tmp);
 			$abs_new_item = get_item_info('/'.$new_dir,$new);
@@ -75,9 +75,9 @@ function copy_move_items($dir) {		// copy/move file/dir
 			$abs_item = get_abs_item($dir,$tmp);
 			$abs_new_item = get_abs_item($new_dir,$new);
 		}
-		
+
 		$items[$i] = $tmp;
-	
+
 		// Check
 		if($new=="") {
 			$error[$i]= $GLOBALS["error_msg"]["miscnoname"];
@@ -95,26 +95,26 @@ function copy_move_items($dir) {		// copy/move file/dir
 			$error[$i]= $GLOBALS["error_msg"]["targetdoesexist"];
 			$err=true;	continue;
 		}
-	
+
 		// Copy / Move
 		if($action=="copy") {
 			if(@is_link($abs_item) || get_is_file($abs_item)) {
 				// check file-exists to avoid error with 0-size files (PHP 4.3.0)
 				if( ext_isFTPMode() ) $abs_item = '/'.$dir.'/'.$abs_item['name'];
 				$ok=@$GLOBALS['ext_File']->copy( $abs_item ,$abs_new_item); //||@file_exists($abs_new_item);
-				
+
 			} 
 			elseif(@get_is_dir($abs_item)) {
 				$copy_dir = ext_isFTPMode() ? '/'.$dir.'/'.$abs_item['name'].'/' : $abs_item;
 				if( ext_isFTPMode() ) $abs_new_item .= '/';
-				
+
 				$ok=$GLOBALS['ext_File']->copy_dir( $copy_dir, $abs_new_item);
 			}
 		}
 		else {
 			$ok= $GLOBALS['ext_File']->rename($abs_item,$abs_new_item);
 		}
-		
+
 		if($ok===false || PEAR::isError( $ok ) ) {
 			$error[$i]=($action=="copy"?
 							$GLOBALS["error_msg"]["copyitem"]:
@@ -125,20 +125,20 @@ function copy_move_items($dir) {		// copy/move file/dir
 			}
 			$err=true;	continue;
 		}
-		
+
 		$error[$i]=NULL;
 	}
-	
+
 	if($err) {			// there were errors
 		$err_msg="";
 		for($i=0;$i<$cnt;++$i) {
 			if($error[$i]==NULL) continue;
-			
+
 			$err_msg .= $items[$i]." : ".$error[$i]."\n";
 		}
 		ext_Result::sendResult( $action, false, $err_msg);
 	}
-	
+
 	ext_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
 }
 //------------------------------------------------------------------------------

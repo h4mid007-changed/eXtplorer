@@ -33,17 +33,17 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @abstract 
  */
 class ext_Action {
-	
+
 	/**
-	 * This function executes the action
-	 *
-	 * @param string $dir
-	 * @param string $item
-	 */
+	* This function executes the action
+	*
+	* @param string $dir
+	* @param string $item
+	*/
 	function execAction( $dir, $item ) {
 		// to be overridden by the child class
 	}
-	
+
 }
 /**
  * Wrapper Class for the Global Language Array
@@ -53,12 +53,12 @@ class ext_Action {
  */
 class ext_Lang {
 	/**
-	 * Returns a string from $GLOBALS['messages']
-	 *
-	 * @param string $msg
-	 * @param boolean $make_javascript_safe
-	 * @return string
-	 */
+	* Returns a string from $GLOBALS['messages']
+	*
+	* @param string $msg
+	* @param boolean $make_javascript_safe
+	* @return string
+	*/
 	function msg( $msg, $make_javascript_safe=false ) {
 		$str = ext_Lang::_get('messages', $msg );
 		if( $make_javascript_safe ) {
@@ -68,12 +68,12 @@ class ext_Lang {
 		}
 	}
 	/**
-	 * Returns a string from $GLOBALS['error_msg']
-	 *
-	 * @param string $err
-	 * @param boolean $make_javascript_safe
-	 * @return string
-	 */
+	* Returns a string from $GLOBALS['error_msg']
+	*
+	* @param string $err
+	* @param boolean $make_javascript_safe
+	* @return string
+	*/
 	function err( $err, $make_javascript_safe=false ) {
 		$str = ext_Lang::_get('error_msg', $err );
 		if( $make_javascript_safe ) {
@@ -91,48 +91,48 @@ class ext_Lang {
 		}
 	}
 	/**
-	 * Gets the string from the array
-	 *
-	 * @param string $array_index
-	 * @param string $message
-	 * @return string
-	 * @access private
-	 */
+	* Gets the string from the array
+	*
+	* @param string $array_index
+	* @param string $message
+	* @return string
+	* @access private
+	*/
 	function _get( $array_index, $message ) {
 		if( is_array( $message )) {
 			return @$GLOBALS[$array_index][key($message)][current($message)];
 		}
 		return @$GLOBALS[$array_index][$message];
 	}
-	
+
 	function escape_for_javascript( $string ) {
 		return str_replace(Array("\r", "\n" ), Array('\r', '\n' ) , addslashes($string));
 	}
 	function detect_lang() {
 		$default = 'english';
 		if( empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) return $default;
-		
-		 $_AL=strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-		 $_UA=strtolower($_SERVER['HTTP_USER_AGENT']);
-		 
-		 // Try to detect Primary language if several languages are accepted',
-		 foreach($GLOBALS['_LANG'] as $K => $lang) {
-		  if(strpos($_AL, $K)===0)
-		   return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
-		 }
-		 
-		 // Try to detect any language if not yet detected',
-		 foreach($GLOBALS['_LANG'] as $K => $lang) {
-		  if(strpos($_AL, $K)!==false)
-		   return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
-		 }
-		 foreach($GLOBALS['_LANG'] as $K => $lang) {
-		  if(preg_match("/[\[\( ]{$K}[;,_\-\)]/",$_UA))
-		   return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
-		 }
-		 
-		 // Return default language if language is not yet detected',
-		 return $default;
+
+		$_AL=strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		$_UA=strtolower($_SERVER['HTTP_USER_AGENT']);
+
+		// Try to detect Primary language if several languages are accepted',
+		foreach($GLOBALS['_LANG'] as $K => $lang) {
+		if(strpos($_AL, $K)===0)
+		return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+		}
+
+		// Try to detect any language if not yet detected',
+		foreach($GLOBALS['_LANG'] as $K => $lang) {
+		if(strpos($_AL, $K)!==false)
+		return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+		}
+		foreach($GLOBALS['_LANG'] as $K => $lang) {
+		if(preg_match("/[\[\( ]{$K}[;,_\-\)]/",$_UA))
+		return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+		}
+
+		// Return default language if language is not yet detected',
+		return $default;
 	}
 }
 // Define all available languages',

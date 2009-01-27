@@ -9,7 +9,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
@@ -108,76 +108,76 @@ if( class_exists(strtolower($classname))) {
 } else {
 
 	switch($action) {		// Execute actions, which are not in class file
-	
+
 	//------------------------------------------------------------------------------
-	  // COPY/MOVE FILE(S)/DIR(S)
-	  case "copy":	case "move":
-		  require_once( _EXT_PATH ."/include/copy_move.php" );
-		  copy_move_items($dir);
-	  break;
-	
+	// COPY/MOVE FILE(S)/DIR(S)
+	case "copy":	case "move":
+		require_once( _EXT_PATH ."/include/copy_move.php" );
+		copy_move_items($dir);
+	break;
+
 	//------------------------------------------------------------------------------
-	  // SEARCH FOR FILE(S)/DIR(S)
-	  case "search":
-		  require_once( _EXT_PATH ."/include/search.php" );
-		  search_items($dir);
-	  break;
-	
+	// SEARCH FOR FILE(S)/DIR(S)
+	case "search":
+		require_once( _EXT_PATH ."/include/search.php" );
+		search_items($dir);
+	break;
+
 	//------------------------------------------------------------------------------
-	  // USER-ADMINISTRATION
-	  case "admin":
-		  require_once( _EXT_PATH . "/include/admin.php" );
-		  show_admin($dir);
-	  break;
+	// USER-ADMINISTRATION
+	case "admin":
+		require_once( _EXT_PATH . "/include/admin.php" );
+		show_admin($dir);
+	break;
 	//------------------------------------------------------------------------------
-	  case 'ftp_logout':
-	  	require_once( _EXT_PATH.'/include/ftp_authentication.php' );
-	  	ftp_logout();
-	  	break;
+	case 'ftp_logout':
+		require_once( _EXT_PATH.'/include/ftp_authentication.php' );
+		ftp_logout();
+		break;
 	//------------------------------------------------------------------------------
 		// BOOKMARKS
-	  case 'modify_bookmark':
-	  	$task = extGetParam( $_REQUEST, 'task' );
-	  	require_once( _EXT_PATH.'/include/bookmarks.php' );
-	  	modify_bookmark( $task, $dir );
-	  	
-	  	break;
+	case 'modify_bookmark':
+		$task = extGetParam( $_REQUEST, 'task' );
+		require_once( _EXT_PATH.'/include/bookmarks.php' );
+		modify_bookmark( $task, $dir );
+
+		break;
 	//------------------------------------------------------------------------------
-	  case 'show_error':
-	  	ext_Result::sendResult('', false, '');
-	  	break;
-	  case'get_about':
-	  	show_about();
-		  require_once( _EXT_PATH . "/include/system_info.php" );
-		  system_info();
-	  	break;
+	case 'show_error':
+		ext_Result::sendResult('', false, '');
+		break;
+	case'get_about':
+		show_about();
+		require_once( _EXT_PATH . "/include/system_info.php" );
+		system_info();
+		break;
 	//------------------------------------------------------------------------------
-	  // DEFAULT: LIST FILES & DIRS
-	  case "getdircontents":
-	  		require_once( _EXT_PATH . "/include/list.php" );
-	  		$requestedDir = stripslashes(str_replace( '_RRR_', '/', extGetParam( $_REQUEST, 'node' )));
-	  		if( empty($requestedDir) || $requestedDir == 'ext_root') {
-	  			$requestedDir = $dir;
-	  		}
-	  		send_dircontents( $requestedDir, extGetParam($_REQUEST,'sendWhat','files') );
-	  		break;
-	  case 'get_dir_selects':
-	  		echo get_dir_selects( $dir );
-	  		break;
-	  case 'chdir_event':
-	  		require_once( _EXT_PATH.'/include/bookmarks.php' );
-	  		$response = Array( 'dirselects' => get_dir_selects( $dir ),
-	  							'bookmarks' => list_bookmarks($dir)
-	  						);
+	// DEFAULT: LIST FILES & DIRS
+	case "getdircontents":
+			require_once( _EXT_PATH . "/include/list.php" );
+			$requestedDir = stripslashes(str_replace( '_RRR_', '/', extGetParam( $_REQUEST, 'node' )));
+			if( empty($requestedDir) || $requestedDir == 'ext_root') {
+				$requestedDir = $dir;
+			}
+			send_dircontents( $requestedDir, extGetParam($_REQUEST,'sendWhat','files') );
+			break;
+	case 'get_dir_selects':
+			echo get_dir_selects( $dir );
+			break;
+	case 'chdir_event':
+			require_once( _EXT_PATH.'/include/bookmarks.php' );
+			$response = Array( 'dirselects' => get_dir_selects( $dir ),
+								'bookmarks' => list_bookmarks($dir)
+							);
 			$json = new ext_Json();
 			echo $json->encode( $response );
 			break;
-	  case 'get_image':
-	  		require_once( _EXT_PATH . "/include/view.php" );
-	  		ext_View::sendImage( $dir, $item );
-	  default:
-		  require_once( _EXT_PATH . "/include/list.php" );
-		  ext_List::execAction($dir);
+	case 'get_image':
+			require_once( _EXT_PATH . "/include/view.php" );
+			ext_View::sendImage( $dir, $item );
+	default:
+		require_once( _EXT_PATH . "/include/list.php" );
+		ext_List::execAction($dir);
 	//------------------------------------------------------------------------------
 	}
 // end switch-statement

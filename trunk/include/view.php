@@ -36,15 +36,15 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  *
  */
 class ext_View extends ext_Action {
-	
+
 	function execAction($dir, $item) {		// show file contents
-	
+
 		echo '<div>
-    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 	<h3 style="margin-bottom:5px;">'.$GLOBALS["messages"]["actview"].": ".$item.'</h3>';
-       echo '</div></div></div>
-	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	echo '</div></div></div>
+		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 	</div><hr />';
 		/*$index2_edit_link = str_replace('/index3.php', '/index2.php', make_link('edit', $dir, $item ));
 		echo '<a name="top" class="componentheading" href="javascript:window.close();">[ '._PROMPT_CLOSE.' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -56,18 +56,18 @@ class ext_View extends ext_Action {
 			//echo '<a class="componentheading" href="javascript:opener.location=\''.$index2_edit_link.'\'; window.close();">[ '.$GLOBALS["messages"]["editlink"].' ]</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		}
 		echo '<a class="componentheading" href="#bottom">[ '._CMN_BOTTOM.' ]</a>';
-		
+
 		echo '<br /><br />';
 		*/
-		
+
 		if( @eregi($GLOBALS["images_ext"], $item)) {
 			echo '<img src="'.make_link( 'get_image', $dir, rawurlencode($item)).'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
 		}
-		
+
 		else {
-			
+
 			$geshiFile = _EXT_PATH . '/libraries/geshi/geshi.php';
-			
+
 			if( file_exists( $geshiFile )) {
 				ext_RaiseMemoryLimit('32M'); // GeSHi 1.0.7 is very memory-intensive
 				include_once( $geshiFile );
@@ -91,10 +91,10 @@ class ext_View extends ext_Action {
 					$pathinfo = pathinfo($item);
 					$lang = $pathinfo['extension'];
 				}
-				
+
 				$geshi->set_language( $lang );
 				$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
-			
+
 				$langs = $GLOBALS["language"];
 				if ($langs == "japanese"){
 					$enc_list = Array("ASCII", "ISO-2022-JP", "UTF-8", "EUCJP-WIN", "SJIS-WIN");
@@ -119,7 +119,7 @@ class ext_View extends ext_Action {
 					}
 				}
 
-				
+
 				if( ext_isFTPMode() ) {
 					unlink( $file );
 				}
@@ -133,7 +133,7 @@ class ext_View extends ext_Action {
 					.'</div>';
 			}
 		}
-		
+
 		//echo '<a href="#top" name="bottom" class="componentheading">[ '._CMN_TOP.' ]</a><br /><br />';
 	}
 	function sendImage( $dir, $item ) {
@@ -141,7 +141,7 @@ class ext_View extends ext_Action {
 		if( $GLOBALS['ext_File']->file_exists( $abs_item )) {
   			if(!@eregi($GLOBALS["images_ext"], $item)) return;
   			while( @ob_end_clean() );
-  			
+  
   			$pathinfo = pathinfo( $item );
 			switch(strtolower($pathinfo['extension'])) {
 				case "gif":
@@ -153,11 +153,11 @@ class ext_View extends ext_Action {
 					break;
 				case "png":
 					header ("Content-type: image/png");
-		  			break;
-	  		}
-	  		
+					break;
+			}
+
 			echo $GLOBALS['ext_File']->file_get_contents( $abs_item );
-			
+
 		}
 		exit;
 	}

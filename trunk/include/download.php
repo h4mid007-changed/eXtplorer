@@ -6,7 +6,7 @@ if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -46,14 +46,14 @@ class ext_Download extends ext_Action {
 		$item = basename($item);
 
 		while (@ob_end_clean());
-	    ob_start();
+		ob_start();
 
 		if (ext_isFTPMode()) {
 			$abs_item = $dir . '/' . $item;
 		} else {
 			$abs_item = get_abs_item($dir,$item);
 			//if( !strstr( $abs_item, $GLOBALS['home_dir']) )
-			//  $abs_item = realpath($GLOBALS['home_dir']).$abs_item;
+			//	$abs_item = realpath($GLOBALS['home_dir']).$abs_item;
 		}
 
 		if (($GLOBALS["permissions"]&01) != 01) {
@@ -84,7 +84,7 @@ class ext_Download extends ext_Action {
 		header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: '.filesize(realpath($abs_item)));
-	    //header("Content-Encoding: none");
+		//header("Content-Encoding: none");
 
 		if($browser=='IE') {
 			// http://support.microsoft.com/kb/436616/ja
@@ -109,10 +109,10 @@ class ext_Download extends ext_Action {
  			@readFileChunked(utf8_decode($abs_item));
  		}
 		if( $unlink==true ) {
-		  	unlink( utf8_decode($abs_item) );
+			unlink( utf8_decode($abs_item) );
 		}
 
-	    ob_end_flush();
+		ob_end_flush();
 		ext_exit();
 
 	}

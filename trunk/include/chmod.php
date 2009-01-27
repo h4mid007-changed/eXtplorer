@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -41,10 +41,10 @@ class ext_Chmod extends ext_Action {
 	function execAction($dir, $item) {		// change permissions
 
 		if(($GLOBALS["permissions"]&01)!=01) ext_Result::sendResult( 'chmod', false, $GLOBALS["error_msg"]["accessfunc"]);
-		
+
 		if( !empty($GLOBALS['__POST']["selitems"])) {
 			$cnt=count($GLOBALS['__POST']["selitems"]);
-	
+
 		}
 		else {
 			$GLOBALS['__POST']["selitems"][]  = $item;
@@ -56,7 +56,7 @@ class ext_Chmod extends ext_Action {
 		else {
 			$do_recurse = false;
 		}
-	
+
 		// Execute
 		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
 			$bin='';
@@ -64,8 +64,7 @@ class ext_Chmod extends ext_Action {
 				$tmp="r_".$i.$j;
 				if(!empty($GLOBALS['__POST'][$tmp]) ) {
 					$bin.='1';
-				}
-				else {
+				} else {
 					$bin.='0';
 				}
 			}
@@ -110,10 +109,10 @@ class ext_Chmod extends ext_Action {
 					//ext_Result::sendResult('chmod', false, $GLOBALS['FTPCONNECTION']->pwd());
 					$ok = @$GLOBALS['ext_File']->chmod( $abs_item, $mode );
 				}
-	
+
 				$bin = $old_bin;
 			}
-			
+
 			if($ok===false || PEAR::isError( $ok ) ) {
 				$msg = $item.": ".$GLOBALS["error_msg"]["permchange"];
 				$msg .= PEAR::isError( $ok ) ? ' [' . $ok->getMessage().']' : '';
@@ -128,98 +127,98 @@ class ext_Chmod extends ext_Action {
 			$abs_item = get_abs_item( $dir, $GLOBALS['__POST']["selitems"][0]);
 			$abs_item = utf8_decode($abs_item);
 		}
-		
+
 		$mode = parse_file_perms(get_file_perms( $abs_item ));
 		if($mode===false) {
 			ext_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["permread"]);
 		}
 		$pos = "rwx";
 		$text = "";
-		for($i=0;$i<$cnt;++$i) {		
+		for($i=0;$i<$cnt;++$i) {
 			$s_item=get_rel_item($dir,$GLOBALS['__POST']["selitems"][$i]);
 			if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
 			$text .= $s_item.($i+1<$cnt ? ', ':'');
 		}
 		?>
 	<div style="width:auto;">
-	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-	
-	        <h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actperms') ?></h3>
-	        <?php echo $text  ?>
-	        <div id="adminForm">
-	
-	        </div>
-	    </div></div></div>
-	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+
+			<h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actperms') ?></h3>
+			<?php echo $text  ?>
+			<div id="adminForm">
+
+			</div>
+		</div></div></div>
+		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 	</div>
 	<script type="text/javascript">
 	var form = new Ext.form.Form({
-	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
+		labelWidth: 125, // label settings here cascade unless overridden
+		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
 	});
-	
+
 	<?php
 		// print table with current perms & checkboxes to change
 		for($i=0;$i<3;++$i) {
 			?>
 			form.column(
-		        {width:70, style:'margin-left:10px', clear:true}
-		    );
+				{width:70, style:'margin-left:10px', clear:true}
+			);
 			form.fieldset(
-			        {legend:'<?php echo ext_Lang::msg(array('miscchmod'=> $i ), true ) ?>', hideLabels:true},
-			        <?php
-			        for($j=0;$j<3;++$j) {
-			        	?>
-				        new Ext.form.Checkbox({
-				            boxLabel:'<?php echo $pos{$j}  ?>',
-				            <?php if($mode{(3*$i)+$j} != "-") echo 'checked:true,' ?>
-				            name:'<?php echo "r_". $i.$j ?>'
-				        })     <?php
-			        	if( $j<2 ) echo ',';
-			        }
-			        ?>   );
-	    	form.end();
-	    <?php 
+					{legend:'<?php echo ext_Lang::msg(array('miscchmod'=> $i ), true ) ?>', hideLabels:true},
+					<?php
+					for($j=0;$j<3;++$j) {
+						?>
+						new Ext.form.Checkbox({
+							boxLabel:'<?php echo $pos{$j}  ?>',
+							<?php if($mode{(3*$i)+$j} != "-") echo 'checked:true,' ?>
+							name:'<?php echo "r_". $i.$j ?>'
+						})	<?php
+						if( $j<2 ) echo ',';
+					}
+					?>	);
+			form.end();
+		<?php 
 		}
 		?>
 	form.column(
-	        {width:400, style:'margin-left:10px', clear:true}
-	    );
+			{width:400, style:'margin-left:10px', clear:true}
+		);
 	form.add(new Ext.form.Checkbox({
 		fieldLabel:'<?php echo ext_Lang::msg('recurse_subdirs', true ) ?>',
 		name:'do_recurse'
 	}));
 	form.end();
-	
+
 	form.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
 		statusBarMessage( '<?php echo ext_Lang::msg( 'permissions_processing', true ) ?>', true );
-	    form.submit({
-	        //reset: true,
-	        reset: false,
-	        success: function(form, action) {
-	        	statusBarMessage( action.result.message, false, true );
-	        	datastore.reload();
-	    		dialog.hide();
-	        	dialog.destroy();
-	        },
-	        failure: function(form, action) {
-	        	statusBarMessage( action.result.error, false, false );
-	        	Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-	        },
-	        scope: form,
-	        // add some vars to the request, similar to hidden fields
-	        params: {option: 'com_extplorer', 
-	        		action: 'chmod', 
-	        		dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
-	        		'selitems[]': ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
-	        		confirm: 'true'}
-	    });
+		form.submit({
+			//reset: true,
+			reset: false,
+			success: function(form, action) {
+				statusBarMessage( action.result.message, false, true );
+				datastore.reload();
+				dialog.hide();
+				dialog.destroy();
+			},
+			failure: function(form, action) {
+				statusBarMessage( action.result.error, false, false );
+				Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+			},
+			scope: form,
+			// add some vars to the request, similar to hidden fields
+			params: {option: 'com_extplorer', 
+					action: 'chmod', 
+					dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
+					'selitems[]': ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
+					confirm: 'true'}
+		});
 	});
 	form.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.hide();dialog.destroy(); } );
 	form.render('adminForm');
 	</script>
-	
+
 		<?php
 	}
 }

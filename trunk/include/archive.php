@@ -2,10 +2,11 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * @version $Id$
  * The contents of this file are subject to the Mozilla Public License
@@ -38,7 +39,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 class ext_Archive extends ext_Action {
 
 	function execAction( $dir ) {
-		
+
 		if(($GLOBALS["permissions"]&01)!=01) {
 			ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["accessfunc"]);
 		}
@@ -74,10 +75,10 @@ class ext_Archive extends ext_Action {
 			}
 
 			$startfrom = extGetParam( $_REQUEST, 'startfrom', 0 );
-			
+
 			$dir_contents_cache_name = 'ext_'.md5(implode(null, $GLOBALS['__POST']["selitems"]));
 			$dir_contents_cache_file = _EXT_FTPTMP_PATH.'/'.$dir_contents_cache_name.'.txt';
-			
+
 			$archive_name = get_abs_item($saveToDir,$name);
 			$fileinfo = pathinfo( $archive_name );
 
@@ -93,19 +94,19 @@ class ext_Archive extends ext_Action {
 			}
 			if( $startfrom == 0 ) {
 				for($i=0;$i<$cnt;$i++) {
-	
+
 					$selitem=stripslashes($GLOBALS['__POST']["selitems"][$i]);
 					if( $selitem == 'ext_root') { 
 						$selitem = '';
 					}
-					if( is_dir( utf8_decode($abs_dir ."/". $selitem ))) {					
+					if( is_dir( utf8_decode($abs_dir ."/". $selitem ))) {
 						$items = extReadDirectory(utf8_decode($abs_dir ."/".  $selitem), '.', true, true );
 						foreach ( $items as $item ) {
 							if( is_dir( $item ) || !is_readable( $item ) || $item == $archive_name ) continue;
 							$v_list[] = str_replace('\\', '/', $item );
 						}
 					}
-					else {					
+					else {
 						$v_list[] = utf8_decode(str_replace('\\', '/', $abs_dir ."/". $selitem ));
 					}
 				}
@@ -124,7 +125,7 @@ class ext_Archive extends ext_Action {
 			$cnt_filelist = count( $v_list );
 			// Now we go to the right range of files and "slice" the array
 			$v_list = array_slice( $v_list, $startfrom, $files_per_step-1  );
-			
+
 			$remove_path = $GLOBALS["home_dir"];
 			if( $dir ) {
 				$remove_path .= $dir;
@@ -139,7 +140,7 @@ class ext_Archive extends ext_Action {
 			ini_set('memory_limit', '128M');
 			@set_time_limit( 0 );
 			error_reporting( E_ERROR | E_PARSE );
-			$result = extArchive::create( $archive_name, $v_list, $GLOBALS['__POST']["type"], '', $remove_path  );
+			$result = extArchive::create( $archive_name, $v_list, $GLOBALS['__POST']["type"], '', $remove_path	);
 
 			if( PEAR::isError( $result ) ) {
 				ext_Result::sendResult('archive', false, $name.': '.ext_Lang::err('archive_creation_failed').' ('.$result->getMessage().$archive_name.')' );
@@ -172,19 +173,19 @@ class ext_Archive extends ext_Action {
 		}
 	?>
 <div style="width:auto;">
-    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 
-        <h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actarchive"] ?></h3>
-        
-        <div id="adminForm"></div>
-    </div></div></div>
-    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+		<h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actarchive"] ?></h3>
+
+		<div id="adminForm"></div>
+	</div></div></div>
+	<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 </div>
-	<script type="text/javascript">	
+	<script type="text/javascript">
 	var comprTypes = new Ext.data.SimpleStore({
 		fields: ['type', 'typename'],
-		data :  [
+		data :	[
 		['zip', 'Zip (<?php echo ext_Lang::msg('normal_compression', true ) ?>)'],
 		['tgz', 'Tar/Gz (<?php echo ext_Lang::msg('good_compression', true ) ?>)'],
 		<?php
@@ -206,7 +207,7 @@ class ext_Archive extends ext_Action {
 		valueField: 'type',
 		name: 'type',
 		value: 'zip',
-	    triggerAction: 'all',
+		triggerAction: 'all',
 		hiddenName: 'type',
 		disableKeyFilter: true,
 		editable: false,
@@ -251,25 +252,25 @@ class ext_Archive extends ext_Action {
 	function formSubmit( startfrom, msg ) {
 		if( startfrom == 0 ) {
 			Ext.MessageBox.show({
-		           title: 'Please wait',
-		           msg: msg ? msg : '<?php echo ext_Lang::msg( 'creating_archive', true ) ?>',
-		           progressText: 'Initializing...',
-		           width:300,
-		           progress:true,
-		           closable:false,
-       		});
-       	}
+				title: 'Please wait',
+				msg: msg ? msg : '<?php echo ext_Lang::msg( 'creating_archive', true ) ?>',
+				progressText: 'Initializing...',
+				width:300,
+				progress:true,
+				closable:false,
+			});
+		}
 		form.submit({
 			reset: false,
 			success: function(form, action) {
 				if( !action.result ) return;
-				
+
 				if( action.result.startfrom > 0 ) {
 					formSubmit( action.result.startfrom, action.result.message );
-			       
+
 					i = action.result.startfrom/action.result.totalitems;
-			       Ext.MessageBox.updateProgress(i, action.result.startfrom + " of "+action.result.totalitems + " (" + Math.round(100*i)+'% completed)');
-			        
+					Ext.MessageBox.updateProgress(i, action.result.startfrom + " of "+action.result.totalitems + " (" + Math.round(100*i)+'% completed)');
+
 					return
 				} else {
 

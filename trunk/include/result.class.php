@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -48,7 +48,7 @@ class ext_Result {
 		$_SESSION['ext_message'] = array();
 	}
 	function count_messages() {
-		
+
 		if( empty($_SESSION['ext_message'])) {
 			return 0;
 		}
@@ -79,7 +79,7 @@ class ext_Result {
 		return $count;
 	}
 	function sendResult( $action, $success, $msg,$extra=array() ) {		// show error-message
-		
+
 		if( ext_isXHR() ) {
 			$success = (bool)$success;
 			if( $success && ext_Result::count_errors() > 0 ) {
@@ -110,26 +110,26 @@ class ext_Result {
 			$msg .= " - ".$extra;
 		}
 		ext_Result::add_error( $msg );
-		
+
 		if( empty( $_GET['error'] )) {
 			session_write_close();
 			extRedirect( make_link("show_error", $GLOBALS["dir"], null, null, null, null, '&error=1&extra='.urlencode( $extra )) );
 		}
 		else {
 			show_header($GLOBALS["error_msg"]["error"]);
-			
+
 			echo '<div class="quote">';
 			echo '<a href="#errors">'.ext_Result::count_errors() .' '.$GLOBALS["error_msg"]["error"].'</a>, ';
 			echo '<a href="#messages">'.ext_Result::count_messages() .' '.$GLOBALS["error_msg"]["message"].'</a><br />';
 			echo "</div>\n";
-			
+
 			if( !empty( $_SESSION['ext_message'])) {
 				echo "<a href=\"".str_replace('&dir=', '&ignore=', make_link("list", '' ))."\">[ "
 						.$GLOBALS["error_msg"]["back"]." ]</a>";
-						
+
 				echo "<div class=\"ext_message\"><a name=\"messages\"></a>
 						<h3>".$GLOBALS["error_msg"]["message"].":</strong>"."</h3>\n";
-				
+
 				foreach ( $_SESSION['ext_message'] as $msgtype ) {
 					foreach ( $msgtype as $message ) {
 						echo $message ."\n<br/>";
@@ -137,15 +137,15 @@ class ext_Result {
 					echo '<br /><hr /><br />';
 				}
 				ext_Result::empty_messages();
-				
+
 				if( !empty( $_REQUEST['extra'])) echo " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
 				echo "</div>\n";
 			}
-			
+
 			if( !empty( $_SESSION['ext_error'])) {
 				echo "<div class=\"ext_error\"><a name=\"errors\"></a>
 						<h3>".$GLOBALS["error_msg"]["error"].":</strong>"."</h3>\n";
-				
+
 				foreach ( $_SESSION['ext_error'] as $errortype ) {
 					foreach ( $errortype as $error ) {
 						echo $error ."\n<br/>";

@@ -6,7 +6,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @package eXtplorer
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The  The QuiX project (http://quixplorer.sourceforge.net)
+ * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -32,22 +32,22 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
  * 
  */
-	
+
 
 /**
  * File-Delete Functions
  *
  */
 class ext_Delete extends ext_Action {
-	
+
 	function execAction($dir) {
 		// delete files/dirs
 		if(($GLOBALS["permissions"]&01)!=01) 
-		  ext_Result::sendResult('delete', false, $GLOBALS["error_msg"]["accessfunc"]);
-		
+		ext_Result::sendResult('delete', false, $GLOBALS["error_msg"]["accessfunc"]);
+
 		$cnt = count($GLOBALS['__POST']["selitems"]);
 		$err = false;
-		
+
 		// delete files & check for errors
 		for($i=0;$i<$cnt;++$i) {
 			$items[$i] = basename(stripslashes($GLOBALS['__POST']["selitems"][$i]));
@@ -56,7 +56,7 @@ class ext_Delete extends ext_Action {
 			} else {
 				$abs = get_abs_item($dir,$items[$i]);
 			}
-			
+
 			if(!@$GLOBALS['ext_File']->file_exists( $abs )) {
 				$error[$i] = $GLOBALS["error_msg"]["itemexist"];
 				$err=true;	continue;
@@ -65,12 +65,12 @@ class ext_Delete extends ext_Action {
 				$error[$i] = $GLOBALS["error_msg"]["accessitem"];
 				$err=true;	continue;
 			}
-			
+
 			// Delete
 			if( ext_isFTPMode() ) $abs = str_replace('\\', '/', get_abs_item($dir,$abs) );
-			
+
 			$ok= $GLOBALS['ext_File']->remove( $abs );
-			
+
 			if($ok===false || PEAR::isError( $ok )) {
 				$error[$i]=$GLOBALS["error_msg"]["delitem"];
 				if( PEAR::isError( $ok ) ) {
@@ -78,15 +78,15 @@ class ext_Delete extends ext_Action {
 				}
 				$err=true;	continue;
 			}
-			
+
 			$error[$i]=NULL;
 		}
-		
+
 		if($err) {			// there were errors
 			$err_msg="";
 			for($i=0;$i<$cnt;++$i) {
 				if($error[$i]==NULL) continue;
-				
+
 				$err_msg .= $items[$i]." : ".$error[$i].".\n";
 			}
 			ext_Result::sendResult('delete', false, $err_msg);

@@ -36,7 +36,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 class ext_Transfer extends ext_Action {
 	var $_downloadMethods;
-	
+
 	function execAction( $dir ) {
 
 		if(($GLOBALS["permissions"]&01)!=01) {
@@ -63,9 +63,9 @@ class ext_Transfer extends ext_Action {
 			// upload files & check for errors
 			for($i=0;$i<$cnt;$i++) {
 				$errors[$i]=NULL;
-				
+
 				$items[$i] = stripslashes(basename($GLOBALS['__POST']['userfile'][$i]));
-				
+
 				$abs = get_abs_item($dir,$items[$i]);
 
 				if($items[$i]=="") continue;
