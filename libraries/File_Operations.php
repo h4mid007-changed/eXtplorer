@@ -190,7 +190,7 @@ class ext_File {
 					if (mb_detect_encoding($newname) == 'ASCII'){
 						return rename(utf8_decode($oldname), utf8_decode($newname));
 					} else {
-						return rename($oldname, utf8_decode($newname));
+						return rename(utf8_decode($oldname), $newname);
 					}
 				} else {
 					if (mb_detect_encoding($newname) == 'ASCII'){
