@@ -37,7 +37,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
 function showLoadingIndicator( el, replaceContent ) {
 	if( !el ) return;
-	var loadingimg = 'components/com_extplorer/images/indicator.gif';
+	var loadingimg = 'components/com_extplorer/images/_indicator.gif';
 	var imgtag = '<img src="'+ loadingimg + '" alt="Loading..." border="0" name="Loading" align="absmiddle" />';
 
 	if( replaceContent ) {

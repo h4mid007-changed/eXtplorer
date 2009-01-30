@@ -56,7 +56,7 @@ a:hover, a:active {
 }
 .ext_error {
   	background-color: #fdd;
-	background-image: url( ../images/log_error.png );
+	background-image: url( ../images/_log_error.png );
 }
 .ext_message {
   	background-color: #f1f3f5;
