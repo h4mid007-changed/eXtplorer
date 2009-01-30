@@ -156,8 +156,8 @@ function list_bookmarks( $dir ) {
 		$dir = substr( $dir, 1);
 	}
 	$html .= ext_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 200px;"');
-	$img_add = '<img src="'._EXT_URL.'/images/bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
-	$img_remove = '<img src="'._EXT_URL.'/images/remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
+	$img_add = '<img src="'._EXT_URL.'/images/_bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
+	$img_remove = '<img src="'._EXT_URL.'/images/_remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
 
 	$addlink=$removelink='';
 

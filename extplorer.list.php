@@ -140,7 +140,7 @@ function print_table($dir, $list, $allow) {	// print table of files
 	if(!is_array($list)) return;
 	if( $dir != "" || strstr( $dir, _EXT_PATH ) ) {
 	echo "<tr class=\"sectiontableentry1\"><td valign=\"baseline\"><a href=\"".make_link("list",$dir_up,NULL)."\">";
-	echo "<img border=\"0\" align=\"absmiddle\" src=\""._EXT_URL."/images/up.png\" ";
+	echo "<img border=\"0\" align=\"absmiddle\" src=\""._EXT_URL."/images/_up.png\" ";
 	echo "alt=\"".$GLOBALS["messages"]["uplink"]."\" title=\"".$GLOBALS["messages"]["uplink"]."\"/>&nbsp;&nbsp;..</a></td>\n";
 	echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 	echo "</tr>";
