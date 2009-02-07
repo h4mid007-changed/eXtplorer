@@ -147,16 +147,14 @@ if (!isset($_REQUEST['file_mode']) && !empty($_SESSION['file_mode'])) {
 // Necessary files
 
 require_once(_EXT_PATH . "/config/conf.php");
+require_once(_EXT_PATH."/languages/english.php");
 if (file_exists(_EXT_PATH."/languages/".$GLOBALS["language"].".php")) {
 	require_once(_EXT_PATH."/languages/".$GLOBALS["language"].".php" );
-} else {
-	require_once(_EXT_PATH."/languages/english.php");
 }
 
+require_once(_EXT_PATH . "/languages/english_mimes.php");
 if ( file_exists(_EXT_PATH . "/languages/" . $GLOBALS["language"]."_mimes.php")) {
 	require_once(_EXT_PATH . "/languages/" . $GLOBALS["language"]."_mimes.php");
-} else {
-	require_once(_EXT_PATH . "/languages/english_mimes.php");
 }
 
 require_once(_EXT_PATH . "/config/mimes.php");
