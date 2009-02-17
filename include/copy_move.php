@@ -7,18 +7,18 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
- * 
+ *
  * @license
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
  * http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS IS"
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
  * License for the specific language governing rights and limitations
  * under the License.
- * 
+ *
  * Alternatively, the contents of this file may be used under the terms
  * of the GNU General Public License Version 2 or later (the "GPL"), in
  * which case the provisions of the GPL are applicable instead of
@@ -29,8 +29,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * other provisions required by the GPL.  If you do not delete
  * the provisions above, a recipient may use your version of this file
  * under either the MPL or the GPL."
- * 
- * 
+ *
+ *
  */
 
 /**
@@ -48,6 +48,11 @@ function copy_move_items($dir) {		// copy/move file/dir
 	else $new_dir = stripslashes($GLOBALS['__POST']["new_dir"]);
 	if($new_dir==".") $new_dir="";
 	$cnt=count($GLOBALS['__POST']["selitems"]);
+
+	if (!$new_dir) {
+	    copy_move_dialog();
+	    return;
+	}
 
 	// DO COPY/MOVE
 
@@ -103,7 +108,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 				if( ext_isFTPMode() ) $abs_item = '/'.$dir.'/'.$abs_item['name'];
 				$ok=@$GLOBALS['ext_File']->copy( $abs_item ,$abs_new_item); //||@file_exists($abs_new_item);
 
-			} 
+			}
 			elseif(@get_is_dir($abs_item)) {
 				$copy_dir = ext_isFTPMode() ? '/'.$dir.'/'.$abs_item['name'].'/' : $abs_item;
 				if( ext_isFTPMode() ) $abs_new_item .= '/';
@@ -141,5 +146,67 @@ function copy_move_items($dir) {		// copy/move file/dir
 
 	ext_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
 }
-//------------------------------------------------------------------------------
+
+function copy_move_dialog() {
+    $action = extGetParam( $_REQUEST, 'action' );
+    ?>
+    	<div>
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+
+	        <h3 style="margin-bottom:5px;">Copy/Move</h3>
+	        <div id="adminForm">
+
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>
+	<script type="text/javascript">
+    var requestParams = getRequestParams();
+    requestParams.confirm = 'true';
+    requestParams.action  = '<?php echo $action ?>';
+
+	var simple = new Ext.form.Form({
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
+	});
+	simple.add(
+	    new Ext.form.TextField({
+	        fieldLabel: 'Destination',
+	        name: 'new_dir',
+	        value: requestParams.dir + '/',
+	        width:175,
+	        allowBlank:false
+	    })
+	);
+
+	simple.addButton('<?php echo ext_Lang::msg( 'btncreate', true ) ?>', function() {
+		statusBarMessage( 'Please wait...', true );
+	    simple.submit({
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {
+	        	statusBarMessage( action.result.message, false, true );
+	        	try{
+	        		dirTree.getSelectionModel().getSelectedNode().reload();
+	        	} catch(e) {}
+				datastore.reload();
+				dialog.destroy();
+	        },
+	        failure: function(form, action) {
+	        	if( !action.result ) return;
+				Ext.MessageBox.alert('Error!', action.result.error);
+				statusBarMessage( action.result.error, false, true );
+	        },
+	        scope: simple,
+	        // add some vars to the request, similar to hidden fields
+	        params: requestParams
+	    })
+	});
+	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
+	simple.render('adminForm');
+	simple.findField( 'new_dir').focus();
+	</script>
+	<?php
+}
 ?>

@@ -7,18 +7,18 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @copyright soeren 2007
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
- * 
+ *
  * @license
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
  * http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS IS"
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
  * License for the specific language governing rights and limitations
  * under the License.
- * 
+ *
  * Alternatively, the contents of this file may be used under the terms
  * of the GNU General Public License Version 2 or later (the "GPL"), in
  * which case the provisions of the GPL are applicable instead of
@@ -29,11 +29,11 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * other provisions required by the GPL.  If you do not delete
  * the provisions above, a recipient may use your version of this file
  * under either the MPL or the GPL."
- * 
+ *
  * File-Search Functions
  */
 
-function find_item($dir,$pat,&$list,$recur) {	// find items
+function find_item($dir,$pat,&$list,$recur, $content) {	// find items
 	$homedir = realpath($GLOBALS['home_dir']);
 	$handle = @$GLOBALS['ext_File']->opendir(get_abs_dir($dir));
 
@@ -55,12 +55,24 @@ function find_item($dir,$pat,&$list,$recur) {	// find items
 
 		if(!get_show_item($dir, $new_item)) continue;
 
+		$isDir = get_is_dir($abs_new_item);
 		// match?
-		if(@eregi($pat,$new_item)) $list[]=array($dir,$new_item);
+		if(@eregi($pat,$new_item)) {
+		    $list[]=array($dir,$new_item);
+		} else if (!$isDir) {
+		    if ($content && $GLOBALS['ext_File']->filesize($abs_new_item) < 524288) {
+
+    		  $data = $GLOBALS['ext_File']->file_get_contents( $abs_new_item );
+              //$data = fread($handle, 524288); // Only read first 512kb
+    		  if (@eregi($pat, $data)) {
+    		      $list[]=array($dir,$new_item);
+    		  }
+		    }
+		}
 
 		// search sub-directories
-		if(get_is_dir($abs_new_item) && $recur) {
-			find_item(get_rel_item($dir,$new_item),$pat,$list,$recur);
+		if($isDir && $recur) {
+			find_item($abs_new_item,$pat,$list,$recur, $content);
 		}
 	}
 
@@ -68,12 +80,12 @@ function find_item($dir,$pat,&$list,$recur) {	// find items
 
 }
 //------------------------------------------------------------------------------
-function make_list($dir,$item,$subdir) {	// make list of found items
+function make_list($dir,$item,$subdir, $content) {	// make list of found items
 	// convert shell-wildcards to PCRE Regex Syntax
-	$pat="^".str_replace("?",".",str_replace("*",".*",str_replace(".","\.",$item)))."$";
+	$pat=str_replace("?",".",str_replace("*",".*",str_replace(".","\\.",$item)));
 
 	// search
-	find_item($dir,$pat,$list,$subdir);
+	find_item($dir,$pat,$list,$subdir, $content);
 	if(is_array($list)) sort($list);
 	return $list;
 }
@@ -102,7 +114,7 @@ function get_result_table($list) {			// print table of found items
 
 		$response .= "<tr><td>" . "<img border=\"0\" width=\"22\" height=\"22\" ";
 		$response .= "align=\"absmiddle\" src=\""._EXT_URL."/images/" . $img . "\" alt=\"\" />&nbsp;";
-		/*if($link!="")*/ 
+		/*if($link!="")*/
 		$response .= "<a href=\"".$link."\" target=\"".$target."\">";
 		//else echo "<a>";
 		$response .= $s_item."</a></td><td><a href=\"" . make_link("list",$dir,null)."\"> /";
@@ -111,11 +123,16 @@ function get_result_table($list) {			// print table of found items
 	return $response;
 }
 //------------------------------------------------------------------------------
-function search_items($dir) {			// search for item
+function search_items($dir) {	// search for item
 	if(isset($GLOBALS['__POST']["searchitem"])) {
+	    if ($dir == null) {
+	        $dir = $GLOBALS['__POST']["item"];
+	    }
+
 		$searchitem=stripslashes($GLOBALS['__POST']["searchitem"]);
 		$subdir= !empty( $GLOBALS['__POST']["subdir"] );
-		$list=make_list($dir,$searchitem,$subdir);
+        $content = $GLOBALS['__POST']["content"];
+		$list=make_list($dir,$searchitem,$subdir, $content);
 	} else {
 		$searchitem=NULL;
 		$subdir=true;
@@ -131,75 +148,83 @@ function search_items($dir) {			// search for item
 
 	// Search Box
 	$response = '		<div>
-		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 
-			<h3 style="margin-bottom:5px;">'.$msg.'</h3>
-			<div id="adminForm">
+	        <h3 style="margin-bottom:5px;">'.$msg.'</h3>
+	        <div id="adminForm">
 
-			</div>
-		</div></div></div>
-		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
+	        </div>
+	    </div></div></div>
+	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+	</div>';
+
+	if (empty($searchitem)) {
+	    $response .= '
 	<script type="text/javascript">
+    var requestParams = getRequestParams();
+    requestParams.action  = \'search\';
+
 	var form = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:\''. basename( $GLOBALS['script_name']) .'\'
+	    labelWidth: 125, // label settings here cascade unless overridden
+	    url:\''. basename( $GLOBALS['script_name']) .'\'
 	});
 	form.add(
-		new Ext.form.TextField({
-			fieldLabel: \''. ext_Lang::msg( 'nameheader', true ) .'\',
-			name: \'searchitem\',
-			width:175,
-			allowBlank:false
-		}),
+	    new Ext.form.TextField({
+	        fieldLabel: \''. ext_Lang::msg( 'nameheader', true ) .'\',
+	        name: \'searchitem\',
+	        width:175,
+	        allowBlank:false
+	    }),
 		new Ext.form.Checkbox({
 			fieldLabel: \''.ext_Lang::msg( 'miscsubdirs', true ) .'?\',
 			name: \'subdir\',
 			checked: true
+		}),
+		new Ext.form.Checkbox({
+			fieldLabel: \''.ext_Lang::msg( 'misccontent', true ) .'?\',
+			name: \'content\',
+			checked: true
 		})
 	);
 	form.addButton({ text: "'.ext_Lang::msg( 'btnsearch', true ).'", type: "submit" }, function() {
-		form.submit({
-			waitMsg: \''.ext_Lang::msg('search_processing', true ).'\',
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				dialog_panel.setContent( action.result.message, true );
-			},
-			failure: function(form, action) {Ext.MessageBox.alert(\''.ext_Lang::err('error').'!\', action.result.error);},
-			scope: form,
-			// add some vars to the request, similar to hidden fields
-			params: {
-				option: \'com_extplorer\', 
-				action: \'search\', 
-				dir: \''.$GLOBALS['__POST']["dir"] .'\'
-			}
-		});
+	    form.submit({
+	        waitMsg: \''.ext_Lang::msg('search_processing', true ).'\',
+	        //reset: true,
+	        reset: false,
+	        success: function(form, action) {
+	    		dialog_panel.setContent( action.result.message, true );
+	        },
+	        failure: function(form, action) {Ext.MessageBox.alert(\''.ext_Lang::err('error').'!\', action.result.error);},
+	        scope: form,
+	        // add some vars to the request, similar to hidden fields
+	        params: requestParams
+	    });
 	});
 	form.addButton("'. ext_Lang::msg( 'btncancel', true ) .'", function() { dialog.hide();dialog.destroy(); } );
 
 	form.render("adminForm");
 	</script>';
+	}
 
 	// Results
 	if($searchitem!=NULL) {
-		$response .= "<table width=\"95%\"><tr><td colspan=\"2\"><hr></td></tr>\n";
+		$response .= "<table width=\"95%\"><tr><td colspan=\"2\"><hr></td></tr>";
 		if(count($list)>0) {
 			// table header
-			$response .= "<tr>\n<td width=\"42%\" class=\"header\"><b>".$GLOBALS["messages"]["nameheader"];
-			$response .= "</b></td>\n<td width=\"58%\" class=\"header\"><b>".$GLOBALS["messages"]["pathheader"];
-			$response .= "</b></td></tr>\n<tr><td colspan=\"2\"><hr></td></tr>\n";
+			$response .= "<tr><td width=\"42%\" class=\"header\"><b>".$GLOBALS["messages"]["nameheader"];
+			$response .= "</b></td><td width=\"58%\" class=\"header\"><b>".$GLOBALS["messages"]["pathheader"];
+			$response .= "</b></td></tr><tr><td colspan=\"2\"><hr></td></tr>";
 
 			// make & print table of found items
 			$response .= get_result_table($list);
 
-			$response .= "<tr><td colspan=\"2\"><hr></td></tr>\n<tr><td class=\"header\">".count($list)." ";
-			$response .= $GLOBALS["messages"]["miscitems"].".</td><td class=\"header\"></td></tr>\n";
+			$response .= "<tr><td colspan=\"2\"><hr></td></tr><tr><td class=\"header\">".count($list)." ";
+			$response .= $GLOBALS["messages"]["miscitems"].".</td><td class=\"header\"></td></tr>";
 		} else {
 			$response .= "<tr><td>".$GLOBALS["messages"]["miscnoresult"]."</td></tr>";
 		}
-		$response .= "<tr><td colspan=\"2\"><hr></td></tr></table>\n";
+		$response .= "<tr><td colspan=\"2\"><hr></td></tr></table>";
 	}
 	if( empty( $searchitem )) {
 		echo $response;
