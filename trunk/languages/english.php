@@ -94,6 +94,7 @@ $GLOBALS["messages"] = array(
 	"logoutlink"		=> "Logout",
 	"uploadlink"		=> "Upload",
 	"searchlink"		=> "Search",
+	'difflink'      => 'Diff',
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'Change (chmod) Rights (Folder/File(s))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer, Server, PHP, mySQL)', // new mic
@@ -124,6 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnadd"		=> "Add",
 	"btnedit"		=> "Edit",
 	"btnremove"		=> "Remove",
+	"btndiff"       => "Diff",
 	
 	// user messages, new in joomlaXplorer 1.3.0
 	'renamelink'	=> 'Rename',
@@ -174,6 +176,7 @@ $GLOBALS["messages"] = array(
 					"Administrator"),
 	"miscyesno"		=> array("Yes","No","Y","N"),
 	"miscchmod"		=> array("Owner", "Group", "Public"),
+	'misccontent'    => "File Contents",
 
 	// from here all new by mic
 	'miscowner'			=> 'Owner',

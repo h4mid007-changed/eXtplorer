@@ -12,12 +12,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
  * http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS IS"
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
  * License for the specific language governing rights and limitations
  * under the License.
- * 
+ *
  * Alternatively, the contents of this file may be used under the terms
  * of the GNU General Public License Version 2 or later (the "GPL"), in
  * which case the provisions of the GPL are applicable instead of
@@ -28,7 +28,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * other provisions required by the GPL.  If you do not delete
  * the provisions above, a recipient may use your version of this file
  * under either the MPL or the GPL."
- * 
+ *
 */
 /**
  * Layout and Application Logic Functions based on ExtJS
@@ -54,15 +54,15 @@ function getURLParam( strParamName, myWindow){
   var strReturn = "";
   var strHref = myWindow.location.href;
   if ( strHref.indexOf("?") > -1 ){
-	var strQueryString = strHref.substr(strHref.indexOf("?")).toLowerCase();
-	var aQueryString = strQueryString.split("&");
-	for ( var iParam = 0; iParam < aQueryString.length; iParam++ ){
-	if ( aQueryString[iParam].indexOf(strParamName + "=") > -1 ){
-		var aParam = aQueryString[iParam].split("=");
-		strReturn = aParam[1];
-		break;
-	}
-	}
+    var strQueryString = strHref.substr(strHref.indexOf("?")).toLowerCase();
+    var aQueryString = strQueryString.split("&");
+    for ( var iParam = 0; iParam < aQueryString.length; iParam++ ){
+      if ( aQueryString[iParam].indexOf(strParamName + "=") > -1 ){
+        var aParam = aQueryString[iParam].split("=");
+        strReturn = aParam[1];
+        break;
+      }
+    }
   }
   return strReturn;
 }
@@ -95,33 +95,36 @@ function openActionDialog( caller, action ) {
 		case 'search':
 		case 'upload':
 		case 'view':
+		case 'copy':
+		case 'diff':
+		case 'move':
 			requestParams = getRequestParams();
 			requestParams.action = action;
 
-			dialog = new Ext.LayoutDialog("action-dlg", { 
-					autoCreate: true,
-					modal:true,
-					width:600,
-					height:400,
-					shadow:true,
-					minWidth:300,
-					minHeight:300,
-					proxyDrag: true,
-					resizable: true,
-					//animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
+            dialog = new Ext.LayoutDialog("action-dlg", {
+                    autoCreate: true,
+                    modal:true,
+                    width:600,
+                    height:400,
+                    shadow:true,
+                    minWidth:300,
+                    minHeight:300,
+                    proxyDrag: true,
+                    resizable: true,
+                    //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
 					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>',
-					center: {
-						autoScroll:true
-					}/*,
-					south: {
-						initialSize: 22,
-						titlebar: false,
-						collapsible: false,
-						resizable: false
-					}*/
+                    center: {
+                        autoScroll:true
+                    }/*,
+                    south: {
+			            initialSize: 22,
+			            titlebar: false,
+			            collapsible: false,
+			            resizable: false
+                    }*/
 
-			});
-			dialog.addKeyListener(27, dialog.hide, dialog);
+            });
+            dialog.addKeyListener(27, dialog.hide, dialog);
 			dialog_panel = new Ext.ContentPanel('dialog-center', {
 									autoCreate: true,
 									fitToFrame: true
@@ -129,7 +132,7 @@ function openActionDialog( caller, action ) {
 			//dialog_status = new Ext.ContentPanel('dialog-status', { autoCreate: true } );
 			//dialog_status.getEl().addClass(['ext_statusbar', 'done']);
 
-			dialog_panel.load( { url: '<?php echo basename($GLOBALS['script_name']) ?>', 
+			dialog_panel.load( { url: '<?php echo basename($GLOBALS['script_name']) ?>',
 								params: Ext.urlEncode( requestParams ),
 								scripts: true,
 								callback: function(oElement, bSuccess, oResponse) {
@@ -143,16 +146,16 @@ function openActionDialog( caller, action ) {
 											}
 										}
 							});
-			var layout = dialog.getLayout();
-			layout.beginUpdate();
-			layout.add('center', dialog_panel );
-			//layout.add('south', dialog_status );
-			layout.endUpdate();
+            var layout = dialog.getLayout();
+            layout.beginUpdate();
+            layout.add('center', dialog_panel );
+            //layout.add('south', dialog_status );
+            layout.endUpdate();
 
-			dialog.on( 'hide', function() { dialog.destroy(true); } );
+            dialog.on( 'hide', function() { dialog.destroy(true); } );
 
-			dialog.show();
-			break;
+            dialog.show();
+            break;
 
 		case 'delete':
 			var num = selectedRows.length;
@@ -177,7 +180,7 @@ function handleCallback(requestParams, node) {
 				json = Ext.decode( response.responseText );
 				if( json.success ) {
 					statusBarMessage( json.message, false, true );
-					try { 
+					try {
 						if( dropEvent) {
 							dropEvent.target.parentNode.reload();
 							dropEvent = null;
@@ -231,8 +234,8 @@ function getRequestParams() {
 		dir = datastore.directory;
 	}
 
-	var requestParams = { 
-		option: 'com_extplorer', 
+	var requestParams = {
+		option: 'com_extplorer',
 		dir: dir,
 		item: selitems.length > 0 ? selitems[0]:'',
 		'selitems[]': selitems
@@ -284,7 +287,7 @@ function statusBarMessage( msg, isLoading, success ) {
 		msg = '<span class="error"><?php echo ext_Lang::err('error', true ) ?>: </span>' + msg;
 	}
 	statusBar.update( msg );
-	try { dialog_status.setContent( msg );	} catch(e){}
+	try { dialog_status.setContent( msg );  } catch(e){}
 
 }
 
@@ -297,11 +300,11 @@ function var_dump(obj) {
 		if( isNaN( prop.toString() )) {
 			vartext += "\t->"+prop+" = "+ eval( "obj."+prop.toString()) +"\n";
 		}
-	}
+    }
    	if(typeof obj == "object") {
-		return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "") + "\n" + vartext;
+    	return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "") + "\n" + vartext;
    	} else {
-		return "Type: "+typeof(obj)+"\n" + vartext;
+      	return "Type: "+typeof(obj)+"\n" + vartext;
 	}
 }//end function var_dump
 
@@ -356,8 +359,8 @@ function setCaretPosition( textarea, linenum ) {
 	var empty = -1;
 	for(;ind < linenum;ind++) {
 		/*alert( "Springe zu Zeile: "+linenum
-				+"\naktuelle Zeile: "+ (ind+1) 
-				+ "\naktuelle Position: "+pos 
+				+"\naktuelle Zeile: "+ (ind+1)
+				+ "\naktuelle Position: "+pos
 				+ "\nText in dieser Zeile: "+erg[ind]);*/
 		if( !erg[ind] && pos < len ) { empty++; pos++; continue; }
 		else if( !erg[ind] ) break;
@@ -385,15 +388,15 @@ function setCaretPosition( textarea, linenum ) {
 		range.select();
 	}
 }
-/** 
+/**
 * Updates the Position Indicator fields
 */
 function updatePosition(textBox) {
 	var posArray = doGetCaretPosition(textBox);
 	if( posArray[0] ) {
-		Ext.fly( 'txtLine' ).set( { value: posArray[0] } );
+	    Ext.fly( 'txtLine' ).set( { value: posArray[0] } );
 	}
 	if( posArray[1] ) {
-		Ext.fly( 'txtColumn' ).set( { value: posArray[1] } );
+	    Ext.fly( 'txtColumn' ).set( { value: posArray[1] } );
 	}
 }
