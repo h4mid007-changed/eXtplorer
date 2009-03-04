@@ -231,7 +231,7 @@ function ext_init(){
     var tb = new Ext.Toolbar(gridHead, [
     	{
     		id: 'tb_home',
-    		icon: '<?php echo _EXT_URL ?>/images/home.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_home.png',
     		text: '<?php echo ext_Lang::msg('homelink', true ) ?>',
     		tooltip: '<?php echo ext_Lang::msg('homelink', true ) ?>',
     		cls:'x-btn-text-icon',
@@ -239,7 +239,7 @@ function ext_init(){
     	},
     	{
     		id: 'tb_reload',
-    		icon: '<?php echo _EXT_URL ?>/images/reload.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_reload.png',
     		text: '<?php echo ext_Lang::msg('reloadlink', true ) ?>',
     		tooltip: '<?php echo ext_Lang::msg('reloadlink', true ) ?>',
     		cls:'x-btn-text-icon',
@@ -248,7 +248,7 @@ function ext_init(){
     	<?php if( !ext_isFTPMode() ) { ?>
     	{
     		id: 'tb_search',
-    		icon: '<?php echo _EXT_URL ?>/images/filefind.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_filefind.png',
     		text: '<?php echo ext_Lang::msg('searchlink', true ) ?>',
     		tooltip: '<?php echo ext_Lang::msg('searchlink', true ) ?>',
     		cls:'x-btn-text-icon',
@@ -258,7 +258,7 @@ function ext_init(){
     	'-',
     	{
     		id: 'tb_new',
-    		icon: '<?php echo _EXT_URL ?>/images/filenew.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_filenew.png',
     		tooltip: '<?php echo ext_Lang::msg('newlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -266,7 +266,7 @@ function ext_init(){
     	},
     	{
     		id: 'tb_edit',
-    		icon: '<?php echo _EXT_URL ?>/images/edit.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_edit.png',
     		tooltip: '<?php echo ext_Lang::msg('editlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -274,7 +274,7 @@ function ext_init(){
     	},
     	{
         	id: 'tb_copy',
-    		icon: '<?php echo _EXT_URL ?>/images/editcopy.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_editcopy.png',
     		tooltip: '<?php echo ext_Lang::msg('copylink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -282,7 +282,7 @@ function ext_init(){
     	},
     	{
     		id: 'tb_move',
-    		icon: '<?php echo _EXT_URL ?>/images/move.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_move.png',
     		tooltip: '<?php echo ext_Lang::msg('movelink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -290,7 +290,7 @@ function ext_init(){
     	},
     	{
     		id: 'tb_delete',
-    		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_editdelete.png',
     		tooltip: '<?php echo ext_Lang::msg('dellink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -298,7 +298,7 @@ function ext_init(){
     	},
     	{
     		id: 'tb_rename',
-    		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_fonts.png',
     		tooltip: '<?php echo ext_Lang::msg('renamelink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -306,7 +306,7 @@ function ext_init(){
     	},
     	{
     		id: 'tb_chmod',
-    		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_chmod.png',
     		tooltip: '<?php echo ext_Lang::msg('chmodlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -315,14 +315,14 @@ function ext_init(){
     	'-',
     	{
     		id: 'tb_view',
-    		icon: '<?php echo _EXT_URL ?>/images/view.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_view.png',
     		tooltip: '<?php echo ext_Lang::msg('viewlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'tb_diff',
-    		icon: '<?php echo _EXT_URL ?>/images/document.png',
+    		icon: '<?php echo _EXT_URL ?>/images/extension/document.png',
     		tooltip: '<?php echo ext_Lang::msg('difflink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -330,7 +330,7 @@ function ext_init(){
     	},
     	{
     		id: 'tb_download',
-    		icon: '<?php echo _EXT_URL ?>/images/down.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_down.png',
     		tooltip: '<?php echo ext_Lang::msg('downlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow ? 'false' : 'true' ?>,
@@ -339,7 +339,7 @@ function ext_init(){
     	'-',
     	{
     		id: 'tb_upload',
-    		icon: '<?php echo _EXT_URL ?>/images/up.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_up.png',
     		tooltip: '<?php echo ext_Lang::msg('uploadlink', true ) ?>',
     		cls:'x-btn-icon',
     		disabled: <?php echo $allow && ini_get('file_uploads') ? 'false' : 'true' ?>,
@@ -347,7 +347,7 @@ function ext_init(){
     	},
     	{
 			id: 'tb_archive',
-    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_archive.png',
     		tooltip: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
 			cls:'x-btn-icon',
 			<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
@@ -357,7 +357,7 @@ function ext_init(){
     		<?php }  ?>
     	},{
     		id: 'tb_extract',
-    		icon: '<?php echo _EXT_URL ?>/images/extract.gif',
+    		icon: '<?php echo _EXT_URL ?>/images/_extract.gif',
     		tooltip: '<?php echo ext_Lang::msg('extractlink', true ) ?>',
     		cls:'x-btn-icon',
 			<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
@@ -369,7 +369,7 @@ function ext_init(){
     	'-',
     	{
     		id: 'tb_info',
-    		icon: '<?php echo _EXT_URL ?>/images/help.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_help.png',
     		tooltip: '<?php echo ext_Lang::msg('aboutlink', true ) ?>',
     		cls:'x-btn-icon',
     		handler: function() { openActionDialog(this, 'get_about'); }
@@ -393,7 +393,7 @@ function ext_init(){
 			?>
 	    	{	// LOGOUT
 	    		id: 'tb_logout',
-	    		icon: '<?php echo _EXT_URL ?>/images/logout.png',
+	    		icon: '<?php echo _EXT_URL ?>/images/_logout.png',
 	    		tooltip: '<?php echo ext_Lang::msg('logoutlink', true ) ?>',
 	    		cls:'x-btn-icon',
 	    		handler: function() { document.location.href='<?php echo make_link('logout', null ) ?>'; }
@@ -548,56 +548,56 @@ function ext_init(){
     
         items: [{
     		id: 'gc_edit',
-    		icon: '<?php echo _EXT_URL ?>/images/edit.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_edit.png',
     		text: '<?php echo ext_Lang::msg('editlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'edit'); }
     	},
     	{
     		id: 'gc_diff',
-    		icon: '<?php echo _EXT_URL ?>/images/document.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_document.png',
     		text: '<?php echo ext_Lang::msg('difflink', true ) ?>',
     		handler: function() { openActionDialog(this, 'diff'); }
     	},
     	{
     		id: 'gc_rename',
-    		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_fonts.png',
     		text: '<?php echo ext_Lang::msg('renamelink', true ) ?>',
     		handler: function() { ext_itemgrid.onCellDblClick( ext_itemgrid, gsm.clickedRow, 0 ); gsm.clickedRow = null; }
     	},
     	{
         	id: 'gc_copy',
-    		icon: '<?php echo _EXT_URL ?>/images/editcopy.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_editcopy.png',
     		text: '<?php echo ext_Lang::msg('copylink', true ) ?>',
     		handler: function() { openActionDialog(this, 'copy'); }
     	},
     	{
     		id: 'gc_move',
-    		icon: '<?php echo _EXT_URL ?>/images/move.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_move.png',
     		text: '<?php echo ext_Lang::msg('movelink', true ) ?>',
     		handler: function() { openActionDialog(this, 'move'); }
     	},
     	{
     		id: 'gc_chmod',
-    		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_chmod.png',
     		text: '<?php echo ext_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'chmod'); }
     	},
     	{
     		id: 'gc_delete',
-    		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_editdelete.png',
     		text: '<?php echo ext_Lang::msg('dellink', true ) ?>',
     		handler: function() { openActionDialog(this, 'delete'); }
     	},
     	'-',
     	{
     		id: 'gc_view',
-    		icon: '<?php echo _EXT_URL ?>/images/view.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_view.png',
     		text: '<?php echo ext_Lang::msg('viewlink', true ) ?>',
     		handler: function() { openActionDialog(this, 'view'); }
     	},
     	{
     		id: 'gc_download',
-    		icon: '<?php echo _EXT_URL ?>/images/down.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_down.png',
     		text: '<?php echo ext_Lang::msg('downlink', true ) ?>',
     		handler: function() { openActionDialog(this,'download'); }
     	},
@@ -605,13 +605,13 @@ function ext_init(){
     	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) ) { ?>
 	    	{
     			id: 'gc_archive',
-	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
+	    		icon: '<?php echo _EXT_URL ?>/images/_archive.png',
 	    		text: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
 	    	{
 	    		id: 'gc_extract',
-	    		icon: '<?php echo _EXT_URL ?>/images/extract.gif',
+	    		icon: '<?php echo _EXT_URL ?>/images/_extract.gif',
 	    		text: '<?php echo ext_Lang::msg('extractlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'extract'); }
 	    	},
@@ -619,7 +619,7 @@ function ext_init(){
     	'-',
 		{
 			id: 'cancel',
-    		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_cancel.png',
     		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { gridCtxMenu.hide(); }
     	}
@@ -669,58 +669,58 @@ function ext_init(){
         id:'dirCtxMenu',
         items: [    	{
         	id: 'new',
-    		icon: '<?php echo _EXT_URL ?>/images/folder_new.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_folder_new.png',
     		text: '<?php echo ext_Lang::msg('newlink', true ) ?>',
     		handler: function() {dirCtxMenu.hide();openActionDialog(this, 'mkitem');}
     	},
     	{
     		id: 'rename',
-    		icon: '<?php echo _EXT_URL ?>/images/fonts.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_fonts.png',
     		text: '<?php echo ext_Lang::msg('renamelink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'rename'); }
     	},
     	{
         	id: 'copy',
-    		icon: '<?php echo _EXT_URL ?>/images/editcopy.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_editcopy.png',
     		text: '<?php echo ext_Lang::msg('copylink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'copy'); }
     	},
     	{
     		id: 'move',
-    		icon: '<?php echo _EXT_URL ?>/images/move.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_move.png',
     		text: '<?php echo ext_Lang::msg('movelink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'move'); }
     	},
     	{
     		id: 'chmod',
-    		icon: '<?php echo _EXT_URL ?>/images/chmod.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_chmod.png',
     		text: '<?php echo ext_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'chmod'); }
     	},
     	{
     		id: 'remove',
-    		icon: '<?php echo _EXT_URL ?>/images/editdelete.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_editdelete.png',
     		text: '<?php echo ext_Lang::msg('btnremove', true ) ?>',
     		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', String.format("<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", num ), function(btn) { deleteDir( btn, dirCtxMenu.node ) }); }
     	},'-',
     	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
 	    	{
     			id: 'gc_archive',
-	    		icon: '<?php echo _EXT_URL ?>/images/archive.png',
+	    		icon: '<?php echo _EXT_URL ?>/images/_archive.png',
 	    		text: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
     	<?php } ?>
     	{
     		id: 'reload',
-    		icon: '<?php echo _EXT_URL ?>/images/reload.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_reload.png',
     		text: '<?php echo ext_Lang::msg('reloadlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();dirCtxMenu.node.reload(); }
     	},
     	'-', 
 		{
 			id: 'cancel',
-    		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_cancel.png',
     		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { dirCtxMenu.hide(); }
     	}
@@ -730,19 +730,19 @@ function ext_init(){
         id:'copyCtx',
         items: [    	{
         	id: 'copy',
-    		icon: '<?php echo _EXT_URL ?>/images/editcopy.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_editcopy.png',
     		text: '<?php echo ext_Lang::msg('copylink', true ) ?>',
     		handler: function() {copymoveCtxMenu.hide();copymove('copy');}
     	},
     	{
     		id: 'move',
-    		icon: '<?php echo _EXT_URL ?>/images/move.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_move.png',
     		text: '<?php echo ext_Lang::msg('movelink', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide();copymove('move'); }
     	},'-', 
 		{
 			id: 'cancel',
-    		icon: '<?php echo _EXT_URL ?>/images/cancel.png',
+    		icon: '<?php echo _EXT_URL ?>/images/_cancel.png',
     		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide(); }
     	}
@@ -794,7 +794,7 @@ function ext_init(){
     
     layout.beginUpdate();
     layout.add('north', new Ext.ContentPanel('ext_header', {closable: false}));
-    layout.add('west', new Ext.ContentPanel('dirtree', {title: '<?php echo ext_Lang::msg('directory_tree', true ) ?> <img src="<?php echo _EXT_URL ?>/images/reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="dirTree.getRootNode().reload();" alt="Reload" align="middle" />', closable: false}));
+    layout.add('west', new Ext.ContentPanel('dirtree', {title: '<?php echo ext_Lang::msg('directory_tree', true ) ?> <img src="<?php echo _EXT_URL ?>/images/_reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="dirTree.getRootNode().reload();" alt="Reload" align="middle" />', closable: false}));
     layout.add('center', new Ext.GridPanel(ext_itemgrid, {}));    
     
     layout.endUpdate();

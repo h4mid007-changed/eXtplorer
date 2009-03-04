@@ -17,88 +17,86 @@ $GLOBALS["images_ext"]="\.png$|\.bmp$|\.jpg$|\.jpeg$|\.gif$|\.ico$";
 // mime types: (description,image,extension)
 $GLOBALS["super_mimes"]=array(
 	// dir, exe, file
-	"dir"	=> array($GLOBALS["mimes"]["dir"],"extension/folder.png"),
-	"exe"	=> array($GLOBALS["mimes"]["exe"],"extension/exe.png","\.exe$|\.com$|\.bin$"),
-	"file"	=> array($GLOBALS["mimes"]["file"],"extension/document.png")
+	"dir"	=> array(extGetParam( $GLOBALS["mimes"], 'dir', 'Dir' ),"extension/folder.png"),
+	"exe"	=> array(extGetParam( $GLOBALS["mimes"], 'exe', 'exe' ),"extension/exe.png","\.exe$|\.com$|\.bin$"),
+	"file"	=> array(extGetParam( $GLOBALS["mimes"], 'file', 'file' ),"extension/document.png")
 );
-
 $GLOBALS["used_mime_types"]=array(
 	// text
-	"text"	=> array($GLOBALS["mimes"]["text"],  "extension/txt.png",   "\.txt$"),
+	"text"	=> array(extGetParam( $GLOBALS["mimes"], 'text', 'Text' ),  "extension/txt.png",   "\.txt$"),
 
 	// programming
-	"php"	=> array($GLOBALS["mimes"]["php"],   "extension/php.png",   "\.php$"),
-	"php3"	=> array($GLOBALS["mimes"]["php3"],  "extension/php3.png",  "\.php3$"),
-	"php4"	=> array($GLOBALS["mimes"]["php4"],  "extension/php4.png",  "\.php4$"),
-	"php5"	=> array($GLOBALS["mimes"]["php5"],  "extension/php5.png",  "\.php5$"),
-	"phtml"	=> array($GLOBALS["mimes"]["phtml"], "extension/phtml.png", "\.phtml$"),
-	"inc"	=> array($GLOBALS["mimes"]["inc"],   "extension/inc.png",   "\.inc$"),
-	"sql"	=> array($GLOBALS["mimes"]["sql"],   "extension/sql.png",   "\.sql$"),
-	"pl"	=> array($GLOBALS["mimes"]["pl"],    "extension/pl.png",    "\.pl$"),
-	"cgi"	=> array($GLOBALS["mimes"]["cgi"],   "extension/cgi.png",   "\.cgi$"),
-	"py"	=> array($GLOBALS["mimes"]["py"],    "extension/py.png",    "\.py$"),
-	"sh"	=> array($GLOBALS["mimes"]["sh"],    "extension/sh.png",    "\.sh$"),
-	"c" 	=> array($GLOBALS["mimes"]["c"],     "extension/c.png",     "\.c$"),
-	"cc"	=> array($GLOBALS["mimes"]["cc"],    "extension/cc.png",    "\.cc$"),
-	"cpp"	=> array($GLOBALS["mimes"]["cpp"],   "extension/cpp.png",   "\.cpp$"),
-	"cxx"	=> array($GLOBALS["mimes"]["cxx"],   "extension/cxx.png",   "\.cxx$"),
-	"h" 	=> array($GLOBALS["mimes"]["h"],     "extension/h.png",     "\.h$"),
-	"hpp" 	=> array($GLOBALS["mimes"]["hpp"],   "extension/hpp.png",   "\.hpp$"),
-	"java"	=> array($GLOBALS["mimes"]["java"],  "extension/java.png",  "\.java$"),
-	"class"	=> array($GLOBALS["mimes"]["class"], "extension/class.png", "\.class$"),
-	"jar"	=> array($GLOBALS["mimes"]["jar"],   "extension/jar.png",   "\.jar$"),
+	"php"	=> array(extGetParam( $GLOBALS["mimes"], 'php', 'php' ),   "extension/php.png",   "\.php$"),
+	"php3"	=> array(extGetParam( $GLOBALS["mimes"], 'php3', 'php3' ),  "extension/php3.png",  "\.php3$"),
+	"php4"	=> array(extGetParam( $GLOBALS["mimes"], 'php4', 'php4' ),  "extension/php4.png",  "\.php4$"),
+	"php5"	=> array(extGetParam( $GLOBALS["mimes"], 'php5', 'php5' ),  "extension/php5.png",  "\.php5$"),
+	"phtml"	=> array(extGetParam( $GLOBALS["mimes"], 'phtml', 'phtml' ), "extension/phtml.png", "\.phtml$"),
+	"inc"	=> array(extGetParam( $GLOBALS["mimes"], 'inc', 'inc' ),   "extension/inc.png",   "\.inc$"),
+	"sql"	=> array(extGetParam( $GLOBALS["mimes"], 'sql', 'SQL' ),   "extension/sql.png",   "\.sql$"),
+	"pl"	=> array(extGetParam( $GLOBALS["mimes"], 'pl', 'Perl' ),    "extension/pl.png",    "\.pl$"),
+	"cgi"	=> array(extGetParam( $GLOBALS["mimes"], 'cgi', 'CGI' ),   "extension/cgi.png",   "\.cgi$"),
+	"py"	=> array(extGetParam( $GLOBALS["mimes"], 'py', 'Python' ),    "extension/py.png",    "\.py$"),
+	"sh"	=> array(extGetParam( $GLOBALS["mimes"], 'sh', 'Shell' ),    "extension/sh.png",    "\.sh$"),
+	"c" 	=> array(extGetParam( $GLOBALS["mimes"], 'c', 'C' ),     "extension/c.png",     "\.c$"),
+	"cc"	=> array(extGetParam( $GLOBALS["mimes"], 'cc', 'CC' ),    "extension/cc.png",    "\.cc$"),
+	"cpp"	=> array(extGetParam( $GLOBALS["mimes"], 'cpp', 'CPP' ),   "extension/cpp.png",   "\.cpp$"),
+	"cxx"	=> array(extGetParam( $GLOBALS["mimes"], 'cxx', 'CXX' ),   "extension/cxx.png",   "\.cxx$"),
+	"h" 	=> array(extGetParam( $GLOBALS["mimes"], 'h', 'H' ),     "extension/h.png",     "\.h$"),
+	"hpp" 	=> array(extGetParam( $GLOBALS["mimes"], 'hpp', 'hpp' ),   "extension/hpp.png",   "\.hpp$"),
+	"java"	=> array(extGetParam( $GLOBALS["mimes"], 'java', 'Java' ),  "extension/java.png",  "\.java$"),
+	"class"	=> array(extGetParam( $GLOBALS["mimes"], 'class', 'Class' ), "extension/class.png", "\.class$"),
+	"jar"	=> array(extGetParam( $GLOBALS["mimes"], 'jar', 'Jar' ),   "extension/jar.png",   "\.jar$"),
 
 	// browser
-	"htm"	=> array($GLOBALS["mimes"]["htm"],   "extension/htm.png",   "\.htm$"),
-	"html"	=> array($GLOBALS["mimes"]["html"],  "extension/html.png",  "\.html$"),
-	"shtml"	=> array($GLOBALS["mimes"]["shtml"], "extension/shtml.png", "\.shtml$"),
-	"dhtml"	=> array($GLOBALS["mimes"]["dhtml"], "extension/dhtml.png", "\.dhtml$"),
-	"xhtml"	=> array($GLOBALS["mimes"]["xhtml"], "extension/xhtml.png", "\.xhtml$"),
-	"xml"	=> array($GLOBALS["mimes"]["xml"],   "extension/xml.png",   "\.xml$"),
-	"js"	=> array($GLOBALS["mimes"]["js"],    "extension/js.png",    "\.js$"),
-	"css"	=> array($GLOBALS["mimes"]["css"],   "extension/css.png",   "\.css$"),
+	"htm"	=> array(extGetParam( $GLOBALS["mimes"], 'htm', 'HTML' ),   "extension/htm.png",   "\.htm$"),
+	"html"	=> array(extGetParam( $GLOBALS["mimes"], 'html', 'HTML' ),  "extension/html.png",  "\.html$"),
+	"shtml"	=> array(extGetParam( $GLOBALS["mimes"], 'shtml', 'sHTML' ), "extension/shtml.png", "\.shtml$"),
+	"dhtml"	=> array(extGetParam( $GLOBALS["mimes"], 'dhtml', 'dHTML' ), "extension/dhtml.png", "\.dhtml$"),
+	"xhtml"	=> array(extGetParam( $GLOBALS["mimes"], 'xhtml', 'XHTML' ), "extension/xhtml.png", "\.xhtml$"),
+	"xml"	=> array(extGetParam( $GLOBALS["mimes"], 'xml', 'XML' ),   "extension/xml.png",   "\.xml$"),
+	"js"	=> array(extGetParam( $GLOBALS["mimes"], 'js', 'JS' ),    "extension/js.png",    "\.js$"),
+	"css"	=> array(extGetParam( $GLOBALS["mimes"], 'css', 'CSS' ),   "extension/css.png",   "\.css$"),
 	
 	// images
-	"gif"	=> array($GLOBALS["mimes"]["gif"],   "extension/gif.png",   "\.gif$"),
-	"jpg"	=> array($GLOBALS["mimes"]["jpg"],   "extension/jpg.png",   "\.jpg$"),
-	"jpeg"	=> array($GLOBALS["mimes"]["jpeg"],  "extension/jpeg.png",  "\.jpeg$"),
-	"bmp"	=> array($GLOBALS["mimes"]["bmp"],   "extension/bmp.png",   "\.bmp$"),
-	"png"	=> array($GLOBALS["mimes"]["png"],   "extension/png.png",   "\.png$"),
+	"gif"	=> array(extGetParam( $GLOBALS["mimes"], 'gif', 'GIF' ),   "extension/gif.png",   "\.gif$"),
+	"jpg"	=> array(extGetParam( $GLOBALS["mimes"], 'jpg', 'JPG' ),   "extension/jpg.png",   "\.jpg$"),
+	"jpeg"	=> array(extGetParam( $GLOBALS["mimes"], 'jpeg', 'JPEG' ),  "extension/jpeg.png",  "\.jpeg$"),
+	"bmp"	=> array(extGetParam( $GLOBALS["mimes"], 'bmp', 'Bitmap' ),   "extension/bmp.png",   "\.bmp$"),
+	"png"	=> array(extGetParam( $GLOBALS["mimes"], 'png', 'PNG' ),   "extension/png.png",   "\.png$"),
 	
 	// compressed
-	"zip"	=> array($GLOBALS["mimes"]["zip"],   "extension/zip.png",   "\.zip$"),
-	"tar"	=> array($GLOBALS["mimes"]["tar"],   "extension/tar.png",   "\.tar$"),
-	"tgz"	=> array($GLOBALS["mimes"]["tgz"],   "extension/tgz.png",   "\.tgz$"),
-	"gz"	=> array($GLOBALS["mimes"]["gz"],    "extension/gz.png",    "\.gz$"),
+	"zip"	=> array(extGetParam( $GLOBALS["mimes"], 'zip', 'ZIP' ),   "extension/zip.png",   "\.zip$"),
+	"tar"	=> array(extGetParam( $GLOBALS["mimes"], 'tar', 'TAR' ),   "extension/tar.png",   "\.tar$"),
+	"tgz"	=> array(extGetParam( $GLOBALS["mimes"], 'tgz', 'Tar/GZ' ),   "extension/tgz.png",   "\.tgz$"),
+	"gz"	=> array(extGetParam( $GLOBALS["mimes"], 'gz', 'GZip' ),    "extension/gz.png",    "\.gz$"),
 
 
-	"bz2"	=> array($GLOBALS["mimes"]["bz2"],   "extension/bz2.png",   "\.bz2$"),
-	"tbz"	=> array($GLOBALS["mimes"]["tbz"],   "extension/tbz.png",   "\.tbz$"),
-	"rar"	=> array($GLOBALS["mimes"]["rar"],   "extension/rar.png",   "\.rar$"),
+	"bz2"	=> array(extGetParam( $GLOBALS["mimes"], 'bz2', 'Bzip2' ),   "extension/bz2.png",   "\.bz2$"),
+	"tbz"	=> array(extGetParam( $GLOBALS["mimes"], 'tbz', 'Tar/Bz2' ),   "extension/tbz.png",   "\.tbz$"),
+	"rar"	=> array(extGetParam( $GLOBALS["mimes"], 'rar', 'RAR' ),   "extension/rar.png",   "\.rar$"),
 
 	// music
-	"mp3"	=> array($GLOBALS["mimes"]["mp3"],   "extension/mp3.png",   "\.mp3$"),
-	"wav"	=> array($GLOBALS["mimes"]["wav"],   "extension/wav.png",   "\.wav$"),
-	"midi"	=> array($GLOBALS["mimes"]["midi"],  "extension/midi.png",  "\.mid$"),
-	"rm"	=> array($GLOBALS["mimes"]["real"],  "extension/rm.png",    "\.rm$"),
-	"ra"	=> array($GLOBALS["mimes"]["real"],  "extension/ra.png",    "\.ra$"),
-	"ram"	=> array($GLOBALS["mimes"]["real"],  "extension/ram.png",   "\.ram$"),
-	"pls"	=> array($GLOBALS["mimes"]["pls"],   "extension/pls.png",   "\.pls$"),
-	"m3u"	=> array($GLOBALS["mimes"]["m3u"],   "extension/m3u.png",   "\.m3u$"),
+	"mp3"	=> array(extGetParam( $GLOBALS["mimes"], 'mp3', 'Mp3' ),   "extension/mp3.png",   "\.mp3$"),
+	"wav"	=> array(extGetParam( $GLOBALS["mimes"], 'wav', 'WAV' ),   "extension/wav.png",   "\.wav$"),
+	"midi"	=> array(extGetParam( $GLOBALS["mimes"], 'midi', 'Midi' ),  "extension/midi.png",  "\.mid$"),
+	"rm"	=> array(extGetParam( $GLOBALS["mimes"], 'real', 'Real Media' ),  "extension/rm.png",    "\.rm$"),
+	"ra"	=> array(extGetParam( $GLOBALS["mimes"], 'real', 'Real Audio' ),  "extension/ra.png",    "\.ra$"),
+	"ram"	=> array(extGetParam( $GLOBALS["mimes"], 'real', 'Real Media' ),  "extension/ram.png",   "\.ram$"),
+	"pls"	=> array(extGetParam( $GLOBALS["mimes"], 'pls', 'pls' ),   "extension/pls.png",   "\.pls$"),
+	"m3u"	=> array(extGetParam( $GLOBALS["mimes"], 'm3u', 'm3u' ),   "extension/m3u.png",   "\.m3u$"),
 
 	// movie
-	"mpg"	=> array($GLOBALS["mimes"]["mpg"],   "extension/mpg.png",   "\.mpg$"),
-	"mpeg"	=> array($GLOBALS["mimes"]["mpeg"],  "extension/mpeg.png",  "\.mpeg$"),
-	"mov"	=> array($GLOBALS["mimes"]["mov"],   "extension/mov.png",   "\.mov$"),
-	"avi"	=> array($GLOBALS["mimes"]["avi"],   "extension/avi.png",   "\.avi$"),
-	"swf"	=> array($GLOBALS["mimes"]["swf"],   "extension/swf.png",   "\.swf$"),
+	"mpg"	=> array(extGetParam( $GLOBALS["mimes"], 'mpg', 'MPG' ),   "extension/mpg.png",   "\.mpg$"),
+	"mpeg"	=> array(extGetParam( $GLOBALS["mimes"], 'mpeg', 'MPG'),  "extension/mpeg.png",  "\.mpeg$"),
+	"mov"	=> array(extGetParam( $GLOBALS["mimes"], 'mov', 'MOV' ),   "extension/mov.png",   "\.mov$"),
+	"avi"	=> array(extGetParam( $GLOBALS["mimes"], 'avi', 'AVI' ),   "extension/avi.png",   "\.avi$"),
+	"swf"	=> array(extGetParam( $GLOBALS["mimes"], 'swf', 'SWF' ),   "extension/swf.png",   "\.swf$"),
 	
 	// Micosoft / Adobe
-	"doc"	=> array($GLOBALS["mimes"]["doc"],   "extension/doc.png",   "\.doc$"),
-	"docx"	=> array($GLOBALS["mimes"]["docx"],  "extension/docx.png",  "\.docx$"),
-	"xls"	=> array($GLOBALS["mimes"]["xls"],   "extension/xls.png",   "\.xls$"),
-	"xlsx"	=> array($GLOBALS["mimes"]["xlsx"],  "extension/xlsx.png",  "\.xlsx$"),
-	"pdf"	=> array($GLOBALS["mimes"]["pdf"],   "extension/pdf.png",   "\.pdf$")
+	"doc"	=> array(extGetParam( $GLOBALS["mimes"], 'doc', 'Word' ),   "extension/doc.png",   "\.doc$"),
+	"docx"	=> array(extGetParam( $GLOBALS["mimes"], 'docx', 'Word' ),  "extension/docx.png",  "\.docx$"),
+	"xls"	=> array(extGetParam( $GLOBALS["mimes"], 'xls', 'Excel' ),   "extension/xls.png",   "\.xls$"),
+	"xlsx"	=> array(extGetParam( $GLOBALS["mimes"], 'xlsx', 'Excel' ),  "extension/xlsx.png",  "\.xlsx$"),
+	"pdf"	=> array(extGetParam( $GLOBALS["mimes"], 'pdf', 'PDF' ),   "extension/pdf.png",   "\.pdf$")
 );
 //------------------------------------------------------------------------------
-?>

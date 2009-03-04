@@ -8,8 +8,10 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 $GLOBALS['use_gzip'] = 1;
 
 $GLOBALS['allow_webdav'] = 0;
-// The following database settings are only necessary if you want to use WebDAV
-// If you actually decide to enable the WebDAV interface, you must first of all create a new database
+// The following database settings are only necessary if you want to use WebDAV in Standalone Mode.
+// Joomla users don't need to enter their DB settings here, 
+// because eXtplorer will read them from the Joomla configuration file instead.
+// Now if you actually decide to enable the WebDAV interface in standalone mode, you must first of all create a new database
 // by using the instructions from the file "webdav_table.sql.php", which can be found in the same directory as this file
 $GLOBALS['DB_HOST'] = 'localhost';
 $GLOBALS['DB_NAME'] = 'webdav';
