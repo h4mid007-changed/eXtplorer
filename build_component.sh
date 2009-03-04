@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ----------------------------------------------------------------------------
 #
 # Component Install Archive Builder
@@ -13,15 +13,16 @@
 DATE=$(date +%Y%m%d)
 PATH='/home/soeren/Joomla/components/extplorer'
 cd $PATH
+SEVENZIP='/usr/bin/7za'
+$SEVENZIP a -ttar -r $PATH/scripts.tar scripts
+$SEVENZIP d -r $PATH/scripts.tar .svn/
+$SEVENZIP a -tgzip $PATH/scripts.tar.gz $PATH/scripts.tar
+/bin/rm $PATH/scripts.tar
 
-/usr/local/lib/p7zip/7za a -tzip -r $PATH/scripts.zip scripts
-/usr/local/lib/p7zip/7za d -r $PATH/scripts.zip .svn/
+$SEVENZIP a -tzip -r $PATH/com_extplorer.zip
+$SEVENZIP d -r $PATH/com_extplorer.zip .svn/
+$SEVENZIP d $PATH/com_extplorer.zip archive/ scripts/
 
-/usr/local/lib/p7zip/7za a -tzip -r $PATH/com_extplorer.zip
-/usr/local/lib/p7zip/7za d -r $PATH/com_extplorer.zip .svn/
-/usr/local/lib/p7zip/7za d $PATH/com_extplorer.zip archive
-/usr/local/lib/p7zip/7za d $PATH/com_extplorer.zip scripts/
+$SEVENZIP d -r $PATH/com_extplorer.zip build_component.sh build_component.bat .project .projectOptions .cache preinstall.php README_PREINSTALL.txt
 
-/usr/local/lib/p7zip/7za d -r $PATH/com_extplorer.zip build_component.sh build_component.bat .project .projectOptions .cache preinstall.php README_PREINSTALL.txt
-
-/bin/rm $PATH/scripts.zip
+/bin/rm $PATH/scripts.tar.gz
