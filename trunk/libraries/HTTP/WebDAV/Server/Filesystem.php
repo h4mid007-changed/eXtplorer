@@ -89,11 +89,12 @@ class HTTP_WebDAV_Server_Filesystem extends HTTP_WebDAV_Server
                 
         // establish connection to property/locking db
 		try {
-		  $this->db_link = new PDO($this->db_type.':host='.$this->db_host.';dbname='.$this->db_name, $this->db_user, $this->db_passwd);
+		  	$this->db_link = new PDO($this->db_type.':host='.$this->db_host.';dbname='.$this->db_name, $this->db_user, $this->db_passwd);
 		  
 		} catch (PDOException $e) {
-		  print "Error: " . $e->getMessage();
-		  die();
+			header('HTTP/1.0 500 Internal Server Error');
+		  	print "Error: " . $e->getMessage();
+		  	die();
 		}
 
         // let the base class do all the work

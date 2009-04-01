@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -140,85 +140,85 @@ class ext_Chmod extends ext_Action {
 			$text .= $s_item.($i+1<$cnt ? ', ':'');
 		}
 		?>
-	<div style="width:auto;">
-		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-			<h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actperms') ?></h3>
-			<?php echo $text  ?>
-			<div id="adminForm">
-
-			</div>
-		</div></div></div>
-		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
-	<script type="text/javascript">
-	var form = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-
+		{
+		"xtype": "form",
+		"id": "simpleform",
+		"labelWidth": 125,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		"dialogtitle": "<?php echo ext_Lang::msg('actperms') ?>",
+		"title" : "<?php echo $text  ?>",
+		"frame": true,
+		"items": [{
+			"layout": "column",
+			"items": [{
 	<?php
 		// print table with current perms & checkboxes to change
 		for($i=0;$i<3;++$i) {
 			?>
-			form.column(
-				{width:70, style:'margin-left:10px', clear:true}
-			);
-			form.fieldset(
-					{legend:'<?php echo ext_Lang::msg(array('miscchmod'=> $i ), true ) ?>', hideLabels:true},
-					<?php
-					for($j=0;$j<3;++$j) {
-						?>
-						new Ext.form.Checkbox({
-							boxLabel:'<?php echo $pos{$j}  ?>',
-							<?php if($mode{(3*$i)+$j} != "-") echo 'checked:true,' ?>
-							name:'<?php echo "r_". $i.$j ?>'
-						})	<?php
-						if( $j<2 ) echo ',';
-					}
-					?>	);
-			form.end();
+			"width":80, 
+			"title":"<?php echo ext_Lang::msg(array('miscchmod'=> $i ), true ) ?>",					
+			"items": [{
+				<?php
+				for($j=0;$j<3;++$j) {
+					?>
+					"xtype": "checkbox",
+					"boxLabel":"<?php echo $pos{$j}  ?>",
+					<?php if($mode{(3*$i)+$j} != "-") echo '"checked":true,' ?>
+						"name":"<?php echo "r_". $i.$j ?>"
+					}	<?php
+					if( $j<2 ) echo ',{';
+				}
+				?>	
+				]
+			}
 		<?php 
+			if( $i<2 ) echo ',{';
 		}
-		?>
-	form.column(
-			{width:400, style:'margin-left:10px', clear:true}
-		);
-	form.add(new Ext.form.Checkbox({
-		fieldLabel:'<?php echo ext_Lang::msg('recurse_subdirs', true ) ?>',
-		name:'do_recurse'
-	}));
-	form.end();
+		?>,{
+			"width":400, 
+			"style":"margin-left:10px", 
+			"clear":true,
+			"html": "&nbsp;"
+		}]
 
-	form.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
-		statusBarMessage( '<?php echo ext_Lang::msg( 'permissions_processing', true ) ?>', true );
-		form.submit({
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				statusBarMessage( action.result.message, false, true );
-				datastore.reload();
-				dialog.hide();
-				dialog.destroy();
-			},
-			failure: function(form, action) {
-				statusBarMessage( action.result.error, false, false );
-				Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-			},
-			scope: form,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					action: 'chmod', 
-					dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>', 
-					'selitems[]': ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
-					confirm: 'true'}
-		});
-	});
-	form.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.hide();dialog.destroy(); } );
-	form.render('adminForm');
-	</script>
-
+	},{
+		"xtype": "checkbox",
+		"fieldLabel":"<?php echo ext_Lang::msg('recurse_subdirs', true ) ?>",
+		"name":"do_recurse"
+	}],
+	"buttons": [{
+		"text": "<?php echo ext_Lang::msg( 'btnsave', true ) ?>", 
+		"handler": function() {
+			statusBarMessage( '<?php echo ext_Lang::msg( 'permissions_processing', true ) ?>', true );
+			form = Ext.getCmp("simpleform").getForm();
+			form.submit({
+				//reset: true,
+				reset: false,
+				success: function(form, action) {
+					statusBarMessage( action.result.message, false, true );
+					datastore.reload();
+					Ext.getCmp("dialog").destroy();
+				},
+				failure: function(form, action) {
+					statusBarMessage( action.result.error, false, false );
+					Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+				},
+				scope: form,
+				params: {
+					"option": "com_extplorer", 
+					"action": "chmod", 
+					"dir": "<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>", 
+					"selitems[]": ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
+					confirm: 'true'
+				}
+			});
+		}
+	},{
+		"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
+		"handler": function() { Ext.getCmp("dialog").destroy(); }
+	}]
+}
+	
 		<?php
 	}
 }

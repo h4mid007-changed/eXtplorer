@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  *
@@ -50,7 +50,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 	$cnt=count($GLOBALS['__POST']["selitems"]);
 
 	if (!$new_dir) {
-	    copy_move_dialog();
+	    copy_move_dialog($dir);
 	    return;
 	}
 
@@ -147,66 +147,58 @@ function copy_move_items($dir) {		// copy/move file/dir
 	ext_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
 }
 
-function copy_move_dialog() {
+function copy_move_dialog($dir='') {
     $action = extGetParam( $_REQUEST, 'action' );
     ?>
-    	<div>
-	    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-	    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-	        <h3 style="margin-bottom:5px;">Copy/Move</h3>
-	        <div id="adminForm">
-
-	        </div>
-	    </div></div></div>
-	    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
-	<script type="text/javascript">
-    var requestParams = getRequestParams();
-    requestParams.confirm = 'true';
-    requestParams.action  = '<?php echo $action ?>';
-
-	var simple = new Ext.form.Form({
-	    labelWidth: 125, // label settings here cascade unless overridden
-	    url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	simple.add(
-	    new Ext.form.TextField({
-	        fieldLabel: 'Destination',
-	        name: 'new_dir',
-	        value: requestParams.dir + '/',
-	        width:175,
-	        allowBlank:false
-	    })
-	);
-
-	simple.addButton('<?php echo ext_Lang::msg( 'btncreate', true ) ?>', function() {
-		statusBarMessage( 'Please wait...', true );
-	    simple.submit({
-	        //reset: true,
-	        reset: false,
-	        success: function(form, action) {
-	        	statusBarMessage( action.result.message, false, true );
-	        	try{
-	        		dirTree.getSelectionModel().getSelectedNode().reload();
-	        	} catch(e) {}
-				datastore.reload();
-				dialog.destroy();
-	        },
-	        failure: function(form, action) {
-	        	if( !action.result ) return;
-				Ext.MessageBox.alert('Error!', action.result.error);
-				statusBarMessage( action.result.error, false, true );
-	        },
-	        scope: simple,
-	        // add some vars to the request, similar to hidden fields
-	        params: requestParams
-	    })
-	});
-	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
-	simple.render('adminForm');
-	simple.findField( 'new_dir').focus();
-	</script>
+{
+	"xtype": "form",
+	"id": "simpleform",
+	"labelWidth": 125,
+	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+	"dialogtitle": "<?php echo 'Copy/Move' ?>",
+	"frame": true,
+	"items": [{
+		"xtype": "textfield",
+        "fieldLabel": "Destination",
+        "name": "new_dir",
+        "value": "<?php echo $dir ?>/",
+        "width":175,
+        "allowBlank":false
+    }],
+    "buttons": [{
+    	text: '<?php echo ext_Lang::msg( 'btncreate', true ) ?>', 
+    	handler: function() {
+			statusBarMessage( 'Please wait...', true );
+		    var requestParams = getRequestParams();
+		    requestParams.confirm = 'true';
+		    requestParams.action  = '<?php echo $action ?>';
+		    simple.submit({
+		        //reset: true,
+		        reset: false,
+		        success: function(form, action) {
+		        	statusBarMessage( action.result.message, false, true );
+		        	try{
+		        		dirTree.getSelectionModel().getSelectedNode().reload();
+		        	} catch(e) {}
+					datastore.reload();
+					dialog.destroy();
+		        },
+		        failure: function(form, action) {
+		        	if( !action.result ) return;
+					Ext.MessageBox.alert('Error!', action.result.error);
+					statusBarMessage( action.result.error, false, true );
+		        },
+		        scope: simple,
+		        // add some vars to the request, similar to hidden fields
+		        params: requestParams
+		    });
+		  }
+	},{
+		text: '<?php echo ext_Lang::msg( 'btncancel', true ) ?>', 
+		handler: function() { Ext.getCmp("dialog").destroy(); }
+	}
+	]
+}
 	<?php
 }
 ?>

@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -35,90 +35,110 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Comment:
  * Administrative Functions
  * 
+ *
+ * 
+/**
+ * Creates a form to manage users + passwords
+ *
+ * @param boolean $admin
+ * @param string $dir
  */
-//------------------------------------------------------------------------------
-function admin($admin, $dir) {			// Change Password & Manage Users Form
-
-	// Javascript functions:
-	include _EXT_PATH . "/include/js_admin.php";
-?>
-<div style="width:auto;">
-	<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-	<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-		<h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actadmin') ?></h3>
-		<div id="adminForm">
-			<div id="passForm"></div>
-			<div id="userList"></div>
-		</div>
-	</div></div></div>
-	<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-</div>
-	<script type="text/javascript">
-	// Change Password
-	var PassForm = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	PassForm.add(
-
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscoldpass', true ) ?>',
-			name: 'oldpwd',
-			inputType: 'password',
-			allowBlank:false
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscnewpass', true ) ?>',
-			name: 'newpwd1',
-			hiddenName: 'newpwd1',
-			inputType: 'password',
-			allowBlank:false
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscconfnewpass', true ) ?>',
-			name: 'newpwd2',
-			hiddenName: 'newpwd2',
-			inputType: 'password',
-			allowBlank:false
-		})
-	);
-
-	PassForm.addButton('<?php echo ext_Lang::msg( 'btnchange', true ) ?>', function() {
-		if( !check_pwd() ) return;
-		statusBarMessage( 'Please wait...', true );
-		PassForm.submit({
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				statusBarMessage( action.result.message, false, true );
-			},
-			failure: function(form, action) {
-				if( !action.result ) return;
-				Ext.MessageBox.alert('Error!', action.result.error);
-				statusBarMessage( action.result.error, false, true );
-			},
-			scope: PassForm,
-			// add some vars to the request, similar to hidden fields
-			params: {
-				option: 'com_extplorer', 
-				action: 'admin',
-				action2: 'chpwd'
+function admin($admin, $dir) {			
+	?>
+{
+	"xtype": "tabpanel",
+	"width": 450,
+	"id": "dialog_tabpanel",
+	"dialogtitle": "<?php echo ext_Lang::msg('actadmin') ?>",
+	"activeItem": "<?php
+	if( $_SESSION['s_user'] == 'admin' && $_SESSION['s_pass'] == extEncodePassword('admin')) {
+		echo 'passform';
+	} else {
+		echo 'userform';
+	}
+	?>",
+	"items":
+	[{
+		"xtype": "form",
+		"id": "passform",
+		"renderTo": Ext.getBody(),
+		"headerAsText": false,
+		"labelWidth": 125,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		"title": "<?php echo ext_Lang::msg('actchpwd', true) ?>",
+		"frame": true,
+		"items": [{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscoldpass', true ) ?>",
+			"name": "oldpwd",
+			"inputType": "password",
+			"allowBlank":false
+		},
+		{	"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscnewpass', true ) ?>",
+			"name": "newpwd1",
+			"hiddenName": "newpwd1",
+			"inputType": "password",
+			"allowBlank":false
+		},
+		{ 	"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscconfnewpass', true ) ?>",
+			"name": "newpwd2",
+			"hiddenName": "newpwd2",
+			"inputType": "password",
+			"allowBlank":false
+		}],
+		"buttons": [{
+			"text": "<?php echo ext_Lang::msg( 'btnchange', true ) ?>", 
+			"handler": function() {
+						frm = Ext.getCmp("passform").getForm();
+						if(frm.findField('newpwd1').getValue() != frm.findField('newpwd2').getValue() ) {
+							Ext.Msg.alert("Error!", "<?php echo ext_Lang::msg('miscnopassmatch', true ); ?>");
+							return false;
+						}
+						if(frm.findField('oldpwd').getValue() ==frm.findField('newpwd1').getValue()) {
+							Ext.Msg.alert("Error!", "<?php echo ext_Lang::err('miscnopassdiff', true ); ?>");
+							return false;
+						}
+						
+						statusBarMessage( "Please wait...", true );
+						frm.submit({
+							//reset: true,
+							reset: false,
+							"success": function(form, action) {
+								statusBarMessage( action.result.message, false, true );
+							},
+							"failure": function(form, action) {
+								if( !action.result ) return;
+								Ext.MessageBox.alert("Error!", action.result.error);
+								statusBarMessage( action.result.error, false, true );
+							},
+							"scope": Ext.getCmp("passform"),
+							// add some vars to the request, similar to hidden fields
+							"params": {
+								option: "com_extplorer", 
+								"action": "admin",
+								"action2": "chpwd"
+							}
+						})
+						}
+			}]
 			}
-		})
-	});
-	PassForm.render('passForm');
-	PassForm.findField('oldpwd').focus();
+	
 	<?php
 	if($admin) {
 		?>
-
-	// Edit / Add / Remove User
-	var UserForm = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	UserForm.add(
+		,{
+		"xtype": "form",
+		"id": "userlist",
+		"renderTo": Ext.getBody(),
+		"headerAsText": false,
+		"labelWidth": 125,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		title: "<?php echo ext_Lang::msg('actusers', true) ?>",
+		
+		"frame": true,
+		"items": [{
 		<?php 
 		$cnt=count($GLOBALS["users"]);
 		for($i=0;$i<$cnt;++$i) {
@@ -128,104 +148,127 @@ function admin($admin, $dir) {			// Change Password & Manage Users Form
 			$home=$GLOBALS["users"][$i][2];	if(strlen($home)>30) $home=substr($home,0,27)."...";
 			?>
 
-			new Ext.form.Radio( {
-				name: 'nuser',
-				inputValue: '<?php echo $GLOBALS["users"][$i][0] ?>',
-				fieldLabel: '<?php echo $user ?>',
-				boxLabel: '<?php echo '<strong>Homedir:</strong> '.$home.'; '
+			"xtype": "radio",
+			"name": "nuser",
+			"inputValue": "<?php echo $GLOBALS["users"][$i][0] ?>",
+			"fieldLabel": "<?php echo $user ?>",
+			"boxLabel": "<?php echo '<strong>Homedir:</strong> '.$home.'; '
 					.($GLOBALS["users"][$i][4] ? $GLOBALS["messages"]["miscyesno"][2]:$GLOBALS["messages"]["miscyesno"][3]).'; '
 					.$GLOBALS["users"][$i][6].'; '
 					.($GLOBALS["users"][$i][7] ? $GLOBALS["messages"]["miscyesno"][2]:$GLOBALS["messages"]["miscyesno"][3]);
-				?>'
-			})
+				?>"
+			}
 			<?php 
-			echo $i+1<$cnt ? ',' : '';
+			echo $i+1<$cnt ? ', {' : '';
 		}
 		?>
-	);
+			],
+			"buttons": [{
+		
+				"text": "<?php echo ext_Lang::msg( 'btnadd', true ) ?>", 
+				"handler": function() {
+							Ext.Ajax.request( { url: "<?php echo basename($GLOBALS['script_name']) ?>",
+								"params": { "option": "com_extplorer","action": "admin","action2": "adduser" },	
+								"callback": function(oElement, bSuccess, oResponse) {
+											if( !bSuccess ) {
+												Ext.Msg.alert( "Ajax communication failure!");
+											}
+											if( oResponse && oResponse.responseText ) {
+												try{ json = Ext.decode( oResponse.responseText );
+													if( json.error && typeof json.error != 'xml' ) {
+														Ext.Msg.alert( "<?php echo ext_Lang::err('error', true ) ?>", json.error );
+														dialog.destroy();
+														return false;
+													}
+												} catch(e) { return false; }
+												
+												Ext.getCmp("dialog_tabpanel").add( json );
+												Ext.getCmp("dialog_tabpanel").activate(json.id);
+												Ext.getCmp("dialog").syncSize();
+											}
+										  } 
+							
+							});
+						}
+			},
+			{
+				"text": "<?php echo ext_Lang::msg( 'btnedit', true ) ?>", 
+				"handler": function() {
+							frm =  Ext.getCmp("userlist").getForm();
+							try {
+								theUser = frm.findField(0).getGroupValue();
+							} catch(e) {
+								Ext.Msg.alert( "Error", "<?php echo ext_Lang::err('miscselitems', true ) ?>" );
+								return;
+							}
+							Ext.Ajax.request( { url: "<?php echo basename($GLOBALS['script_name']) ?>",
+								"params": { option: "com_extplorer","action": "admin","action2": "edituser","nuser":theUser },	
+								"callback": function(oElement, bSuccess, oResponse) {
+											if( !bSuccess ) {
+												Ext.Msg.alert( "Ajax communication failure!");
+											}
+											if( oResponse && oResponse.responseText ) {
+												try{ json = Ext.decode( oResponse.responseText );
+													if( json.error && typeof json.error != 'xml' ) {
+														Ext.Msg.alert( "<?php echo ext_Lang::err('error', true ) ?>", json.error );
+														dialog.destroy();
+														return false;
+													}
+												} catch(e) { return false; }
+												
+												Ext.getCmp("dialog_tabpanel").add( json );
+												Ext.getCmp("dialog_tabpanel").activate(json.id);
+												Ext.getCmp("dialog").syncSize();
+											}
+										  } 
+							
+							});
+						}
+			},
+			{
+				"text": "<?php echo ext_Lang::msg( 'btnremove', true ) ?>", 
+				"handler": function() {
+							frm =  Ext.getCmp("userlist").getForm();
+							try {
+								theUser = frm.findField(0).getGroupValue();
+							} catch(e) {
+								Ext.Msg.alert( "Error", "<?php echo ext_Lang::err('miscselitems', true ) ?>" );
+								return;
+							}
+					
+							Ext.Msg.confirm( "", String.format( "<?php echo ext_Lang::err('miscdeluser', true ) ?>", theUser ), function( btn ) {
+								if( btn != 'yes') return;
+								statusBarMessage( "Please wait...", true );
+								frm.submit({
+									"success": function(form, action) {
+										statusBarMessage( action.result.message, false, true );
+									},
+									"failure": function(form, action) {
+										if( !action.result ) return;
+										Ext.MessageBox.alert("Error!", action.result.error);
+										statusBarMessage( action.result.error, false, true );
+									},
+									"scope": Ext.getCmp("userlist").getForm(),
+									// add some vars to the request, similar to hidden fields
+									"params": {
+										"option": "com_extplorer", 
+										"action": "admin",
+										"action2": "rmuser",
+										"user": theUser
+									}
+								});
+							});
+						}
+			}
+		]
 
-	UserForm.addButton('<?php echo ext_Lang::msg( 'btnadd', true ) ?>', function() {
-		dialog_panel.load({url: '<?php echo basename($GLOBALS['script_name']) ?>', 
-				params: {
-					option: 'com_extplorer', 
-					action: 'admin',
-					action2: 'adduser'
-				}
-		});
-	});
-	UserForm.addButton('<?php echo ext_Lang::msg( 'btnedit', true ) ?>', function() {
-		try {
-			theUser = UserForm.findField(0).getGroupValue();
-		} catch(e) {
-			Ext.Msg.alert( 'Error', '<?php echo ext_Lang::err('miscselitems', true ) ?>' );
-			return;
-		}
-		dialog_panel.load({url: '<?php echo basename($GLOBALS['script_name']) ?>', 
-				params: {
-					option: 'com_extplorer', 
-					action: 'admin',
-					action2: 'edituser',
-					nuser: theUser
-				}
-		});
-	});
-
-	UserForm.addButton('<?php echo ext_Lang::msg( 'btnremove', true ) ?>', function() {
-		try {
-			theUser = UserForm.findField(0).getGroupValue();
-		} catch(e) {
-			Ext.Msg.alert( 'Error', '<?php echo ext_Lang::err('miscselitems', true ) ?>' );
-			return;
-		}
-
-		Ext.Msg.confirm( '', String.format( '<?php echo ext_Lang::err('miscdeluser', true ) ?>', theUser ), function( btn ) {
-			if( btn != 'yes') return;
-			statusBarMessage( 'Please wait...', true );
-			UserForm.submit({
-				success: function(form, action) {
-					statusBarMessage( action.result.message, false, true );
-				},
-				failure: function(form, action) {
-					if( !action.result ) return;
-					Ext.MessageBox.alert('Error!', action.result.error);
-					statusBarMessage( action.result.error, false, true );
-				},
-				scope: UserForm,
-				// add some vars to the request, similar to hidden fields
-				params: {
-					option: 'com_extplorer', 
-					action: 'admin',
-					action2: 'rmuser',
-					user: theUser
-				}
-			});
-		});
-	});
-	UserForm.render('userList');
-	Ext.get('userList').createChild({
-		tag:'center', 
-		cn: {
-			tag:'span',
-			html: '<?php echo ext_Lang::msg('miscuseritems', true ) ?>',
-			style:'margin-bottom:5px;'
-		}
-	});
 		<?php
 	}
 	?>
-	var tabs = new Ext.TabPanel("adminForm");
-	tabs.addTab("userList", '<?php echo ext_Lang::msg('actusers', true) ?>');
-	tabs.addTab("passForm", '<?php echo ext_Lang::msg('actchpwd', true) ?>');
-	<?php
-	if( $_SESSION['s_user'] == 'admin' && $_SESSION['s_pass'] == extEncodePassword('admin')) {
-		echo 'tabs.activate("passForm");';
-	} else {
-		echo 'tabs.activate("userList");';
-	}
-	?>
 
-	</script>
-	<?php
+	}]
+}
+<?php
 }
 //------------------------------------------------------------------------------
 function changepwd($dir) {			// Change Password
@@ -270,12 +313,9 @@ function adduser($dir) {			// Add User
 		if(!add_user($data)) {
 			ext_Result::sendResult('adduser', false, $user.": ".$GLOBALS["error_msg"]["adduser"]);
 		}
-		ext_Result::sendResult('adduser', false, $user.": The user has been added");
+		ext_Result::sendResult('adduser', true, $user.": The user has been added");
 		return;
 	}
-
-	// Javascript functions:
-	include _EXT_PATH . "/include/js_admin2.php";
 
 	show_userform();
 
@@ -318,186 +358,175 @@ function edituser($dir) {			// Edit User
 		ext_Result::sendResult('edituser', true, $user.": ".$GLOBALS["error_msg"]["saveuser"]);
 	}
 
-	// Javascript functions:
-	include _EXT_PATH . "/include/js_admin3.php";
 	show_userform( $data);
 }
 
 function show_userform( $data = null ) {
 	if( $data == null ) { $data = array('', '', '', '', '', '', '' ); }
+	$formname = @$data[0] ? 'frmedituser' : 'frmadduser';
+	?>
+{
+	"xtype": "form",
+	"id" : "<?php echo $formname ?>",
+	"renderTo": Ext.getCmp("dialog_tabpanel").getEl(),
+	"hidden": true,
+	"closable":true,
+	"labelWidth": 125,
+	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+	"title": "<?php
+		if( !empty( $data[0] )) {
+			printf($GLOBALS["messages"]["miscedituser"],$data[0]);
 
-?>
-	<div>
-		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-			<h3 style="margin-bottom:5px;"><?php
-			if( !empty( $data[0] )) {
-				echo $GLOBALS["messages"]["actadmin"].": ".sprintf($GLOBALS["messages"]["miscedituser"],$data[0]);
-
-			} else {
-				echo $GLOBALS["messages"]["actadmin"].": ".$GLOBALS["messages"]["miscadduser"];
-			}
-			?></h3>
-			<div id="adminForm">
-
-			</div>
-		</div></div></div>
-		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
-	<script type="text/javascript">
-	var yesno = new Ext.data.SimpleStore({
-		fields: ['yesno', 'Yes_No'],
-		data :	[
-			['1', '<?php echo ext_Lang::msg( array('miscyesno' => 0), true ) ?>'],
-			['0', '<?php echo ext_Lang::msg( array('miscyesno' => 1), true ) ?>']
-			]
-	});
-	var permvalues = new Ext.data.SimpleStore({
-		fields: ['value', 'text'],
-		data: [
-
-	<?php
-		$permvalues = array(0,1,2,3,7);
-		$permcount = count($GLOBALS["messages"]["miscpermnames"]);
-		for($i=0;$i<$permcount;++$i) {
-			if( $permvalues[$i]==7) $index = 4;
-			else $index = $i;
-			echo "['{$permvalues[$i]}', '".ext_lang::msg( array('miscpermnames' => $index))."' ]\n";
-			if( $i+1<$permcount) echo ',';
+		} else {
+			echo $GLOBALS["messages"]["miscadduser"];
 		}
-		?>
-	]});
-	var userform = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-
-
-	userform.add(
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscusername', true ) ?>',
-			name: 'nuser',
-			value: '<?php echo @$data[0] ?>',
-			width:175,
-			allowBlank:false
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscconfpass', true ) ?>',
-			name: 'pass1',
-			inputType: 'password',
-			width:175
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscconfnewpass', true ) ?>',
-			name: 'pass2',
-			inputType: 'password',
-			width:175
-		}),
+		?>"	,
+		
+	items: [{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscusername', true ) ?>",
+			"name": "nuser",
+			"value": "<?php echo @$data[0] ?>",
+			"width":175,
+			"allowBlank":false
+		},{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscconfpass', true ) ?>",
+			"name": "pass1",
+			"inputType": "password",
+			"width":175
+		},
+		{	"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscconfnewpass', true ) ?>",
+			"name": "pass2",
+			"inputType": "password",
+			"width":175
+		},
 		<?php
 		if( !empty($data[0])) { ?>
-			new Ext.form.Checkbox({
-				fieldLabel: '<?php echo ext_Lang::msg( 'miscchpass', true ) ?>',
-				name: 'chpass',
-				hiddenValue: 'true'
-			}),
+			{	"xtype": "checkbox",
+				"fieldLabel": "<?php echo ext_Lang::msg( 'miscchpass', true ) ?>",
+				"name": "chpass",
+				"hiddenValue": "true"
+			},
 			<?php 
 		} ?>
-
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'mischomedir', true ) ?>',
-			name: 'home_dir',
-			value: '<?php echo !empty($data[2]) ? $data[2] : $_SERVER['DOCUMENT_ROOT'] ?>',
-			width:175,
-			allowBlank:false
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'mischomeurl', true ) ?>',
-			name: 'home_url',
-			value: '<?php echo !empty($data[3]) ? $data[3] : $GLOBALS["home_url"] ?>',
-			width:175,
-			allowBlank:false
-		}),
-		new Ext.form.ComboBox({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscshowhidden', true ) ?>',
-			store: yesno,
-			displayField:'Yes_No',
-			valueField: 'yesno',
-			hiddenName: 'show_hidden',
-			disableKeyFilter: true,
-			value: '<?php echo ( !empty($data[4]) ? $data[4] : (int)$data[4] ) ?>',
-			editable: false,
-			triggerAction: 'all',
-			mode: 'local',
-			allowBlank: false,
-			selectOnFocus:true
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'mischidepattern', true ) ?>',
-			name: 'no_access',
-			value: '<?php echo @$data[5] ?>',
-			width:175,
-			allowBlank:true
-		}),
-
-		new Ext.form.ComboBox({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscperms', true ) ?>',
-			store: permvalues,
-			valueField: 'value',
-			displayField:'text',
-			hiddenName: 'permissions',
-			disableKeyFilter: true,
-			value: '<?php echo (int)@$data[6] ?>',
-			editable: false,
-			triggerAction: 'all',
-			mode: 'local'
-		}),
-		new Ext.form.ComboBox({
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscactive', true ) ?>',
-			store: yesno,
-			displayField:'Yes_No',
-			valueField: 'yesno',
-			hiddenName: 'active',
-			disableKeyFilter: true,
-			value: '<?php echo ( !empty($data[7]) ? $data[7] : 0 ) ?>',
-			disabled: <?php echo !empty($self) ? 'true' : 'false' ?>,
-			editable: false,
-			triggerAction: 'all',
-			mode: 'local',
-			allowBlank: false,
-			selectOnFocus:true
-		})
-	);
-	userform.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
-		if( !check_pwd()) return;
-		statusBarMessage( 'Please wait...', true );
-		userform.submit({
-			success: function(form, action) {
-				statusBarMessage( action.result.message, false, true );
-				dialog_panel.load({ url: '<?php echo make_link('admin','') ?>' });
-			},
-			failure: function(form, action) {
-				if( !action.result ) return;
-				Ext.MessageBox.alert('Error!', action.result.error);
-				statusBarMessage( action.result.error, false, true );
-			},
-			scope: userform,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					user: '<?php echo @$data[0] ?>',
-					action: 'admin', 
-					action2: '<?php echo @$data[0] ? 'edituser' : 'adduser' ?>',
-					confirm: 'true'
-			}
-		})
-	});
-	userform.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', 
-		function() { 
-			dialog_panel.load({ url: '<?php echo make_link('admin', '') ?>' });
-		} 
-	);
-	userform.render('adminForm');
-	</script>
+		{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'mischomedir', true ) ?>",
+			"name": "home_dir",
+			"value": "<?php echo !empty($data[2]) ? $data[2] : $_SERVER['DOCUMENT_ROOT'] ?>",
+			"width":175,
+			"allowBlank":false
+		},
+		{ 	"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'mischomeurl', true ) ?>",
+			"name": "home_url",
+			"value": "<?php echo !empty($data[3]) ? $data[3] : $GLOBALS["home_url"] ?>",
+			"width":175,
+			"allowBlank":false
+		},{
+			"xtype": "combo",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscshowhidden', true ) ?>",
+			"store": [
+					["1", "<?php echo ext_Lang::msg( array('miscyesno' => 0), true ) ?>"],
+					["0", "<?php echo ext_Lang::msg( array('miscyesno' => 1), true ) ?>"]
+				   ],
+			"hiddenName": "show_hidden",
+			"disableKeyFilter": true,
+			"value": "<?php echo ( !empty($data[4]) ? $data[4] : (int)$data[4] ) ?>",
+			"editable": false,
+			"triggerAction": "all",
+			"mode": "local",
+			"allowBlank": false,
+			"selectOnFocus":true
+		},
+		{ 	"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'mischidepattern', true ) ?>",
+			"name": "no_access",
+			"value": "<?php echo @$data[5] ?>",
+			"width":175,
+			"allowBlank":true
+		},
+		{
+			"xtype": "combo",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscperms', true ) ?>",
+			"store": [<?php
+						$permvalues = array(0,1,2,3,7);
+						$permcount = count($GLOBALS["messages"]["miscpermnames"]);
+						for($i=0;$i<$permcount;++$i) {
+							if( $permvalues[$i]==7) $index = 4;
+							else $index = $i;
+							echo '["'.$permvalues[$i].'", "'.ext_lang::msg( array('miscpermnames' => $index)).'" ]'."\n";
+							if( $i+1<$permcount) echo ',';
+						}
+						?>
+					],
+			"hiddenName": "permissions",
+			"disableKeyFilter": true,
+			"value": "<?php echo (int)@$data[6] ?>",
+			"editable": false,
+			"triggerAction": "all",
+			"mode": "local"
+		},
+		{ 	"xtype": "combo",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'miscactive', true ) ?>",
+			"store": [
+					["1", "<?php echo ext_Lang::msg( array('miscyesno' => 0), true ) ?>"],
+					["0", "<?php echo ext_Lang::msg( array('miscyesno' => 1), true ) ?>"]
+				   ],
+			"hiddenName": "active",
+			"disableKeyFilter": true,
+			"value": "<?php echo ( !empty($data[7]) ? $data[7] : 0 ) ?>",
+			"disabled": <?php echo !empty($self) ? 'true' : 'false' ?>,
+			"editable": false,
+			"triggerAction": "all",
+			"mode": "local",
+			"allowBlank": false,
+			"selectOnFocus":true
+		}
+	],
+	
+	"buttons": [ {
+		"text": "<?php echo ext_Lang::msg( 'btnsave', true ) ?>", 
+		"handler": function() {
+					userform = Ext.getCmp("<?php echo $formname ?>").getForm();
+					if(userform.findField('nuser').getValue()=="" || userform.findField('home_dir').getValue()=="") {
+						Ext.Msg.alert('Status', "<?php echo ext_Lang::err('miscfieldmissed', true ); ?>");
+						return false;
+					}
+					if(userform.findField('chpass').getValue() &&
+						userform.findField('pass1').getValue() != userform.findField('pass2').getValue())
+					{
+						Ext.Msg.alert('Status', "<?php echo ext_Lang::err('miscnopassmatch', true ); ?>");
+						return false;
+					}
+					statusBarMessage( 'Please wait...', true );
+					userform.submit({
+						"success": function(form, action) {
+							statusBarMessage( action.result.message, false, true );
+							Ext.getCmp("dialog_tabpanel").remove("<?php echo $formname ?>");
+						},
+						"failure": function(form, action) {
+							if( !action.result ) return;
+							Ext.Msg.alert('Error!', action.result.error);
+							statusBarMessage( action.result.error, false, true );
+						},
+						"scope": userform,
+						// add some vars to the request, similar to hidden fields
+						"params": {option: 'com_extplorer', 
+								user: "<?php echo @$data[0] ?>",
+								"action": 'admin', 
+								"action2": "<?php echo @$data[0] ? 'edituser' : 'adduser' ?>",
+								"confirm": "true"
+						}
+					})
+				}
+	},{
+		"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
+		"handler": function() { Ext.getCmp("dialog_tabpanel").remove("<?php echo $formname ?>"); }
+	}]
+}
 	<?php
 }
 //------------------------------------------------------------------------------
@@ -546,4 +575,3 @@ function show_admin($dir) {			// Execute Admin Action
 }
 //------------------------------------------------------------------------------
 
-?>

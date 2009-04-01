@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -104,127 +104,134 @@ class ext_Upload extends ext_Action {
 		}
 
 	?>
-	<div style="width:auto;">
-		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-			<h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actupload') ?></h3>
-			<?php echo '<br />
-			'.ext_Lang::msg('max_file_size').' = <strong>'. ((get_max_file_size() / 1024) / 1024).' MB</strong><br />
-			'.ext_Lang::msg('max_post_size').' = <strong>'. ((get_max_upload_limit() / 1024) / 1024).' MB</strong><br />';
-			?>
-		<div id="adminForm">
-			<div id="uploadForm"></div>
-			<div id="transferForm"><h4><?php echo ext_Lang::msg('acttransfer') ?></h4></div>
-		</div>
-		</div></div></div>
-		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
-	<script type="text/javascript">
-	var simple = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>',
-		fileUpload: true
-	});
-	simple.add(
+{
+	"xtype": "tabpanel",
+	"id": "dialog_tabpanel",
+	"activeItem": "uploadform",
+	"dialogtitle": "<?php echo ext_Lang::msg('actupload') ?>",	
+	"items": [
+	{
+		"xtype": "form",
+		"id": "uploadform",
+		"renderTo": Ext.getBody(),
+		"fileUpload": true,
+		"labelWidth": 125,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		"title": "<?php echo ext_Lang::msg('actupload') ?>",
+		"tooltip": "<?php echo ext_Lang::msg('max_file_size').' = <strong>'. ((get_max_file_size() / 1024) / 1024).' MB<\/strong><br \/>'
+				.ext_Lang::msg('max_post_size').' = <strong>'. ((get_max_upload_limit() / 1024) / 1024).' MB<\/strong><br \/>';
+				?>",
+		"frame": true,
+		"items": [
 		<?php
 		for($i=0;$i<7;$i++) {
-			echo "new Ext.form.TextField({
-				fieldLabel: '".ext_Lang::msg('file', true ).' '.($i+1)."',
-				name: 'userfile[$i]',
-				width:275,
-				inputType: 'file'
-			}),";
+			echo '{
+				"xtype": "textfield",
+				"fieldLabel": "'.ext_Lang::msg('file', true ).' '.($i+1).'",
+				"name": "userfile['.$i.']",
+				"width":275,
+				"inputType": "file"
+			},';
 		}
 		?>
-		new Ext.form.Checkbox({
-			fieldLabel: '<?php echo ext_Lang::msg('overwrite_files', true ) ?>',
-			name: 'overwrite_files',
-			checked: true
-		})
-		);
-
-	simple.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
-		statusBarMessage( '<?php echo ext_Lang::msg( 'upload_processing', true ) ?>', true );
-		simple.submit({
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				datastore.reload();
-				statusBarMessage( action.result.message, false, true );
-				dialog.destroy();
-			},
-			failure: function(form, action) {
-				if( !action.result ) return;
-				Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-				statusBarMessage( action.result.error, false, false );
-			},
-			scope: simple,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					action: 'upload', 
-					dir: datastore.directory,
-					requestType: 'xmlhttprequest',
-					confirm: 'true'}
-		});
-	});
-	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
-	simple.render('uploadForm');
-
-	var transfer = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	transfer.add(
-	<?php
-		for($i=0;$i<7;$i++) {
-			echo "new Ext.form.TextField({
-				fieldLabel: '".ext_Lang::msg('url_to_file', true )."',
-				name: 'userfile[$i]',
-				width:275
-			}),";
-		}
-		?>
-		new Ext.form.Checkbox({
-			fieldLabel: '<?php echo ext_Lang::msg('overwrite_files', true ) ?>',
-			name: 'overwrite_files',
-			checked: true
-		})
-		);
-
-	transfer.addButton('<?php echo ext_Lang::msg( 'btnsave', true ) ?>', function() {
-		statusBarMessage( '<?php echo ext_Lang::msg( 'transfer_processing', true ) ?>', true );
-		transfer.submit({
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				datastore.reload();
-				statusBarMessage( action.result.message, false, true );
-				dialog.destroy();
-			},
-			failure: function(form, action) {
-				if( !action.result ) return;
-				Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-				statusBarMessage( action.result.error, false, false );
-			},
-			scope: transfer,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					action: 'transfer', 
-					dir: datastore.directory,
-					confirm: 'true'
+		{	"xtype": "checkbox",
+			"fieldLabel": "<?php echo ext_Lang::msg('overwrite_files', true ) ?>",
+			"name": "overwrite_files",
+			"checked": true
+		}],
+		"buttons": [{
+			"text": "<?php echo ext_Lang::msg( 'btnsave', true ) ?>", 
+			"handler": function() {
+				statusBarMessage( '<?php echo ext_Lang::msg( 'upload_processing', true ) ?>', true );
+				form = Ext.getCmp("uploadform").getForm();
+				form.submit({
+					//reset: true,
+					reset: false,
+					success: function(form, action) {
+						datastore.reload();
+						statusBarMessage( action.result.message, false, true );
+						Ext.getCmp("dialog").destroy();
+					},
+					failure: function(form, action) {
+						if( !action.result ) return;
+						Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+						statusBarMessage( action.result.error, false, false );
+					},
+					"scope": form,
+					// add some vars to the request, similar to hidden fields
+					"params": {
+						"option": "com_extplorer", 
+						"action": "upload", 
+						"dir": datastore.directory,
+						"requestType": "xmlhttprequest",
+						"confirm": "true"
+					}
+				});
 			}
-		});
-	});
-	transfer.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
-
-	transfer.render('transferForm');
-
-	var tabs = new Ext.TabPanel("adminForm");
-	tabs.addTab("uploadForm", '<?php echo ext_Lang::msg('actupload', true) ?>');
-	tabs.addTab("transferForm", '<?php echo ext_Lang::msg('acttransfer', true) ?>');
-	tabs.activate('uploadForm');
-	</script>
+		}, {
+			"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
+			"handler": function() { Ext.getCmp("dialog").destroy(); } 
+		}]
+	},
+	{
+	
+		"xtype": "form",
+		"id": "transferform",
+		"renderTo": Ext.getBody(),
+		"hidden": true,
+		"title": "<?php echo ext_Lang::msg('acttransfer') ?>",
+		"items": [
+		<?php
+			for($i=0;$i<7;$i++) {
+				echo '{
+					"xtype": "textfield",
+					"fieldLabel": "'.ext_Lang::msg('url_to_file', true ).'",
+					"name": "userfile['.$i.']",
+					"width":275
+				},';
+			}
+			?>
+			{	"xtype": "checkbox",
+				"fieldLabel": "<?php echo ext_Lang::msg('overwrite_files', true ) ?>",
+				"name": "overwrite_files",
+				"checked": true
+			}
+		],
+		"buttons": [{
+	
+			"text": "<?php echo ext_Lang::msg( 'btnsave', true ) ?>", 
+			"handler": function() {
+				statusBarMessage( '<?php echo ext_Lang::msg( 'transfer_processing', true ) ?>', true );
+				transfer = Ext.getCmp("transferform").getForm();
+				transfer.submit({
+					//reset: true,
+					reset: false,
+					success: function(form, action) {
+						datastore.reload();
+						statusBarMessage( action.result.message, false, true );
+						dialog.destroy();
+					},
+					failure: function(form, action) {
+						if( !action.result ) return;
+						Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+						statusBarMessage( action.result.error, false, false );
+					},
+					scope: transfer,
+					// add some vars to the request, similar to hidden fields
+					params: {
+						"option": "com_extplorer", 
+						"action": "transfer", 
+						"dir": datastore.directory,
+						"confirm": 'true'
+					}
+				});
+			}
+		},{
+			"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
+			"handler": function() { Ext.getCmp("dialog").destroy(); }
+		}]
+	}]
+}
 	<?php
 
 	}

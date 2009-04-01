@@ -4,7 +4,7 @@ if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -161,7 +161,6 @@ require_once(_EXT_PATH . "/config/mimes.php");
 require_once(_EXT_PATH . '/libraries/JSON.php');
 require_once(_EXT_PATH . "/libraries/File_Operations.php");
 require_once(_EXT_PATH . "/include/header.php");
-require_once(_EXT_PATH . "/include/footer.php");
 require_once(_EXT_PATH . "/include/result.class.php");
 
 

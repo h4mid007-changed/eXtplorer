@@ -1,7 +1,11 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
+// ensure this file is being included by a parent file
+if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
+ * @version $Id$
+ * @package eXtplorer
+ *
+ *
  * Converts to and from JSON format.
  *
  * JSON (JavaScript Object Notation) is a lightweight data-interchange
@@ -45,51 +49,49 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  *
- * @category
- * @package     ext_Json
  * @author      Michal Migurski <mike-json@teczno.com>
  * @author      Matt Knapp <mdknapp[at]gmail[dot]com>
  * @author      Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
  * @copyright   2005 Michal Migurski
- * @version     CVS: $Id$
+ * @version     CVS: $Id:JSON.php,v 1.2 2009/03/13 03:43:58 alan_k Exp $
  * @license     http://www.opensource.org/licenses/bsd-license.php
- * @link        http://pear.php.net/pepr/pepr-proposal-show.php?id=198
+ * @link        http://pear.php.net/package/Services_JSON
  */
 
 /**
  * Marker constant for ext_Json::decode(), used to flag stack state
  */
-defined('SERVICES_JSON_SLICE') or define('SERVICES_JSON_SLICE',   1);
+define('SERVICES_JSON_SLICE',   1);
 
 /**
  * Marker constant for ext_Json::decode(), used to flag stack state
  */
-defined('SERVICES_JSON_IN_STR') or define('SERVICES_JSON_IN_STR',  2);
+define('SERVICES_JSON_IN_STR',  2);
 
 /**
  * Marker constant for ext_Json::decode(), used to flag stack state
  */
-defined('SERVICES_JSON_IN_ARR') or define('SERVICES_JSON_IN_ARR',  3);
+define('SERVICES_JSON_IN_ARR',  3);
 
 /**
  * Marker constant for ext_Json::decode(), used to flag stack state
  */
-defined('SERVICES_JSON_IN_OBJ') or define('SERVICES_JSON_IN_OBJ',  4);
+define('SERVICES_JSON_IN_OBJ',  4);
 
 /**
  * Marker constant for ext_Json::decode(), used to flag stack state
  */
-defined('SERVICES_JSON_IN_CMT') or define('SERVICES_JSON_IN_CMT', 5);
+define('SERVICES_JSON_IN_CMT', 5);
 
 /**
  * Behavior switch for ext_Json::decode()
  */
-defined('SERVICES_JSON_LOOSE_TYPE') or define('SERVICES_JSON_LOOSE_TYPE', 16);
+define('SERVICES_JSON_LOOSE_TYPE', 16);
 
 /**
  * Behavior switch for ext_Json::decode()
  */
-defined('SERVICES_JSON_SUPPRESS_ERRORS') or define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
+define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
 
 /**
  * Converts to and from JSON format.
@@ -97,8 +99,8 @@ defined('SERVICES_JSON_SUPPRESS_ERRORS') or define('SERVICES_JSON_SUPPRESS_ERROR
  * Brief example of use:
  *
  * <code>
- * // create a new instance of ext_Json
- * $json = new ext_Json();
+ * // create a new instance of Services_JSON
+ * $json = new Services_JSON();
  *
  * // convert a complexe value to JSON notation, and send it to the browser
  * $value = array('foo', 'bar', array(1, 2, 'baz'), array(3, array(4)));
@@ -224,10 +226,10 @@ class ext_Json
     }
 
    /**
-    * encodes an arbitrary variable into JSON format
+    * encodes an arbitrary variable into JSON format (and sends JSON Header)
     *
     * @param    mixed   $var    any number, boolean, string, array, or object to be encoded.
-    *                           see argument 1 to ext_Json() above for array-parsing behavior.
+    *                           see argument 1 to Services_JSON() above for array-parsing behavior.
     *                           if var is a strng, note that encode() always expects it
     *                           to be in ASCII or UTF-8 format!
     *
@@ -236,6 +238,38 @@ class ext_Json
     */
     function encode($var)
     {
+        header('Content-type: application/x-javascript');
+        return $this->_encode($var);
+    }
+    /**
+    * encodes an arbitrary variable into JSON format without JSON Header - warning - may allow CSS!!!!)
+    *
+    * @param    mixed   $var    any number, boolean, string, array, or object to be encoded.
+    *                           see argument 1 to Services_JSON() above for array-parsing behavior.
+    *                           if var is a strng, note that encode() always expects it
+    *                           to be in ASCII or UTF-8 format!
+    *
+    * @return   mixed   JSON string representation of input var or an error if a problem occurs
+    * @access   public
+    */
+    function encodeUnsafe($var)
+    {
+        return $this->_encode($var);
+    }
+    /**
+    * PRIVATE CODE that does the work of encodes an arbitrary variable into JSON format 
+    *
+    * @param    mixed   $var    any number, boolean, string, array, or object to be encoded.
+    *                           see argument 1 to Services_JSON() above for array-parsing behavior.
+    *                           if var is a strng, note that encode() always expects it
+    *                           to be in ASCII or UTF-8 format!
+    *
+    * @return   mixed   JSON string representation of input var or an error if a problem occurs
+    * @access   public
+    */
+    function _encode($var) 
+    {
+         
         switch (gettype($var)) {
             case 'boolean':
                 return $var ? 'true' : 'false';
@@ -295,6 +329,12 @@ class ext_Json
                         case (($ord_var_c & 0xE0) == 0xC0):
                             // characters U-00000080 - U-000007FF, mask 110XXXXX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
+                            if ($c+1 >= $strlen_var) {
+                                $c += 1;
+                                $ascii .= '?';
+                                break;
+                            }
+                            
                             $char = pack('C*', $ord_var_c, ord($var{$c + 1}));
                             $c += 1;
                             $utf16 = $this->utf82utf16($char);
@@ -302,17 +342,27 @@ class ext_Json
                             break;
 
                         case (($ord_var_c & 0xF0) == 0xE0):
+                            if ($c+2 >= $strlen_var) {
+                                $c += 2;
+                                $ascii .= '?';
+                                break;
+                            }
                             // characters U-00000800 - U-0000FFFF, mask 1110XXXX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
                             $char = pack('C*', $ord_var_c,
-                                         ord($var{$c + 1}),
-                                         ord($var{$c + 2}));
+                                         @ord($var{$c + 1}),
+                                         @ord($var{$c + 2}));
                             $c += 2;
                             $utf16 = $this->utf82utf16($char);
                             $ascii .= sprintf('\u%04s', bin2hex($utf16));
                             break;
 
                         case (($ord_var_c & 0xF8) == 0xF0):
+                            if ($c+3 >= $strlen_var) {
+                                $c += 3;
+                                $ascii .= '?';
+                                break;
+                            }
                             // characters U-00010000 - U-001FFFFF, mask 11110XXX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
                             $char = pack('C*', $ord_var_c,
@@ -327,6 +377,11 @@ class ext_Json
                         case (($ord_var_c & 0xFC) == 0xF8):
                             // characters U-00200000 - U-03FFFFFF, mask 111110XX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
+                            if ($c+4 >= $strlen_var) {
+                                $c += 4;
+                                $ascii .= '?';
+                                break;
+                            }
                             $char = pack('C*', $ord_var_c,
                                          ord($var{$c + 1}),
                                          ord($var{$c + 2}),
@@ -338,6 +393,11 @@ class ext_Json
                             break;
 
                         case (($ord_var_c & 0xFE) == 0xFC):
+                        if ($c+5 >= $strlen_var) {
+                                $c += 5;
+                                $ascii .= '?';
+                                break;
+                            }
                             // characters U-04000000 - U-7FFFFFFF, mask 1111110X
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
                             $char = pack('C*', $ord_var_c,
@@ -352,8 +412,7 @@ class ext_Json
                             break;
                     }
                 }
-
-                return '"'.$ascii.'"';
+                return (strpos($ascii, "'") > -1)  ? '"'.$ascii.'"' : "'".$ascii."'";
 
             case 'array':
                /*
@@ -390,7 +449,7 @@ class ext_Json
                 }
 
                 // treat it like a regular array
-                $elements = array_map(array($this, 'encode'), $var);
+                $elements = array_map(array($this, '_encode'), $var);
 
                 foreach($elements as $element) {
                     if(ext_Json::isError($element)) {
@@ -418,7 +477,7 @@ class ext_Json
             default:
                 return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS)
                     ? 'null'
-                    : new ext_Json_Error(gettype($var)." can not be encoded as JSON string");
+                    : new Services_JSON_Error(gettype($var)." can not be encoded as JSON string");
         }
     }
 
@@ -433,13 +492,13 @@ class ext_Json
     */
     function name_value($name, $value)
     {
-        $encoded_value = $this->encode($value);
+        $encoded_value = $this->_encode($value);
 
         if(ext_Json::isError($encoded_value)) {
             return $encoded_value;
         }
 
-        return $this->encode(strval($name)) . ':' . $encoded_value;
+        return $this->_encode(strval($name)) . ':' . $encoded_value;
     }
 
    /**
@@ -476,7 +535,7 @@ class ext_Json
     *
     * @return   mixed   number, boolean, string, array, or object
     *                   corresponding to given JSON input string.
-    *                   See argument 1 to ext_Json() above for object-output behavior.
+    *                   See argument 1 to Services_JSON() above for object-output behavior.
     *                   Note that decode() always returns strings
     *                   in ASCII or UTF-8 format!
     * @access   public
@@ -778,9 +837,9 @@ class ext_Json
 
 if (class_exists('PEAR_Error')) {
 
-    class ext_Json_Error extends PEAR_Error
+    class Services_JSON_Error extends PEAR_Error
     {
-        function ext_Json_Error($message = 'unknown error', $code = null,
+        function Services_JSON_Error($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
             parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
@@ -792,9 +851,9 @@ if (class_exists('PEAR_Error')) {
     /**
      * @todo Ultimately, this class shall be descended from PEAR_Error
      */
-    class ext_Json_Error
+    class Services_JSON_Error
     {
-        function ext_Json_Error($message = 'unknown error', $code = null,
+        function Services_JSON_Error($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
 
@@ -802,5 +861,4 @@ if (class_exists('PEAR_Error')) {
     }
 
 }
-    
-?>
+   

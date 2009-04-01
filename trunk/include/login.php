@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -66,16 +66,18 @@ function login() {
 			$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );
 			$GLOBALS['mainframe']->addcustomheadtag( '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
-			.'&amp;subdir[0]=scripts/extjs/&amp;file[0]=yui-utilities.js'
-			.'&amp;subdir[1]=scripts/extjs/&amp;file[1]=ext-yui-adapter.js'
-			.'&amp;subdir[2]=scripts/extjs/&amp;file[2]=ext-all.js&amp;gzip=1"></script>
+			.'&amp;subdir[0]=scripts/extjs2/&amp;file[0]=yui-utilities.js'
+			.'&amp;subdir[1]=scripts/extjs2/&amp;file[1]=ext-yui-adapter.js'
+			.'&amp;subdir[2]=scripts/extjs2/&amp;file[2]=ext-all.js&amp;gzip=1"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
-		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip=1" />');
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs2/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs/css/&file[1]=xtheme-aero.css&amp;gzip=1" />');
 
 			$langs = get_languages();
 			?>
 		<div style="width: 400px;" id="formContainer">
-			<?php show_footer(); ?>
+			<div id="ext_logo" style="text-align:center;">
+			<img src="<?php echo _EXT_URL ?>/images/eXtplorer.gif" align="middle" alt="eXtplorer Logo" />
+			</div>
 			<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
 			<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
 
@@ -100,25 +102,36 @@ function login() {
 		?>
 			]
 	});
-	var simple = new Ext.form.Form({
+	var simple = new Ext.FormPanel({
 		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	simple.add(
-		new Ext.form.TextField({
+		url:'<?php echo basename( $GLOBALS['script_name']) ?>',
+		bodyStyle: {background:"transparent",border: "none"},
+		keys: {
+		    key: Ext.EventObject.ENTER,
+		    fn  : function(){
+				if (simple.getForm().isValid()) {
+					submitLoginForm();
+    	        } else {
+        	        return false;
+            	}
+            }
+		},
+		renderTo: "adminForm",
+		items: [{
+            xtype:'textfield',
 			fieldLabel: '<?php echo ext_Lang::msg( 'miscusername', true ) ?>',
 			name: 'p_user',
 			width:175,
 			allowBlank:false
-		}),
-		new Ext.form.TextField({
+		},{
+			xtype:'textfield',
 			fieldLabel: '<?php echo ext_Lang::msg( 'miscpassword', true ) ?>',
 			name: 'p_pass',
 			inputType: 'password',
 			width:175,
 			allowBlank:false
-		}),
-		new Ext.form.ComboBox({
+		}, new Ext.form.ComboBox({
+			
 			fieldLabel: '<?php echo ext_Lang::msg( 'misclang', true ) ?>',
 			store: languages,
 			displayField:'langname',
@@ -132,37 +145,49 @@ function login() {
 			allowBlank: false,
 			selectOnFocus:true
 		})
-	);
-
-	simple.addButton({text: '<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', type: 'submit'}, function() {
-		Ext.get( 'statusBar').update( 'Please wait...' );
-		simple.submit({
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				Ext.get( 'statusBar').update( action.result.message );
-			location.href = '<?php echo basename( $GLOBALS['script_name']) ?>?extplorer';
-			},
-			failure: function(form, action) {
-				if( !action.result ) return;
-				Ext.MessageBox.alert('Error!', action.result.error);
-				Ext.get( 'statusBar').update( action.result.error );
-				simple.findField( 'p_pass').setValue('');
-				simple.findField( 'p_user').focus();
-			},
-			scope: simple,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					action: 'login'
+		],
+		buttons: [{
+			text: '<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', 
+			type: 'submit',
+			handler: function() {
+				Ext.get( 'statusBar').update( 'Please wait...' );
+				submitLoginForm();
 			}
-		})
+		},{
+			text: '<?php echo ext_Lang::msg( 'btnreset', true ) ?>', 
+			handler: function() { simple.getForm().reset(); } 
+		}
+		]
 	});
-	simple.addButton('<?php echo ext_Lang::msg( 'btnreset', true ) ?>', function() { simple.reset(); } );
-	simple.render('adminForm');
+	
 	Ext.get( 'formContainer').center();
 	Ext.get( 'formContainer').setTop(100);
-	simple.findField('p_user').focus();
-
+	simple.getForm().findField('p_user').focus();
+	
+function submitLoginForm() {
+	form = simple.getForm();
+	form.submit({
+		//reset: true,
+		reset: false,
+		success: function(form, action) {
+			Ext.get( 'statusBar').update( action.result.message );
+			location.href = '<?php echo basename( $GLOBALS['script_name']) ?>?extplorer';
+		},
+		failure: function(form, action) {
+			if( !action.result ) return;
+			Ext.MessageBox.alert('Error!', action.result.error);
+			Ext.get( 'statusBar').update( action.result.error );
+			form.findField( 'p_pass').setValue('');
+			form.findField( 'p_user').focus();
+		},
+		scope: form,
+		// add some vars to the request, similar to hidden fields
+		params: {
+			option: 'com_extplorer', 
+			action: 'login'
+		}
+	});
+}
 </script><?php
 			define( '_LOGIN_REQUIRED', 1 );
 		}
@@ -184,4 +209,4 @@ function logout() {
 function get_session_id( $id=null ) {
 	return extMakePassword( 32 );
 }
-?>
+
