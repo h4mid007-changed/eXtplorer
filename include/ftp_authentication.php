@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -77,70 +77,84 @@ class ext_ftp_authentication {
 		}
 		else {
 			?>
-	<div style="width:auto;">
-		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-			<h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["ftp_header"] ?></h3>
-			<strong><?php echo $GLOBALS["messages"]["ftp_login_lbl"] ?></strong><br />
-	<br />
-			<div id="adminForm">
-
-			</div>
-		</div></div></div>
-		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
-			<script type="text/javascript">
-	var simple = new Ext.form.Form({
-		labelWidth: 175, // label settings here cascade unless overridden
-		url:'<?php echo make_link("rename",$dir,$item) ?>'
-	});
-	simple.add(
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg('ftp_login_name', true ) ?>',
-			name: 'ftp_login_name',
-			width:175,
-			allowBlank:false
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg('ftp_login_pass', true ) ?>',
-			name: 'ftp_login_pass',
-			inputType: 'password',
-			width:175,
-			allowBlank:false
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg('ftp_hostname_port', true ) ?>',
-			name: 'ftp_hostname_port',
-			value: '<?php echo extGetParam($_SESSION,'ftp_host', 'localhost:21') ?>',
-			width:175,
-			allowBlank:false
-		})
-		);
-
-	simple.addButton({text: '<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', type: 'submit' }, function() {
-		statusBarMessage( '<?php echo ext_Lang::msg('ftp_login_check', true ) ?>', true );
-		simple.submit({
-			//reset: true,
-			reset: false,
-			success: function(form, action) { location.reload() },
-			failure: function(form, action) {
-				if( !action.result ) return;
-				Ext.MessageBox.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-				statusBarMessage( action.result.error, false, false );
-			},
-			scope: simple,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					action: 'ftp_authentication'
+	{
+		"xtype": "form",
+		"id": "simpleform",
+		"labelWidth": 125,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		"dialogtitle": "<?php echo $GLOBALS["messages"]["ftp_header"] ?>",
+		"title": "<?php echo $GLOBALS["messages"]["ftp_login_lbl"] ?>",
+		"frame": true,
+		"keys": {
+		    "key": Ext.EventObject.ENTER,
+		    "fn" : function(){
+				if (Ext.getCmp("simpleform").getForm().isValid()) {
+					statusBarMessage( '<?php echo ext_Lang::msg('ftp_login_check', true ) ?>', true );
+					Ext.getCmp("simpleform").getForm().submit({
+						"reset": false,
+						"success": function(form, action) { location.reload() },
+						"failure": function(form, action) {
+							if( !action.result ) return;
+							Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+							statusBarMessage( action.result.error, false, false );
+						},
+						"scope": Ext.getCmp("simpleform").getForm(),
+						"params": {
+							"option": "com_extplorer", 
+							"action": "ftp_authentication"
+						}
+					});
+    	        } else {
+        	        return false;
+            	}
+            }
+		},
+		"items": [{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg('ftp_login_name', true ) ?>",
+			"name": "ftp_login_name",
+			"width":175,
+			"allowBlank":false
+		},{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg('ftp_login_pass', true ) ?>",
+			"name": "ftp_login_pass",
+			"inputType": "password",
+			"width":175,
+			"allowBlank":false
+		},{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg('ftp_hostname_port', true ) ?>",
+			"name": "ftp_hostname_port",
+			"value": "<?php echo extGetParam($_SESSION,'ftp_host', 'localhost:21') ?>",
+			"width":175,
+			"allowBlank":false
+		}],
+		"buttons": [{
+			"text": "<?php echo ext_Lang::msg( 'btnlogin', true ) ?>", 
+			"type": "submit",
+			"handler": function() {
+				statusBarMessage( '<?php echo ext_Lang::msg('ftp_login_check', true ) ?>', true );
+				Ext.getCmp("simpleform").getForm().submit({
+					"reset": false,
+					"success": function(form, action) { location.reload() },
+					"failure": function(form, action) {
+						if( !action.result ) return;
+						Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+						statusBarMessage( action.result.error, false, false );
+					},
+					"scope": Ext.getCmp("simpleform").getForm(),
+					"params": {
+						"option": "com_extplorer", 
+						"action": "ftp_authentication"
+					}
+				});
 			}
-		});
-	});
-	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
-	simple.render('adminForm');
-			</script>
-
-			<br/>
+		},{
+			"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
+			"handler": function() { Ext.getCmp("dialog").destroy(); }
+		}]
+	}
 		<?php
 		}
 	}

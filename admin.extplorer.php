@@ -50,7 +50,7 @@ if( @is_object($acl)) {
 	}
 }
 // The joomlaXplorer version number
-$GLOBALS['ext_version'] = '2.0.1';
+$GLOBALS['ext_version'] = '2.1.0';
 $GLOBALS['ext_home'] = 'http://extplorer.sourceforge.net';
 
 /*
@@ -147,7 +147,6 @@ if( class_exists(strtolower($classname))) {
 		ext_Result::sendResult('', false, '');
 		break;
 	case'get_about':
-		show_about();
 		require_once( _EXT_PATH . "/include/system_info.php" );
 		system_info();
 		break;
@@ -193,6 +192,3 @@ if( ext_isXHR() ) {
 	ext_exit();
 }
 
-
-//------------------------------------------------------------------------------
-?>

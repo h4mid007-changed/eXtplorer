@@ -147,24 +147,6 @@ class ext_Edit extends ext_Action {
 			default: 
 				$cp_lang = 'generic';
 		}
-	?>
-	<div style="width:auto;">
-		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-			<h3 style="margin-bottom:5px;"><?php 
-				echo $GLOBALS["messages"]["actedit"].": /".$s_item .'&nbsp;&nbsp;&nbsp;&nbsp;';
-				?></h3>
-
-			<div id="adminForm">
-
-			</div>
-		</div></div></div>
-		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
-
-	<?php
-	// Show File In TextArea
 	$content = $GLOBALS['ext_File']->file_get_contents( $fname );
 	if( get_magic_quotes_runtime()) {
 		$content = stripslashes( $content );
@@ -191,139 +173,145 @@ class ext_Edit extends ext_Action {
 			$_encoding_label = "UTF-8";
 		}
 	}
-	//$content = htmlspecialchars( $content );
+	?>
+{
+	"xtype": "form",
+	"id": "simpleform",
+	"labelWidth": 125,
+	"height": 500,
+	"width": 700,
+	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+	"dialogtitle": "<?php echo $GLOBALS["messages"]["actedit"].": /".$s_item .'&nbsp;&nbsp;&nbsp;&nbsp;' ?>",
+	"frame": true,
+	"items": [{
 
-	?><script type="text/javascript">//<!--
-	dialog.setContentSize( 700, 500 );
-	simple = new Ext.form.Form({
-		labelAlign: 'top',
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	simple.add(
-		new Ext.form.TextArea({
-			fieldLabel: 'File Contents',
-			name: 'thecode',
-			id: 'ext_codefield',
-			fieldClass: 'x-form-field',
-			value: '<?php echo str_replace(Array("\r", "\n", '<', '>'), Array('\r', '\n', '&lt;', '&gt;') , addslashes($content)) ?>',
-			width: '100%',
-			height: 300
+		"xtype": "textarea",
+		"hideLabel": true,
+		"name": "thecode",
+		"id": "ext_codefield",
+		"fieldClass": "x-form-field",
+		"value": '<?php echo str_replace(Array("\r", "\n"), Array('\r', '\n') , addslashes($content)) ?>',
+		"width": "100%",
+		"height": 300,
+		"plugins": new Ext.ux.plugins.EditAreaEditor({
+			"id" : "ext_codefield",	
+			"syntax": "<?php echo $cp_lang ?>",
+			"start_highlight": true,
+			"display": "later",
+			"toolbar": "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help" 
+			<?php if (array_key_exists($langs, $this->lang_tbl)){?>
+				,language: "<?php echo $this->lang_tbl[$langs] ?>"
+				<?php 
+				} ?>
 		})
-	);
-	simple.column( {width: <?php echo $cw ?> }, 
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg('copyfile', true ) ?>',
-			name: 'fname',
-			value: '<?php echo $item ?>',
-			width:175
-		})
-	);
-	simple.column( {width: <?php echo $cw ?>, style:'margin-left:10px', clear:true },
-		new Ext.form.Checkbox({
-			fieldLabel: '<?php echo ext_Lang::msg('returndir', true ) ?>',
-			name: 'return_to_dir',
-			width:175
-		})
-	);
-
-<?php if ($langs == "japanese"){ ?>
-	simple.column( {width: <?php echo $cw ?>,  style:'margin-left:10px', clear:true },
-		new Ext.form.ComboBox({
-		fieldLabel: '<?php echo ext_Lang::msg('fileencoding', true ) ?>',
-			name: 'file_encoding',
-			width:175,
-		store: new Ext.data.SimpleStore({
-			fields: ['encoding', 'encoding_label'],
-			data : [
-				['UTF-8', 'UTF-8'],
-				['SJIS-WIN', 'SJIS'],
-				['EUCJP-WIN', 'EUC-JP'],
-				['ISO-2022-JP','JIS']
-				]
-			}),
-		displayField : 'encoding_label',
-		valueField : 'encoding',
-		value : '<?php echo $_encoding_label ?>',
-		typeAhead: true,
-		mode: 'local',
-		triggerAction: 'all',
-		editable: false,
-		forceSelection: true
-		})
-	);
-<?php } ?>
-	simple.addButton('<?php echo ext_Lang::msg('btnsave', true ) ?>', function() {
-		statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
-
-		simple.submit({
-			//waitMsg: 'Processing Data, please wait...',
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				datastore.reload();
-				statusBarMessage( action.result.message, false, true );
-				if( simple.findField('return_to_dir').getValue() ) {
-					dialog.destroy();
-				}
+	},
+	{
+		
+			width: <?php echo $cw ?>, 
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg('copyfile', true ) ?>",
+			"name": "fname",
+			"value": "<?php echo $item ?>",
+			"clear": true
 			},
-			failure: function(form, action) {
-				statusBarMessage( action.result.error, false, false );
-				Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
-			},
-			scope: simple,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					action: 'edit', 
-					code: editAreaLoader.getValue("ext_codefield"),
-					dir: '<?php echo stripslashes($dir) ?>', 
-					item: '<?php echo stripslashes($item) ?>', 
-					dosave: 'yes'
+			{
+			"width": <?php echo $cw ?>, 
+			"style":"margin-left:10px",
+			"clear":true,
+			"xtype": "checkbox",
+			"fieldLabel": "<?php echo ext_Lang::msg('returndir', true ) ?>",
+			"name": "return_to_dir",
 			}
-		});
-	});
-
-	simple.addButton('<?php echo ext_Lang::msg('btnclose', true ) ?>', function() { dialog.destroy(); } );
-	simple.addButton('<?php echo ext_Lang::msg('btnreopen', true ) ?>', function() { 
-		statusBarMessage( '<?php echo ext_Lang::msg('reopen_processing', true ) ?>', true );
-
-		simple.submit({
-			//waitMsg: 'Processing Data, please wait...',
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				datastore.reload();
-				statusBarMessage( action.result.message, false, true );
-			editAreaLoader.setValue("ext_codefield", action.result.content);
-			},
-			failure: function(form, action) {
-				statusBarMessage( action.result.error, false, false );
-				Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
-			},
-			scope: simple,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
+<?php if ($langs == "japanese"){ ?>
+			,{
+			 "width": <?php echo $cw ?>,  
+			 "style":"margin-left:10px", 
+			 "clear":true,
+			"xtype": "combo",
+			"fieldLabel": "<?php echo ext_Lang::msg('fileencoding', true ) ?>",
+			"name": "file_encoding",
+			"store": [
+						['UTF-8', 'UTF-8'],
+						['SJIS-WIN', 'SJIS'],
+						['EUCJP-WIN', 'EUC-JP'],
+						['ISO-2022-JP','JIS']
+					],
+			"value" : "<?php echo $_encoding_label ?>",
+			"typeAhead": true,
+			"mode": "local",
+			"triggerAction": "all",
+			"editable": false,
+			"forceSelection": true
+			}
+	
+<?php } ?>
+		],
+	"buttons": [{
+		"text": "<?php echo ext_Lang::msg('btnsave', true ) ?>", 
+		"handler": function() {
+			statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
+			form = Ext.getCmp("simpleform").getForm();
+			form.submit({
+				//waitMsg: 'Processing Data, please wait...',
+				//reset: true,
+				reset: false,
+				success: function(form, action) {
+					datastore.reload();
+					statusBarMessage( action.result.message, false, true );
+					if( form.findField('return_to_dir').getValue() ) {
+						Ext.getCmp("dialog").destroy();
+					}
+				},
+				failure: function(form, action) {
+					statusBarMessage( action.result.error, false, false );
+					Ext.Msg.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
+				},
+				scope: form,
+				// add some vars to the request, similar to hidden fields
+				params: {option: 'com_extplorer', 
+						action: 'edit', 
+						code: editAreaLoader.getValue("ext_codefield"),
+						dir: '<?php echo stripslashes($dir) ?>', 
+						item: '<?php echo stripslashes($item) ?>', 
+						dosave: 'yes'
+				}
+			});
+		}
+	},{
+		"text": "<?php echo ext_Lang::msg('btnclose', true ) ?>", 
+		"handler": function() { Ext.getCmp("dialog").destroy(); }
+	},{
+		"text": "<?php echo ext_Lang::msg('btnreopen', true ) ?>", 
+		"handler": function() { 
+			statusBarMessage( '<?php echo ext_Lang::msg('reopen_processing', true ) ?>', true );
+			form = Ext.getCmp("simpleform").getForm();
+			form.submit({
+				//waitMsg: 'Processing Data, please wait...',
+				//reset: true,
+				reset: false,
+				success: function(form, action) {
+					statusBarMessage( action.result.message, false, true );
+					editAreaLoader.setValue("ext_codefield", action.result.content);
+				},
+				failure: function(form, action) {
+					statusBarMessage( action.result.error, false, false );
+					Ext.Msg.alert('<?php echo ext_Lang::err('error', true) ?>!', action.result.error);
+				},
+				scope: form,
+				// add some vars to the request, similar to hidden fields
+				params: {
+					option: 'com_extplorer', 
 					action: 'edit', 
 					dir: '<?php echo stripslashes($dir) ?>', 
 					item: '<?php echo stripslashes($item) ?>', 
 					doreopen: 'yes'
-			}
-		});
-	});
-
-	simple.render('adminForm');
-	simple.findField('thecode').setValue(simple.findField( 'thecode').getValue().replace( /&gt;/g, '>').replace( /&lt;/g, '<'));
-	editAreaLoader.baseURL = "<?php echo _EXT_URL ?>/scripts/editarea/";
-	editAreaLoader.init({
-		id : "ext_codefield"		// textarea id
-		,syntax: "<?php echo $cp_lang ?>"			// syntax to be uses for highgliting
-		,start_highlight: true		// to display with highlight mode on start-up
-		,display: "later"
-		,toolbar: "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help" 
-		<?php if (array_key_exists($langs, $this->lang_tbl)){?>,language: "<?php echo $this->lang_tbl[$langs] ?>"<?php }?>
-	});
-	editAreaLoader.start("ext_codefield");
-	// -->
-	</script><?php
+				}
+			});
+		}
+	}]
+}
+	
+<?php
 
 	}
 	function savefile($file_name) {			// save edited file

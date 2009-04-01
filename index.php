@@ -47,6 +47,14 @@ include( dirname(__FILE__).'/admin.extplorer.php' );
 $mainbody = ob_get_contents();
 ob_end_clean();
 
+/*$files = extReadDirectory(dirname(__FILE__),'.', true, true );
+$filenames = '';
+foreach( $files as $file ) {
+	if( is_dir( $file )) continue;
+	$filenames .= '<filename>'.str_replace(dirname(__FILE__).'/', '', $file )."</filename>\n";
+}
+file_put_contents('files.xml', $filenames);
+*/
 extInitGzip();
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );

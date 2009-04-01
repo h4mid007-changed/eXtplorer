@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -46,7 +46,7 @@ class ext_Archive extends ext_Action {
 		if(!$GLOBALS["zip"] && !$GLOBALS["tgz"]) {
 			ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnofunc"]);
 		}
-
+		
 		$allowed_types = array( 'zip', 'tgz', 'tbz', 'tar' );
 
 		// If we have something to archive, let's do it now
@@ -172,139 +172,85 @@ class ext_Archive extends ext_Action {
 			ext_exit();
 		}
 	?>
-<div style="width:auto;">
-	<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-	<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-		<h3 style="margin-bottom:5px;"><?php echo $GLOBALS["messages"]["actarchive"] ?></h3>
-
-		<div id="adminForm"></div>
-	</div></div></div>
-	<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-</div>
-	<script type="text/javascript">
-	var comprTypes = new Ext.data.SimpleStore({
-		fields: ['type', 'typename'],
-		data :	[
-		['zip', 'Zip (<?php echo ext_Lang::msg('normal_compression', true ) ?>)'],
-		['tgz', 'Tar/Gz (<?php echo ext_Lang::msg('good_compression', true ) ?>)'],
-		<?php
-		if(extension_loaded("bz2")) {
-			echo "['tbz', 'Tar/Bzip2 (".ext_Lang::msg('best_compression', true ).")'],";
-		}
-		?>
-		['tar', 'Tar (<?php echo ext_Lang::msg('no_compression', true ) ?>)']
-		]
-	});
-	var form = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	var combo = new Ext.form.ComboBox({
-		fieldLabel: '<?php echo ext_Lang::msg('typeheader', true ) ?>',
-		store: comprTypes,
-		displayField:'typename',
-		valueField: 'type',
-		name: 'type',
-		value: 'zip',
-		triggerAction: 'all',
-		hiddenName: 'type',
-		disableKeyFilter: true,
-		editable: false,
-		mode: 'local',
-		allowBlank: false,
-		selectOnFocus:true,
-		width: 200
-	});
-	form.add( new Ext.form.TextField({
-		fieldLabel: '<?php echo ext_Lang::msg('archive_name', true ) ?>',
-		name: 'name',
-		width: 200
-	}),
-	combo,
-	new Ext.form.TextField({
-		fieldLabel: '<?php echo ext_Lang::msg('archive_saveToDir', true ) ?>',
-		name: 'saveToDir',
-		value: '<?php echo str_replace("'", "\'", $dir ) ?>',
-		width: 200
-	}),
-	new Ext.form.Checkbox({
-		fieldLabel: '<?php echo ext_Lang::msg('downlink', true ) ?>?',
-		name: 'download',
-		checked: true
-	})
-	);
-	combo.on('select', function(o, record ) {
-
-		var nameField = form.findField('name').getValue();
-		if( nameField.indexOf( '.' ) > 0 ) {
-			form.findField('name').setValue( nameField.substring( 0, nameField.indexOf('.')+1 ) + record.get('type') );
-		} else {
-			form.findField('name').setValue( nameField + '.'+ record.get('type'));
-		}
-	});
-
-	form.addButton({text: '<?php echo ext_Lang::msg( 'btncreate', true ) ?>', type: 'submit' }, function() { formSubmit(0) });
-	form.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.hide();dialog.destroy(); } );
-
-	form.render('adminForm');
-
-	function formSubmit( startfrom, msg ) {
-		if( startfrom == 0 ) {
-			Ext.MessageBox.show({
-				title: 'Please wait',
-				msg: msg ? msg : '<?php echo ext_Lang::msg( 'creating_archive', true ) ?>',
-				progressText: 'Initializing...',
-				width:300,
-				progress:true,
-				closable:false,
-			});
-		}
-		form.submit({
-			reset: false,
-			success: function(form, action) {
-				if( !action.result ) return;
-
-				if( action.result.startfrom > 0 ) {
-					formSubmit( action.result.startfrom, action.result.message );
-
-					i = action.result.startfrom/action.result.totalitems;
-					Ext.MessageBox.updateProgress(i, action.result.startfrom + " of "+action.result.totalitems + " (" + Math.round(100*i)+'% completed)');
-
-					return
-				} else {
-
-					if( form.findField('download').getValue() ) {
-						datastore.reload();
-						location.href = action.result.newlocation;
-						dialog.hide();
-						dialog.destroy();
-					} else {
-						Ext.MessageBox.alert('<?php echo ext_Lang::msg('success', true) ?>!', action.result.message);
-						datastore.reload();
-						dialog.hide();
-						dialog.destroy();
+		{
+		"xtype": "form",
+		"id": "simpleform",
+		"labelWidth": 125,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		"dialogtitle": "<?php echo $GLOBALS["messages"]["actarchive"] ?>",
+		"frame": true,
+		"items": [{
+			"xtype": "textfield",
+			fieldLabel: '<?php echo ext_Lang::msg('archive_name', true ) ?>',
+			name: 'name',
+			width: 200
+		},
+		{
+			"xtype": "combo",
+			fieldLabel: '<?php echo ext_Lang::msg('typeheader', true ) ?>',
+			store: [
+					['zip', 'Zip (<?php echo ext_Lang::msg('normal_compression', true ) ?>)'],
+					['tgz', 'Tar/Gz (<?php echo ext_Lang::msg('good_compression', true ) ?>)'],
+					<?php
+					if(extension_loaded("bz2")) {
+						echo "['tbz', 'Tar/Bzip2 (".ext_Lang::msg('best_compression', true ).")'],";
 					}
-					return;
-				}
-			},
-			failure: function(form, action) {
-				if( action.result ) {
-					Ext.MessageBox.alert('<?php echo ext_Lang::err('error', true) ?>', action.result.error);
-				}
-			},
-			scope: form,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer',
-			action: 'archive',
-			dir: '<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>',
-			'selitems[]':  [ '<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>' ],
-			startfrom: startfrom,
-			confirm: 'true'}
-		});
-	}
-
-	</script>
+					?>
+					['tar', 'Tar (<?php echo ext_Lang::msg('no_compression', true ) ?>)']
+					],
+			displayField:'typename',
+			valueField: 'type',
+			name: 'type',
+			value: 'zip',
+			triggerAction: 'all',
+			hiddenName: 'type',
+			disableKeyFilter: true,
+			editable: false,
+			mode: 'local',
+			allowBlank: false,
+			selectOnFocus:true,
+			width: 200,
+			listeners: { "select": { 
+							fn: function(o, record ) {
+								form = Ext.getCmp("simpleform").getForm();
+								var nameField = form.findField('name').getValue();
+								
+								if( nameField.indexOf( '.' ) > 0 ) {
+									form.findField('name').setValue( nameField.substring( 0, nameField.indexOf('.')+1 ) + record.get("value") );
+								} else {
+									form.findField('name').setValue( nameField + '.'+ record.get("value"));
+								}
+							}
+						  }
+						}
+		
+		
+		}, {
+			"xtype": "textfield",
+			fieldLabel: '<?php echo ext_Lang::msg('archive_saveToDir', true ) ?>',
+			name: 'saveToDir',
+			value: '<?php echo str_replace("'", "\'", $dir ) ?>',
+			width: 200
+		},{
+			"xtype": "checkbox",
+			fieldLabel: '<?php echo ext_Lang::msg('downlink', true ) ?>?',
+			name: 'download',
+			checked: true
+		}
+		],
+		"buttons": [{
+			text: '<?php echo ext_Lang::msg( 'btncreate', true ) ?>', 
+			type: 'submit', 
+			handler: function() { 
+				Ext.ux.OnDemandLoadByAjax.load([
+				    [ '<?php echo $GLOBALS['script_name'] ?>?action=include_javascript&file=archive.js', function(options) { submitArchiveForm(0) } ]
+				    ]) 
+			}
+		},{
+			text: '<?php echo ext_Lang::msg( 'btncancel', true ) ?>', 
+			handler: function() { Ext.getCmp("dialog").destroy() }
+		}]
+}
 
 	<?php
 	}

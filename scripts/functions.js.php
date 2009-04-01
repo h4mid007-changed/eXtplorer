@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -35,6 +35,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 ?>
 Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
+
 function showLoadingIndicator( el, replaceContent ) {
 	if( !el ) return;
 	var loadingimg = 'components/com_extplorer/images/_indicator.gif';
@@ -68,6 +69,7 @@ function getURLParam( strParamName, myWindow){
 }
 
 function openActionDialog( caller, action ) {
+	var dialog;
 	var selectedRows = ext_itemgrid.getSelectionModel().getSelections();
 	if( selectedRows.length < 1 ) {
 		var selectedNode = dirTree.getSelectionModel().getSelectedNode();
@@ -101,56 +103,65 @@ function openActionDialog( caller, action ) {
 			requestParams = getRequestParams();
 			requestParams.action = action;
 
-            dialog = new Ext.LayoutDialog("action-dlg", {
+            dialog = new Ext.Window( {
+            		id: "dialog",
                     autoCreate: true,
                     modal:true,
-                    width:600,
-                    height:400,
+                    //width:600,
+                    //height:400,
                     shadow:true,
                     minWidth:300,
-                    minHeight:300,
+                    minHeight:200,
                     proxyDrag: true,
                     resizable: true,
+                    renderTo: document.body,
+                    keys: {
+					    key: 27,
+					    fn  : function(){
+	                        dialog.hide();
+	                    }
+					},
                     //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
 					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>',
-                    center: {
-                        autoScroll:true
-                    }/*,
-                    south: {
-			            initialSize: 22,
-			            titlebar: false,
-			            collapsible: false,
-			            resizable: false
-                    }*/
+                   
+            });			
 
-            });
-            dialog.addKeyListener(27, dialog.hide, dialog);
-			dialog_panel = new Ext.ContentPanel('dialog-center', {
-									autoCreate: true,
-									fitToFrame: true
-								});
-			//dialog_status = new Ext.ContentPanel('dialog-status', { autoCreate: true } );
-			//dialog_status.getEl().addClass(['ext_statusbar', 'done']);
-
-			dialog_panel.load( { url: '<?php echo basename($GLOBALS['script_name']) ?>',
+			Ext.Ajax.request( { url: '<?php echo basename($GLOBALS['script_name']) ?>',
 								params: Ext.urlEncode( requestParams ),
 								scripts: true,
 								callback: function(oElement, bSuccess, oResponse) {
+											if( !bSuccess ) {
+												Ext.Msg.alert( "Ajax communication failure!");
+											}
 											if( oResponse && oResponse.responseText ) {
-											try{ json = Ext.decode( oResponse.responseText );
-												if( json.error != '' && typeof json.error != 'xml' ) {
-													Ext.Msg.alert( '<?php echo ext_Lang::err('error', true ) ?>', json.error );
-													dialog.destroy();
+												//Ext.Msg.alert("Debug", oResponse.responseText );
+												try{ json = Ext.decode( oResponse.responseText );
+													if( json.error && typeof json.error != 'xml' ) {
+														Ext.Msg.alert( '<?php echo ext_Lang::err('error', true ) ?>', json.error );
+														dialog.destroy();
+														return false;
+													}
+												} catch(e) { return false; }
+												
+												// we expect the returned JSON to be an object that
+												// contains an "Ext.Component" or derivative in xtype notation
+												// so we can simply add it to the Window
+												dialog.add(json);
+												if( json.dialogtitle ) {
+													// if the component delivers a title for our
+													// dialog we can set the title of the window
+													dialog.setTitle(json.dialogtitle);
 												}
-											} catch(e) {}
+												// recalculate layout
+												dialog.doLayout();
+												// recalculate Window size
+												dialog.syncSize();
+												// center the window
+												dialog.center();
 											}
 										}
 							});
-            var layout = dialog.getLayout();
-            layout.beginUpdate();
-            layout.add('center', dialog_panel );
-            //layout.add('south', dialog_status );
-            layout.endUpdate();
+            
 
             dialog.on( 'hide', function() { dialog.destroy(true); } );
 
@@ -233,7 +244,7 @@ function getRequestParams() {
 		}
 		dir = datastore.directory;
 	}
-
+	//Ext.Msg.alert("Debug", dir );
 	var requestParams = {
 		option: 'com_extplorer',
 		dir: dir,
@@ -272,23 +283,41 @@ function deleteDir( btn, node ) {
 	handleCallback(requestParams, node);
 }
 function statusBarMessage( msg, isLoading, success ) {
-	var statusBar = Ext.get('ext_statusbar');
+	var statusBar = Ext.getCmp('statusPanel');
 	if( isLoading ) {
-		statusBar.removeClass('done');
-		try { dialog_status.getEl().removeClass('done') } catch(e){};
+		statusBar.showBusy();
 	}
 	else {
-		try { dialog_status.getEl().addClass('done'); } catch(e){}
-		statusBar.addClass('done');
+		statusBar.setStatus("Done.");
 	}
 	if( success ) {
-		msg = '<span class="success"><?php echo ext_Lang::msg('success', true ) ?>: </span>' + msg;
+		statusBar.setStatus({
+		    text: '<?php echo ext_Lang::msg('success', true ) ?>: ' + msg,
+		    iconCls: 'success',
+		    clear: true
+		});
+	
 	} else if( success != null ) {
-		msg = '<span class="error"><?php echo ext_Lang::err('error', true ) ?>: </span>' + msg;
+		statusBar.setStatus({
+		    text: '<?php echo ext_Lang::err('error', true ) ?>: ' + msg,
+		    iconCls: 'error',
+		    clear: true
+		});
+		
 	}
-	statusBar.update( msg );
-	try { dialog_status.setContent( msg );  } catch(e){}
 
+}
+
+function selectFile( dir, file ) {
+	chDir( dir );
+	var conn = datastore.proxy.getConnection();
+   	if( conn.isLoading() ) {
+   		setTimeout( "selectFile(\"" + dir + "\", \""+ file + "\")", 1000 );
+   	}
+	idx  = datastore.find( "name", file );
+	if( idx >= 0 ) {
+		ext_itemgrid.getSelectionModel().selectRow( idx );
+	}
 }
 
 /**
@@ -358,10 +387,6 @@ function setCaretPosition( textarea, linenum ) {
 	var nonempty = -1;
 	var empty = -1;
 	for(;ind < linenum;ind++) {
-		/*alert( "Springe zu Zeile: "+linenum
-				+"\naktuelle Zeile: "+ (ind+1)
-				+ "\naktuelle Position: "+pos
-				+ "\nText in dieser Zeile: "+erg[ind]);*/
 		if( !erg[ind] && pos < len ) { empty++; pos++; continue; }
 		else if( !erg[ind] ) break;
 		pos += erg[ind].length;

@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -80,96 +80,82 @@ class ext_Mkitem extends ext_Action {
 			return;
 		}
 	?>
-		<div>
-		<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-		<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-			<h3 style="margin-bottom:5px;">Create New File/Directory</h3>
-			<div id="adminForm">
-
-			</div>
-		</div></div></div>
-		<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-	</div>
-	<script type="text/javascript">
-	var mktypes = new Ext.data.SimpleStore({
-		fields: ['mktype', 'type'],
-		data :	[
-			['file', '<?php echo ext_Lang::mime( 'file', true ) ?>'],
-			['dir', '<?php echo ext_Lang::mime( 'dir', true ) ?>']
-			<?php
-			if( !ext_isFTPMode() && !$GLOBALS['isWindows']) { ?>
-				,['symlink', '<?php echo ext_Lang::mime( 'symlink', true ) ?>']
-				<?php
-			} ?>
-			]
-	});
-	var simple = new Ext.form.Form({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>'
-	});
-	simple.add(
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'nameheader', true ) ?>',
-			name: 'mkname',
-			width:175,
-			allowBlank:false
-		}),
-		new Ext.form.ComboBox({
-			fieldLabel: 'Type',
-			store: mktypes,
-			displayField:'type',
-			valueField: 'mktype',
-			value: 'file',
-			hiddenName: 'mktype',
+		{
+		"xtype": "form",
+		"id": "simpleform",
+		"labelWidth": 125,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		"dialogtitle": "Create New File/Directory",
+		"frame": true,
+		"items": [{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( "nameheader", true ) ?>",
+			"name": "mkname",
+			"width":175,
+			"allowBlank":false
+			},{
+			"xtype": "combo",
+			"fieldLabel": "Type",
+			"store": [["file", "<?php echo ext_Lang::mime( 'file', true ) ?>"],
+						["dir", "<?php echo ext_Lang::mime( 'dir', true ) ?>"]
+						<?php
+						if( !ext_isFTPMode() && !$GLOBALS['isWindows']) { ?>
+						,["symlink", "<?php echo ext_Lang::mime( 'symlink', true ) ?>"]
+						<?php
+						} ?>
+					],
+			displayField:"type",
+			valueField: "mktype",
+			value: "file",
+			hiddenName: "mktype",
 			disableKeyFilter: true,
 			editable: false,
-			triggerAction: 'all',
-			mode: 'local',
+			triggerAction: "all",
+			mode: "local",
 			allowBlank: false,
 			selectOnFocus:true
-		}),
-		new Ext.form.TextField({
-			fieldLabel: '<?php echo ext_Lang::msg( 'symlink_target', true ) ?>',
-			name: 'symlink_target',
-			width:175,
-			allowBlank:true
-		})
-	);
-
-	simple.addButton('<?php echo ext_Lang::msg( 'btncreate', true ) ?>', function() {
-		statusBarMessage( 'Please wait...', true );
-		simple.submit({
-			//reset: true,
-			reset: false,
-			success: function(form, action) {
-				statusBarMessage( action.result.message, false, true );
-				try{ 
-					dirTree.getSelectionModel().getSelectedNode().reload(); 
-				} catch(e) {}
-				datastore.reload();
-				dialog.destroy();
-			},
-			failure: function(form, action) {
-				if( !action.result ) return;
-				Ext.MessageBox.alert('Error!', action.result.error);
-				statusBarMessage( action.result.error, false, true );
-			},
-			scope: simple,
-			// add some vars to the request, similar to hidden fields
-			params: {option: 'com_extplorer', 
-					action: 'mkitem', 
-					dir: datastore.directory, 
-					confirm: 'true'}
-		})
-	});
-	simple.addButton('<?php echo ext_Lang::msg( 'btncancel', true ) ?>', function() { dialog.destroy(); } );
-	simple.render('adminForm');
-	simple.findField( 'mkname').focus();
-	</script>
+		},{
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg( 'symlink_target', true ) ?>",
+			"name": "symlink_target",
+			"width":175,
+			"allowBlank":true
+		}],
+		"buttons": [{
+			"text": "<?php echo ext_Lang::msg( 'btncreate', true ) ?>", 
+			"handler": function() {
+				statusBarMessage( "Please wait...", true );
+				Ext.getCmp("simpleform").getForm().submit({
+					//reset: true,
+					reset: false,
+					success: function(form, action) {
+						statusBarMessage( action.result.message, false, true );
+						try{ 
+							dirTree.getSelectionModel().getSelectedNode().reload(); 
+						} catch(e) {}
+						datastore.reload();
+						Ext.getCmp("dialog").destroy();
+					},
+					failure: function(form, action) {
+						if( !action.result ) return;
+						Ext.Msg.alert("Error!", action.result.error);
+						statusBarMessage( action.result.error, false, true );
+					},
+					scope: Ext.getCmp("simpleform"),
+					// add some vars to the request, similar to hidden fields
+					params: {option: "com_extplorer", 
+							action: "mkitem", 
+							dir: datastore.directory, 
+							confirm: "true"}
+				})
+			}
+		},{
+			"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
+			"handler": function() { Ext.getCmp("dialog").destroy(); }
+		}]
+	}
 	<?php
 	}
 }
 
 //------------------------------------------------------------------------------
-?>

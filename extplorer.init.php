@@ -11,7 +11,6 @@ require _EXT_PATH."/application.php";
 require _EXT_PATH."/libraries/File_Operations.php";
 require _EXT_PATH."/include/functions.php";
 require _EXT_PATH."/include/header.php";
-require _EXT_PATH."/include/footer.php";
 require _EXT_PATH."/include/result.class.php";
 
 if( !class_exists('InputFilter')) {
