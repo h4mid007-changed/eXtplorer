@@ -3,7 +3,7 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
-
+- allowing Download by users with "view" permission
 - updated Services-JSON class to version 0.9.0
 - updated GeSHi to version 1.0.8.3
 - moved from ExtJS 1.1 to ExtJS 2.2
