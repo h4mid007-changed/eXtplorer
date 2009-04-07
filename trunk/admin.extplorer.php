@@ -53,19 +53,6 @@ if( @is_object($acl)) {
 $GLOBALS['ext_version'] = '2.1.0';
 $GLOBALS['ext_home'] = 'http://extplorer.sourceforge.net';
 
-/*
-// Needed to keep the filelist in the XML installer file up-to-date
-$path = $mosConfig_absolute_path.'/administrator/components/com_extplorer';
-$filelist = mosReadDirectory( $path, '.', true, true );
-$contents ='';
-foreach($filelist as $file ) {
-	if( is_dir( $file ) ) continue;
-	$filepath = str_replace( $path.'/', '', $file );
-	$contents .= '<filename>'.$filepath."</filename>\n";
-}
-file_put_contents( 'extplorer_filelist.txt', $contents );
-*/
-
 //------------------------------------------------------------------------------
 if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 	error_reporting(E_ALL);
@@ -74,6 +61,18 @@ if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 umask(0002); // Added to make created files/dirs group writable
 //------------------------------------------------------------------------------
 require_once( dirname( __FILE__) . "/include/init.php" );	// Init
+
+/** Needed to keep the filelist in the XML installer file up-to-date
+$path = dirname(__FILE__);
+$filelist = extReadDirectory( $path, '.', true, true );
+$contents ='';
+foreach($filelist as $file ) {
+	if( is_dir( $file ) || strstr(dirname($file), "scripts" )) continue;
+	$filepath = str_replace( $path.'/', '', $file );
+	$contents .= '<filename>'.$filepath."</filename>\n";
+}
+file_put_contents( 'extplorer_filelist.txt', $contents );
+**/
 //------------------------------------------------------------------------------
 if( $action == "post" )
   $action = extGetParam( $_REQUEST, "do_action" );
