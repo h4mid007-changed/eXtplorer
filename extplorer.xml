@@ -2,12 +2,12 @@
 <mosinstall type="component">
 <!-- Mambo/Joomla! 1.0 Installer XML File -->
     <name>eXtplorer</name>
-    <creationDate>15.01.2008</creationDate>
+    <creationDate>07.04.2009</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren|-at|-virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
-    <version>2.0.1</version>
+    <version>2.1.0b2</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_extplorer/images/eXtplorer.gif" alt="eXtplorer Logo" /></div>
 	<h2>Successfully installed eXtplorer&nbsp;</h2>
@@ -90,7 +90,6 @@
 				<filename>images/_edit.png</filename>
 				<filename>images/_editcopy.png</filename>
 				<filename>images/_editdelete.png</filename>
-				<filename>images/eXtplorer.gif</filename>
 				<filename>images/_extract.gif</filename>
 				<filename>images/_extract.png</filename>
 				<filename>images/_filefind.png</filename>
@@ -101,7 +100,6 @@
 				<filename>images/_home.gif</filename>
 				<filename>images/_home.png</filename>
 				<filename>images/_indicator.gif</filename>
-				<filename>images/joomla_x_icon.png</filename>
 				<filename>images/_log_error.png</filename>
 				<filename>images/_logout.png</filename>
 				<filename>images/_messagebox_warning.png</filename>
@@ -110,9 +108,9 @@
 				<filename>images/_remove.png</filename>
 				<filename>images/_rename.gif</filename>
 				<filename>images/_rename_.gif</filename>
-				<filename>images/systeminfo.gif</filename>
 				<filename>images/_up.png</filename>
 				<filename>images/_view.png</filename>
+				<filename>images/eXtplorer.gif</filename>
 				<filename>images/extension/avi.png</filename>
 				<filename>images/extension/bmp.png</filename>
 				<filename>images/extension/bz2.png</filename>
@@ -178,6 +176,10 @@
 				<filename>images/extension/xlsx.png</filename>
 				<filename>images/extension/xml.png</filename>
 				<filename>images/extension/zip.png</filename>
+				<filename>images/index.html</filename>
+				<filename>images/joomla_x_icon.png</filename>
+				<filename>images/logo.gif</filename>
+				<filename>images/systeminfo.gif</filename>
 				<filename>include/.htaccess</filename>
 				<filename>include/admin.php</filename>
 				<filename>include/archive.php</filename>
@@ -188,16 +190,11 @@
 				<filename>include/download.php</filename>
 				<filename>include/edit.php</filename>
 				<filename>include/extract.php</filename>
-				<filename>include/footer.php</filename>
 				<filename>include/ftp_authentication.php</filename>
 				<filename>include/functions.php</filename>
 				<filename>include/header.php</filename>
 				<filename>include/index.html</filename>
 				<filename>include/init.php</filename>
-				<filename>include/javascript.php</filename>
-				<filename>include/js_admin.php</filename>
-				<filename>include/js_admin2.php</filename>
-				<filename>include/js_admin3.php</filename>
 				<filename>include/list.php</filename>
 				<filename>include/login.php</filename>
 				<filename>include/mkitem.php</filename>
@@ -210,7 +207,6 @@
 				<filename>include/users.php</filename>
 				<filename>include/view.php</filename>
 				<filename>index.php</filename>
-				<filename>install.extplorer.php</filename>
 				<filename>languages/arabic.php</filename>
 				<filename>languages/arabic_mimes.php</filename>
 				<filename>languages/brazilian_portuguese.php</filename>
@@ -300,16 +296,139 @@
 				<filename>libraries/compat.php42x.php</filename>
 				<filename>libraries/compat.php50x.php</filename>
 				<filename>libraries/geshi/geshi.php</filename>
+				<filename>libraries/geshi/geshi/abap.php</filename>
+				<filename>libraries/geshi/geshi/actionscript.php</filename>
+				<filename>libraries/geshi/geshi/actionscript3.php</filename>
+				<filename>libraries/geshi/geshi/ada.php</filename>
+				<filename>libraries/geshi/geshi/apache.php</filename>
+				<filename>libraries/geshi/geshi/applescript.php</filename>
+				<filename>libraries/geshi/geshi/apt_sources.php</filename>
+				<filename>libraries/geshi/geshi/asm.php</filename>
+				<filename>libraries/geshi/geshi/asp.php</filename>
+				<filename>libraries/geshi/geshi/autoit.php</filename>
+				<filename>libraries/geshi/geshi/avisynth.php</filename>
+				<filename>libraries/geshi/geshi/bash.php</filename>
+				<filename>libraries/geshi/geshi/basic4gl.php</filename>
+				<filename>libraries/geshi/geshi/bf.php</filename>
+				<filename>libraries/geshi/geshi/blitzbasic.php</filename>
+				<filename>libraries/geshi/geshi/bnf.php</filename>
+				<filename>libraries/geshi/geshi/boo.php</filename>
+				<filename>libraries/geshi/geshi/c.php</filename>
+				<filename>libraries/geshi/geshi/c_mac.php</filename>
+				<filename>libraries/geshi/geshi/caddcl.php</filename>
+				<filename>libraries/geshi/geshi/cadlisp.php</filename>
+				<filename>libraries/geshi/geshi/cfdg.php</filename>
+				<filename>libraries/geshi/geshi/cfm.php</filename>
+				<filename>libraries/geshi/geshi/cil.php</filename>
+				<filename>libraries/geshi/geshi/cobol.php</filename>
+				<filename>libraries/geshi/geshi/cpp-qt.php</filename>
+				<filename>libraries/geshi/geshi/cpp.php</filename>
+				<filename>libraries/geshi/geshi/csharp.php</filename>
 				<filename>libraries/geshi/geshi/css.php</filename>
+				<filename>libraries/geshi/geshi/d.php</filename>
+				<filename>libraries/geshi/geshi/dcs.php</filename>
+				<filename>libraries/geshi/geshi/delphi.php</filename>
+				<filename>libraries/geshi/geshi/diff.php</filename>
+				<filename>libraries/geshi/geshi/div.php</filename>
+				<filename>libraries/geshi/geshi/dos.php</filename>
+				<filename>libraries/geshi/geshi/dot.php</filename>
+				<filename>libraries/geshi/geshi/eiffel.php</filename>
+				<filename>libraries/geshi/geshi/email.php</filename>
+				<filename>libraries/geshi/geshi/fortran.php</filename>
+				<filename>libraries/geshi/geshi/freebasic.php</filename>
+				<filename>libraries/geshi/geshi/genero.php</filename>
+				<filename>libraries/geshi/geshi/gettext.php</filename>
+				<filename>libraries/geshi/geshi/glsl.php</filename>
+				<filename>libraries/geshi/geshi/gml.php</filename>
+				<filename>libraries/geshi/geshi/gnuplot.php</filename>
+				<filename>libraries/geshi/geshi/groovy.php</filename>
+				<filename>libraries/geshi/geshi/haskell.php</filename>
+				<filename>libraries/geshi/geshi/hq9plus.php</filename>
 				<filename>libraries/geshi/geshi/html4strict.php</filename>
+				<filename>libraries/geshi/geshi/idl.php</filename>
 				<filename>libraries/geshi/geshi/index.html</filename>
 				<filename>libraries/geshi/geshi/ini.php</filename>
+				<filename>libraries/geshi/geshi/inno.php</filename>
+				<filename>libraries/geshi/geshi/intercal.php</filename>
+				<filename>libraries/geshi/geshi/io.php</filename>
+				<filename>libraries/geshi/geshi/java.php</filename>
+				<filename>libraries/geshi/geshi/java5.php</filename>
 				<filename>libraries/geshi/geshi/javascript.php</filename>
+				<filename>libraries/geshi/geshi/kixtart.php</filename>
+				<filename>libraries/geshi/geshi/klonec.php</filename>
+				<filename>libraries/geshi/geshi/klonecpp.php</filename>
+				<filename>libraries/geshi/geshi/latex.php</filename>
+				<filename>libraries/geshi/geshi/lisp.php</filename>
+				<filename>libraries/geshi/geshi/locobasic.php</filename>
+				<filename>libraries/geshi/geshi/lolcode.php</filename>
+				<filename>libraries/geshi/geshi/lotusformulas.php</filename>
+				<filename>libraries/geshi/geshi/lotusscript.php</filename>
+				<filename>libraries/geshi/geshi/lscript.php</filename>
+				<filename>libraries/geshi/geshi/lsl2.php</filename>
+				<filename>libraries/geshi/geshi/lua.php</filename>
+				<filename>libraries/geshi/geshi/m68k.php</filename>
+				<filename>libraries/geshi/geshi/make.php</filename>
+				<filename>libraries/geshi/geshi/matlab.php</filename>
+				<filename>libraries/geshi/geshi/mirc.php</filename>
+				<filename>libraries/geshi/geshi/modula3.php</filename>
+				<filename>libraries/geshi/geshi/mpasm.php</filename>
+				<filename>libraries/geshi/geshi/mxml.php</filename>
 				<filename>libraries/geshi/geshi/mysql.php</filename>
+				<filename>libraries/geshi/geshi/nsis.php</filename>
+				<filename>libraries/geshi/geshi/oberon2.php</filename>
+				<filename>libraries/geshi/geshi/objc.php</filename>
+				<filename>libraries/geshi/geshi/ocaml-brief.php</filename>
+				<filename>libraries/geshi/geshi/ocaml.php</filename>
+				<filename>libraries/geshi/geshi/oobas.php</filename>
+				<filename>libraries/geshi/geshi/oracle11.php</filename>
+				<filename>libraries/geshi/geshi/oracle8.php</filename>
+				<filename>libraries/geshi/geshi/pascal.php</filename>
+				<filename>libraries/geshi/geshi/per.php</filename>
+				<filename>libraries/geshi/geshi/perl.php</filename>
 				<filename>libraries/geshi/geshi/php-brief.php</filename>
 				<filename>libraries/geshi/geshi/php.php</filename>
+				<filename>libraries/geshi/geshi/pic16.php</filename>
+				<filename>libraries/geshi/geshi/pixelbender.php</filename>
+				<filename>libraries/geshi/geshi/plsql.php</filename>
+				<filename>libraries/geshi/geshi/povray.php</filename>
+				<filename>libraries/geshi/geshi/powershell.php</filename>
+				<filename>libraries/geshi/geshi/progress.php</filename>
+				<filename>libraries/geshi/geshi/prolog.php</filename>
+				<filename>libraries/geshi/geshi/providex.php</filename>
+				<filename>libraries/geshi/geshi/python.php</filename>
+				<filename>libraries/geshi/geshi/qbasic.php</filename>
+				<filename>libraries/geshi/geshi/rails.php</filename>
+				<filename>libraries/geshi/geshi/rebol.php</filename>
+				<filename>libraries/geshi/geshi/reg.php</filename>
+				<filename>libraries/geshi/geshi/robots.php</filename>
+				<filename>libraries/geshi/geshi/ruby.php</filename>
+				<filename>libraries/geshi/geshi/sas.php</filename>
+				<filename>libraries/geshi/geshi/scala.php</filename>
+				<filename>libraries/geshi/geshi/scheme.php</filename>
+				<filename>libraries/geshi/geshi/scilab.php</filename>
+				<filename>libraries/geshi/geshi/sdlbasic.php</filename>
+				<filename>libraries/geshi/geshi/smalltalk.php</filename>
+				<filename>libraries/geshi/geshi/smarty.php</filename>
 				<filename>libraries/geshi/geshi/sql.php</filename>
+				<filename>libraries/geshi/geshi/tcl.php</filename>
+				<filename>libraries/geshi/geshi/teraterm.php</filename>
+				<filename>libraries/geshi/geshi/text.php</filename>
+				<filename>libraries/geshi/geshi/thinbasic.php</filename>
+				<filename>libraries/geshi/geshi/tsql.php</filename>
+				<filename>libraries/geshi/geshi/typoscript.php</filename>
+				<filename>libraries/geshi/geshi/vb.php</filename>
+				<filename>libraries/geshi/geshi/vbnet.php</filename>
+				<filename>libraries/geshi/geshi/verilog.php</filename>
+				<filename>libraries/geshi/geshi/vhdl.php</filename>
+				<filename>libraries/geshi/geshi/vim.php</filename>
+				<filename>libraries/geshi/geshi/visualfoxpro.php</filename>
+				<filename>libraries/geshi/geshi/visualprolog.php</filename>
+				<filename>libraries/geshi/geshi/whitespace.php</filename>
+				<filename>libraries/geshi/geshi/winbatch.php</filename>
 				<filename>libraries/geshi/geshi/xml.php</filename>
+				<filename>libraries/geshi/geshi/xorg_conf.php</filename>
+				<filename>libraries/geshi/geshi/xpp.php</filename>
+				<filename>libraries/geshi/geshi/z80.php</filename>
 				<filename>libraries/geshi/index.html</filename>
 				<filename>libraries/index.html</filename>
 				<filename>libraries/inputfilter.php</filename>
