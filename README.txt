@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------
-eXtplorer 2.0.1 - README
+eXtplorer 2.1.0 - README
 ----------------------------------------------------------------------------------------------------
 
 Requirements:
@@ -9,13 +9,13 @@ Requirements:
 Supported Browsers:
 -------------------
 * Internet Explorer >= 6.0
-* Firefox >= 1.5
+* Firefox >= 2
 * Safari >= 2
-* Konqueror (KDE 3.5)
+* Google Chrome/Iron >= 1
+* Konqueror (KDE > 3.5)
 * Opera 9+
 
 Opera and Konqueror don't allow custom Context Menus. Use Double Click on a record in the grid instead.
-Opera also doesn't support the website dialogs used.
 
 Installation as Standalone Script
 -------------------
@@ -66,8 +66,8 @@ eXtplorer is based on QuiXplorer 2.3.1 (available at http://quixplorer.sourcefor
 
 eXtplorer makes use of the fabulous ExtJS Javascript Library by Jack Slocum, Ext JS, LCC (http://extjs.com/), and that does indeed explain
 the name eXtplorer. 
-Please note that ExtJS is released under the terms of the Lesser General Public license (LPGL). Because the MPL and
-the LGPL are not compliant to each other, you are not allowed to use the ExtJS library in eXtplorer if you decide to use and/or distribute eXtplorer
+Please note that ExtJS is released under the terms of the GNU General Public license version 3 (GPL v3). Because the MPL and
+the GPL are not compliant to each other, you are not allowed to use the ExtJS library in eXtplorer if you decide to use and/or distribute eXtplorer
 under the terms of the MPL.
 
 

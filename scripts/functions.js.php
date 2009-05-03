@@ -34,7 +34,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Layout and Application Logic Functions based on ExtJS
  */
 ?>
-Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs/images/default/s.gif';
+Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs2/images/default/s.gif';
 
 function showLoadingIndicator( el, replaceContent ) {
 	if( !el ) return;
