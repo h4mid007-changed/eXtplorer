@@ -380,7 +380,7 @@ class ext_List extends ext_Action {
 			.'&amp;subdir[]=scripts/extjs2/&amp;file[]=ext-editarea-adapter.js'
 			.'&amp;gzip=1"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
-		<script type="text/javascript" >editAreaLoader.baseURL = "<?php echo _EXT_URL ?>/scripts/editarea/";</script>
+		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>
 		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs2/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs2/css/&file[1]=xtheme-aero.css&amp;gzip=1" />';
 
 		if (defined('EXT_STANDALONE')) {

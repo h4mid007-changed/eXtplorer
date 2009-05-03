@@ -1,15 +1,16 @@
 ﻿<?php
-
+// $Id: traditional_chinese.php 115 2009-04-28 18:13:22Z which $
 // traditional chinese Language Module for v2.3 (translated by www.which.tw)
 global $_VERSION;
 
-$GLOBALS["charset"] = "utf-8";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
 $GLOBALS["date_fmt"] = "Y/m/d H:i";
 $GLOBALS["error_msg"] = array(
 	// error
-	"error"			=> "錯誤",
-	"back"			=> "回上頁",
+  	"error"			=> "錯誤",
+		"message"			=> "訊息",
+  	"back"			=> "回上頁",
 	
 	// root
 	"home"			=> "主目錄並不存在, 請檢查設定.",
@@ -71,10 +72,11 @@ $GLOBALS["error_msg"] = array(
 	"extract_noarchive" => "此檔案無法執行壓縮.",
 	"extract_unknowntype" => "未知的壓縮類型"	,
 	
-	'chmod_none_not_allowed' => 'Changing Permissions to <none> is not allowed',
-	'archive_dir_notexists' => 'The Save-To Directory you have specified does not exist.',
-	'archive_dir_unwritable' => 'Please specify a writable directory to save the archive to.',
-	'archive_creation_failed' => 'Failed saving the Archive File'
+	'chmod_none_not_allowed' => '更改權限至 <none> 是不允許的',
+	'archive_dir_notexists' => '您指定要儲存的目錄不存在.',
+	'archive_dir_unwritable' => '請指定一個可寫入的目錄來儲存壓縮檔.',
+	'archive_creation_failed' => '儲存壓縮檔失敗'
+
 );
 $GLOBALS["messages"] = array(
 	// links
@@ -92,10 +94,11 @@ $GLOBALS["messages"] = array(
 	"logoutlink"		=> "登出",
 	"uploadlink"		=> "上傳",
 	"searchlink"		=> "搜尋",
+	'difflink'      => 'Diff',
 	"extractlink"	=> "解開壓縮檔",
-	'chmodlink'		=> '更改 (chmod) 權限 (Folder/File(s))', // new mic
+	'chmodlink'		=> '更改 (chmod) 權限 (資料夾/檔案)', // new mic
 	'mossysinfolink'	=> 'eXtplorer 系統資訊 (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> '前往 joomlaXplorer 網站 (另開視窗)', // new mic
+	'logolink'		=> '前往 eXtplorer 網站 (另開視窗)', // new mic
 	
 	// list
 	"nameheader"		=> "名稱",
@@ -119,10 +122,11 @@ $GLOBALS["messages"] = array(
 	"btnmove"		=> "移動",
 	"btnlogin"		=> "登入",
 	"btnlogout"		=> "登出",
-	"btnadd"		=> "增加",
+	"btnadd"		=> "新增",
 	"btnedit"		=> "編輯",
 	"btnremove"		=> "移除",
-	
+  "btndiff"       => "Diff",
+		
 		// user messages, new in joomlaXplorer 1.3.0
 	"renamelink"	=> "重新命名",
 	"confirm_delete_file" => "您確定要刪除這個檔案? \\n%s",
@@ -172,151 +176,153 @@ $GLOBALS["messages"] = array(
 					"管理員"),
 	"miscyesno"		=> array("是的","否","Y","N"),
 	"miscchmod"		=> array("擁有者", "群組", "公開的"),
+	'misccontent'    => "檔案內容",
 	
 	// from here all new by mic
-	"miscowner"			=> "擁有者",
-	"miscownerdesc"		=> "<strong>描述:</strong><br />使用者 (UID) /<br />群組 (GID)<br />目前權限:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>",
+	'miscowner'			=> '擁有者',
+	'miscownerdesc'		=> '<strong>描述:</strong><br />使用者 (UID) /<br />群組 (GID)<br />目前權限:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
-	"simamsysinfo"		=> 'eXtplorer 系統資訊",
-	"sisysteminfo"		=> "系統資訊",
-	"sibuilton"			=> "運行系統",
-	"sidbversion"		=> "資料庫版本 (MySQL)",
-	"siphpversion"		=> "PHP 版本",
-	"siphpupdate"		=> "INFORMATION: The PHP version you use is <strong>not</strong> actual!<br />To guarantee all functions and features of Mambo and addons,<br />you should use as minimum <strong>PHP.Version 4.3</strong>!",
-	"siwebserver"		=> "Webserver",
-	"siwebsphpif"		=> "網頁伺服器 - PHP 介面",
+	'simamsysinfo'		=> "eXtplorer 系統資訊",
+	'sisysteminfo'		=> '系統資訊',
+	'sibuilton'			=> '運行系統',
+	'sidbversion'		=> '資料庫版本 (MySQL)',
+	'siphpversion'		=> 'PHP 版本',
+	'siphpupdate'		=> '資訊: <span style="color: red;">您所使用的 PHP 版本還是 <strong>太低</strong>!</span><br />為了保證Mambo跟外掛所有的功能,<br />您至少需使用 <strong>PHP.版本 4.3</strong>!',
+	'siwebserver'		=> '網頁伺服器',
+	'siwebsphpif'		=> '網頁伺服器 - PHP 介面',
 	'simamboversion'	=> 'eXtplorer 版本',
-	"siuseragent"		=> "瀏覽器版本",
-	"sirelevantsettings" => "重要的 PHP 設定",
-	"sisafemode"		=> "安全模式",
-	"sibasedir"			=> "Open basedir",
-	"sidisplayerrors"	=> "PHP Errors",
-	"sishortopentags"	=> "Short Open Tags",
-	"sifileuploads"		=> "檔案上傳",
-	"simagicquotes"		=> "Magic Quotes",
-	"siregglobals"		=> "Register Globals",
-	"sioutputbuf"		=> "Output Buffer",
-	"sisesssavepath"	=> "Session Savepath",
-	"sisessautostart"	=> "Session auto start",
-	"sixmlenabled"		=> "XML 已啟動",
-	"sizlibenabled"		=> "ZLIB 已啟動",
-	"sidisabledfuncs"	=> "Non enabled functions",
-	"sieditor"			=> "WYSIWYG 編輯器",
-	"siconfigfile"		=> "Config file",
-	"siphpinfo"			=> "PHP Info",
-	"siphpinformation"	=> "PHP Information",
-	"sipermissions"		=> "權限",
-	"sidirperms"		=> "目錄權限",
-	"sidirpermsmess"	=> "To be shure that all functions and features of eXtplorer are working correct, following folders should have permission to write [chmod 0777]",
-	"sionoff"			=> array( "On", "Off" ),
+	'siuseragent'		=> '瀏覽器版本',
+	'sirelevantsettings' => '重要的 PHP 設定',
+	'sisafemode'		=> '安全模式',
+	'sibasedir'			=> '打開主目錄',
+	'sidisplayerrors'	=> 'PHP 錯誤',
+	'sishortopentags'	=> 'Short Open Tags',
+	'sifileuploads'		=> '檔案上傳',
+	'simagicquotes'		=> 'Magic Quotes',
+	'siregglobals'		=> 'Register Globals',
+	'sioutputbuf'		=> 'Output Buffer',
+	'sisesssavepath'	=> 'Session Savepath',
+	'sisessautostart'	=> 'Session auto start',
+	'sixmlenabled'		=> 'XML 已啟動',
+	'sizlibenabled'		=> 'ZLIB 已啟動',
+	'sidisabledfuncs'	=> 'Disabled functions',
+	'sieditor'			=> 'WYSIWYG 編輯器',
+	'siconfigfile'		=> 'Config file',
+	'siphpinfo'			=> 'PHP Info',
+	'siphpinformation'	=> 'PHP Information',
+	'sipermissions'		=> '權限',
+	'sidirperms'		=> '目錄權限',
+	'sidirpermsmess'	=> '為了確保 eXtplorer 所有函數以及功能運作正常, 以下的資料夾權限必須為可寫入 [chmod 0777]',
+	'sionoff'			=> array( '打開', '關閉' ),
 	
-	"extract_warning" => "您確定要在此處解壓檔案?\\n如果不小心使用這將會覆蓋已經存在的檔案!",
-	"extract_success" => "解壓縮成功 ",
-	"extract_failure" => "解壓縮失敗",	
+	'extract_warning' => '您確定要在此處解壓縮檔案?\\n如果不小心使用這將會覆蓋已經存在的檔案!',
+	'extract_success' => '解壓縮成功',
+	'extract_failure' => '解壓縮失敗',	
 	
 	'overwrite_files' => '複蓋已存在的檔案?',
 	"viewlink"		=> "檢視",
 	"actview"		=> "顯示檔案來源",
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_chmod.php file
-	'recurse_subdirs'	=> 'Recurse into subdirectories?',
+	'recurse_subdirs'	=> '遞迴至子目錄?',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to footer.php file
-	'check_version'	=> 'Check for latest version',
+	'check_version'	=> '檢查最新版本',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_rename.php file
-	'rename_file'	=>	'Rename a directory or file...',
-	'newname'		=>	'New Name',
+	'rename_file'	=>	'重新命名一個目錄或檔案...',
+	'newname'		=>	'新名稱',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_edit.php file
-	'returndir'	=>	'Return to directory after saving?',
-	'line'		=> 	'Line',
-	'column'	=>	'Column',
-	'wordwrap'	=>	'Wordwrap: (IE only)',
-	'copyfile'	=>	'Copy file into this filename',
+	'returndir'	=>	'儲存之後回到目錄?',
+	'line'		=> 	'行',
+	'column'	=>	'列',
+	'wordwrap'	=>	'換行: (只限IE)',
+	'copyfile'	=>	'複製檔案為此檔案名',
 	
 	// Bookmarks
-	'quick_jump' => 'Quick Jump To',
-	'already_bookmarked' => 'This directory is already bookmarked',
-	'bookmark_was_added' => 'This directory was added to the bookmark list.',
-	'not_a_bookmark' => 'This directory is not a bookmark.',
-	'bookmark_was_removed' => 'This directory was removed from the bookmark list.',
-	'bookmarkfile_not_writable' => "Failed to %s the bookmark.\n The Bookmark File '%s' \nis not writable.",
+	'quick_jump' => '快速跳轉至',
+	'already_bookmarked' => '此目錄已加入書籤',
+	'bookmark_was_added' => '此目錄已加入至書籤清單.',
+	'not_a_bookmark' => '此目錄不是書籤.',
+	'bookmark_was_removed' => '此目錄已從書籤清單移除.',
+	'bookmarkfile_not_writable' => " %s 書籤失敗.\n 書籤檔案 '%s' \n無法寫入.",
 	
-	'lbl_add_bookmark' => 'Add this Directory as Bookmark',
-	'lbl_remove_bookmark' => 'Remove this Directory from the Bookmark List',
+	'lbl_add_bookmark' => '新增此目錄為書籤',
+	'lbl_remove_bookmark' => '從書籤清單移除此目錄',
 	
-	'enter_alias_name' => 'Please enter the alias name for this bookmark',
+	'enter_alias_name' => '請輸入此書籤的別名',
 	
-	'normal_compression' => 'normal compression',
-	'good_compression' => 'good compression',
-	'best_compression' => 'best compression',
-	'no_compression' => 'no compression',
+	'normal_compression' => '正常壓縮',
+	'good_compression' => '好的壓縮',
+	'best_compression' => '最佳壓縮',
+	'no_compression' => '無壓縮',
 	
-	'creating_archive' => 'Creating Archive File...',
-	'processed_x_files' => 'Processed %s of %s Files',
+	'creating_archive' => '建立壓縮檔...',
+	'processed_x_files' => '已處理 %s 的全部 %s 檔案',
 	
-	'ftp_header' => 'Local FTP Authentication',
-	'ftp_login_lbl' => 'Please enter the login credentials for the FTP server',
-	'ftp_login_name' => 'FTP User Name',
-	'ftp_login_pass' => 'FTP Password',
-	'ftp_hostname_port' => 'FTP Server Hostname and Port <br />(Port is optional)',
-	'ftp_login_check' => 'Checking FTP connection...',
-	'ftp_connection_failed' => "The FTP server could not be contacted. \nPlease check that the FTP server is running on your server.",
-	'ftp_login_failed' => "The FTP login failed. Please check the username and password and try again.",
+	'ftp_header' => '本地 FTP 驗證',
+	'ftp_login_lbl' => '請輸入FTP伺服器的登入憑證',
+	'ftp_login_name' => 'FTP 使用者名稱',
+	'ftp_login_pass' => 'FTP 密碼',
+	'ftp_hostname_port' => 'FTP伺服器主電腦名稱及連接埠 <br />(連接埠是可選的)',
+	'ftp_login_check' => 'FTP 連線檢查中...',
+	'ftp_connection_failed' => "無法連線至 FTP伺服器. \n請檢查您的FTP伺服器是否在您的伺服器運作中.",
+	'ftp_login_failed' => "FTP 登入失敗. 請檢查使用者名稱跟密碼並再試一次.",
 		
-	'switch_file_mode' => 'Current mode: <strong>%s</strong>. You could switch to %s mode.',
-	'symlink_target' => 'Target of the Symbolic Link',
+	'switch_file_mode' => '目前模式: <strong>%s</strong>. 您可以切換至 %s 模式.',
+	'symlink_target' => '符號連結目標',
 	
-	"permchange"		=> "CHMOD Success:",
-	"savefile"		=> "The File was saved.",
-	"moveitem"		=> "Moving succeeded.",
-	"copyitem"		=> "Copying succeeded.",
-	'archive_name' 	=> 'Name of the Archive File',
-	'archive_saveToDir' 	=> 'Save the Archive in this directory',
+	"permchange"		=> "CHMOD 成功:",
+	"savefile"		=> "檔案已儲存.",
+	"moveitem"		=> "移動已成功.",
+	"copyitem"		=> "複製已成功.",
+	'archive_name' 	=> '壓縮檔案名稱',
+	'archive_saveToDir' 	=> '在此目錄儲存壓縮檔案',
 	
-	'editor_simple'	=> 'Simple Editor Mode',
-	'editor_syntaxhighlight'	=> 'Syntax-Highlighted Mode',
+	'editor_simple'	=> '簡易編輯器模式',
+	'editor_syntaxhighlight'	=> '語法-標明顯示 模式',
 
-	'newlink'	=> 'New File/Directory',
-	'show_directories' => 'Show Directories',
-	'actlogin_success' => 'Login successful!',
-	'actlogin_failure' => 'Login failed, try again.',
-	'directory_tree' => 'Directory Tree',
-	'browsing_directory' => 'Browsing Directory',
-	'filter_grid' => 'Filter',
-	'paging_page' => 'Page',
-	'paging_of_X' => 'of {0}',
-	'paging_firstpage' => 'First Page',
-	'paging_lastpage' => 'Last Page',
-	'paging_nextpage' => 'Next Page',
-	'paging_prevpage' => 'Previous Page',
+	'newlink'	=> '新 檔案/目錄',
+	'show_directories' => '顯示目錄',
+	'actlogin_success' => '登入成功!',
+	'actlogin_failure' => '登入失敗, 再試一次.',
+	'directory_tree' => '目錄樹',
+	'browsing_directory' => '瀏覽目錄',
+	'filter_grid' => '篩選條件',
+	'paging_page' => '頁',
+	'paging_of_X' => '的 {0}',
+	'paging_firstpage' => '最前頁',
+	'paging_lastpage' => '最後頁',
+	'paging_nextpage' => '下一頁',
+	'paging_prevpage' => '上一頁',
 	
-	'paging_info' => 'Displaying Items {0} - {1} of {2}',
-	'paging_noitems' => 'No items to display',
-	'aboutlink' => 'About...',
-	'password_warning_title' => 'Important - Change your Password!',
-	'password_warning_text' => 'The user account you are logged in with (admin with password admin) corresponds to the default eXtplorer priviliged account. Your eXtplorer installation is open to intrusion and you should immediately fix this security hole!',
-	'change_password_success' => 'Your Password has been changed!',
-	'success' => 'Success',
-	'failure' => 'Failure',
-	'dialog_title' => 'Website Dialog',
-	'upload_processing' => 'Processing Upload, please wait...',
-	'upload_completed' => 'Upload successful!',
-	'acttransfer' => 'Transfer from another Server',
-	'transfer_processing' => 'Processing Server-to-Server Transfer, please wait...',
-	'transfer_completed' => 'Transfer completed!',
-	'max_file_size' => 'Maximum File Size',
-	'max_post_size' => 'Maximum Upload Limit',
-	'done' => 'Done.',
-	'permissions_processing' => 'Applying Permissions, please wait...',
-	'archive_created' => 'The Archive File has been created!',
-	'save_processing' => 'Saving File...',
-	'current_user' => 'This script currently runs with the permissions of the following user:',
-	'your_version' => 'Your Version',
-	'search_processing' => 'Searching, please wait...',
-	'url_to_file' => 'URL of the File',
-	'file' => 'File'
+	'paging_info' => '顯示項目 {0} - {1} 的 {2}',
+	'paging_noitems' => '沒有項目可以顯示',
+	'aboutlink' => '關於...',
+	'password_warning_title' => '重要 - 更換您的密碼!',
+	'password_warning_text' => '您所登入的帳號 (管理員跟密碼) 為預設的eXtplorer管理帳號. 您的eXtplorer安裝容易被侵入您需要馬上修復此安全漏洞!',
+	'change_password_success' => '您的密碼已更換!',
+	'success' => '成功 ',
+	'failure' => '失敗',
+	'dialog_title' => '網站對話方塊',
+	'upload_processing' => '上傳進行中, 請稍候...',
+	'upload_completed' => '上傳成功!',
+	'acttransfer' => '從另一個伺服器轉移',
+	'transfer_processing' => '伺服器-至-伺服器轉移進行中, 請稍候...',
+	'transfer_completed' => '轉移完成!',
+	'max_file_size' => '最大檔案大小',
+	'max_post_size' => '最大上傳限制',
+	'done' => '完成.',
+	'permissions_processing' => '權限套用中, 請稍候...',
+	'archive_created' => '壓縮檔已建立!',
+	'save_processing' => '儲存檔案中...',
+'current_user' => '腳本目前以以下使用者的權限運行:',
+	'your_version' => '您的版本',
+	'search_processing' => '搜尋中, 請稍候...',
+	'url_to_file' => '檔案的網址',
+	'file' => '檔案'
+	
 );
 ?>
