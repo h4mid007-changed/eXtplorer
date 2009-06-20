@@ -3,6 +3,11 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- updated to ExtJS3 RC2
+- updated EditArea to version 0.8.1.1 (loads faster and is more stable)
+
+--- version 2.1.0 beta released ---
+
 - allowing Download by users with "view" permission
 - updated Services-JSON class to version 0.9.0
 - updated GeSHi to version 1.0.8.3
