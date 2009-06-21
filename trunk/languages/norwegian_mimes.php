@@ -1,6 +1,6 @@
 <?php
 
-// Norwegian Mimes Module for v2.3 (translated by Bj&ouml;rnar Markussen)
+// Norwegian Mimes Module for v2.3 (translated by Björnar Markussen)
 
 $GLOBALS["mimes"]=array(
 	// dir, exe, file

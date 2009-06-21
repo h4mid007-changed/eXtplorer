@@ -3,18 +3,18 @@
 // German Language Module for joomlaXplorer (translated by the QuiX project)
 global $_VERSION;
 
-$GLOBALS["charset"] = "iso-8859-1";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
 $GLOBALS["date_fmt"] = "d.m.Y H:i";
 $GLOBALS["error_msg"] = array(
 	// error
 	"error"			=> "Fehler",
-	"back"			=> "zur&uuml;ck",
+	"back"			=> "zurück",
 	
 	// root
 	"home"			=> "Das Home-Verzeichnis existiert nicht, kontrollieren sie ihre Einstellungen.",
-	"abovehome"		=> "Das aktuelle Verzeichnis darf nicht h&ouml;her liegen als das Home-Verzeichnis.",
-	"targetabovehome"	=> "Das Zielverzeichnis darf nicht h&ouml;her liegen als das Home-Verzeichnis.",
+	"abovehome"		=> "Das aktuelle Verzeichnis darf nicht höher liegen als das Home-Verzeichnis.",
+	"targetabovehome"	=> "Das Zielverzeichnis darf nicht höher liegen als das Home-Verzeichnis.",
 	
 	// exist
 	"direxist"		=> "Dieses Verzeichnis existiert nicht.",
@@ -26,7 +26,7 @@ $GLOBALS["error_msg"] = array(
 	"targetdoesexist"	=> "Das Zielobjekt existiert bereits.",
 	
 	// open
-	"opendir"		=> "Kann Verzeichnis nicht &ouml;ffnen.",
+	"opendir"		=> "Kann Verzeichnis nicht öffnen.",
 	"readdir"		=> "Kann Verzeichnis nicht lesen",
 	
 	// access
@@ -38,70 +38,70 @@ $GLOBALS["error_msg"] = array(
 	
 	// actions
 	"permread"		=> "Rechte lesen fehlgeschlagen.",
-	"permchange"		=> "Rechte &auml;ndern fehlgeschlagen.",
-	"openfile"		=> "Datei &ouml;ffnen fehlgeschlagen.",
+	"permchange"		=> "Rechte ändern fehlgeschlagen.",
+	"openfile"		=> "Datei öffnen fehlgeschlagen.",
 	"savefile"		=> "Datei speichern fehlgeschlagen.",
 	"createfile"		=> "Datei anlegen fehlgeschlagen.",
 	"createdir"		=> "Verzeichnis anlegen fehlgeschlagen.",
 	"uploadfile"		=> "Datei hochladen fehlgeschlagen.",
 	"copyitem"		=> "kopieren fehlgeschlagen.",
 	"moveitem"		=> "verschieben fehlgeschlagen.",
-	"delitem"		=> "l&ouml;schen fehlgeschlagen.",
-	"chpass"		=> "Passwort &auml;ndern fehlgeschlagen.",
-	"deluser"		=> "Benutzer l&ouml;schen fehlgeschlagen.",
-	"adduser"		=> "Benutzer hinzuf&uuml;gen fehlgeschlagen.",
+	"delitem"		=> "löschen fehlgeschlagen.",
+	"chpass"		=> "Passwort ändern fehlgeschlagen.",
+	"deluser"		=> "Benutzer löschen fehlgeschlagen.",
+	"adduser"		=> "Benutzer hinzufügen fehlgeschlagen.",
 	"saveuser"		=> "Benutzer speichern fehlgeschlagen.",
-	"searchnothing"		=> "Sie m&uuml;ssen etwas zum suchen eintragen.",
+	"searchnothing"		=> "Sie müssen etwas zum suchen eintragen.",
 	
 	// misc
 	"miscnofunc"		=> "Funktion nicht vorhanden.",
-	"miscfilesize"		=> "Datei ist gr&ouml;&szlig;er als die maximale Gr&ouml;&szlig;e.",
+	"miscfilesize"		=> "Datei ist größer als die maximale Größe.",
 	"miscfilepart"		=> "Datei wurde nur zum Teil hochgeladen.",
-	"miscnoname"		=> "Sie m&uuml;ssen einen Namen eintragen",
-	"miscselitems"		=> "Sie haben keine Objekt(e) ausgew&auml;hlt.",
-	"miscdelitems"		=> "Sollen die {0} markierten Objekt(e) gel&ouml;scht werden?",
-	"miscdeluser"		=> "Soll der Benutzer '{0}' gel&ouml;scht werden?",
+	"miscnoname"		=> "Sie müssen einen Namen eintragen",
+	"miscselitems"		=> "Sie haben keine Objekt(e) ausgewählt.",
+	"miscdelitems"		=> "Sollen die {0} markierten Objekt(e) gelöscht werden?",
+	"miscdeluser"		=> "Soll der Benutzer '{0}' gelöscht werden?",
 	"miscnopassdiff"	=> "Das neue und das heutige Passwort sind nicht verschieden.",
-	"miscnopassmatch"	=> "Passw&ouml;rter sind nicht gleich.",
-	"miscfieldmissed"	=> "Sie haben ein wichtiges Eingabefeld vergessen auszuf&uuml;llen",
+	"miscnopassmatch"	=> "Passwörter sind nicht gleich.",
+	"miscfieldmissed"	=> "Sie haben ein wichtiges Eingabefeld vergessen auszufüllen",
 	"miscnouserpass"	=> "Benutzer oder Passwort unbekannt.",
-	"miscselfremove"	=> "Sie k&ouml;nnen sich selbst nicht l&ouml;schen.",
+	"miscselfremove"	=> "Sie können sich selbst nicht löschen.",
 	"miscuserexist"		=> "Der Benutzer existiert bereits.",
 	"miscnofinduser"	=> "Kann Benutzer nicht finden.",
 	"extract_noarchive" 	=> "Dieses Datei ist leider kein Archiv.",
 	"extract_unknowntype" 	=> "Archivtyp unbekannt",
 	
-	'chmod_none_not_allowed' => 'Dateirechte k&ouml;nnen nicht leer sein!',
+	'chmod_none_not_allowed' => 'Dateirechte können nicht leer sein!',
 	'archive_dir_notexists' => 'Das Verzeichnis zum Speichern des Archivs existiert nicht.',
 	'archive_dir_unwritable' => 'Bitte geben Sie ein beschreibbares Verzeichnis an!',
 	'archive_creation_failed' => 'Speichern des Archivs fehlgeschlagen'
 );
 $GLOBALS["messages"] = array(
 	// links
-	"permlink"		=> "Rechte &auml;ndern",
+	"permlink"		=> "Rechte ändern",
 	"editlink"		=> "Bearbeiten",
 	"downlink"		=> "Herunterladen",
-	"uplink"		=> "H&ouml;her",
+	"uplink"		=> "Höher",
 	"homelink"		=> "Startseite",
 	"reloadlink"		=> "Aktualisieren",
 	"copylink"		=> "Kopieren",
 	"movelink"		=> "Verschieben",
-	"dellink"		=> "L&ouml;schen",
+	"dellink"		=> "Löschen",
 	"comprlink"		=> "Archivieren",
 	"adminlink"		=> "Administration",
 	"logoutlink"		=> "Abmelden",
 	"uploadlink"		=> "Hochladen",
 	"searchlink"		=> "Suchen",
 	"extractlink"		=> "Entpacken",
-	'chmodlink'		=> 'Rechte (chmod) &auml;ndern (Verzeichnisse)/Datei(en))', // new mic
+	'chmodlink'		=> 'Rechte (chmod) ändern (Verzeichnisse)/Datei(en))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Informationen (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Gehe zur eXtplorer Webseite (neues Fenster)', // new mic
 	
 	// list
 	"nameheader"		=> "Name",
-	"sizeheader"		=> "Gr&ouml;&szlig;e",
+	"sizeheader"		=> "Größe",
 	"typeheader"		=> "Typ",
-	"modifheader"		=> "Ge&auml;ndert",
+	"modifheader"		=> "Geändert",
 	"permheader"		=> "Rechte",
 	"actionheader"		=> "Aktionen",
 	"pathheader"		=> "Pfad",
@@ -109,9 +109,9 @@ $GLOBALS["messages"] = array(
 	// buttons
 	"btncancel"		=> "Abbrechen",
 	"btnsave"		=> "Speichern",
-	"btnchange"		=> "&Auml;ndern",
-	"btnreset"		=> "Zur&uuml;cksetzen",
-	"btnclose"		=> "Schlie&szlig;en",
+	"btnchange"		=> "Ändern",
+	"btnreset"		=> "Zurücksetzen",
+	"btnclose"		=> "Schließen",
 	"btncreate"		=> "Anlegen",
 	"btnsearch"		=> "Suchen",
 	"btnupload"		=> "Hochladen",
@@ -119,9 +119,9 @@ $GLOBALS["messages"] = array(
 	"btnmove"		=> "Verschieben",
 	"btnlogin"		=> "Anmelden",
 	"btnlogout"		=> "Abmelden",
-	"btnadd"		=> "Hinzuf&uuml;gen",
-	"btnedit"		=> "&Auml;ndern",
-	"btnremove"		=> "L&ouml;schen",
+	"btnadd"		=> "Hinzufügen",
+	"btnedit"		=> "Ändern",
+	"btnremove"		=> "Löschen",
 	
 	// user messages, new in joomlaXplorer 1.3.0
 	'renamelink'		=> 'Umbenennen',
@@ -132,7 +132,7 @@ $GLOBALS["messages"] = array(
 	
 	// actions
 	"actdir"		=> "Verzeichnis",
-	"actperms"		=> "Rechte &auml;ndern",
+	"actperms"		=> "Rechte ändern",
 	"actedit"		=> "Datei bearbeiten",
 	"actsearchresults"	=> "Suchergebnisse",
 	"actcopyitems"		=> "Objekt(e) kopieren",
@@ -142,7 +142,7 @@ $GLOBALS["messages"] = array(
 	"actlogin"		=> "anmelden",
 	"actloginheader"	=> "Melden sie sich an um QuiXplorer zu benutzen",
 	"actadmin"		=> "Administration",
-	"actchpwd"		=> "Passwort &auml;ndern",
+	"actchpwd"		=> "Passwort ändern",
 	"actusers"		=> "Benutzer",
 	"actarchive"		=> "Objekt(e) archivieren",
 	"actupload"		=> "Datei(en) hochladen",
@@ -154,27 +154,27 @@ $GLOBALS["messages"] = array(
 	"miscpassword"		=> "Passwort",
 	"miscoldpass"		=> "Altes Passwort",
 	"miscnewpass"		=> "Neues Passwort",
-	"miscconfpass"		=> "Best&auml;tige Passwort",
-	"miscconfnewpass"	=> "Best&auml;tige neues Passwort",
-	"miscchpass"		=> "&Auml;ndere Passwort",
+	"miscconfpass"		=> "Bestätige Passwort",
+	"miscconfnewpass"	=> "Bestätige neues Passwort",
+	"miscchpass"		=> "Ändere Passwort",
 	"mischomedir"		=> "Home-Verzeichnis",
 	"mischomeurl"		=> "Home URL",
 	"miscshowhidden"	=> "Versteckte Objekte anzeigen",
 	"mischidepattern"	=> "Versteck-Filter",
 	"miscperms"		=> "Rechte",
 	"miscuseritems"		=> "(Name, Home-Verzeichnis, versteckte Objekte anzeigen, Rechte, aktiviert)",
-	"miscadduser"		=> "Benutzer hinzuf&uuml;gen",
-	"miscedituser"		=> "Benutzer '%s' &auml;ndern",
+	"miscadduser"		=> "Benutzer hinzufügen",
+	"miscedituser"		=> "Benutzer '%s' ändern",
 	"miscactive"		=> "Aktiviert",
 	"misclang"		=> "Sprache",
 	"miscnoresult"		=> "Suche ergebnislos.",
 	"miscsubdirs"		=> "Suche in Unterverzeichnisse",
-	"miscpermnames"		=> array("Nur ansehen","&Auml;ndern","Passwort &auml;ndern","&Auml;ndern & Passwort &auml;ndern","Administrator"),
+	"miscpermnames"		=> array("Nur ansehen","Ändern","Passwort ändern","Ändern & Passwort ändern","Administrator"),
 	"miscyesno"		=> array("Ja","Nein","J","N"),
 	"miscchmod"		=> array("Besitzer", "Gruppe", "Publik"),
 	
 	'miscowner'		=> 'Inhaber',
-	'miscownerdesc'		=> '<strong>Erkl&auml;rung:</strong><br />Benutzer (UID) /<br />Gruppe (GID)<br />Aktuelle Besitzerrechte:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>', // new mic
+	'miscownerdesc'		=> '<strong>Erklärung:</strong><br />Benutzer (UID) /<br />Gruppe (GID)<br />Aktuelle Besitzerrechte:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>', // new mic
 
 	// sysinfo (new by mic)
 	'simamsysinfo'		=> 'eXtplorer System Info',
@@ -182,7 +182,7 @@ $GLOBALS["messages"] = array(
 	'sibuilton'		=> 'Betriebssystem',
 	'sidbversion'		=> 'Datenbankversion (MySQL)',
 	'siphpversion'		=> 'PHP Version',
-	'siphpupdate'		=> 'HINWEIS: <font style="color: red;">Die verwendete PHP Version ist <strong>nicht</strong> aktuell!</font><br />Um ein ordnungsgem&auml;sses Funktionieren von eXtplorer bzw. dessen Erweiterungen zu gew&auml;hrleisten,<br />sollte mindestens <strong>PHP.Version 4.3</strong> eingesetzt werden!',
+	'siphpupdate'		=> 'HINWEIS: <font style="color: red;">Die verwendete PHP Version ist <strong>nicht</strong> aktuell!</font><br />Um ein ordnungsgemässes Funktionieren von eXtplorer bzw. dessen Erweiterungen zu gewährleisten,<br />sollte mindestens <strong>PHP.Version 4.3</strong> eingesetzt werden!',
 	'siwebserver'		=> 'Webserver',
 	'siwebsphpif'		=> 'WebServer - PHP Schnittstelle',
 	'simamboversion'	=> 'eXtplorer Version',
@@ -207,14 +207,14 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP Information',
 	'sipermissions'		=> 'Rechte',
 	'sidirperms'		=> 'Verzeichnisrechte',
-	'sidirpermsmess'	=> 'Damit alle Funktionen und Zus&auml;tze einwandfrei arbeiten k&ouml;nnen, sollten folgende Verzeichnisse Schreibrechte [chmod 0777] besitzen',
+	'sidirpermsmess'	=> 'Damit alle Funktionen und Zusätze einwandfrei arbeiten können, sollten folgende Verzeichnisse Schreibrechte [chmod 0777] besitzen',
 	'sionoff'		=> array( 'Ein', 'Aus' ),
 	
-	'extract_warning' 	=> "Soll dieses Datei wirklich entpackt werden? Hier?\\nBeim Entpacken werden evtl. vorhandene Dateien &uuml;berschrieben!",
+	'extract_warning' 	=> "Soll dieses Datei wirklich entpackt werden? Hier?\\nBeim Entpacken werden evtl. vorhandene Dateien überschrieben!",
 	'extract_success' 	=> "Das Entpacken des Archivs war erfolgreich.",
 	'extract_failure' 	=> "Das Entpacken des Archivs ist fehlgeschlagen.",
 	
-	'overwrite_files' 	=> 'vorhandene Datei(en) &uuml;berschreiben?',
+	'overwrite_files' 	=> 'vorhandene Datei(en) überschreiben?',
 	"viewlink"		=> "anzeigen",
 	"actview"		=> "Zeige Quelltext der Datei",
 	
@@ -222,14 +222,14 @@ $GLOBALS["messages"] = array(
 	'recurse_subdirs'	=> 'Auch Unterverzeichnisse mit einbeziehen?',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to footer.php file
-	'check_version'		=> 'Pr&uuml;fe auf aktuellste Version',
+	'check_version'		=> 'Prüfe auf aktuellste Version',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_rename.php file
 	'rename_file'		=>	'Umbenennen eines Verzeichnisses oder einer Datei...',
 	'newname'		=>	'Neuer Name',
 	
 	// added by Paulino Michelazzo (paulino@michelazzo.com.br) to fun_edit.php file
-	'returndir'		=>	'zur&uuml;ck zum Verzeichnis nach dem Speichern?',
+	'returndir'		=>	'zurück zum Verzeichnis nach dem Speichern?',
 	'line'			=> 	'Zeile',
 	'column'		=>	'Spalte',
 	'wordwrap'		=>	'Zeilenumbruch: (IE only)',
@@ -238,15 +238,15 @@ $GLOBALS["messages"] = array(
 	// Bookmarks
 	'quick_jump'		=> 'Springe zu',
 	'already_bookmarked' 	=> 'Dieses Verzeichnis ist bereits als Lesezeichen eingetragen.',
-	'bookmark_was_added' 	=> 'Das Verzeichnis wurde als Lesezeichen hinzugef&uuml;gt.',
+	'bookmark_was_added' 	=> 'Das Verzeichnis wurde als Lesezeichen hinzugefügt.',
 	'not_a_bookmark' 	=> 'Dieses Verzeichnis ist kein Lesezeichen und kann nicht entfernt werden.',
 	'bookmark_was_removed' 	=> 'Das Verzeichnis wurde von der Liste der Lesezeichen entfernt.',
 	'bookmarkfile_not_writable' => "Die Aktion (%) ist fehlgeschlagen. Die Lesezeichendatei '%s' \nist nicht beschreibbar.",
 	
-	'lbl_add_bookmark' 	=> 'F&uuml;ge dieses Verzeichnis als Lesezeichen hinzu',
+	'lbl_add_bookmark' 	=> 'Füge dieses Verzeichnis als Lesezeichen hinzu',
 	'lbl_remove_bookmark' 	=> 'Entferne dieses Verzeichnis von der Liste der Lesezeichen',
 	
-	'enter_alias_name' 	=> 'Bitte gib einen Aliasnamen f&uuml;r dieses Lesezeichen an',
+	'enter_alias_name' 	=> 'Bitte gib einen Aliasnamen für dieses Lesezeichen an',
 	
 	'normal_compression' 	=> 'normale Kompression, schnell',
 	'good_compression' 	=> 'gute Kompression, CPU-intensiv',
@@ -260,9 +260,9 @@ $GLOBALS["messages"] = array(
 	'ftp_login_name' 	=> 'FTP Benutzername',
 	'ftp_login_pass' 	=> 'FTP Passwort',
 	'ftp_hostname_port' 	=> 'FTP Hostname und Port <br />(Port ist optional)',
-	'ftp_login_check' 	=> '&Uuml;berpr&uuml;fe die FTP Verbindung...',
-	'ftp_connection_failed' => "Der FTP Server konnte nicht erreicht werden. \nBitte &uuml;berpr&uuml;fen Sie, da&szlig; der FTP Server auf ihrem System l&auml;ft.",
-	'ftp_login_failed' 	=> "Anmeldung am FTP Server fehlgeschlagen. Bitte &uuml;berpr&uuml;fen Sie Benutzername und Passwort und versuchen es nochmal.",
+	'ftp_login_check' 	=> 'Überprüfe die FTP Verbindung...',
+	'ftp_connection_failed' => "Der FTP Server konnte nicht erreicht werden. \nBitte überprüfen Sie, daß der FTP Server auf ihrem System läft.",
+	'ftp_login_failed' 	=> "Anmeldung am FTP Server fehlgeschlagen. Bitte überprüfen Sie Benutzername und Passwort und versuchen es nochmal.",
 	
 	'switch_file_mode' 	=> 'Aktueller Modus: <strong>%s</strong>. Modus wechseln zu: %s.',
 	'symlink_target' 	=> 'Ziel des symbolischen Links',
@@ -288,29 +288,29 @@ $GLOBALS["messages"] = array(
 	'paging_of_X' => 'von {0}',
 	'paging_firstpage' => 'Erste Seite',
 	'paging_lastpage' => 'Letzte Seite',
-	'paging_nextpage' => 'N&auml;chste Seite',
+	'paging_nextpage' => 'Nächste Seite',
 	'paging_prevpage' => 'Vorherige Seite',
-	'paging_info' => 'Zeige Eintr&auml;ge {0} - {1} von {2}',
-	'paging_noitems' => 'keine Eintr&auml;ge zum anzeigen',
-	'aboutlink' => '&Uuml;ber..',
-	'password_warning_title' => 'Wichtig - &Auml;ndern Sie Ihr Passwort!',
-	'password_warning_text' => 'Das Benutzerkonto, mit dem Du angemeldet bist (admin mit Passwort admin) entspricht dem des Standard-eXtplorer Administratorkontos. Wenn diese eXtplorer Installation mit diesen Einstellungen betrieben, so k&ouml;nnen Unbefugte leicht von au&szlig;en auf sie zugreifen. Du solltest diese Sicherheitsl&uuml;cke unbedingt schlie&szlig;en!',
-	'change_password_success' => 'Dein Passwort wurde ge&auml;ndert!',
+	'paging_info' => 'Zeige Einträge {0} - {1} von {2}',
+	'paging_noitems' => 'keine Einträge zum anzeigen',
+	'aboutlink' => 'Über..',
+	'password_warning_title' => 'Wichtig - Ändern Sie Ihr Passwort!',
+	'password_warning_text' => 'Das Benutzerkonto, mit dem Du angemeldet bist (admin mit Passwort admin) entspricht dem des Standard-eXtplorer Administratorkontos. Wenn diese eXtplorer Installation mit diesen Einstellungen betrieben, so können Unbefugte leicht von außen auf sie zugreifen. Du solltest diese Sicherheitslücke unbedingt schließen!',
+	'change_password_success' => 'Dein Passwort wurde geändert!',
 	'success' => 'Erfolg',
 	'failure' => 'Fehlgeschlagen',
 	'dialog_title' => 'Webseiten-Dialog',
-	'acttransfer' => '&Uuml;bertragen von einem anderen Server',
-	'transfer_processing' => '&Uuml;bertragung ist im Gange, bitte warten Sie...',
-	'transfer_completed' => '&Uuml;bertragung vollst&auml;ndig!',
-	'max_file_size' => 'Maximale Dateigr&ouml;&szlig;e',
-	'max_post_size' => 'Maximale Upload-Gr&ouml;&szlig;e',
+	'acttransfer' => 'Übertragen von einem anderen Server',
+	'transfer_processing' => 'Übertragung ist im Gange, bitte warten Sie...',
+	'transfer_completed' => 'Übertragung vollständig!',
+	'max_file_size' => 'Maximale Dateigröße',
+	'max_post_size' => 'Maximale Upload-Größe',
 	'done' => 'Fertig.',
 	'permissions_processing' => 'Rechte werden angepasst, bitte warten Sie...',
 	'archive_created' => 'Das Archiv wurde erstellt!',
 	'save_processing' => 'Datei wird gespeichert...',
-	'current_user' => 'Diese Anwendung l&auml;ft gegenw&auml;rtig mit den Rechten des folgenden Nutzers:',
+	'current_user' => 'Diese Anwendung läft gegenwärtig mit den Rechten des folgenden Nutzers:',
 	'your_version' => 'Ihre Version',
-	'search_processing' => 'Suche l&auml;ft, bitte warten Sie...',
+	'search_processing' => 'Suche läft, bitte warten Sie...',
 	'url_to_file' => 'Adresse der Datei',
 	'file' => 'Datei'
 );

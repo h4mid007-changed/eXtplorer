@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Portuguese Translation by Paulino Michelazzo - paulino@michelazzo.com.br
 // http://www.noritmodomambo.org
 // Version: 1.0
@@ -6,7 +6,7 @@
 
 global $_VERSION;
 
-$GLOBALS["charset"] = "iso-8859-1";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr";
 $GLOBALS["date_fmt"] = "d/m/Y H:i";
 $GLOBALS["error_msg"] = array(
@@ -15,62 +15,62 @@ $GLOBALS["error_msg"] = array(
 	"back"			=> "Voltar",
 	
 	// root
-	"home"			=> "O diret&oacute;rio HOME n&atilde;o existe. Verifique suas op&ccedil;&otilde;es",
-	"abovehome"		=> "O diret&oacute;rio atual n&atilde;o pode estar acima do diret&oacute;rio home.",
-	"targetabovehome"	=> "O diret&oacute;rio de destino n&atilde;o pode estar acima do diret&oacute;rio home.",
+	"home"			=> "O diretório HOME não existe. Verifique suas opções",
+	"abovehome"		=> "O diretório atual não pode estar acima do diretório home.",
+	"targetabovehome"	=> "O diretório de destino não pode estar acima do diretório home.",
 	
 	// exist
-	"direxist"		=> "Este diret&oacute;rio n&atilde;o existe",
-	"fileexist"		=> "Este arquivo n&atilde;o existe",
-	"itemdoesexist"	=> "Este item j&aacute; existe",
-	"itemexist"		=> "Este item n&atilde;o existe",
-	"targetexist"	=> "O diret&oacute;rio de destino n&atilde;o existe",
-	"targetdoesexist"	=> "O item de destino j&aacute; existe",
+	"direxist"		=> "Este diretório não existe",
+	"fileexist"		=> "Este arquivo não existe",
+	"itemdoesexist"	=> "Este item já existe",
+	"itemexist"		=> "Este item não existe",
+	"targetexist"	=> "O diretório de destino não existe",
+	"targetdoesexist"	=> "O item de destino já existe",
 	
 	// open
-	"opendir"		=> "Imposs&iacute;vel abrir o diret&oacute;rio",
-	"readdir"		=> "Imposs&iacute;vel ler o diret&oacute;rio",
+	"opendir"		=> "Impossível abrir o diretório",
+	"readdir"		=> "Impossível ler o diretório",
 	
 	// access
-	"accessdir"		=> "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar este diret&oacute;rio",
-	"accessfile"	=> "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar este arquivo",
-	"accessitem"	=> "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar este item",
-	"accessfunc"	=> "Voc&ecirc; n&atilde;o tem permiss&atilde;o para usar esta fun&ccedil;&atilde;o",
-	"accesstarget"	=> "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar o diret&oacute;rio de destino",
+	"accessdir"		=> "Você não tem permissão para acessar este diretório",
+	"accessfile"	=> "Você não tem permissão para acessar este arquivo",
+	"accessitem"	=> "Você não tem permissão para acessar este item",
+	"accessfunc"	=> "Você não tem permissão para usar esta função",
+	"accesstarget"	=> "Você não tem permissão para acessar o diretório de destino",
 	
 	// actions
-	"permread"		=> "Falha ao buscar permiss&otilde;es",
-	"permchange"	=> "Falha ao alterar permiss&otilde;es",
+	"permread"		=> "Falha ao buscar permissões",
+	"permchange"	=> "Falha ao alterar permissões",
 	"openfile"		=> "Falha ao abrir o arquivo",
 	"savefile"		=> "Falha ao salvar o arquivo",
 	"createfile"	=> "Falha ao criar o arquivo",
-	"createdir"		=> "Falha ao criar o diret&oacute;rio",
+	"createdir"		=> "Falha ao criar o diretório",
 	"uploadfile"	=> "Falha ao enviar o arquivo",
 	"copyitem"		=> "Falha ao copiar",
 	"moveitem"		=> "Falha ao mover",
 	"delitem"		=> "Falha ao apagar",
 	"chpass"		=> "Falha ao alterar a senha",
-	"deluser"		=> "Falha ao remover usu&aacute;rio",
-	"adduser"		=> "Falha ao adicionar usu&aacute;rio",
-	"saveuser"		=> "Falha ao salvar usu&aacute;rio",
-	"searchnothing"	=> "Voc&ecirc; deve informar o que buscar",
+	"deluser"		=> "Falha ao remover usuário",
+	"adduser"		=> "Falha ao adicionar usuário",
+	"saveuser"		=> "Falha ao salvar usuário",
+	"searchnothing"	=> "Você deve informar o que buscar",
 	
 	// misc
-	"miscnofunc"		=> "Fun&ccedil;&atilde;o n&atilde;o dispon�vel",
-	"miscfilesize"		=> "O arquivo excede o tamanho m&aacute;ximo permitido",
+	"miscnofunc"		=> "Função não dispon�vel",
+	"miscfilesize"		=> "O arquivo excede o tamanho máximo permitido",
 	"miscfilepart"		=> "O arquivo foi enviado parcialmente",
 	"miscnoname"		=> "Informe um nome",
 	"miscselitems"		=> "Selecione pelo menos um item",
 	"miscdelitems"		=> "Tem certeza que deseja apagar estes {0} item(s)?",
-	"miscdeluser"		=> "Tem certeza que deseja apagar o usu&aacute;rio {0}?",
-	"miscnopassdiff"	=> "A nova senha n&atilde;o &eacute; diferente da atual",
-	"miscnopassmatch"	=> "As senhas n&atilde;o coincidem",
-	"miscfieldmissed"	=> "Voc&ecirc; esqueceu um campo importante",
-	"miscnouserpass"	=> "Nome de usu&aacute;rio ou senha incorretos",
-	"miscselfremove"	=> "Voc&ecirc; n&atilde;o pode se auto-remover",
-	"miscuserexist"		=> "Usu&aacute;rio j&aacute; existe",
-	"miscnofinduser"	=> "Usu&aacute;rio n&atilde;o encontrado",
-	"extract_noarchive" => "O arquivo n&atilde;o &eacute; um arquivo compactado",
+	"miscdeluser"		=> "Tem certeza que deseja apagar o usuário {0}?",
+	"miscnopassdiff"	=> "A nova senha não é diferente da atual",
+	"miscnopassmatch"	=> "As senhas não coincidem",
+	"miscfieldmissed"	=> "Você esqueceu um campo importante",
+	"miscnouserpass"	=> "Nome de usuário ou senha incorretos",
+	"miscselfremove"	=> "Você não pode se auto-remover",
+	"miscuserexist"		=> "Usuário já existe",
+	"miscnofinduser"	=> "Usuário não encontrado",
+	"extract_noarchive" => "O arquivo não é um arquivo compactado",
 	"extract_unknowntype" => "Tipo de Arquivo Desconhecido",
 	
 	'chmod_none_not_allowed' => 'Changing Permissions to <none> is not allowed',
@@ -80,7 +80,7 @@ $GLOBALS["error_msg"] = array(
 );
 $GLOBALS["messages"] = array(
 	// links
-	"permlink"		=> "ALTERAR PERMISS&Otilde;ES",
+	"permlink"		=> "ALTERAR PERMISSõES",
 	"editlink"		=> "EDITAR",
 	"downlink"		=> "DOWNLOAD",
 	"uplink"		=> "SOBE",
@@ -95,15 +95,15 @@ $GLOBALS["messages"] = array(
 	"uploadlink"	=> "ENVIAR",
 	"searchlink"	=> "BUSCAR",
 	"extractlink"	=> "Extrair Arquivo",
-	'chmodlink'		=> 'Alterar (chmod) Permiss&otilde;es (Pasta/Arquivo(s))',
-	'mossysinfolink'	=> 'eXtplorer Informa&ccedil;&atilde;o do Sistema (eXtplorer, Servidor, PHP, MySQL)',
+	'chmodlink'		=> 'Alterar (chmod) Permissões (Pasta/Arquivo(s))',
+	'mossysinfolink'	=> 'eXtplorer Informação do Sistema (eXtplorer, Servidor, PHP, MySQL)',
 	'logolink'		=> 'Ir para o site do joomlaXplorer (nova janela)',
 	
 	// user messages, new in joomlaXplorer 1.3.0
 	'renamelink'	=> 'RENOMEAR',
-	'confirm_delete_file' => 'Voc&ecirc; tem certeza que deseja apagar este arquivo? \\n%s',
+	'confirm_delete_file' => 'Você tem certeza que deseja apagar este arquivo? \\n%s',
 	'success_delete_file' => 'Item(s) apagado com sucesso',
-	'success_rename_file' => 'O arquivo/diret&oacute;rio %s foi renomeado com sucesso para %s',
+	'success_rename_file' => 'O arquivo/diretório %s foi renomeado com sucesso para %s',
 	
 	// list
 	"nameheader"		=> "Nome",
@@ -111,7 +111,7 @@ $GLOBALS["messages"] = array(
 	"typeheader"		=> "Tipo",
 	"modifheader"		=> "Modificado",
 	"permheader"		=> "Perm's",
-	"actionheader"		=> "A&ccedil;&otilde;es",
+	"actionheader"		=> "Ações",
 	"pathheader"		=> "Caminho",
 	
 	// buttons
@@ -132,8 +132,8 @@ $GLOBALS["messages"] = array(
 	"btnremove"		=> "Remover",
 	
 	// actions
-	"actdir"		=> "Diret&oacute;rio",
-	"actperms"		=> "Alterar permiss&otilde;es",
+	"actdir"		=> "Diretório",
+	"actperms"		=> "Alterar permissões",
 	"actedit"		=> "Editar arquivo",
 	"actsearchresults"	=> "Buscar resultados",
 	"actcopyitems"	=> "Copiar item(s)",
@@ -142,54 +142,54 @@ $GLOBALS["messages"] = array(
 	"actmovefrom"	=> "Mover de /%s para /%s ",
 	"actlogin"		=> "Login",
 	"actloginheader" => "Login para usar QuiXplorer",
-	"actadmin"		=> "Administra&ccedil;&atilde;o",
+	"actadmin"		=> "Administração",
 	"actchpwd"		=> "Alterar senha",
-	"actusers"		=> "Usu&aacute;rios",
+	"actusers"		=> "Usuários",
 	"actarchive"	=> "Arquivar item(s)",
 	"actupload"		=> "Enviar arquivo(s)",
 	
 	// misc
 	"miscitems"		=> "Item(s)",
-	"miscfree"		=> "Espa&ccedil;o Livre",
-	"miscusername"	=> "Nome de usu&aacute;rio",
+	"miscfree"		=> "Espaço Livre",
+	"miscusername"	=> "Nome de usuário",
 	"miscpassword"	=> "Senha",
 	"miscoldpass"	=> "Senha antiga",
 	"miscnewpass"	=> "Nova senha",
 	"miscconfpass"	=> "Confirmar senha",
 	"miscconfnewpass"	=> "Confirmar nova senha",
 	"miscchpass"	=> "Alterar senha",
-	"mischomedir"	=> "Diret&oacute;rio Home",
+	"mischomedir"	=> "Diretório Home",
 	"mischomeurl"	=> "Home URL",
 	"miscshowhidden"	=> "Mostrar itens ocultos",
-	"mischidepattern"	=> "Ocultar padr&atilde;o",
-	"miscperms"		=> "Permiss&otilde;es",
-	"miscuseritems"	=> "(nome, diret&oacute;rio home, mostrar itens ocultos, permiss&otilde;es, ativo)",
-	"miscadduser"	=> "adicionar usu&aacute;rio",
-	"miscedituser"	=> "editar usu&aacute;rio '%s'",
+	"mischidepattern"	=> "Ocultar padrão",
+	"miscperms"		=> "Permissões",
+	"miscuseritems"	=> "(nome, diretório home, mostrar itens ocultos, permissões, ativo)",
+	"miscadduser"	=> "adicionar usuário",
+	"miscedituser"	=> "editar usuário '%s'",
 	"miscactive"	=> "Ativo",
 	"misclang"		=> "Idioma",
 	"miscnoresult"	=> "Sem resultados.",
-	"miscsubdirs"	=> "Buscar subdiret&oacute;rios",
-	"miscpermnames"	=> array("Somente ver","Modificar","Alterar senha","Modificar & Alterar senha","Administra&ccedil;&atilde;o"),
-	"miscyesno"		=> array("Sim","N&atilde;o","S","N"),
-	"miscchmod"		=> array("Dono", "Grupo", "P&uacute;blico"),
+	"miscsubdirs"	=> "Buscar subdiretórios",
+	"miscpermnames"	=> array("Somente ver","Modificar","Alterar senha","Modificar & Alterar senha","Administração"),
+	"miscyesno"		=> array("Sim","Não","S","N"),
+	"miscchmod"		=> array("Dono", "Grupo", "Público"),
 
 	// from here all new by mic
-	'miscowner'			=> 'Propriet&aacute;rio',
-	'miscownerdesc'		=> '<strong>Descri&ccedil;&atilde;o:</strong><br />Usu&aacute;rio (UID) /<br />Grupo (GID)<br />Permiss&otilde;es atuais:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
+	'miscowner'			=> 'Proprietário',
+	'miscownerdesc'		=> '<strong>Descrição:</strong><br />Usuário (UID) /<br />Grupo (GID)<br />Permissões atuais:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
 	'simamsysinfo'		=> 'eXtplorer Infos do Sistema',
 	'sisysteminfo'		=> 'Sistema',
 	'sibuilton'			=> 'Sistema Operacional',
-	'sidbversion'		=> 'Vers&atilde;o do Banco de Dados MySQL',
-	'siphpversion'		=> 'Vers&atilde;o do PHP',
-	'siphpupdate'		=> 'INFORMA&Ccedil;&Atilde;O: <span style="color: red;">A vers&atilde;o do PHP instalada <strong>n&atilde;o &eacute;</strong> atual!</span><br />Para garantir todas as funcionalidades do eXtplorer e seus componentes adicionais,<br />voc&ecirc; deve usar pelo menos a vers&atilde;o <strong>4.3</strong>!',
+	'sidbversion'		=> 'Versão do Banco de Dados MySQL',
+	'siphpversion'		=> 'Versão do PHP',
+	'siphpupdate'		=> 'INFORMAçãO: <span style="color: red;">A versão do PHP instalada <strong>não é</strong> atual!</span><br />Para garantir todas as funcionalidades do eXtplorer e seus componentes adicionais,<br />você deve usar pelo menos a versão <strong>4.3</strong>!',
 	'siwebserver'		=> 'Servidor Web',
 	'siwebsphpif'		=> 'Interface Servidor Web - PHP',
-	'simamboversion'	=> 'Vers&atilde;o do '.$_VERSION->PRODUCT,
-	'siuseragent'		=> 'Vers&atilde;o do Navegador',
-	'sirelevantsettings' => 'Configura&ccedil;&otilde;es Importantes do PHP',
+	'simamboversion'	=> 'Versão do '.$_VERSION->PRODUCT,
+	'siuseragent'		=> 'Versão do Navegador',
+	'sirelevantsettings' => 'Configurações Importantes do PHP',
 	'sisafemode'		=> 'Safe Mode',
 	'sibasedir'			=> 'Open basedir',
 	'sidisplayerrors'	=> 'PHP Errors',
@@ -204,70 +204,70 @@ $GLOBALS["messages"] = array(
 	'sizlibenabled'		=> 'ZLIB enabled',
 	'sidisabledfuncs'	=> 'Non enabled functions',
 	'sieditor'			=> 'WYSIWYG Editor',
-	'siconfigfile'		=> 'Arquivo de Configura&ccedil;&atilde;o',
+	'siconfigfile'		=> 'Arquivo de Configuração',
 	'siphpinfo'			=> 'Info PHP',
-	'siphpinformation'	=> 'Informa&ccedil;&atilde;o do PHP',
-	'sipermissions'		=> 'Permiss&otilde;es',
-	'sidirperms'		=> 'Permiss&otilde;es de Diret&oacute;rios',
-	'sidirpermsmess'	=> 'Tenha certeza que todas as fun&ccedil;&otilde;es e funcionalidades do eXtplorer est&atilde;o funcionando corretamente verificando se as pastas a seguir possuem permiss&atilde;o de escrita [chmod 0777]',
+	'siphpinformation'	=> 'Informação do PHP',
+	'sipermissions'		=> 'Permissões',
+	'sidirperms'		=> 'Permissões de Diretórios',
+	'sidirpermsmess'	=> 'Tenha certeza que todas as funções e funcionalidades do eXtplorer estão funcionando corretamente verificando se as pastas a seguir possuem permissão de escrita [chmod 0777]',
 	'sionoff'			=> array( 'On', 'Off' ),
 	
-	'extract_warning' => "Voc&ecirc; tem certeza que deseja extrair este arquivo? Aqui?\\nEsta opera&ccedil;&atilde;o pode sobrescrever os arquivos existentes se n&atilde;o usada com cuidado!",
-	'extract_success' => "Sucesso na Extra&ccedil;&atilde;o",
-	'extract_failure' => "Falha na Extra&ccedil;&atilde;o",
+	'extract_warning' => "Você tem certeza que deseja extrair este arquivo? Aqui?\\nEsta operação pode sobrescrever os arquivos existentes se não usada com cuidado!",
+	'extract_success' => "Sucesso na Extração",
+	'extract_failure' => "Falha na Extração",
 	
 	'overwrite_files' => 'Sobrescrever arquivos existentes?',
 	"viewlink"		=> "VER",
 	"actview"		=> "Mostrar fonte do arquivo",
 	
 	// added by Paulino Michelazzo to fun_chmod.php file
-	'recurse_subdirs'	=> 'Recursivo nos Subdiret&oacute;rios?',
+	'recurse_subdirs'	=> 'Recursivo nos Subdiretórios?',
 	
 	// added by Paulino Michelazzo to footer.php file
-	'check_version'	=> 'Verificar nova vers&atilde;o',
+	'check_version'	=> 'Verificar nova versão',
 	
 	// added by Paulino Michelazzo to fun_rename.php file
-	'rename_file'	=>	'Renomear um diret&oacute;rio ou arquivo...',
+	'rename_file'	=>	'Renomear um diretório ou arquivo...',
 	'newname'		=>	'Novo nome',
 	
 	// added by Paulino Michelazzo to fun_edit.php file
-	'returndir'	=>	'Retornar ao diret&oacute;rio depois de salvar?',
+	'returndir'	=>	'Retornar ao diretório depois de salvar?',
 	'line'		=> 	'Linha',
 	'column'	=>	'Coluna',
 	'wordwrap'	=>	'Quebrar Linhas (Somente no IE)',
-	'copyfile'	=>	'Copiar o conte&uacute;do dentro do arquivo',
+	'copyfile'	=>	'Copiar o conteúdo dentro do arquivo',
 	
 	// Bookmarks
-	'quick_jump' => 'Acesso r&aacute;pido para',
-	'already_bookmarked' => 'Este diret�rio j� foi adicionado',
-	'bookmark_was_added' => 'Este diret�rio foi adicionado a lista de favoritos.',
-	'not_a_bookmark' => 'Este diret�rio n�o � um favorito.',
-	'bookmark_was_removed' => 'Este diret�rio foi removido da lista de favoritos.',
-	'bookmarkfile_not_writable' => "Falha na inclus�o do diret�rio %s.\n O arquivo de favoritos '%s' \nn�o permite escrita.",
+	'quick_jump' => 'Acesso rápido para',
+	'already_bookmarked' => 'Este diretório j� foi adicionado',
+	'bookmark_was_added' => 'Este diretório foi adicionado a lista de favoritos.',
+	'not_a_bookmark' => 'Este diretório não é um favorito.',
+	'bookmark_was_removed' => 'Este diretório foi removido da lista de favoritos.',
+	'bookmarkfile_not_writable' => "Falha na inclus�o do diretório %s.\n O arquivo de favoritos '%s' \nn�o permite escrita.",
 	
-	'lbl_add_bookmark' => 'Adicionar este diret&oacute;rio como favorito',
-	'lbl_remove_bookmark' => 'Remover este diret&oacute;rio dos favoritos',
+	'lbl_add_bookmark' => 'Adicionar este diretório como favorito',
+	'lbl_remove_bookmark' => 'Remover este diretório dos favoritos',
 	
 	'enter_alias_name' => 'Digite um apelido para este favorito',
 	
-	'normal_compression' => 'compress&atilde;o normal',
-	'good_compression' => 'boa compress&atilde;o',
-	'best_compression' => '&oacute;tima compress&atilde;o',
-	'no_compression' => 'sem compress&atilde;o',
+	'normal_compression' => 'compressão normal',
+	'good_compression' => 'boa compressão',
+	'best_compression' => 'ótima compressão',
+	'no_compression' => 'sem compressão',
 	
 	'creating_archive' => 'Criando arquivo...',
 	'processed_x_files' => 'Processados %s de %s Arquivos',
 	
 	'ftp_login_lbl' => 'Digite os dados de login para o servidor de FTP',
-	'ftp_login_name' => 'Usu&aacute;rio do FTP',
+	'ftp_login_name' => 'Usuário do FTP',
 	'ftp_login_pass' => 'Senha do FTP',
-	'ftp_hostname_port' => 'Nome do Host de FTP e porta <br />(A porta &eacute; opcional)',
-	'ftp_login_check' => 'Verificando conex&atilde;o com servidor de FTP...',
-	'ftp_connection_failed' => "O servidor de FTP n&atilde;o pode ser contatado. \nVerifique se ele est&aacute; funcionando em seu servidor.",
-	'ftp_login_failed' => "O login do FTP falhou. Verifique o nome de usu&aacute;rio e senha e tente novamente.",
+	'ftp_hostname_port' => 'Nome do Host de FTP e porta <br />(A porta é opcional)',
+	'ftp_login_check' => 'Verificando conexão com servidor de FTP...',
+	'ftp_connection_failed' => "O servidor de FTP não pode ser contatado. \nVerifique se ele está funcionando em seu servidor.",
+	'ftp_login_failed' => "O login do FTP falhou. Verifique o nome de usuário e senha e tente novamente.",
 		
-	'switch_file_mode' => 'Modo Atual: <strong>%s</strong>. Voc&ecirc; pode alterar para o modo %s.',
-	'symlink_target' => 'Alvo para o link simb&oacute;lico',
+	'switch_file_mode' => 'Modo Atual: <strong>%s</strong>. Você pode alterar para o modo %s.',
+	'symlink_target' => 'Alvo para o link simbólico',
 	
 	// added by Paulino Michelazzo to fun_ftpauthentication.php file
 	'ftp_header' => 'Autentica��o Local do FTP',

@@ -1,34 +1,34 @@
 <?php
 
-// Íslenska fyrir mamboexplorer ver 1.2.1 (translated by gudjon@247.is)
+// Ãslenska fyrir mamboexplorer ver 1.2.1 (translated by gudjon@247.is)
 // working with mambo version 4.5.2.3 normal admin template
 
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
 	"dir"	=> "Mappa",
 	"exe"	=> "Forrit",
-	"file"	=> "Skrá",
+	"file"	=> "SkrÃ¡",
 	"symlink"	=> "Symbolic Link",
 
 	// text
-	"text"	=> "Texta skrá",
+	"text"	=> "Texta skrÃ¡",
 	
 	// programming
 	"php"	=> "PHP Script",
-	"sql"	=> "SQL skrá",
+	"sql"	=> "SQL skrÃ¡",
 	"perl"	=> "PERL Script",
-	"html"	=> "HTML síða",
-	"js"	=> "Javascript skrá",
-	"css"	=> "CSS skrá",
+	"html"	=> "HTML sÃ­Ã°a",
+	"js"	=> "Javascript skrÃ¡",
+	"css"	=> "CSS skrÃ¡",
 	"cgi"	=> "CGI Script",
 	// C++
-	"cpps"	=> "C++ Source Skrá",
-	"cpph"	=> "C++ Header Skrá",
+	"cpps"	=> "C++ Source SkrÃ¡",
+	"cpph"	=> "C++ Header SkrÃ¡",
 	// Java
-	"javas"	=> "Java Source Skrá",
-	"javac"	=> "Java Class Skrá",
+	"javas"	=> "Java Source SkrÃ¡",
+	"javac"	=> "Java Class SkrÃ¡",
 	// Pascal
-	"pas"	=> "Pascal Skrá",
+	"pas"	=> "Pascal SkrÃ¡",
 	
 	// images
 	"gif"	=> "GIF Mynd",
@@ -37,26 +37,26 @@ $GLOBALS["mimes"]=array(
 	"png"	=> "PNG Mynd",
 	
 	// compressed
-	"zip"	=> "ZIP Safnskrá",
-	"tar"	=> "TAR Safnskrá",
-	"gzip"	=> "GZIP Safnskrá",
-	"bzip2"	=> "BZIP2 Safnskrá",
-	"rar"	=> "RAR Safnskrá",
+	"zip"	=> "ZIP SafnskrÃ¡",
+	"tar"	=> "TAR SafnskrÃ¡",
+	"gzip"	=> "GZIP SafnskrÃ¡",
+	"bzip2"	=> "BZIP2 SafnskrÃ¡",
+	"rar"	=> "RAR SafnskrÃ¡",
 	
 	// music
-	"mp3"	=> "MP3 HljóðSkrá",
-	"wav"	=> "WAV HljóðSkrá",
-	"midi"	=> "MIDI HljóðSkrá",
-	"real"	=> "RealAudio Skrá",
+	"mp3"	=> "MP3 HljÃ³Ã°SkrÃ¡",
+	"wav"	=> "WAV HljÃ³Ã°SkrÃ¡",
+	"midi"	=> "MIDI HljÃ³Ã°SkrÃ¡",
+	"real"	=> "RealAudio SkrÃ¡",
 	
 	// movie
-	"mpg"	=> "MPG Video Skrá",
-	"mov"	=> "Movie Skrá",
-	"avi"	=> "AVI Video Skrá",
-	"flash"	=> "Flash Movie Skrá",
+	"mpg"	=> "MPG Video SkrÃ¡",
+	"mov"	=> "Movie SkrÃ¡",
+	"avi"	=> "AVI Video SkrÃ¡",
+	"flash"	=> "Flash Movie SkrÃ¡",
 	
 	// Micosoft / Adobe
 	"word"	=> "Word Skjal",
 	"excel"	=> "Excel Skjal",
-	"pdf"	=> "PDF Skrá"
+	"pdf"	=> "PDF SkrÃ¡"
 ); ?>

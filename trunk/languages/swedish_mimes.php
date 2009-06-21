@@ -7,7 +7,7 @@ $GLOBALS["mimes"]=array(
 	"dir"	=> "Katalog",
 	"exe"	=> "Exekverbar fil",
 	"file"	=> "Fil",
-	"symlink"	=> "Symbolisk l&auml;nk",
+	"symlink"	=> "Symbolisk länk",
 
 	// text
 	"text"	=> "Textfil",
@@ -21,10 +21,10 @@ $GLOBALS["mimes"]=array(
 	"css"	=> "CSS-Fil",
 	"cgi"	=> "CGI-Skript",
 	// C++
-	"cpps"	=> "C++ K&auml;llfil",
+	"cpps"	=> "C++ Källfil",
 	"cpph"	=> "C++ Headerfil",
 	// Java
-	"javas"	=> "Java K&auml;llfil",
+	"javas"	=> "Java Källfil",
 	"javac"	=> "Java Klassfil",
 	// Pascal
 	"pas"	=> "Pascal-fil",

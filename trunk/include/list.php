@@ -373,15 +373,16 @@ class ext_List extends ext_Action {
 		$scriptTag = '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
 			.'&amp;subdir[]=scripts/editarea/&amp;file[]=edit_area_full_with_plugins.js'
-			.'&amp;subdir[]=scripts/extjs2/&amp;file[]=yui-utilities.js'
-			.'&amp;subdir[]=scripts/extjs2/&amp;file[]=ext-yui-adapter.js'
-			.'&amp;subdir[]=scripts/extjs2/&amp;file[]=ext-all.js'
-			.'&amp;subdir[]=scripts/extjs2/&amp;file[]=scriptloader.js'
-			.'&amp;subdir[]=scripts/extjs2/&amp;file[]=ext-editarea-adapter.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=yui-utilities.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-yui-adapter.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-all.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=scriptloader.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-editarea-adapter.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-statusbar.js'
 			.'&amp;gzip=1"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
 		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>
-		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs2/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs2/css/&file[1]=xtheme-aero.css&amp;gzip=1" />';
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs3/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs3/css/&file[1]=xtheme-aero.css&amp;gzip=1" />';
 
 		if (defined('EXT_STANDALONE')) {
 			$GLOBALS['mainframe']->addcustomheadtag($scriptTag);

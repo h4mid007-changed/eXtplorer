@@ -7,7 +7,7 @@ $GLOBALS["mimes"]=array(
 	"dir"	=> "目錄",
 	"exe"	=> "執行檔案",
 	"file"	=> "檔案",
-	"symlink"	=> "符號連結",
+	"symlink"	=> "Symbolic Link",
 
 	// text
 	"text"	=> "純文字檔案",

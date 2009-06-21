@@ -5,7 +5,7 @@
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
 	"dir"	=> "Directoria",
-	"exe"	=> "Ficheiro Executável",
+	"exe"	=> "Ficheiro ExecutÃ¡vel",
 	"file"	=> "Ficheiro",
 	"symlink"	=> "Symbolic Link",
 
@@ -16,7 +16,7 @@ $GLOBALS["mimes"]=array(
 	"php"	=> "PHP Script",
 	"sql"	=> "Ficheiro de SQL",
 	"perl"	=> "PERL Script",
-	"html"	=> "Página HTML",
+	"html"	=> "PÃ¡gina HTML",
 	"js"	=> "Ficheiro Javascript",
 	"css"	=> "Ficheiro CSS",
 	"cgi"	=> "CGI Script",
