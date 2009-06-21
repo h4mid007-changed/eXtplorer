@@ -72,7 +72,7 @@ foreach($filelist as $file ) {
 	$contents .= '<filename>'.$filepath."</filename>\n";
 }
 file_put_contents( 'extplorer_filelist.txt', $contents );
-**/
+*/
 //------------------------------------------------------------------------------
 if( $action == "post" )
   $action = extGetParam( $_REQUEST, "do_action" );

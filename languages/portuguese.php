@@ -3,7 +3,7 @@
 // Portuguese Language Module for joomlaXplorer (translated by Paulo Brito, geral@oitavaesfera.com, http://www.oitavaesfera.com)
 global $_VERSION;
 
-$GLOBALS["charset"] = "iso-8859-1";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
 $GLOBALS["date_fmt"] = "d/m/y H:i";
 $GLOBALS["error_msg"] = array(
@@ -12,63 +12,63 @@ $GLOBALS["error_msg"] = array(
 	"back"			=> "Voltar",
 	
 	// root
-	"home"			=> "A directoria inicial n„o existe, verifique as configuraÁıes.",
-	"abovehome"		=> "A directoria actual n„o pode estar acima da directoria inicial.",
-	"targetabovehome"	=> "A directoria alvo n„o pode estar acima da directoria principal.",
+	"home"			=> "A directoria inicial n√£o existe, verifique as configura√ß√µes.",
+	"abovehome"		=> "A directoria actual n√£o pode estar acima da directoria inicial.",
+	"targetabovehome"	=> "A directoria alvo n√£o pode estar acima da directoria principal.",
 	
 	// exist
-	"direxist"		=> "Esta directoria n„o existe.",
-	//"filedoesexist"	=> "Este ficheiro j· existe.",
-	"fileexist"		=> "Este ficheiro n„o existe.",
-	"itemdoesexist"		=> "Este item j· existe.",
-	"itemexist"		=> "Este item n„o existe.",
-	"targetexist"		=> "A directoria n„o existe.",
-	"targetdoesexist"	=> "A directoria j· existe.",
+	"direxist"		=> "Esta directoria n√£o existe.",
+	//"filedoesexist"	=> "Este ficheiro j√° existe.",
+	"fileexist"		=> "Este ficheiro n√£o existe.",
+	"itemdoesexist"		=> "Este item j√° existe.",
+	"itemexist"		=> "Este item n√£o existe.",
+	"targetexist"		=> "A directoria n√£o existe.",
+	"targetdoesexist"	=> "A directoria j√° existe.",
 	
 	// open
-	"opendir"		=> "N„o È possÌvel abrir a directoria.",
-	"readdir"		=> "N„o È possÌvel ler a directoria.",
+	"opendir"		=> "N√£o √© poss√≠vel abrir a directoria.",
+	"readdir"		=> "N√£o √© poss√≠vel ler a directoria.",
 	
 	// access
-	"accessdir"		=> "N„o est· autorizado a aceder a esta directoria.",
-	"accessfile"		=> "N„o est· autorizado a aceder a este ficheiro.",
-	"accessitem"		=> "N„o est· autorizado a aceder a este item.",
-	"accessfunc"		=> "N„o est· autorizado a usar esta funÁ„o.",
-	"accesstarget"		=> "N„o est· autorizado a aceder ‡ directoria.",
+	"accessdir"		=> "N√£o est√° autorizado a aceder a esta directoria.",
+	"accessfile"		=> "N√£o est√° autorizado a aceder a este ficheiro.",
+	"accessitem"		=> "N√£o est√° autorizado a aceder a este item.",
+	"accessfunc"		=> "N√£o est√° autorizado a usar esta fun√ß√£o.",
+	"accesstarget"		=> "N√£o est√° autorizado a aceder √† directoria.",
 	
 	// actions
-	"permread"		=> "N„o foi possÌvel visualizar as permissıes.",
-	"permchange"		=> "N„o foi possÌvel modificar as permissıes.",
-	"openfile"		=> "N„o foi possÌvel abrir o ficheiro.",
-	"savefile"		=> "N„o foi possÌvel gravar o ficheiro.",
-	"createfile"		=> "N„o foi possÌvel criar o ficheiro.",
-	"createdir"		=> "N„o foi possÌvel criar a directoria.",
-	"uploadfile"		=> "N„o foi possÌvel o envio do ficheiro.",
-	"copyitem"		=> "N„o foi possÌvel a cÛpia.",
-	"moveitem"		=> "N„o foi possÌvel mover.",
-	"delitem"		=> "N„o foi possÌvel apagar o ficheiro.",
-	"chpass"		=> "N„o foi possÌvel modificar a password.",
-	"deluser"		=> "N„o foi possÌvel remover o utilizador.",
-	"adduser"		=> "N„o foi possÌvel adicionar o utilizador.",
-	"saveuser"		=> "N„o foi possÌvel gravar o utilizador.",
+	"permread"		=> "N√£o foi poss√≠vel visualizar as permiss√µes.",
+	"permchange"		=> "N√£o foi poss√≠vel modificar as permiss√µes.",
+	"openfile"		=> "N√£o foi poss√≠vel abrir o ficheiro.",
+	"savefile"		=> "N√£o foi poss√≠vel gravar o ficheiro.",
+	"createfile"		=> "N√£o foi poss√≠vel criar o ficheiro.",
+	"createdir"		=> "N√£o foi poss√≠vel criar a directoria.",
+	"uploadfile"		=> "N√£o foi poss√≠vel o envio do ficheiro.",
+	"copyitem"		=> "N√£o foi poss√≠vel a c√≥pia.",
+	"moveitem"		=> "N√£o foi poss√≠vel mover.",
+	"delitem"		=> "N√£o foi poss√≠vel apagar o ficheiro.",
+	"chpass"		=> "N√£o foi poss√≠vel modificar a password.",
+	"deluser"		=> "N√£o foi poss√≠vel remover o utilizador.",
+	"adduser"		=> "N√£o foi poss√≠vel adicionar o utilizador.",
+	"saveuser"		=> "N√£o foi poss√≠vel gravar o utilizador.",
 	"searchnothing"		=> "Deve ser inserido um valor para ser feita a procura.",
 	
 	// misc
-	"miscnofunc"		=> "FunÁ„o n„o disponÌvel.",
-	"miscfilesize"		=> "O ficheiro ultrapassa o tamanho m·ximo permitido.",
+	"miscnofunc"		=> "Fun√ß√£o n√£o dispon√≠vel.",
+	"miscfilesize"		=> "O ficheiro ultrapassa o tamanho m√°ximo permitido.",
 	"miscfilepart"		=> "O ficheiro foi apenas enviado parcialmente.",
 	"miscnoname"		=> "Deve ser fornecido um nome.",
-	"miscselitems"		=> "N„o foi seleccionado qualquer item.",
+	"miscselitems"		=> "N√£o foi seleccionado qualquer item.",
 	"miscdelitems"		=> "Tem certeza que deseja apagar este(s) {0} item(s)?",
 	"miscdeluser"		=> "Tem certeza que deseja apagar o utilizador '{0}'?",
-	"miscnopassdiff"	=> "A nova password n„o È diferente da actual.",
-	"miscnopassmatch"	=> "As passwords n„o s„o iguais.",
-	"miscfieldmissed"	=> "Um campo importante est· vazio.",
+	"miscnopassdiff"	=> "A nova password n√£o √© diferente da actual.",
+	"miscnopassmatch"	=> "As passwords n√£o s√£o iguais.",
+	"miscfieldmissed"	=> "Um campo importante est√° vazio.",
 	"miscnouserpass"	=> "Username ou password incorrectos.",
-	"miscselfremove"	=> "N„o pode remover-se a si prÛprio.",
-	"miscuserexist"		=> "O utilizador j· existe.",
-	"miscnofinduser"	=> "N„o foi possÌvel encontrar o utilizador.",
-	"extract_noarchive" => "O Ficheiro n„o È um arquivo de extracÁ„o.",
+	"miscselfremove"	=> "N√£o pode remover-se a si pr√≥prio.",
+	"miscuserexist"		=> "O utilizador j√° existe.",
+	"miscnofinduser"	=> "N√£o foi poss√≠vel encontrar o utilizador.",
+	"extract_noarchive" => "O Ficheiro n√£o √© um arquivo de extrac√ß√£o.",
 	"extract_unknowntype" => "Tipo de Arquivo Desconhecido",
 	
 	'chmod_none_not_allowed' => 'Changing Permissions to <none> is not allowed',
@@ -78,11 +78,11 @@ $GLOBALS["error_msg"] = array(
 );
 $GLOBALS["messages"] = array(
 	// links
-	"permlink"		=> "MODIFICAR PERMISS’ES",
+	"permlink"		=> "MODIFICAR PERMISS√ïES",
 	"editlink"		=> "EDITAR",
 	"downlink"		=> "DOWNLOAD",
 	"uplink"		=> "CIMA",
-	"homelink"		=> "P¡GINA INICIAL",
+	"homelink"		=> "P√ÅGINA INICIAL",
 	"reloadlink"		=> "ACTUALIZAR",
 	"copylink"		=> "COPIAR",
 	"movelink"		=> "MOVER",
@@ -93,8 +93,8 @@ $GLOBALS["messages"] = array(
 	"uploadlink"		=> "UPLOAD",
 	"searchlink"		=> "PROCURAR",
 	"extractlink"	=> "Extrair Arquivo",
-	'chmodlink'		=> 'Modificar as Permissıes (chmod) (Pasta/Ficheiro(s))', // new mic
-	'mossysinfolink'	=> 'eXtplorer InformaÁ„o do Sistema (eXtplorer, Server, PHP, mySQL)', // new mic
+	'chmodlink'		=> 'Modificar as Permiss√µes (chmod) (Pasta/Ficheiro(s))', // new mic
+	'mossysinfolink'	=> 'eXtplorer Informa√ß√£o do Sistema (eXtplorer, Server, PHP, mySQL)', // new mic
 	'logolink'		=> 'Ir para o site do joomlaXplorer (nova janela)', // new mic
 	
 	// list
@@ -102,8 +102,8 @@ $GLOBALS["messages"] = array(
 	"sizeheader"		=> "Tamanho",
 	"typeheader"		=> "Tipo",
 	"modifheader"		=> "Modificado",
-	"permheader"		=> "Permissıes",
-	"actionheader"		=> "AcÁıes",
+	"permheader"		=> "Permiss√µes",
+	"actionheader"		=> "Ac√ß√µes",
 	"pathheader"		=> "Caminho",
 	
 	// buttons
@@ -132,7 +132,7 @@ $GLOBALS["messages"] = array(
 	
 	// actions
 	"actdir"		=> "Directoria",
-	"actperms"		=> "Modificar permissıes",
+	"actperms"		=> "Modificar permiss√µes",
 	"actedit"		=> "Editar ficheiro",
 	"actsearchresults"	=> "Resultados da procura",
 	"actcopyitems"		=> "Copiar item(s)",
@@ -140,8 +140,8 @@ $GLOBALS["messages"] = array(
 	"actmoveitems"		=> "Mover item(s)",
 	"actmovefrom"		=> "Mover de /%s para /%s ",
 	"actlogin"		=> "Login",
-	"actloginheader"	=> "FaÁa o login para usar o QuiXplorer",
-	"actadmin"		=> "AdministraÁ„o",
+	"actloginheader"	=> "Fa√ßa o login para usar o QuiXplorer",
+	"actadmin"		=> "Administra√ß√£o",
 	"actchpwd"		=> "Modificar password",
 	"actusers"		=> "utilizadores",
 	"actarchive"		=> "Arquivo de item(s)",
@@ -158,37 +158,37 @@ $GLOBALS["messages"] = array(
 	"miscconfnewpass"	=> "Confirmar a nova password",
 	"miscchpass"		=> "Modificar password",
 	"mischomedir"		=> "Directoria inicial",
-	"mischomeurl"		=> "URL da p·gina inicial",
+	"mischomeurl"		=> "URL da p√°gina inicial",
 	"miscshowhidden"	=> "Mostrar items escondidos",
 	"mischidepattern"	=> "Esconder esquema",
-	"miscperms"		=> "Permissıes",
-	"miscuseritems"		=> "(nome, directoria inicial, mostrar items escondidos, permissıes, activo)",
+	"miscperms"		=> "Permiss√µes",
+	"miscuseritems"		=> "(nome, directoria inicial, mostrar items escondidos, permiss√µes, activo)",
 	"miscadduser"		=> "novo utilizador",
 	"miscedituser"		=> "editar utilizador '%s'",
 	"miscactive"		=> "Activo",
 	"misclang"		=> "Linguagem",
-	"miscnoresult"		=> "N„o h· resultados disponÌveis.",
+	"miscnoresult"		=> "N√£o h√° resultados dispon√≠veis.",
 	"miscsubdirs"		=> "Procurar subdirectorias",
 	"miscpermnames"		=> array("Ver apenas","Modificar","Alterar password","Modificar a password",
 					"Administrador"),
-	"miscyesno"		=> array("Sim","N„o","Y","N"),
-	"miscchmod"		=> array("Propriet·rio", "Grupo", "P˙blico"),
+	"miscyesno"		=> array("Sim","N√£o","Y","N"),
+	"miscchmod"		=> array("Propriet√°rio", "Grupo", "P√∫blico"),
 	// from here all new by mic
-	'miscowner'			=> 'Propriet·rio',
-	'miscownerdesc'		=> '<strong>DesccriÁ„o:</strong><br />Utilizador (UID) /<br />Grupo (GID)<br />Permissıes Actuais:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
+	'miscowner'			=> 'Propriet√°rio',
+	'miscownerdesc'		=> '<strong>Desccri√ß√£o:</strong><br />Utilizador (UID) /<br />Grupo (GID)<br />Permiss√µes Actuais:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',
 
 	// sysinfo (new by mic)
 	'simamsysinfo'		=> 'eXtplorer Info Sistema',
 	'sisysteminfo'		=> 'Info Sistema',
 	'sibuilton'			=> 'Sistema Operativo',
-	'sidbversion'		=> 'Vers„o da Base de Dados (MySQL)',
-	'siphpversion'		=> 'Vers„o de PHP',
-	'siphpupdate'		=> 'INFORMA«√O: <span style="color: red;">A vers„o de PHP usada <strong>n„o est·</strong> actualizada!</span><br />Para garantir todas as funÁıes e possibilidades do eXtplorer e dos addons,<br />deve estar a usar pelo menos a <strong>Vers„o 4.3 do PHP</strong>!',
+	'sidbversion'		=> 'Vers√£o da Base de Dados (MySQL)',
+	'siphpversion'		=> 'Vers√£o de PHP',
+	'siphpupdate'		=> 'INFORMA√á√ÉO: <span style="color: red;">A vers√£o de PHP usada <strong>n√£o est√°</strong> actualizada!</span><br />Para garantir todas as fun√ß√µes e possibilidades do eXtplorer e dos addons,<br />deve estar a usar pelo menos a <strong>Vers√£o 4.3 do PHP</strong>!',
 	'siwebserver'		=> 'Servidor Web',
 	'siwebsphpif'		=> 'Servidor Web - PHP Interface',
-	'simamboversion'	=> 'eXtplorer Vers„o',
-	'siuseragent'		=> 'Vers„o do Browser',
-	'sirelevantsettings' => 'ConfiguraÁıes de PHP Importantes',
+	'simamboversion'	=> 'eXtplorer Vers√£o',
+	'siuseragent'		=> 'Vers√£o do Browser',
+	'sirelevantsettings' => 'Configura√ß√µes de PHP Importantes',
 	'sisafemode'		=> 'Safe Mode',
 	'sibasedir'			=> 'Open basedir',
 	'sidisplayerrors'	=> 'Erros de PHP',
@@ -208,12 +208,12 @@ $GLOBALS["messages"] = array(
 	'siphpinformation'	=> 'PHP Information',
 	'sipermissions'		=> 'Permissions',
 	'sidirperms'		=> 'Directory Permissions',
-	'sidirpermsmess'	=> 'Para ter certeza que todas as funÁıes e possibilidades do eXtplorer est„o a funcionar correctamente, as seguintes pastas devem ter a permiss„o de escrita [chmod 0777]',
+	'sidirpermsmess'	=> 'Para ter certeza que todas as fun√ß√µes e possibilidades do eXtplorer est√£o a funcionar correctamente, as seguintes pastas devem ter a permiss√£o de escrita [chmod 0777]',
 	'sionoff'			=> array( 'On', 'Off' ),
 	
-	'extract_warning' => "Deseja mesmo extrair este ficheiro? Aqui?\\nIsto ir· apagar ficheiros existentes se n„o for usado com cuidado!",
-	'extract_success' => "A extracÁ„o foi um sucesso",
-	'extract_failure' => "A extracÁ„o falhou",
+	'extract_warning' => "Deseja mesmo extrair este ficheiro? Aqui?\\nIsto ir√° apagar ficheiros existentes se n√£o for usado com cuidado!",
+	'extract_success' => "A extrac√ß√£o foi um sucesso",
+	'extract_failure' => "A extrac√ß√£o falhou",
 	
 	'overwrite_files' => 'Overwrite existing file(s)?',
 	"viewlink"		=> "VIEW",

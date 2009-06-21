@@ -21,10 +21,10 @@ $GLOBALS["mimes"]=array(
 	"css"	=> "Styl CSS",
 	"cgi"	=> "Skrypt CGI",
 	// C++
-	"cpps"	=> "Plik &#378;r&#243;d&#322;owy C++",
-	"cpph"	=> "Plik nag&#322;&#243;wkowy C++",
+	"cpps"	=> "Plik zródlowy C++",
+	"cpph"	=> "Plik naglówkowy C++",
 	// Java
-	"javas"	=> "Plik &#378;r&#243;d&#322;owy Java",
+	"javas"	=> "Plik zródlowy Java",
 	"javac"	=> "Klasa Java",
 	// Pascal
 	"pas"	=> "Pascal",

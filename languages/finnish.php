@@ -1,6 +1,6 @@
 <?php
-// Finnish language file for eXtplorer 2.0.1 Stable UTF-8
-// Dated 16.01.2009
+// Finnish language file for eXtplorer 2.1.0 Beta2 UTF-8
+// Dated 21.06.2009
 // Author: Markku Suominen / admin@joomlaportal.fi
 // Author/Editor: Sami Haaranen / mortti@joomlaportal.fi
 // Finnish Joomla translation team, http://www.joomlaportal.fi
@@ -97,6 +97,7 @@ $GLOBALS["messages"] = array(
 	"logoutlink"	=> "Poistu",
 	"uploadlink"	=> "Vie palvelimelle",
 	"searchlink"	=> "Etsi",
+	'difflink'      => 'Vertaa',
 	"extractlink"	=> "Pura arkistotiedosto",
 	'chmodlink'		=> 'Muuta (chmod) oikeudet (kansio/tiedosto(t))', // new mic
 	'mossysinfolink'	=> 'eXtplorer järjestelmätiedot (eXtplorer, palvelin, PHP, mySQL)', // new mic
@@ -127,6 +128,7 @@ $GLOBALS["messages"] = array(
 	"btnadd"		=> "Lisää",
 	"btnedit"		=> "Muokkaa",
 	"btnremove"		=> "Poista",
+	"btndiff"       => "Vertaa",
 	
 	// user messages, new in joomlaXplorer 1.3.0
 	'renamelink'	=> 'Nimeä',
@@ -154,7 +156,7 @@ $GLOBALS["messages"] = array(
 	// misc
 	"miscitems"		=> "Nimike(ttä)",
 	"miscfree"		=> "Vapaana",
-	"miscusername"		=> "Käyttäjänimi",
+	"miscusername"		=> "Käyttäjätunnus",
 	"miscpassword"		=> "Salasana",
 	"miscoldpass"		=> "Vanha salasana",
 	"miscnewpass"		=> "Uusi salasana",
@@ -177,6 +179,7 @@ $GLOBALS["messages"] = array(
 					"Hallinta"),
 	"miscyesno"		=> array("Kyllä","Ei","K","E"),
 	"miscchmod"		=> array("Omistaja", "Ryhmä", "Julkinen"),
+	'misccontent'    => "Tiedostosisältö",
 
 	// from here all new by mic
 	'miscowner'			=> 'Omistaja',
@@ -214,9 +217,9 @@ $GLOBALS["messages"] = array(
 	'sipermissions'		=> 'Käyttöoikeudet',
 	'sidirperms'		=> 'Hakemiston käyttöoikeudet',
 	'sidirpermsmess'	=> 'Jotta kaikki tuotteen toiminnot ja funktiot toimivat oikein, seuraavien kansioihin tulee voida kirjoittaa [chmod 0777]',
-	'sionoff'			=> array( 'Pois', 'Päällä' ),
+	'sionoff'			=> array( 'Päällä', 'Pois' ),
 	
-	'extract_warning' => "Haluatko purkaa tiedoston tähän hakemistoon? \\nKäytä toimintoa varoen, sillä olemassa olevat tiedostot ylikirjoitetaan arkistotiedoston tiedostoilla.",
+	'extract_warning' => "Haluatko purkaa tiedoston tähän hakemistoon?<br />Käytä toimintoa varoen, sillä olemassa olevat tiedostot ylikirjoitetaan arkistotiedoston tiedostoilla.",
 	'extract_success' => "Tiedoston purkaminen onnistui",
 	'extract_failure' => "Purkaminen epäonnistui",
 	
@@ -244,15 +247,15 @@ $GLOBALS["messages"] = array(
 	// Bookmarks
 	'quick_jump' => 'Siirry kohteeseen',
 	'already_bookmarked' => 'Hakemisto on jo kirjanmerkitty',
-	'bookmark_was_added' => 'Hakemisto lisättiin kirjanmerkkien listaan.',
+	'bookmark_was_added' => 'Hakemisto lisättiin kirjanmerkki listaan.',
 	'not_a_bookmark' => 'Hakemisto ei ole kirjanmerkki.',
-	'bookmark_was_removed' => 'Hakemisto poistettiin kirjanmerkkien listasta.',
+	'bookmark_was_removed' => 'Hakemisto poistettiin kirjanmerkki listasta.',
 	'bookmarkfile_not_writable' => "Kirjanmerkkiin liittyvä toiminto %s epäonnistui.\n Kirjanmerkkitiedosto '%s' \n on kirjoitussuojattu.",
 	
 	'lbl_add_bookmark' => 'Lisää hakemisto kirjanmerkkeihin',
-	'lbl_remove_bookmark' => 'Poista hakemisto kirjanmerkkilistasta',
+	'lbl_remove_bookmark' => 'Poista hakemisto kirjanmerkki listasta',
 	
-	'enter_alias_name' => 'Anna kirjanmerkin alias',
+	'enter_alias_name' => 'Kirjoita kirjanmerkin alias',
 	
 	'normal_compression' => 'normaali pakkaus',
 	'good_compression' => 'parempi pakkaus',

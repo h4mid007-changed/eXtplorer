@@ -3,7 +3,7 @@
 // Hungarian Language Module for v2.3 (translated by Jozsef Tamas Herczeg a.k.a LocaLiceR www.joomlandia.eu)
 global $_VERSION;
 
-$GLOBALS["charset"] = "utf-8";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
 $GLOBALS["date_fmt"] = "Y.m.d. H:i";
 $GLOBALS["error_msg"] = array(

@@ -1,5 +1,5 @@
 ﻿<?php
-// $Id: $
+// $Id$
 // Slovenian Language Module for v2.3 (translated by KSi)
 global $_VERSION;
 

@@ -1,18 +1,18 @@
-ï»¿<?php
+<?php
 
 // Spanish Language Module for joomlaXplorer (translated by J. Pedro Flor P.)
 global $_VERSION;
 
-$GLOBALS["charset"] = "iso-8859-1";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
 $GLOBALS["date_fmt"] = "Y/m/d H:i";
 $GLOBALS["error_msg"] = array(
 	// error
 	"error"			=> "ERROR(ES)",
-	"back"			=> "Ir Atr&aacute;s",
+	"back"			=> "Ir Atrás",
 	
 	// root
-	"home"			=> "El directorio home no existe, revise su configuraci&oacute;n.",
+	"home"			=> "El directorio home no existe, revise su configuración.",
 	"abovehome"		=> "El directorio actual no puede estar arriba del directorio home.",
 	"targetabovehome"	=> "El directorio objetivo no puede estar arriba del directorio home.",
 	
@@ -20,21 +20,21 @@ $GLOBALS["error_msg"] = array(
 	"direxist"		=> "Este directorio no existe.",
 	//"filedoesexist"	=>  "Este archivo ya existe.",
 	"fileexist"		=> "Este archivo no existe.",
-	"itemdoesexist"		=> "Este art&iacute;culo ya existe.",
-	"itemexist"		=> "Este art&iacute;culo no existe.",
+	"itemdoesexist"		=> "Este artículo ya existe.",
+	"itemexist"		=> "Este artículo no existe.",
 	"targetexist"		=> "El directorio objetivo no existe.",
-	"targetdoesexist"	=> "El art&iacute;culo objetivo ya existe.",
+	"targetdoesexist"	=> "El artículo objetivo ya existe.",
 	
 	// open
 	"opendir"		=> "Incapaz de abrir directorio.",
 	"readdir"		=> "Incapaz de leer directorio.",
 	
 	// access
-	"accessdir"		=> "Ud. no est&aacute; permitido accesar este directorio.",
-	"accessfile"		=> "Ud. no est&aacute; permitido accesar a este archivo.",
-	"accessitem"		=> "Ud. no est&aacute; permitido accesar a este art&iacute;culo.",
-	"accessfunc"		=> "Ud. no est&aacute; permitido usar esta funcion.",
-	"accesstarget"		=> "Ud. no est&aacute; permitido accesar al directorio objetivo.",
+	"accessdir"		=> "Ud. no está permitido accesar este directorio.",
+	"accessfile"		=> "Ud. no está permitido accesar a este archivo.",
+	"accessitem"		=> "Ud. no está permitido accesar a este artículo.",
+	"accessfunc"		=> "Ud. no está permitido usar esta funcion.",
+	"accesstarget"		=> "Ud. no está permitido accesar al directorio objetivo.",
 	
 	// actions
 	"permread"		=> "Fracaso reuniendo permisos.",
@@ -54,16 +54,16 @@ $GLOBALS["error_msg"] = array(
 	"searchnothing"		=> "Ud. debe suministrar algo para la busqueda.",
 	
 	// misc
-	"miscnofunc"		=> "Funci&oacute;n no disponible.",
-	"miscfilesize"		=> "Archivo excede maximo tama&ntilde;o.",
+	"miscnofunc"		=> "Función no disponible.",
+	"miscfilesize"		=> "Archivo excede maximo tamaño.",
 	"miscfilepart"		=> "Archivo fue parcialmente subido.",
 	"miscnoname"		=> "Ud. debe suministrar un nombre.",
-	"miscselitems"		=> "Ud. no tiene seleccionado(s) ningun art&iacute;culo.",
-	"miscdelitems"		=> "Est&aacute; seguro de querer borrar este(os) {0} art&iacute;culo(s)?",
-	"miscdeluser"		=> "Est&aacute; seguro de querer borrar usuario '{0}'?",
+	"miscselitems"		=> "Ud. no tiene seleccionado(s) ningun artículo.",
+	"miscdelitems"		=> "Está seguro de querer borrar este(os) {0} artículo(s)?",
+	"miscdeluser"		=> "Está seguro de querer borrar usuario '{0}'?",
 	"miscnopassdiff"	=> "Nuevo password no difiere del actual.",
 	"miscnopassmatch"	=> "No coinciden los Passwords.",
-	"miscfieldmissed"	=> "Ud. fall&oacute; en un importante campo.",
+	"miscfieldmissed"	=> "Ud. falló en un importante campo.",
 	"miscnouserpass"	=> "Usuario o password incorrecto.",
 	"miscselfremove"	=> "Ud. no puede borrarse a si mismo.",
 	"miscuserexist"		=> "Usuario ya existe.",
@@ -91,7 +91,7 @@ $GLOBALS["messages"] = array(
 	"adminlink"		=> "ADMINISTRAR",
 	"logoutlink"		=> "SALIR",
 	"uploadlink"		=> "SUBIR",
-	"searchlink"		=> "B&Uacute;SQUEDA",
+	"searchlink"		=> "BÚSQUEDA",
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'Change (chmod) Rights (Folder/File(s))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer, Server, PHP, mySQL)', // new mic
@@ -99,7 +99,7 @@ $GLOBALS["messages"] = array(
 	
 	// list
 	"nameheader"		=> "Nombre",
-	"sizeheader"		=> "Tama&ntilde;o",
+	"sizeheader"		=> "Tamaño",
 	"typeheader"		=> "Tipo",
 	"modifheader"		=> "Modificado",
 	"permheader"		=> "Permisos",
@@ -119,7 +119,7 @@ $GLOBALS["messages"] = array(
 	"btnmove"		=> "Mover",
 	"btnlogin"		=> "Login",
 	"btnlogout"		=> "Salir",
-	"btnadd"		=> "A&ntilde;adir",
+	"btnadd"		=> "Añadir",
 	"btnedit"		=> "Editar",
 	"btnremove"		=> "Remover",
 	
@@ -135,20 +135,20 @@ $GLOBALS["messages"] = array(
 	"actperms"		=> "Cambiar permisos",
 	"actedit"		=> "Editar archivo",
 	"actsearchresults"	=> "Resultado de busqueda.",
-	"actcopyitems"		=> "Copiar art&iacute;culos(s)",
+	"actcopyitems"		=> "Copiar artículos(s)",
 	"actcopyfrom"		=> "Copia de /%s a /%s ",
-	"actmoveitems"		=> "Mover art&iacute;culo(s)",
+	"actmoveitems"		=> "Mover artículo(s)",
 	"actmovefrom"		=> "Mover de /%s a /%s ",
 	"actlogin"		=> "Login",
 	"actloginheader"	=> "Login para usar QuiXplorer",
-	"actadmin"		=> "Administraci&oacute;n",
+	"actadmin"		=> "Administración",
 	"actchpwd"		=> "Cambiar password",
 	"actusers"		=> "Usuarios",
 	"actarchive"		=> "Archivar item(s)",
 	"actupload"		=> "Subir Archivo(s)",
 	
 	// misc
-	"miscitems"		=> "Art&iacute;culo(s)",
+	"miscitems"		=> "Artículo(s)",
 	"miscfree"		=> "Libre",
 	"miscusername"		=> "Nombre de usuario",
 	"miscpassword"		=> "Password",
@@ -159,19 +159,19 @@ $GLOBALS["messages"] = array(
 	"miscchpass"		=> "Cambiar password",
 	"mischomedir"		=> "Directorio Home",
 	"mischomeurl"		=> "URL Home",
-	"miscshowhidden"	=> "Mostrar art&iacute;culos ocultos",
-	"mischidepattern"	=> "Ocultar patr&oacute;n",
+	"miscshowhidden"	=> "Mostrar artículos ocultos",
+	"mischidepattern"	=> "Ocultar patrón",
 	"miscperms"		=> "Permisos",
-	"miscuseritems"		=> "(nombre, directorio home, mostrar art&iacute;culos ocultos, permisos, activar)",
-	"miscadduser"		=> "a&ntilde;adir usuario",
+	"miscuseritems"		=> "(nombre, directorio home, mostrar artículos ocultos, permisos, activar)",
+	"miscadduser"		=> "añadir usuario",
 	"miscedituser"		=> "editar usario '%s'",
 	"miscactive"		=> "Activar",
 	"misclang"		=> "Lenguaje",
 	"miscnoresult"		=> "Resultado(s) no disponible(s).",
-	"miscsubdirs"		=> "B&uacute;squeda de subdirectorios",
+	"miscsubdirs"		=> "Búsqueda de subdirectorios",
 	"miscpermnames"		=> array("Solo ver","Modificar","Cambiar password","Modificar & Cambiar password", "Administrador"),
 	"miscyesno"		=> array("Si","No","S","N"),
-	"miscchmod"		=> array("Propietario", "Grupo", "P&uacute;blico"),
+	"miscchmod"		=> array("Propietario", "Grupo", "Público"),
 	// from here all new by mic
 	'miscowner'			=> 'Owner',
 	'miscownerdesc'		=> '<strong>Description:</strong><br />User (UID) /<br />Group (GID)<br />Current rights:<br /><strong> %s ( %s ) </strong>/<br /><strong> %s ( %s )</strong>',

@@ -3,7 +3,7 @@
 // Dutch Language Module for joomlaXplorer
 global $_VERSION;
 
-$GLOBALS["charset"] = "iso-8859-1";
+$GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
 $GLOBALS["date_fmt"] = "d-m-Y H:i";
 $GLOBALS["error_msg"] = array(

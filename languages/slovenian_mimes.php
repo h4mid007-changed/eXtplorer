@@ -5,9 +5,9 @@
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
 	"dir"	=> "Direktorij",
-	"exe"	=> "Izvršljiva datoteka",
+	"exe"	=> "IzvrÅ¡ljiva datoteka",
 	"file"	=> "Datoteka",
-	"symlink"	=> "Simbolièna povezava",
+	"symlink"	=> "SimboliÃ¨na povezava",
 
 	// text
 	"text"	=> "Tekstovna datoteka",

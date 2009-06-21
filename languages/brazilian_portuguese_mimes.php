@@ -7,8 +7,8 @@
 
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
-	"dir"	=> "Diret&oacute;rio",
-	"exe"	=> "Arquivo Execut&aacute;vel",
+	"dir"	=> "Diretório",
+	"exe"	=> "Arquivo Executável",
 	"file"	=> "Arquivo",
 	"symlink"	=> "Symbolic Link",
 
@@ -19,13 +19,13 @@ $GLOBALS["mimes"]=array(
 	"php"	=> "Script PHP",
 	"sql"	=> "Arquivo SQL",
 	"perl"	=> "Script PERL",
-	"html"	=> "P&aacute;gina HTML",
+	"html"	=> "Página HTML",
 	"js"	=> "Arquivo Javascript",
 	"css"	=> "Arquivo CSS",
 	"cgi"	=> "Script CGI",
 	// C++
 	"cpps"	=> "Arquivo-fonte C++",
-	"cpph"	=> "Arquivo-cabe&ccedil;alho C++",
+	"cpph"	=> "Arquivo-cabeçalho C++",
 	// Java
 	"javas"	=> "Arquivo-fonte Java",
 	"javac"	=> "Arquivo-classe Java",
@@ -46,16 +46,16 @@ $GLOBALS["mimes"]=array(
 	"rar"	=> "Arquivo RAR",
 	
 	// music
-	"mp3"	=> "Arquivo de &aacute;udio MP3",
-	"wav"	=> "Arquivo de &aacute;udio WAV",
-	"midi"	=> "Arquivo de &aacute;udio MIDI",
-	"real"	=> "Arquivo de �udio RealAudio",
+	"mp3"	=> "Arquivo de áudio MP3",
+	"wav"	=> "Arquivo de áudio WAV",
+	"midi"	=> "Arquivo de áudio MIDI",
+	"real"	=> "Arquivo de áudio RealAudio",
 	
 	// movie
-	"mpg"	=> "Arquivo de v&iacute;deo MPG",
-	"mov"	=> "Arquivo de v&iacute;deo Movie",
-	"avi"	=> "Arquivo de v&iacute;deo AVI",
-	"flash"	=> "Arquivo de v&iacute;deo Flash",
+	"mpg"	=> "Arquivo de vídeo MPG",
+	"mov"	=> "Arquivo de vídeo Movie",
+	"avi"	=> "Arquivo de vídeo AVI",
+	"flash"	=> "Arquivo de vídeo Flash",
 	
 	// Micosoft / Adobe
 	"word"	=> "Documento Word",
