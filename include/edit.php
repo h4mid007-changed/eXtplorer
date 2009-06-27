@@ -115,6 +115,7 @@ class ext_Edit extends ext_Action {
 
 		// header
 		$s_item=get_rel_item($dir,$item);	if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
+		$id_hash = substr('f'.md5($s_item),0, 10);
 		$s_info = pathinfo( $s_item );
 		$s_extension = str_replace('.', '', $s_info['extension'] );
 		switch (strtolower($s_extension)) {
@@ -176,25 +177,25 @@ class ext_Edit extends ext_Action {
 	?>
 {
 	"xtype": "form",
-	"id": "simpleform",
-	"labelWidth": 125,
-	"height": 500,
-	"width": 700,
+	"id": "<?php echo $id_hash ?>",
+	"labelWidth": "300",
+	"autoScroll": "true", 
 	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
-	"dialogtitle": "<?php echo $GLOBALS["messages"]["actedit"].": /".$s_item .'&nbsp;&nbsp;&nbsp;&nbsp;' ?>",
+	"title": "<?php echo $GLOBALS["messages"]["actedit"].": $s_item" ?>",
 	"frame": true,
+	"closable": true,
 	"items": [{
 
 		"xtype": "textarea",
 		"hideLabel": true,
 		"name": "thecode",
-		"id": "ext_codefield",
+		"id": "ext_codefield<?php echo $id_hash ?>",
 		"fieldClass": "x-form-field",
 		"value": '<?php echo str_replace(Array("\r", "\n"), Array('\r', '\n') , addslashes($content)) ?>',
 		"width": "100%",
 		"height": 300,
 		"plugins": new Ext.ux.plugins.EditAreaEditor({
-			"id" : "ext_codefield",	
+			"id" : "ext_codefield<?php echo $id_hash ?>",	
 			"syntax": "<?php echo $cp_lang ?>",
 			"start_highlight": true,
 			"display": "later",
@@ -213,14 +214,6 @@ class ext_Edit extends ext_Action {
 			"name": "fname",
 			"value": "<?php echo $item ?>",
 			"clear": true
-			},
-			{
-			"width": <?php echo $cw ?>, 
-			"style":"margin-left:10px",
-			"clear":true,
-			"xtype": "checkbox",
-			"fieldLabel": "<?php echo ext_Lang::msg('returndir', true ) ?>",
-			"name": "return_to_dir",
 			}
 <?php if ($langs == "japanese"){ ?>
 			,{
@@ -250,17 +243,14 @@ class ext_Edit extends ext_Action {
 		"text": "<?php echo ext_Lang::msg('btnsave', true ) ?>", 
 		"handler": function() {
 			statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
-			form = Ext.getCmp("simpleform").getForm();
+			form = Ext.getCmp("<?php echo $id_hash ?>").getForm();
 			form.submit({
-				//waitMsg: 'Processing Data, please wait...',
+				waitMsg: 'Saving the File, please wait...',
 				//reset: true,
 				reset: false,
 				success: function(form, action) {
 					datastore.reload();
 					statusBarMessage( action.result.message, false, true );
-					if( form.findField('return_to_dir').getValue() ) {
-						Ext.getCmp("dialog").destroy();
-					}
 				},
 				failure: function(form, action) {
 					statusBarMessage( action.result.error, false, false );
@@ -270,7 +260,7 @@ class ext_Edit extends ext_Action {
 				// add some vars to the request, similar to hidden fields
 				params: {option: 'com_extplorer', 
 						action: 'edit', 
-						code: editAreaLoader.getValue("ext_codefield"),
+						code: editAreaLoader.getValue("ext_codefield<?php echo $id_hash ?>"),
 						dir: '<?php echo stripslashes($dir) ?>', 
 						item: '<?php echo stripslashes($item) ?>', 
 						dosave: 'yes'
@@ -278,20 +268,16 @@ class ext_Edit extends ext_Action {
 			});
 		}
 	},{
-		"text": "<?php echo ext_Lang::msg('btnclose', true ) ?>", 
-		"handler": function() { Ext.getCmp("dialog").destroy(); }
-	},{
 		"text": "<?php echo ext_Lang::msg('btnreopen', true ) ?>", 
 		"handler": function() { 
 			statusBarMessage( '<?php echo ext_Lang::msg('reopen_processing', true ) ?>', true );
-			form = Ext.getCmp("simpleform").getForm();
+			form = Ext.getCmp("<?php echo $id_hash ?>").getForm();
 			form.submit({
-				//waitMsg: 'Processing Data, please wait...',
-				//reset: true,
+				waitMsg: 'Processing Data, please wait...',
 				reset: false,
 				success: function(form, action) {
 					statusBarMessage( action.result.message, false, true );
-					editAreaLoader.setValue("ext_codefield", action.result.content);
+					editAreaLoader.setValue("ext_codefield<?php echo $id_hash ?>", action.result.content);
 				},
 				failure: function(form, action) {
 					statusBarMessage( action.result.error, false, false );

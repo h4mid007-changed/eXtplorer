@@ -112,6 +112,7 @@ class ext_Upload extends ext_Action {
 	"items": [
 	{
 		"xtype": "form",
+		"autoScroll": "true",
 		"id": "uploadform",
 		"renderTo": Ext.getBody(),
 		"fileUpload": true,
@@ -180,6 +181,7 @@ class ext_Upload extends ext_Action {
 		"renderTo": Ext.getBody(),
 		"hidden": true,
 		"title": "<?php echo ext_Lang::msg('acttransfer') ?>",
+		"labelWidth": 225,
 		"items": [
 		<?php
 			for($i=0;$i<7;$i++) {
