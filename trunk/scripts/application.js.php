@@ -44,10 +44,10 @@ function ext_init(){
         proxy: new Ext.data.HttpProxy({
             url: "<?php echo $GLOBALS['script_name'] ?>",
             directory: "/",
-            params:{start:0, limit:50, dir: this.directory, option:"com_extplorer", action:"getdircontents" }
+            params:{start:0, limit:150, dir: this.directory, option:"com_extplorer", action:"getdircontents" }
         }),
 		directory: "/",
-		sendWhat: "files",
+		sendWhat: "both",
         // create reader that reads the File records
         reader: new Ext.data.JsonReader({
             root: "items",
@@ -297,6 +297,7 @@ function ext_init(){
                             	new Ext.Toolbar.Button( {
                             		text: '<?php echo ext_Lang::msg('show_directories', true ) ?>',
                             		enableToggle: true,
+                            		pressed: true,
                             		handler: function(btn,e) { 
                             					if( btn.pressed ) {
                             						datastore.sendWhat= 'both';
@@ -341,7 +342,7 @@ function ext_init(){
     // add a paging toolbar to the grid's footer
     var gridbb = new Ext.PagingToolbar({
         store: datastore,
-        pageSize: 50,
+        pageSize: 150,
         displayInfo: true,
         displayMsg: '<?php echo ext_Lang::msg( 'paging_info', true ) ?>',
         emptyMsg: '<?php echo ext_Lang::msg( 'paging_noitems', true ) ?>',
@@ -453,7 +454,7 @@ function ext_init(){
     
     // trigger the data store load
     function loadDir() {
-    	datastore.load({params:{start:0, limit:50, dir: datastore.directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
+    	datastore.load({params:{start:0, limit:150, dir: datastore.directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
     }
    
     
@@ -770,43 +771,76 @@ function ext_init(){
             	}
             })
         },{
-			xtype: "editorgrid",
-        	region: "center",
-            titlebar: true,
-            autoScroll:true,
-            collapsible: false,
-            closeOnTab: true,
-            id: "gridpanel",
-            ds: datastore,
-            cm: cm,
-           	tbar: gridtb,
-            bbar: gridbb,
-            ddGroup : 'TreeDD',
-            enableDragDrop: true,
-            selModel: new Ext.grid.RowSelectionModel({
-                		listeners: {
-        					'rowselect': { fn: handleRowClick },
-                			'selectionchange': { fn: handleRowClick }
-            			}
-            		  }),
-            loadMask: true,
-        	listeners: { 'rowcontextmenu': { fn: rowContextMenu },
-            		'rowdblclick': { fn: rowContextMenu },
-        			'celldblclick': { fn: rowContextMenu },
-        			'validateedit': { fn: function(e) {
-    						if( e.value == e.originalValue ) return true;
-    						var requestParams = getRequestParams();
-    						requestParams.newitemname = e.value;
-    						requestParams.item = e.originalValue;
-    						
-    						requestParams.confirm = 'true';
-    						requestParams.action = 'rename';
-    						handleCallback(requestParams);
-    						return true;
-    					}	
+            xtype: "tabpanel",
+            id: "mainpanel",
+            enableTabScroll: true,
+            activeTab: 0,
+            region: "center",
+            items: [{
+				xtype: "editorgrid",
+	        	region: "center",
+	            titlebar: true,
+	            autoScroll:true,
+	            collapsible: false,
+	            closeOnTab: true,
+	            id: "gridpanel",
+	            ds: datastore,
+	            cm: cm,
+	           	tbar: gridtb,
+	            bbar: gridbb,
+	            ddGroup : 'TreeDD',
+	            enableDragDrop: true,
+	            selModel: new Ext.grid.RowSelectionModel({
+	                		listeners: {
+	        					'rowselect': { fn: handleRowClick },
+	                			'selectionchange': { fn: handleRowClick }
+	            			}
+	            		  }),
+	            loadMask: true,
+	            keys:
+	            	[{
+	                    key: 'c',
+	                    ctrl: true,
+	                    stopEvent: true,
+	                    handler: function() { openActionDialog(this, 'copy'); }
+	                   
+	               },{
+	                    key: 'x',
+	                    ctrl: true,
+	                    stopEvent: true,
+	                    handler: function() { openActionDialog(this, 'move'); }
+	                   
+	               },{
+	                 key: 'a',
+	                 ctrl: true,
+	                 stopEvent: true,
+	                 handler: function() {
+	            		ext_itemgrid.getSelectionModel().selectAll();
+	                 }
+	            }, 
+	            {
+	            	key: Ext.EventObject.DELETE,
+	            	handler: function() { openActionDialog(this, 'delete'); }
+	            }
+	            ],
+	        	listeners: { 'rowcontextmenu': { fn: rowContextMenu },
+	            		'rowdblclick': { fn: rowContextMenu },
+	        			'celldblclick': { fn: rowContextMenu },
+	        			'validateedit': { fn: function(e) {
+	    						if( e.value == e.originalValue ) return true;
+	    						var requestParams = getRequestParams();
+	    						requestParams.newitemname = e.value;
+	    						requestParams.item = e.originalValue;
+	    						
+	    						requestParams.confirm = 'true';
+	    						requestParams.action = 'rename';
+	    						handleCallback(requestParams);
+	    						return true;
+	    					}	
+	        			}        			
         			}
-        	}
-        }
+	        	}]
+	        }
         ],
         renderTo: Ext.getBody()
     });
@@ -863,7 +897,7 @@ function ext_init(){
     	datastore.directory = directory;
     	var conn = datastore.proxy.getConnection();
     	if( directory == '' || conn && !conn.isLoading()) {
-    		datastore.load({params:{start:0, limit:50, dir: directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
+    		datastore.load({params:{start:0, limit:150, dir: directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
     	}
     	
 		Ext.Ajax.request({

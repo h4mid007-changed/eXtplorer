@@ -102,7 +102,7 @@ class ext_Lang {
 		if( is_array( $message )) {
 			return @$GLOBALS[$array_index][key($message)][current($message)];
 		}
-		return @$GLOBALS[$array_index][$message];
+		return isset($GLOBALS[$array_index][$message]) ? $GLOBALS[$array_index][$message] : $message;
 	}
 
 	function escape_for_javascript( $string ) {

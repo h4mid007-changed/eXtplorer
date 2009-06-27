@@ -3,6 +3,9 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- changed default state of "Show Directories" to enabled
+- changed Edit Window to appear in a new Tab per File
+- assigned Keyboard Events to the Grid (Delete, Ctrl-A, Ctrl-C, Ctrl-X)
 - updated to ExtJS3 RC2
 - updated EditArea to version 0.8.1.1 (loads faster and is more stable)
 

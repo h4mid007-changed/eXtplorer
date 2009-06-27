@@ -97,13 +97,12 @@ function openActionDialog( caller, action ) {
 		case 'search':
 		case 'upload':
 		case 'view':
-		case 'copy':
 		case 'diff':
 		case 'move':
 			requestParams = getRequestParams();
 			requestParams.action = action;
-
-            dialog = new Ext.Window( {
+			if( action != "edit" ) {
+            	dialog = new Ext.Window( {
             		id: "dialog",
                     autoCreate: true,
                     modal:true,
@@ -124,8 +123,8 @@ function openActionDialog( caller, action ) {
                     //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
 					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>',
                    
-            });			
-
+            	});			
+			}
 			Ext.Ajax.request( { url: '<?php echo basename($GLOBALS['script_name']) ?>',
 								params: Ext.urlEncode( requestParams ),
 								scripts: true,
@@ -142,30 +141,38 @@ function openActionDialog( caller, action ) {
 														return false;
 													}
 												} catch(e) { return false; }
-												
-												// we expect the returned JSON to be an object that
-												// contains an "Ext.Component" or derivative in xtype notation
-												// so we can simply add it to the Window
-												dialog.add(json);
-												if( json.dialogtitle ) {
-													// if the component delivers a title for our
-													// dialog we can set the title of the window
-													dialog.setTitle(json.dialogtitle);
+												if( action == "edit" ) {
+													Ext.getCmp("mainpanel").add(json);
+													Ext.getCmp("mainpanel").activate(json.id);
 												}
-												// recalculate layout
-												dialog.doLayout();
-												// recalculate Window size
-												dialog.syncSize();
-												// center the window
-												dialog.center();
+												else {
+													// we expect the returned JSON to be an object that
+													// contains an "Ext.Component" or derivative in xtype notation
+													// so we can simply add it to the Window
+													dialog.add(json);
+													if( json.dialogtitle ) {
+														// if the component delivers a title for our
+														// dialog we can set the title of the window
+														dialog.setTitle(json.dialogtitle);
+													}
+													// recalculate layout
+													dialog.doLayout();
+													// recalculate Window size
+													dialog.syncSize();
+													if( dialog.getWidth() > Ext.getBody().getWidth() ) {
+														dialog.setWidth( Ext.getBody().getWidth() * 0.8 );
+													}
+													// center the window
+													dialog.center();
+												}
 											}
 										}
 							});
             
-
-            dialog.on( 'hide', function() { dialog.destroy(true); } );
-
-            dialog.show();
+			if( action != "edit" ) {
+            	dialog.on( 'hide', function() { dialog.destroy(true); } );
+            	dialog.show();
+            }
             break;
 
 		case 'delete':
