@@ -37,6 +37,9 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * I wouldn't recommend to let in Managers
  * allowed: Superadministrator
 **/
+if( !is_object($acl) && is_callable(array('jfactory','getacl'))) {
+	$acl = JFactory::getACL();
+}
 if( @is_object($acl)) {
 	if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
 		$url = htmlspecialchars($_SERVER['PHP_SELF']);
