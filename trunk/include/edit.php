@@ -127,26 +127,29 @@ class ext_Edit extends ext_Action {
 				$cp_lang = 'css'; break;
 			case 'html':
 			case 'htm':
-			case 'xml':
 			case 'xhtml':
 				$cp_lang = 'html'; break;
 			case 'java':
 				$cp_lang = 'java'; break;
 			case 'js':
-				$cp_lang = 'javascript'; break;
+				$cp_lang = 'js'; break;
 			case 'pl': 
 				$cp_lang = 'perl'; break;
+			case 'py': 
+				$cp_lang = 'python'; break;
 			case 'ruby': 
 				$cp_lang = 'ruby'; break;
 			case 'sql':
 				$cp_lang = 'sql'; break;
 			case 'vb':
 			case 'vbs':
-				$cp_lang = 'vbscript'; break;
+				$cp_lang = 'vb'; break;
 			case 'php':
-				$cp_lang = 'php'; break;
+				$cp_lang = 'php'; break;				
+			case 'xml':
+				$cp_lang = 'xml'; break;
 			default: 
-				$cp_lang = 'generic';
+				$cp_lang = '';
 		}
 	$content = $GLOBALS['ext_File']->file_get_contents( $fname );
 	if( get_magic_quotes_runtime()) {
@@ -181,72 +184,16 @@ class ext_Edit extends ext_Action {
 	"labelWidth": "300",
 	"autoScroll": "true", 
 	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
-	"title": "<?php echo $GLOBALS["messages"]["actedit"].": $s_item" ?>",
-	"frame": true,
-	"closable": true,
-	"items": [{
-
-		"xtype": "textarea",
-		"hideLabel": true,
-		"name": "thecode",
-		"id": "ext_codefield<?php echo $id_hash ?>",
-		"fieldClass": "x-form-field",
-		"value": '<?php echo str_replace(Array("\r", "\n"), Array('\r', '\n') , addslashes($content)) ?>',
-		"width": "100%",
-		"height": 300,
-		"plugins": new Ext.ux.plugins.EditAreaEditor({
-			"id" : "ext_codefield<?php echo $id_hash ?>",	
-			"syntax": "<?php echo $cp_lang ?>",
-			"start_highlight": true,
-			"display": "later",
-			"toolbar": "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help" 
-			<?php if (array_key_exists($langs, $this->lang_tbl)){?>
-				,language: "<?php echo $this->lang_tbl[$langs] ?>"
-				<?php 
-				} ?>
-		})
-	},
-	{
-		
-			width: <?php echo $cw ?>, 
-			"xtype": "textfield",
-			"fieldLabel": "<?php echo ext_Lang::msg('copyfile', true ) ?>",
-			"name": "fname",
-			"value": "<?php echo $item ?>",
-			"clear": true
-			}
-<?php if ($langs == "japanese"){ ?>
-			,{
-			 "width": <?php echo $cw ?>,  
-			 "style":"margin-left:10px", 
-			 "clear":true,
-			"xtype": "combo",
-			"fieldLabel": "<?php echo ext_Lang::msg('fileencoding', true ) ?>",
-			"name": "file_encoding",
-			"store": [
-						['UTF-8', 'UTF-8'],
-						['SJIS-WIN', 'SJIS'],
-						['EUCJP-WIN', 'EUC-JP'],
-						['ISO-2022-JP','JIS']
-					],
-			"value" : "<?php echo $_encoding_label ?>",
-			"typeAhead": true,
-			"mode": "local",
-			"triggerAction": "all",
-			"editable": false,
-			"forceSelection": true
-			}
-	
-<?php } ?>
-		],
-	"buttons": [{
-		"text": "<?php echo ext_Lang::msg('btnsave', true ) ?>", 
+	"title": "<?php echo strlen($s_item) > 50 ? substr( $s_item, strlen($s_item)-30, 30 ) : $s_item; ?>",
+	"frame": "true",
+	"closable": "true",
+	"tbar": [{
+ 		"text": "<?php echo ext_Lang::msg('btnsave', true ) ?>", 
 		"handler": function() {
 			statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
 			form = Ext.getCmp("<?php echo $id_hash ?>").getForm();
 			form.submit({
 				waitMsg: 'Saving the File, please wait...',
-				//reset: true,
 				reset: false,
 				success: function(form, action) {
 					datastore.reload();
@@ -266,8 +213,10 @@ class ext_Edit extends ext_Action {
 						dosave: 'yes'
 				}
 			});
-		}
-	},{
+		},
+        "cls":"x-btn-text-icon",
+        "icon": "images/_save.png"
+    },{
 		"text": "<?php echo ext_Lang::msg('btnreopen', true ) ?>", 
 		"handler": function() { 
 			statusBarMessage( '<?php echo ext_Lang::msg('reopen_processing', true ) ?>', true );
@@ -293,8 +242,77 @@ class ext_Edit extends ext_Action {
 					doreopen: 'yes'
 				}
 			});
-		}
-	}]
+		},	
+        "cls":"x-btn-text-icon",
+        "icon": "images/_reload.png"
+    },
+    {
+    	"text": "<?php echo ext_Lang::msg('btncancel', true ) ?>", 
+		"handler": function() { 
+			Ext.getCmp("mainpanel").remove( Ext.getCmp("mainpanel").getActiveTab() );
+		},
+        "cls":"x-btn-text-icon",
+        "icon": "images/_cancel.png"
+	}],	
+	"items": [{
+		"xtype": "displayfield",
+		"value": "<?php echo $GLOBALS["messages"]["actedit"].": $s_item" ?>"
+		},
+		{
+		"xtype": "textarea",
+		"hideLabel": true,
+		"name": "thecode",
+		"id": "ext_codefield<?php echo $id_hash ?>",
+		"fieldClass": "x-form-field",
+		"value": "<?php echo str_replace(Array("\r", "\n"), Array( '\r', '\n') , addslashes($content)) ?>",
+		"width": "100%",
+		"height": 300,
+		"plugins": new Ext.ux.plugins.EditAreaEditor({
+			"id" : "ext_codefield<?php echo $id_hash ?>",	
+			"syntax": "<?php echo $cp_lang ?>",
+			"start_highlight": true,
+			"display": "later",
+			"toolbar": "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help" 
+			<?php if (array_key_exists($langs, $this->lang_tbl)){?>
+				,"language": "<?php echo $this->lang_tbl[$langs] ?>"
+				<?php 
+				} ?>
+		})
+	},
+	{
+		
+			"width": "<?php echo $cw ?>", 
+			"xtype": "textfield",
+			"fieldLabel": "<?php echo ext_Lang::msg('copyfile', true ) ?>",
+			"name": "fname",
+			"value": "<?php echo $item ?>",
+			"clear": "true"
+			}
+<?php if ($langs == "japanese"){ ?>
+			,{
+			 "width": "<?php echo $cw ?>",  
+			 "style":"margin-left:10px", 
+			 "clear":"true",
+			"xtype": "combo",
+			"fieldLabel": "<?php echo ext_Lang::msg('fileencoding', true ) ?>",
+			"name": "file_encoding",
+			"store": [
+						["UTF-8", "UTF-8"],
+						["SJIS-WIN", "SJIS"],
+						["EUCJP-WIN", "EUC-JP"],
+						["ISO-2022-JP","JIS"]
+					],
+			"value" : "<?php echo $_encoding_label ?>",
+			"typeAhead": "true",
+			"mode": "local",
+			"triggerAction": "all",
+			"editable": "false",
+			"forceSelection": "true"
+			}
+	
+<?php } ?>
+		]
+
 }
 	
 <?php

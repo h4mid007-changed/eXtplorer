@@ -7,6 +7,16 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 // Send gzipped content if accepted by the browser?
 $GLOBALS['use_gzip'] = 1;
 
+// Name of the authentication module which is used by default
+$GLOBALS['ext_conf']['authentication_method_default'] = 'extplorer';
+$GLOBALS['ext_conf']['authentication_methods_allowed'] = array('extplorer', 'ssh2');
+
+$GLOBALS['ext_conf']['remote_hosts_allowed'] = array('localhost', 
+																					'192.168.56.101',
+																					'192.168.56.102',
+																					//'yourserver.com', 
+																					);
+
 $GLOBALS['allow_webdav'] = 0;
 // The following database settings are only necessary if you want to use WebDAV in Standalone Mode.
 // Joomla users don't need to enter their DB settings here, 

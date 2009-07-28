@@ -45,7 +45,7 @@ if (isset($_SERVER)) {
 	$GLOBALS['__FILES']  = &$HTTP_POST_FILES;
 } else {
 	die("<strong>ERROR: Your PHP version is too old</strong><br/>".
-	"You need at least PHP 4.0.0 to run eXtplorer; preferably PHP 4.4.4 or higher.");
+	"You need at least PHP 5.0 to run eXtplorer; preferably PHP 5.2 or higher.");
 }
 
 //------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ if (isset($_SERVER)) {
 	}
 
 	// if gzcompress is available, we can use Zip, Tar and TGz
-	if ( function_exists("gzcompress")) {
+	if ( extension_loaded("zlib")) {
 		$GLOBALS["zip"] = $GLOBALS["tgz"] = true;
 	}
 	else {
@@ -93,6 +93,7 @@ require_once(_EXT_PATH . '/include/functions.php');
 if (!class_exists('InputFilter')) {
 	require_once( _EXT_PATH . '/libraries/inputfilter.php' );
 }
+require_once(_EXT_PATH . "/config/conf.php");
 
 $GLOBALS["separator"] = ext_getSeparator();
 
@@ -129,24 +130,22 @@ $GLOBALS["limit"]	= extGetParam( $_REQUEST, 'limit', 50);
 
 /** @var $GLOBALS['file_mode'] Can be 'file' or 'ftp' */
 if (!isset($_REQUEST['file_mode']) && !empty($_SESSION['file_mode'])) {
-	$GLOBALS['file_mode'] = extGetParam($_SESSION, 'file_mode', 'file');
+	$GLOBALS['file_mode'] = extGetParam($_SESSION, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
 } else {
-	if (@$_REQUEST['file_mode'] == 'ftp' && @$_SESSION['file_mode'] == 'file') {
-		if (empty($_SESSION['ftp_login']) && empty( $_SESSION['ftp_pass'])) {
-			extRedirect(make_link( 'ftp_authentication'));
+	if (@$_REQUEST['file_mode'] != @$_SESSION['file_mode'] && in_array($_REQUEST['file_mode'], $GLOBALS['ext_conf']['authentication_methods_allowed'])) {
+		if (empty($_SESSION['credentials_'.extGetParam($_REQUEST, 'file_mode')])) {
+			extRedirect(make_link( 'login','',null,null,null,null,'&type='.urlencode(extGetParam($_REQUEST, 'file_mode'))));
 		} else {
-			$GLOBALS['file_mode'] = $_SESSION['file_mode'] = extGetParam($_REQUEST, 'file_mode', 'file');
+			$GLOBALS['file_mode'] = $_SESSION['file_mode'] = extGetParam($_REQUEST, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
 		}
 	} elseif (isset($_REQUEST['file_mode'])) {
-		$GLOBALS['file_mode'] = $_SESSION['file_mode'] = extGetParam($_REQUEST, 'file_mode', 'file');
+		$GLOBALS['file_mode'] = $_SESSION['file_mode'] = extGetParam($_REQUEST, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
 	} else {
-		$GLOBALS['file_mode'] = extGetParam($_SESSION, 'file_mode', 'file');
+		$GLOBALS['file_mode'] = extGetParam($_SESSION, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
 	}
 }
 
 // Necessary files
-
-require_once(_EXT_PATH . "/config/conf.php");
 require_once(_EXT_PATH."/languages/english.php");
 if (file_exists(_EXT_PATH."/languages/".$GLOBALS["language"].".php")) {
 	require_once(_EXT_PATH."/languages/".$GLOBALS["language"].".php" );
@@ -163,7 +162,12 @@ require_once(_EXT_PATH . "/libraries/File_Operations.php");
 require_once(_EXT_PATH . "/include/header.php");
 require_once(_EXT_PATH . "/include/result.class.php");
 
-
+if( $action == 'include_javascript' ) {
+  	while (@ob_end_clean());
+  	header("Content-Type: text/javascript; charset=".strtolower($GLOBALS["charset"]));
+  	include( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php');
+  	ext_exit();
+}
 //------------------------------------------------------------------------------
 
 // Raise Memory Limit
@@ -171,39 +175,22 @@ ext_RaiseMemoryLimit( '8M' );
 
 $GLOBALS['ext_File'] = new ext_File();
 
-if ( ext_isFTPMode() ) {
-	// Try to connect to the FTP server.		HOST,	PORT, TIMEOUT
-	$ftp_host = extGetParam( $_SESSION, 'ftp_host', 'localhost:21' );
-	$url	= @parse_url( 'ftp://' . $ftp_host);
-	$port	= empty($url['port']) ? 21 : $url['port'];
-	$ftp	= new Net_FTP( $url['host'], $port, 20 );
-	/** @global Net_FTP $GLOBALS['FTPCONNECTION'] */
-	$GLOBALS['FTPCONNECTION'] = new Net_FTP( $url['host'], $port, 20 );
-	$res = $GLOBALS['FTPCONNECTION']->connect();
 
-	if (PEAR::isError($res)) {
-		echo $res->getMessage();
-		$GLOBALS['file_mode'] = $_SESSION['file_mode'] = 'file';
-	} else {
-		if (empty( $_SESSION['ftp_login']) && empty( $_SESSION['ftp_pass'])) {
-			extRedirect(make_link('ftp_authentication', null, null, null, null, null, '&file_mode=file'));
-		}
-		$login_res = $GLOBALS['FTPCONNECTION']->login($_SESSION['ftp_login'], $_SESSION['ftp_pass']);
-		if (PEAR::isError($res)) {
-			echo $login_res->getMessage();
-			$GLOBALS['file_mode'] = $_SESSION['file_mode'] = 'file';
-		}
-	}
-}
 //------------------------------------------------------------------------------
 if ($GLOBALS["require_login"]) {	// LOGIN
 
 	require(_EXT_PATH."/include/login.php");
 
 	if ($GLOBALS["action"]=="logout") {
-		logout();
+		$auth->onLogout();
 	} else {
+		if ($GLOBALS["action"]=="login") {
+			$GLOBALS["dir"] = $dir = extGetParam( $_SESSION,'ext_'.$GLOBALS['file_mode'].'dir', '' );
+		}
 		login();
+		if ($GLOBALS["action"]=="login" || empty($_SESSION['credentials_'.$authentication_type]['username'])) {
+			return;
+		}
 	}
 }
 
@@ -220,10 +207,11 @@ if ( !isset( $_REQUEST['dir'] ) ) {
 	if (!empty($dir)) {
 		$dir = @$dir[0] == '/' ? substr( $dir, 1 ) : $dir;
 	}
-
-	$try_this = ext_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
-	if (!empty($dir) && !$GLOBALS['ext_File']->file_exists($try_this)) {
-		$dir = '';
+	if( $GLOBALS["action"]!="login") {
+		$try_this = ext_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
+		if (!empty($dir) && !$GLOBALS['ext_File']->file_exists($try_this)) {
+			$dir = '';
+		}
 	}
 } else {
 	$GLOBALS["dir"] = $dir = urldecode(stripslashes(extGetParam($_REQUEST, "dir")));

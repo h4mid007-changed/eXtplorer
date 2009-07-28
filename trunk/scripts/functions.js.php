@@ -36,10 +36,115 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 ?>
 Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs3/images/default/s.gif';
 
+	/**
+	* This function is for changing into a specified directory
+	* It updates the tree, the grid and the ContentPanel title
+	*/
+    function chDir( directory, loadGridOnly ) {
+   		
+    	if( datastore.directory.replace( /\//g, '' ) == directory.replace( /\//g, '' )
+    		&& datastore.getTotalCount() > 0 && directory != '') {
+    		// Prevent double loading
+    		return;
+    	}
+    	datastore.directory = directory;
+    	var conn = datastore.proxy.getConnection();
+    	if( directory == '' || conn && !conn.isLoading()) {
+    		datastore.load({params:{start:0, limit:150, dir: directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
+    	}
+		Ext.Ajax.request({
+			url: '<?php echo basename( $GLOBALS['script_name']) ?>',
+			params: { action:'chdir_event', dir: directory, option: 'com_extplorer' },
+			callback: function(options, success, response ) {
+				if( success ) {
+					checkLoggedOut( response ); // Check if current user is logged off. If yes, Joomla! sends a document.location redirect, which will be eval'd here
+					var result = Ext.decode( response.responseText );						
+					document.title = 'eXtplorer - ' + datastore.directory;
+					Ext.get('bookmark_container').update( result.bookmarks );
+				}
+			}
+		});
+
+	    if( !loadGridOnly ) {
+			expandTreeToDir( null, directory );
+    	}
+    }
+	
+	function expandTreeToDir( node, dir ) {
+		dir = dir ? dir : new String('<?php echo str_replace("'", "\'", extGetParam( $_SESSION,'ext_'.$GLOBALS['file_mode'].'dir', '' )) ?>');
+		var dirs = dir.split('/');
+		if( dirs[0] == '') { dirs.shift(); }
+		if( dirs.length > 0 ) {
+			node = dirTree.getNodeById( '_RRR_'+ dirs[0] );
+			if( !node ) return;
+			if( node.isExpanded() ) {
+				expandNode( node, dir );
+				return;
+			}
+			node.on('load', function() { expandNode( node, dir ) } );
+			node.expand();
+		}
+	}
+	function expandNode( node, dir ) {
+		var fulldirpath, dirpath;
+	
+		var dirs = dir.split('/');
+		if( dirs[0] == '') { dirs.shift(); }
+		if( dirs.length > 0 ) {
+			fulldirpath = '';
+			for( i=0; i < dirs.length; i++ ) {
+				fulldirpath += '_RRR_'+ dirs[i];
+			}
+			if( node.id.substr( 0, 5 ) != '_RRR_' ) {
+				fulldirpath = fulldirpath.substr( 5 );
+			}
+		
+			if( node.id != fulldirpath ) {
+				dirpath = '';
+		
+				var nodedirs = node.id.split('_RRR_');
+				if( nodedirs[0] == '' ) nodedirs.shift();
+				for( i=0; i < dirs.length; i++ ) {
+					if( nodedirs[i] ) {
+						dirpath += '_RRR_'+ dirs[i];
+					} else {
+						dirpath += '_RRR_'+ dirs[i];
+						//dirpath = dirpath.substr( 5 );
+						var nextnode = dirTree.getNodeById( dirpath );
+						if( !nextnode ) { return; }
+						if( nextnode.isExpanded() ) { expandNode( nextnode, dir ); return;}
+						nextnode.on( 'load', function() { expandNode( nextnode, dir ) } );	
+
+						nextnode.expand();
+						break;
+					}
+				}
+			}
+			else {
+				node.select();
+			}
+			
+		}
+	}
+    function handleNodeClick( sm, node ) {
+    	if( node && node.id ) {
+    		chDir( node.id.replace( /_RRR_/g, '/' ) );
+    	}
+    } 
+    function checkLoggedOut( response ) {
+    	var re = /(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/ig;
+    
+		var match;
+    	while(match = re.exec(response.responseText)){
+            if(match[2] && match[2].length > 0){
+               eval(match[2]);
+            }
+        }
+	}
 function showLoadingIndicator( el, replaceContent ) {
 	if( !el ) return;
 	var loadingimg = 'components/com_extplorer/images/_indicator.gif';
-	var imgtag = '<img src="'+ loadingimg + '" alt="Loading..." border="0" name="Loading" align="absmiddle" />';
+	var imgtag = '<' + 'img src="'+ loadingimg + '" alt="Loading..." border="0" name="Loading" align="absmiddle" />';
 
 	if( replaceContent ) {
 		el.innerHTML = imgtag;
@@ -77,7 +182,7 @@ function openActionDialog( caller, action ) {
 			selectedRows = Array( dirTree.getSelectionModel().getSelectedNode().id.replace( /_RRR_/g, '/' ) );
 		}
 	}
-	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1, admin:1 };
+	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1, admin:1, ssh2_authentication: 1, extplorer_authentication: 1 };
 	if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
 		Ext.Msg.alert( '<?php echo ext_Lang::err('error', true )."','".ext_Lang::err('miscselitems', true ) ?>');
 		return false;
@@ -89,7 +194,9 @@ function openActionDialog( caller, action ) {
 		case 'chmod':
 		case 'copy':
 		case 'edit':
+		case 'extplorer_authentication':
 		case 'ftp_authentication':
+		case 'ssh2_authentication':
 		case 'get_about':
 		case 'mkitem':
 		case 'move':
@@ -113,7 +220,7 @@ function openActionDialog( caller, action ) {
                     minHeight:200,
                     proxyDrag: true,
                     resizable: true,
-                    renderTo: document.body,
+                    renderTo: Ext.getBody(),
                     keys: {
 					    key: 27,
 					    fn  : function(){
@@ -121,7 +228,7 @@ function openActionDialog( caller, action ) {
 	                    }
 					},
                     //animateTarget: typeof caller.getEl == 'function' ? caller.getEl() : caller,
-					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>',
+					title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>'
                    
             	});			
 			}
@@ -130,17 +237,23 @@ function openActionDialog( caller, action ) {
 								scripts: true,
 								callback: function(oElement, bSuccess, oResponse) {
 											if( !bSuccess ) {
-												Ext.Msg.alert( "Ajax communication failure!");
+												msgbox = Ext.Msg.alert( "Ajax communication failure!");
+												msgbox.setIcon( Ext.MessageBox.ERROR );
 											}
 											if( oResponse && oResponse.responseText ) {
+												
 												//Ext.Msg.alert("Debug", oResponse.responseText );
 												try{ json = Ext.decode( oResponse.responseText );
 													if( json.error && typeof json.error != 'xml' ) {
-														Ext.Msg.alert( '<?php echo ext_Lang::err('error', true ) ?>', json.error );
+														Ext.Msg.alert( "<?php echo ext_Lang::err('error', true ) ?>", json.error );
 														dialog.destroy();
 														return false;
 													}
-												} catch(e) { return false; }
+												} catch(e) {
+													msgbox = Ext.Msg.alert( "<?php echo ext_Lang::err('error', true ) ?>", "JSON Decode Error: " + e.message );
+													msgbox.setIcon( Ext.MessageBox.ERROR );
+													return false; 
+												}
 												if( action == "edit" ) {
 													Ext.getCmp("mainpanel").add(json);
 													Ext.getCmp("mainpanel").activate(json.id);
@@ -157,14 +270,28 @@ function openActionDialog( caller, action ) {
 													}
 													// recalculate layout
 													dialog.doLayout();
+
 													// recalculate Window size
 													dialog.syncSize();
-													if( dialog.getWidth() > Ext.getBody().getWidth() ) {
+													
+													//alert( "Before: Dialog.width: " + dialog.getWidth() + ", Client Width: "+ Ext.getBody().getWidth());
+													if( dialog.getWidth() >= Ext.getBody().getWidth() ) {
 														dialog.setWidth( Ext.getBody().getWidth() * 0.8 );
 													}
+													//alert( "After: Dialog.width: " + dialog.getWidth() + ", Client Width: "+ Ext.getBody().getWidth());
+													if( dialog.getHeight() >= Ext.getBody().getHeight() ) {
+														dialog.setHeight( Ext.getBody().getHeight() * 0.7 );
+													} else if( dialog.getHeight() < Ext.getBody().getHeight() * 0.3 ) {
+														dialog.setHeight( Ext.getBody().getHeight() * 0.5 );
+													}
+
 													// center the window
 													dialog.center();
 												}
+											} else if( !response || !oResponse.responseText) {
+												msgbox = Ext.Msg.alert( "<?php echo ext_Lang::err('error', true ) ?>", "Received an empty response");
+												msgbox.setIcon( Ext.MessageBox.ERROR );
+
 											}
 										}
 							});
@@ -291,6 +418,7 @@ function deleteDir( btn, node ) {
 }
 function statusBarMessage( msg, isLoading, success ) {
 	var statusBar = Ext.getCmp('statusPanel');
+	if( !statusBar ) return;
 	if( isLoading ) {
 		statusBar.showBusy();
 	}

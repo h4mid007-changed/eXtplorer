@@ -102,6 +102,7 @@ function get_abs_item($dir, $item) {		// get absolute file+path
  */
 function get_item_info( $dir, $item ) {
 	$ls = getCachedFTPListing( $dir );
+	if( empty($ls)) return false;
 	foreach( $ls as $entry ) {
 		if( $entry['name'] == $item ) {
 			return $entry;
@@ -148,9 +149,11 @@ function parse_file_type( $abs_item ) {		// parsed file type (d / l / -)
 }
 //------------------------------------------------------------------------------
 function get_file_perms( $item) {		// file permissions
-	if( ext_isFTPMode() ) {
+	if( ext_isFTPMode() && isset($item['rights']) ) {
 		$perms = decoct( bindec( decode_ftp_rights($item['rights']) ) );
 		return $perms;
+	} elseif( isset($item['mode'])) { //SFTP
+		return @decoct($item['mode']  & 0777);
 	}
 	return @decoct(@fileperms( $item ) & 0777);
 }
@@ -202,18 +205,20 @@ function get_file_size( $abs_item) {		// file size
 	return @$GLOBALS['ext_File']->filesize( $abs_item );
 }
 //------------------------------------------------------------------------------
-function parse_file_size($size) {		// parsed file size
-	if($size >= 1073741824) {
-		$size = round($size / 1073741824 * 100) / 100 . " GB";
-	} elseif($size >= 1048576) {
-		$size = round($size / 1048576 * 100) / 100 . " MB";
-	} elseif($size >= 1024) {
-		$size = round($size / 1024 * 100) / 100 . " KB";
-	} else $size = $size . " Bytes";
-	if($size==0) $size="-";
 
-	return $size;
-}
+function parse_file_size($bytes, $precision = 2) {
+    $units = array('B', 'KB', 'MB', 'GB', 'TB');
+    if( !is_float($bytes)) {
+    	$bytes = (int)sprintf("%u", $bytes);
+    }
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+  
+    $bytes /= pow(1024, $pow);
+  
+    return round($bytes, $precision) . ' ' . $units[$pow];
+} 
 //------------------------------------------------------------------------------
 function get_file_date( $item) {		// file date
 	return @$GLOBALS['ext_File']->filemtime( $item );
@@ -1171,15 +1176,15 @@ function extMkdirR($path, $rights = 0777) {
 */
 function extReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false	) {
 	$arr = array();
-	if (!@get_is_dir( $path )) {
+	if (!@is_dir( $path )) {
 		return $arr;
 	}
-	$handle = ext_File::opendir( $path );
+	$handle = opendir( $path );
 
-	while ($file = ext_File::readdir($handle)) {
+	while ($file = readdir($handle)) {
 		if( is_array( $file )) $file = $file['name'];
 		$dir = extPathName( $path.'/'.$file, false );
-		$isDir = @get_is_dir( $dir );
+		$isDir = @is_dir( $dir );
 		if (($file != ".") && ($file != "..")) {
 			if (preg_match( "/$filter/", $file )) {
 				if ($fullpath) {
@@ -1194,7 +1199,7 @@ function extReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false	)
 			}
 		}
 	}
-	ext_File::closedir($handle);
+	closedir($handle);
 	asort($arr);
 	return $arr;
 }
@@ -1334,5 +1339,20 @@ if (!function_exists('html_entity_decode')) {
 		return strtr ($string, $trans_tbl);
 	}
 }
-
+//------------------------------------------------------------------------------
+function logout() {
+	session_destroy();
+	session_write_close();
+	header("Location: ".$GLOBALS["script_name"]);
+}
+//------------------------------------------------------------------------------
+/**
+ * Returns an IP- and BrowserID- based Session ID
+ *
+ * @param string $id
+ * @return string
+ */
+function get_session_id( $id=null ) {
+	return extMakePassword( 32 );
+}
 ?>

@@ -3,6 +3,13 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- changed Save/Reopen/Cancel buttons in Edit View to appear in the top toolbar
+- changed directory drop-down lists to a vista-like location bar
+- new: Flash Upload! Using SWFUploadPanel
+- added pluggable authentication system
+
+--- version 2.1.0 beta3 released ---
+
 - changed default state of "Show Directories" to enabled
 - changed Edit Window to appear in a new Tab per File
 - assigned Keyboard Events to the Grid (Delete, Ctrl-A, Ctrl-C, Ctrl-X)

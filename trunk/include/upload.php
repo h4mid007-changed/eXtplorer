@@ -39,12 +39,22 @@ class ext_Upload extends ext_Action {
 	function execAction($dir) {
 
 		if(($GLOBALS["permissions"]&01)!=01) {
-			ext_Result::sendResult('upload', false, $GLOBALS["error_msg"]["accessfunc"]);
+			ext_Result::sendResult('upload', false, ext_Lang::err('accessfunc'));
 		}
 
 		// Execute
 		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
-
+			
+			if( isset($GLOBALS['__FILES']['Filedata'])) {
+				// Re-Map the flash-uploaded file with the name "Filedata" to the "userfile" array
+				$GLOBALS['__FILES']['userfile'] = array(
+													'name' => array($GLOBALS['__FILES']['Filedata']['name']),
+													'tmp_name' => array($GLOBALS['__FILES']['Filedata']['tmp_name']),
+													'size' => array($GLOBALS['__FILES']['Filedata']['size']),
+													'type' => array($GLOBALS['__FILES']['Filedata']['type']),
+													'error' => array($GLOBALS['__FILES']['Filedata']['error'])
+												);
+			}
 			$cnt=count($GLOBALS['__FILES']['userfile']['name']);
 			$err=false;
 			$err_available=isset($GLOBALS['__FILES']['userfile']['error']);
@@ -60,26 +70,26 @@ class ext_Upload extends ext_Action {
 
 				if($items[$i]=="" || $up_err==4) continue;
 				if($up_err==1 || $up_err==2) {
-					$errors[$i]=$GLOBALS["error_msg"]["miscfilesize"];
+					$errors[$i]=ext_lang::err('miscfilesize');
 					$err=true;	continue;
 				}
 				if($up_err==3) {
-					$errors[$i]=$GLOBALS["error_msg"]["miscfilepart"];
+					$errors[$i]=ext_lang::err('miscfilepart');
 					$err=true;	continue;
 				}
 				if(!@is_uploaded_file($tmp)) {
-					$errors[$i]=$GLOBALS["error_msg"]["uploadfile"];
+					$errors[$i]=ext_lang::err('uploadfile');
 					$err=true;	continue;
 				}
 				if(@file_exists($abs) && empty( $_REQUEST['overwrite_files'])) {
-					$errors[$i]=$GLOBALS["error_msg"]["itemdoesexist"];
+					$errors[$i]=ext_lang::err('itemdoesexist');
 					$err=true;	continue;
 				}
 
 				// Upload
 				$ok = @$GLOBALS['ext_File']->move_uploaded_file($tmp, $abs);
 				if($ok===false || PEAR::isError( $ok )) {
-					$errors[$i]=$GLOBALS["error_msg"]["uploadfile"];
+					$errors[$i]=ext_lang::err('uploadfile');
 					if( PEAR::isError( $ok ) ) $errors[$i].= ' ['.$ok->getMessage().']';
 					$err=true;	continue;
 				}
@@ -98,6 +108,7 @@ class ext_Upload extends ext_Action {
 				}
 				ext_Result::sendResult('upload', false, $err_msg);
 			}
+		
 
 			ext_Result::sendResult('upload', true, ext_Lang::msg('upload_completed'));
 			return;
@@ -106,32 +117,82 @@ class ext_Upload extends ext_Action {
 	?>
 {
 	"xtype": "tabpanel",
-	"id": "dialog_tabpanel",
-	"activeItem": "uploadform",
-	"dialogtitle": "<?php echo ext_Lang::msg('actupload') ?>",	
+	"stateId": "upload_tabpanel",
+	"activeTab": "0",
+	"dialogtitle": "<?php echo ext_Lang::msg('actupload') ?>",		
+	"height": "400", 
+	"stateful": "true",
+	"stateEvents": ["tabchange"],
+	"getState": function() { return {
+					activeTab:this.items.indexOf(this.getActiveTab())
+				};
+	},
 	"items": [
+
+		{
+			"xtype": "swfuploadpanel",
+			"title": "<?php echo Ext_Lang::msg('flashupload') ?>",
+			"height": "300",
+			"width": "500",
+			"viewConfig": {
+				"forceFit": "true"
+			},
+			"id": "swfuploader",
+			listeners: {	"allUploadsComplete": {
+								"fn": function(panel) {
+									datastore.reload();	
+									panel.destroy();
+									Ext.getCmp("dialog").destroy();								
+								}
+							}
+							
+			},
+			// Uploader Params				
+			"upload_url": "<?php echo _EXT_URL.'/'.basename($_SERVER['SCRIPT_NAME']) ?>",
+			"post_params": { 
+				<?php echo session_name()?>: "<?php echo session_id() ?>",
+				"option": "com_extplorer", 
+				"action": "upload", 
+				"dir": datastore.directory, 
+				"requestType": "xmlhttprequest",
+				"confirm": "true"
+			},
+<?
+		if (isset($_REQUEST["debug"])) print "debug: true,";
+?>				
+			"flash_url": "scripts/extjs3/ux.swfupload/swfupload.swf",
+			// Custom Params
+			"single_file_select": false, // Set to true if you only want to select one file from the FileDialog.
+			"confirm_delete": false, // This will prompt for removing files from queue.
+			"remove_completed": false // Remove file from grid after uploaded.
+		},
 	{
 		"xtype": "form",
 		"autoScroll": "true",
 		"id": "uploadform",
-		"renderTo": Ext.getBody(),
 		"fileUpload": true,
 		"labelWidth": 125,
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
-		"title": "<?php echo ext_Lang::msg('actupload') ?>",
+		"title": "<?php echo ext_Lang::msg('standardupload') ?>",
 		"tooltip": "<?php echo ext_Lang::msg('max_file_size').' = <strong>'. ((get_max_file_size() / 1024) / 1024).' MB<\/strong><br \/>'
 				.ext_Lang::msg('max_post_size').' = <strong>'. ((get_max_upload_limit() / 1024) / 1024).' MB<\/strong><br \/>';
 				?>",
 		"frame": true,
 		"items": [
+		{
+			"xtype": "displayfield",
+			"value": "<?php echo ext_Lang::msg('max_file_size').' = <strong>'. ((get_max_file_size() / 1024) / 1024).' MB<\/strong><br \/>'
+				.ext_Lang::msg('max_post_size').' = <strong>'. ((get_max_upload_limit() / 1024) / 1024).' MB<\/strong><br \/>';
+				?>"
+		},
 		<?php
 		for($i=0;$i<7;$i++) {
 			echo '{
-				"xtype": "textfield",
+				"xtype": "fileuploadfield",
 				"fieldLabel": "'.ext_Lang::msg('file', true ).' '.($i+1).'",
 				"name": "userfile['.$i.']",
 				"width":275,
-				"inputType": "file"
+				"buttonOnly": false
 			},';
 		}
 		?>
@@ -234,6 +295,7 @@ class ext_Upload extends ext_Action {
 		}]
 	}]
 }
+
 	<?php
 
 	}

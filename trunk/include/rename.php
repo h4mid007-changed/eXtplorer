@@ -94,11 +94,18 @@ class ext_Rename extends ext_Action {
 		"xtype": "textfield",
 		"fieldLabel": "<?php echo ext_Lang::msg( 'newname', true ) ?>",
 		"name": "newitemname",
+		"id": "newitemname",
 		"value": "<?php echo str_replace("'", "\'", stripslashes($item) ) ?>",
 		"width":175,
 		"allowBlank":false
 		}
 	],
+	"listeners": { "afterrender": { 
+						fn: function( form ) {
+							form.findById("newitemname").focus(true);
+						}
+					}
+	},
 	"buttons": [{
 		"text": "<?php echo ext_Lang::msg( 'btnsave', true ) ?>", 
 		"handler": function() {

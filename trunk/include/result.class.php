@@ -79,7 +79,7 @@ class ext_Result {
 		return $count;
 	}
 	function sendResult( $action, $success, $msg,$extra=array() ) {		// show error-message
-
+		
 		if( ext_isXHR() ) {
 			$success = (bool)$success;
 			if( $success && ext_Result::count_errors() > 0 ) {
@@ -87,7 +87,7 @@ class ext_Result {
 				foreach( @$_SESSION['ext_error'] as $type ) {
 					if( is_array( $type )) {
 						foreach( $type as $error ) {
-							$msg .= '<br >'.$error;
+							$msg .= '<br />'.$error;
 						}
 					}
 				}
@@ -102,6 +102,9 @@ class ext_Result {
 			}
 			$json = new ext_Json();
 			$jresult = $json->encode($result);
+			if(strtolower(extGetParam($_POST,'requestType')) == 'xmlhttprequest') {
+				header("Content-type: text/html");
+			}
 			print $jresult;
 			ext_exit();
 		}

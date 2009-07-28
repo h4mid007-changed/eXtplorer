@@ -218,6 +218,7 @@ function send_dircontents($dir, $sendWhat = 'files') {	// print table of files
 	while(list($item,$info) = each($list)) {
 		// link to dir / file
 		if (is_array($info)) {
+
 			$abs_item = $info;
 			if (extension_loaded('posix')) {
 				$user_info = posix_getpwnam($info['user']);
@@ -379,10 +380,12 @@ class ext_List extends ext_Action {
 			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=scriptloader.js'
 			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-editarea-adapter.js'
 			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-statusbar.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-fileUploadField.js'
+			.'&amp;subdir[]=scripts/extjs3/ux.locationbar/&amp;file[]=Ext.ux.LocationBar.js'
 			.'&amp;gzip=1"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
 		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>
-		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs3/css/&file[0]=ext-all.css&amp;gzip=1" />';
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[]=scripts/extjs3/css/&amp;file[]=ext-all.css&amp;subdir[]=scripts/extjs3/ux.locationbar/&amp;file[]=LocationBar.css&amp;gzip=1" />';
 
 		if (defined('EXT_STANDALONE')) {
 			$GLOBALS['mainframe']->addcustomheadtag($scriptTag);
@@ -392,6 +395,7 @@ class ext_List extends ext_Action {
 		?>
 		
 	<div id="dirtree-panel"></div>
+	<div id="locationbar-panel"></div>
 	<div id="item-grid"></div>
 	<div id="ext_statusbar" class="ext_statusbar"></div>
 

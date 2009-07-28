@@ -76,16 +76,6 @@ function ext_init(){
     datastore.paramNames["dir"] = "direction";
     datastore.paramNames["sort"] = "order";
     
-    function checkLoggedOut( response ) {
-    	var re = /(?:<script([^>]*)?>)((\n|\r|.)*?)(?:<\/script>)/ig;
-    
-		var match;
-    	while(match = re.exec(response.responseText)){
-            if(match[2] && match[2].length > 0){
-               eval(match[2]);
-            }
-        }
-	}
     datastore.on("beforeload", function(ds, options) {
     								options.params.dir = options.params.dir ? options.params.dir : ds.directory;
     								options.params.option = "com_extplorer";
@@ -230,7 +220,12 @@ function ext_init(){
                               		tooltip: '<?php echo ext_Lang::msg('uploadlink', true ) ?>',
                               		cls:'x-btn-icon',
                               		disabled: <?php echo $allow && ini_get('file_uploads') ? 'false' : 'true' ?>,
-                              		handler: function() { openActionDialog(this, 'upload'); }
+                              		handler: function() { 
+                                  		Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3/ux.swfupload/SwfUploadPanel.css");
+                              			Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3/ux.swfupload/SwfUpload.js" );
+                              			Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3/ux.swfupload/SwfUploadPanel.js",
+                              		    	function(options) { openActionDialog(this, 'upload'); }); 
+                          		    }
                               	},
                               	{
                               		xtype: "tbbutton",
@@ -578,9 +573,9 @@ function ext_init(){
 		// Unselect all files in the grid
 		ext_itemgrid.getSelectionModel().clearSelections();
 		
-		dirCtxMenu.items.get('rename')[node.attributes.is_deletable ? 'enable' : 'disable']();
-		dirCtxMenu.items.get('remove')[node.attributes.is_deletable ? 'enable' : 'disable']();
-		dirCtxMenu.items.get('chmod')[node.attributes.is_chmodable ? 'enable' : 'disable']();
+		dirCtxMenu.items.get('dirCtxMenu_rename')[node.attributes.is_deletable ? 'enable' : 'disable']();
+		dirCtxMenu.items.get('dirCtxMenu_remove')[node.attributes.is_deletable ? 'enable' : 'disable']();
+		dirCtxMenu.items.get('dirCtxMenu_chmod')[node.attributes.is_chmodable ? 'enable' : 'disable']();
 		
 		dirCtxMenu.node = node;
 		dirCtxMenu.show(e.getTarget(), 't-b?' );
@@ -614,58 +609,58 @@ function ext_init(){
     var dirCtxMenu = new Ext.menu.Menu({
         id:'dirCtxMenu',
         items: [    	{
-        	id: 'new',
+        	id: 'dirCtxMenu_new',
     		icon: '<?php echo _EXT_URL ?>/images/_folder_new.png',
     		text: '<?php echo ext_Lang::msg('newlink', true ) ?>',
     		handler: function() {dirCtxMenu.hide();openActionDialog(this, 'mkitem');}
     	},
     	{
-    		id: 'rename',
+    		id: 'dirCtxMenu_rename',
     		icon: '<?php echo _EXT_URL ?>/images/_fonts.png',
     		text: '<?php echo ext_Lang::msg('renamelink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'rename'); }
     	},
     	{
-        	id: 'copy',
+        	id: 'dirCtxMenu_copy',
     		icon: '<?php echo _EXT_URL ?>/images/_editcopy.png',
     		text: '<?php echo ext_Lang::msg('copylink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'copy'); }
     	},
     	{
-    		id: 'move',
+    		id: 'dirCtxMenu_move',
     		icon: '<?php echo _EXT_URL ?>/images/_move.png',
     		text: '<?php echo ext_Lang::msg('movelink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'move'); }
     	},
     	{
-    		id: 'chmod',
+    		id: 'dirCtxMenu_chmod',
     		icon: '<?php echo _EXT_URL ?>/images/_chmod.png',
     		text: '<?php echo ext_Lang::msg('chmodlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();openActionDialog(this, 'chmod'); }
     	},
     	{
-    		id: 'remove',
+    		id: 'dirCtxMenu_remove',
     		icon: '<?php echo _EXT_URL ?>/images/_editdelete.png',
     		text: '<?php echo ext_Lang::msg('btnremove', true ) ?>',
     		handler: function() { dirCtxMenu.hide();var num = 1; Ext.Msg.confirm('Confirm', String.format("<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", num ), function(btn) { deleteDir( btn, dirCtxMenu.node ) }); }
     	},'-',
     	<?php if( ($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !ext_isFTPMode() ) { ?>
 	    	{
-    			id: 'gc_archive',
+    			id: 'dirCtxMenu_archive',
 	    		icon: '<?php echo _EXT_URL ?>/images/_archive.png',
 	    		text: '<?php echo ext_Lang::msg('comprlink', true ) ?>',
 	    		handler: function() { openActionDialog(this, 'archive'); }
 	    	},
     	<?php } ?>
     	{
-    		id: 'reload',
+    		id: 'dirCtxMenu_reload',
     		icon: '<?php echo _EXT_URL ?>/images/_reload.png',
     		text: '<?php echo ext_Lang::msg('reloadlink', true ) ?>',
     		handler: function() { dirCtxMenu.hide();dirCtxMenu.node.reload(); }
     	},
     	'-', 
 		{
-			id: 'cancel',
+			id: 'dirCtxMenu_cancel',
     		icon: '<?php echo _EXT_URL ?>/images/_cancel.png',
     		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { dirCtxMenu.hide(); }
@@ -675,19 +670,19 @@ function ext_init(){
     var copymoveCtxMenu = new Ext.menu.Menu({
         id:'copyCtx',
         items: [    	{
-        	id: 'copy',
+        	id: 'copymoveCtxMenu_copy',
     		icon: '<?php echo _EXT_URL ?>/images/_editcopy.png',
     		text: '<?php echo ext_Lang::msg('copylink', true ) ?>',
     		handler: function() {copymoveCtxMenu.hide();copymove('copy');}
     	},
     	{
-    		id: 'move',
+    		id: 'copymoveCtxMenu_move',
     		icon: '<?php echo _EXT_URL ?>/images/_move.png',
     		text: '<?php echo ext_Lang::msg('movelink', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide();copymove('move'); }
     	},'-', 
 		{
-			id: 'cancel',
+			id: 'copymoveCtxMenu_cancel',
     		icon: '<?php echo _EXT_URL ?>/images/_cancel.png',
     		text: '<?php echo ext_Lang::msg('btncancel', true ) ?>',
     		handler: function() { copymoveCtxMenu.hide(); }
@@ -720,22 +715,21 @@ function ext_init(){
         	id: "dirTree",
         	title: '<?php echo ext_Lang::msg('directory_tree', true ) ?> <img src="<?php echo _EXT_URL ?>/images/_reload.png" hspace="20" style="cursor:pointer;" title="reload" onclick="Ext.getCmp(\'dirTree\').getRootNode().reload();" alt="Reload" align="middle" />', 
         	closable: false,
-            initialSize: 200,
-            minSize: 175,
-            maxSize: 400,
+            width: 230,
             titlebar: true,
-            collapsible: true,
             autoScroll:true,
     	    animate:true, 
     	    //rootVisible: false,
     	    loader: new Ext.tree.TreeLoader({
+    	    	preloadChildren: true,
     	        dataUrl:'<?php echo basename( $GLOBALS['script_name']) ?>',
     	        baseParams: {option:'com_extplorer', action:'getdircontents', dir: '',sendWhat: 'dirs'} // custom http params
     	    }),
     	    containerScroll: true,
     	    enableDD:true,
     	    ddGroup : 'TreeDD',
-        	listeners: { 
+        	listeners: {
+            	//"load": { fn: function(node) { chDir( node.id.replace( /_RRR_/g, '/' ), true ); } }, 
         		'contextmenu': { fn: dirContext },
     			'textchange': { fn: function(node, text, oldText) {
     						if( text == oldText ) return true;
@@ -771,221 +765,150 @@ function ext_init(){
             	}
             })
         },{
-            xtype: "tabpanel",
-            id: "mainpanel",
-            enableTabScroll: true,
-            activeTab: 0,
+            layout: "border",
             region: "center",
             items: [{
-				xtype: "editorgrid",
-	        	region: "center",
-	            titlebar: true,
-	            autoScroll:true,
-	            collapsible: false,
-	            closeOnTab: true,
-	            id: "gridpanel",
-	            ds: datastore,
-	            cm: cm,
-	           	tbar: gridtb,
-	            bbar: gridbb,
-	            ddGroup : 'TreeDD',
-	            enableDragDrop: true,
-	            selModel: new Ext.grid.RowSelectionModel({
-	                		listeners: {
-	        					'rowselect': { fn: handleRowClick },
-	                			'selectionchange': { fn: handleRowClick }
-	            			}
-	            		  }),
-	            loadMask: true,
-	            keys:
-	            	[{
-	                    key: 'c',
-	                    ctrl: true,
-	                    stopEvent: true,
-	                    handler: function() { openActionDialog(this, 'copy'); }
-	                   
-	               },{
-	                    key: 'x',
-	                    ctrl: true,
-	                    stopEvent: true,
-	                    handler: function() { openActionDialog(this, 'move'); }
-	                   
-	               },{
-	                 key: 'a',
-	                 ctrl: true,
-	                 stopEvent: true,
-	                 handler: function() {
-	            		ext_itemgrid.getSelectionModel().selectAll();
-	                 }
-	            }, 
-	            {
-	            	key: Ext.EventObject.DELETE,
-	            	handler: function() { openActionDialog(this, 'delete'); }
-	            }
-	            ],
-	        	listeners: { 'rowcontextmenu': { fn: rowContextMenu },
-	            		'rowdblclick': { fn: rowContextMenu },
-	        			'celldblclick': { fn: rowContextMenu },
-	        			'validateedit': { fn: function(e) {
-	    						if( e.value == e.originalValue ) return true;
-	    						var requestParams = getRequestParams();
-	    						requestParams.newitemname = e.value;
-	    						requestParams.item = e.originalValue;
-	    						
-	    						requestParams.confirm = 'true';
-	    						requestParams.action = 'rename';
-	    						handleCallback(requestParams);
-	    						return true;
-	    					}	
-	        			}        			
-        			}
-	        	}]
+                region: "north",
+                xtype: "locationbar",
+                id: "locationbarcmp",
+                height: 28,
+                tree: Ext.getCmp("dirTree")
+            	},
+            	{
+                region: "center",
+                xtype: "tabpanel",
+	            id: "mainpanel",
+	            enableTabScroll: true,
+	            activeTab: 0,
+	            items: [{
+					xtype: "editorgrid",
+		        	region: "center",
+		            title: "<?php echo ext_lang::msg("actdir", true ) ?>",
+		            autoScroll:true,
+		            collapsible: false,
+		            closeOnTab: true,
+		            id: "gridpanel",
+		            ds: datastore,
+		            cm: cm,
+		           	tbar: gridtb,
+		            bbar: gridbb,
+		            ddGroup : 'TreeDD',
+		            enableDragDrop: true,
+		            selModel: new Ext.grid.RowSelectionModel({
+		                		listeners: {
+		        					'rowselect': { fn: handleRowClick },
+		                			'selectionchange': { fn: handleRowClick }
+		            			}
+		            		  }),
+		            loadMask: true,
+		            keys:
+		            	[{
+		                    key: 'c',
+		                    ctrl: true,
+		                    stopEvent: true,
+		                    handler: function() { openActionDialog(this, 'copy'); }
+		                   
+		               },{
+		                    key: 'x',
+		                    ctrl: true,
+		                    stopEvent: true,
+		                    handler: function() { openActionDialog(this, 'move'); }
+		                   
+		               },{
+		                 key: 'a',
+		                 ctrl: true,
+		                 stopEvent: true,
+		                 handler: function() {
+		            		ext_itemgrid.getSelectionModel().selectAll();
+		                 }
+		            }, 
+		            {
+		            	key: Ext.EventObject.DELETE,
+		            	handler: function() { openActionDialog(this, 'delete'); }
+		            }
+		            ],
+		        	listeners: { 'rowcontextmenu': { fn: rowContextMenu },
+		        			'celldblclick': { fn: function( grid, rowIndex, columnIndex, e ) { 
+	        										if( Ext.isOpera ) { 
+	            										// because Opera <= 9 doesn't support the right-mouse-button-clicked event (contextmenu)
+	            										// we need to simulate it using the ondblclick event
+														rowContextMenu( grid, rowIndex, e );
+													} else {
+												    	gsm = ext_itemgrid.getSelectionModel();
+												    	gsm.clickedRow = rowIndex;
+												    	var selections = gsm.getSelections();
+												    	if( !selections[0].get('is_file') ) {
+													    	chDir( datastore.directory + '/' + selections[0].get('name') );
+												    	} else if( selections[0].get('is_editable')) {
+													    	openActionDialog( this, 'edit' );
+												    	} else if( selections[0].get('is_readable')) {
+													    	openActionDialog( this, 'view' );
+												    	}
+													}
+												}
+							 },
+		        			'validateedit': { fn: function(e) {
+		    						if( e.value == e.originalValue ) return true;
+		    						var requestParams = getRequestParams();
+		    						requestParams.newitemname = e.value;
+		    						requestParams.item = e.originalValue;
+		    						
+		    						requestParams.confirm = 'true';
+		    						requestParams.action = 'rename';
+		    						handleCallback(requestParams);
+		    						return true;
+		    					}	
+		        			}        			
+	        			}
+		        	}]
+            	}]
 	        }
         ],
-        renderTo: Ext.getBody()
-    });
-	
-	
-	ext_itemgrid = Ext.getCmp("gridpanel");
-    dirTree = Ext.getCmp("dirTree");
-     
-    /*
-    dirTree.loader.on('load', function(loader, o, response ) {
-    									if( response && response.responseText ) {
-	    									var json = Ext.decode( response.responseText );
-	    									if( json && json.error ) {
-	    										Ext.Msg.alert('Error', json.error +'onLoad');
-	    									}
-	    								}
-    });*/
-    
-    
-    var tsm = dirTree.getSelectionModel();
-    tsm.on('selectionchange', handleNodeClick );
-    
-    // create the editor for the directory tree
-    var dirTreeEd = new Ext.tree.TreeEditor(dirTree, {
-        allowBlank:false,
-        blankText:'A name is required',
-        selectOnFocus:true
-    });
-    
-    
-    
-	<?php
-	if( !ext_isFTPMode() && empty( $_SESSION['ftp_login'])) {
-		?>
-		Ext.get('switch_file_mode').on('click', handleFTPLogin );
-		function handleFTPLogin( e ) {
-			e.preventDefault();
-			openActionDialog( 'switch_file_mode', 'ftp_authentication' );
-		}
-		<?php
-	}
-	?>
-	/**
-	* This function is for changing into a specified directory
-	* It updates the tree, the grid and the ContentPanel title
-	*/
-    chDir = function( directory ) {
-   		
-    	if( datastore.directory.replace( /\//g, '' ) == directory.replace( /\//g, '' )
-    		&& datastore.getTotalCount() > 0 && directory != '') {
-    		// Prevent double loading
-    		return;
-    	}
-    	datastore.directory = directory;
-    	var conn = datastore.proxy.getConnection();
-    	if( directory == '' || conn && !conn.isLoading()) {
-    		datastore.load({params:{start:0, limit:150, dir: directory, option:'com_extplorer', action:'getdircontents', sendWhat: datastore.sendWhat }});
-    	}
-    	
-		Ext.Ajax.request({
-			url: '<?php echo basename( $GLOBALS['script_name']) ?>',
-			params: { action:'chdir_event', dir: directory, option: 'com_extplorer' },
-			callback: function(options, success, response ) {
-				if( success ) {
-					checkLoggedOut( response ); // Check if current user is logged off. If yes, Joomla! sends a document.location redirect, which will be eval'd here
-					var result = Ext.decode( response.responseText );
-					
-					document.title = 'eXtplorer - ' + datastore.directory;
-					Ext.getCmp("gridpanel").setTitle( '<?php echo ext_Lang::msg('browsing_directory', true ) ?> &nbsp;&nbsp;&nbsp;&nbsp;' + result.dirselects );
-					Ext.get('bookmark_container').update( result.bookmarks );
-				}
-			}
-		});
-		expandTreeToDir( null, directory );
-    	
-    }
-	chDir( '<?php echo str_replace("'", "\'", $dir ) ?>' );
-	
-	function expandTreeToDir( node, dir ) {
-		dir = dir ? dir : new String('<?php echo str_replace("'", "\'", $dir ) ?>');
-		var dirs = dir.split('/');
-		if( dirs[0] == '') { dirs.shift(); }
-		if( dirs.length > 0 ) {
-			node = dirTree.getNodeById( '_RRR_'+ dirs[0] );
-			if( !node ) return;
-			if( node.isExpanded() ) {
-				expandNode( node, dir );
-				return;
-			}
-			node.on('load', function() { expandNode( node, dir ) } );
-			node.expand();
-		}
-	}
-	function expandNode( node, dir ) {
-		var fulldirpath, dirpath;
-	
-		var dirs = dir.split('/');
-		if( dirs[0] == '') { dirs.shift(); }
-		if( dirs.length > 0 ) {
-			fulldirpath = '';
-			for( i=0; i<dirs.length; i++ ) {
-				fulldirpath += '_RRR_'+ dirs[i];
-			}
-			if( node.id.substr( 0, 5 ) != '_RRR_' ) {
-				fulldirpath = fulldirpath.substr( 5 );
-			}
-		
-			if( node.id != fulldirpath ) {
-				dirpath = '';
-		
-				var nodedirs = node.id.split('_RRR_');
-				if( nodedirs[0] == '' ) nodedirs.shift();
-				for( i=0; i<dirs.length; i++ ) {
-					if( nodedirs[i] ) {
-						dirpath += '_RRR_'+ dirs[i];
-					} else {
-						dirpath += '_RRR_'+ dirs[i];
-						//dirpath = dirpath.substr( 5 );
-						var nextnode = dirTree.getNodeById( dirpath );
-						if( !nextnode ) { return; }
-						if( nextnode.isExpanded() ) { expandNode( nextnode, dir ); return;}
-						nextnode.on( 'load', function() { expandNode( nextnode, dir ) } );	
+        renderTo: Ext.getBody(),
+        listeners: { "afterrender": {
+	        			fn: function() {
+	    					Ext.getCmp("locationbarcmp").tree = Ext.getCmp("dirTree");
+	        				Ext.getCmp("locationbarcmp").initComponent();
+	        				ext_itemgrid = Ext.getCmp("gridpanel");
+	        			    dirTree = Ext.getCmp("dirTree");
 
-						nextnode.expand();
-						break;
-					}
-				}
-			}
-			else {
-				node.select();
-			}
-			
+	        			    /*
+	        			    dirTree.loader.on('load', function(loader, o, response ) {
+	        			    									if( response && response.responseText ) {
+	        				    									var json = Ext.decode( response.responseText );
+	        				    									if( json && json.error ) {
+	        				    										Ext.Msg.alert('Error', json.error +'onLoad');
+	        				    									}
+	        				    								}
+	        			    });*/
+	        			    
+	        			    
+	        			    var tsm = dirTree.getSelectionModel();
+	        			    tsm.on('selectionchange', handleNodeClick );
+	        			    
+	        			    // create the editor for the directory tree
+	        			    var dirTreeEd = new Ext.tree.TreeEditor(dirTree, {
+	        			        allowBlank:false,
+	        			        blankText:'A name is required',
+	        			        selectOnFocus:true
+	        			    });
+
+	        				chDir( '<?php echo str_replace("'", "\'", $dir ) ?>' );
+	    				}
+	    			}
 		}
-	}
-    function handleNodeClick( sm, node ) {
-    	if( node && node.id ) {
-    		chDir( node.id.replace( /_RRR_/g, '/' ) );
-    	}
-    } 
+    });
+	Ext.state.Manager.setProvider(new Ext.state.CookieProvider({
+	    expires: new Date(new Date().getTime()+(1000*60*60*24*7)), //7 days from now
+	}));
+
     <?php
-    if( $GLOBALS['require_login'] && $_SESSION['s_user'] == 'admin' && $_SESSION['s_pass'] == extEncodePassword('admin')) {
+    if( $GLOBALS['require_login'] && $GLOBALS['mainframe']->getUserName() == 'admin' && $GLOBALS['mainframe']->getPassword() == extEncodePassword('admin')) {
     	// Urge User to change admin password!
-    	echo 'Ext.Msg.alert(\''.ext_Lang::msg('password_warning_title', true ).'\', \'<img src="'._EXT_URL .'/images/_messagebox_warning.png" align="left" hspace="10" alt="Warning" /> '.ext_Lang::msg('password_warning_text', true ) .'\',
+    	echo 'msgbox = Ext.Msg.alert(\''.ext_Lang::msg('password_warning_title', true ).'\', \''.ext_Lang::msg('password_warning_text', true ) .'\',
     		function(btn) { if( btn == \'ok\' ) openActionDialog( null, \'admin\') }
     	);
+    	msgbox.setIcon(Ext.MessageBox.WARNING);
 		';
     }
     ?>    
