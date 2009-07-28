@@ -31,7 +31,6 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * under either the MPL or the GPL."
  * 
  * User Authentication Functions
- * (currently not used)
  */
 
 //------------------------------------------------------------------------------
@@ -40,31 +39,73 @@ load_users();
 //------------------------------------------------------------------------------
 
 $GLOBALS['__SESSION']=&$_SESSION;
+if( !empty($_REQUEST['type'])) {
+	$GLOBALS['authentication_type'] = basename(extGetParam($_REQUEST, 'type', $GLOBALS['ext_conf']['authentication_method_default']));
+} else {
+	$GLOBALS['authentication_type'] = $GLOBALS['file_mode'];
+}
+if($GLOBALS['authentication_type'] == 'file') {
+	$GLOBALS['authentication_type'] = 'extplorer';
+}
+if( !in_array($GLOBALS['authentication_type'],$GLOBALS['ext_conf']['authentication_methods_allowed'])) {
+	$GLOBALS['authentication_type'] = extgetparam( $_SESSION, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default'] );
+	if( !in_array($GLOBALS['authentication_type'],$GLOBALS['ext_conf']['authentication_methods_allowed'])) {
+		$GLOBALS['authentication_type'] = $_SESSION['file_mode'] = $GLOBALS['ext_conf']['authentication_method_default'];
+	}
+}
 
+if( file_exists(_EXT_PATH.'/include/authentication/'.$authentication_type.'.php')) {
+		require_once(_EXT_PATH.'/include/authentication/'.$authentication_type.'.php');
+		$classname = 'ext_'.$authentication_type.'_authentication';
+		if( class_exists($classname)) {
+			$GLOBALS['auth'] = new $classname();
+		}
+}
+	
 //------------------------------------------------------------------------------
 function login() {
-
-	if(!empty($GLOBALS['__SESSION']["s_user"])) {
-		if(!activate_user($GLOBALS['__SESSION']["s_user"],$GLOBALS['__SESSION']["s_pass"])) {
-			logout();
-		}
-	} else {
-		if(isset($GLOBALS['__POST']["p_pass"])) $p_pass=$GLOBALS['__POST']["p_pass"];
-		else $p_pass="";
-
-		if(isset($GLOBALS['__POST']["p_user"])) {
-			// Check Login
-			if(!activate_user(stripslashes($GLOBALS['__POST']["p_user"]), extEncodePassword(stripslashes($p_pass)))) {
-				ext_Result::sendResult('login', false, ext_Lang::msg( 'actlogin_failure' ));
-			}
-			ext_Result::sendResult('login', true, ext_Lang::msg( 'actlogin_success' ) );
+	global $auth, $authentication_type;
+	if( !is_object($auth)) {
+		return false;
+	}
+	if( !empty($GLOBALS['__POST']['username']) || !empty($_SESSION['credentials_'.$authentication_type])) {
+		
+		if( !empty($GLOBALS['__POST']['username'])) {
+			$username = $GLOBALS['__POST']['username'];
+			$password = $GLOBALS['__POST']['password'];
+			if( $authentication_type == 'extplorer') $password = extEncodePassword($password);
 		} else {
-			session_write_close();
-			session_id( get_session_id() );
-			session_start();
-			// Ask for Login
-			$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );
-			$GLOBALS['mainframe']->addcustomheadtag( '
+			$username = $_SESSION['credentials_'.$authentication_type]['username'];
+			$password = $_SESSION['credentials_'.$authentication_type]['password'];
+		}
+		
+		$res = $auth->onAuthenticate( array('username' => $username, 'password' => $password) );
+		if( !PEAR::isError($res) && $res !== false ) {
+			if( @$GLOBALS['__POST']['action'] == 'login' && ext_isXHR() ) {
+				session_write_close();
+				ext_Result::sendResult('login', true, ext_Lang::msg('actlogin_success') );
+			}
+			return true;
+		} else {
+			if( ext_isXHR() ) {
+				$errmsg = PEAR::isError($res) ? $res->getMessage() : ext_Lang::msg( 'actlogin_failure' );
+				
+				ext_Result::sendResult('login', false, $errmsg );
+			}
+			return false;
+		}
+		
+	}
+	if( ext_isXHR() && $GLOBALS['action'] != 'login') {
+		echo '<script type="text/javascript>document.location="'._EXT_URL.'/index.php";</script>';
+		exit();
+	}
+	session_write_close();
+	session_id( get_session_id() );
+	session_start();
+	// Ask for Login
+	$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );
+	$GLOBALS['mainframe']->addcustomheadtag( '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
 			.'&amp;subdir[0]=scripts/extjs3/&amp;file[0]=yui-utilities.js'
 			.'&amp;subdir[1]=scripts/extjs3/&amp;file[1]=ext-yui-adapter.js'
@@ -72,141 +113,36 @@ function login() {
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
 		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs3/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs3/css/&file[1]=xtheme-blue.css&amp;gzip=1" />');
 
-			$langs = get_languages();
+			
 			?>
 		<div style="width: 400px;" id="formContainer">
 			<div id="ext_logo" style="text-align:center;">
-			<img src="<?php echo _EXT_URL ?>/images/eXtplorer.gif" align="middle" alt="eXtplorer Logo" />
+			<a href="http://extplorer.sourceforge.net" target="_blank">
+				<img src="<?php echo _EXT_URL ?>/images/eXtplorer.gif" align="middle" alt="eXtplorer Logo" style="border:none;" />
+			</a>
 			</div>
-			<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
-			<div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-
-			<h3 style="margin-bottom:5px;"><?php echo ext_Lang::msg('actlogin') ?></h3>
-			<div id="adminForm">
-
-			</div><div class="ext_statusbar" id="statusBar"></div>
-			</div></div></div>
-			<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
-
+			<noscript>
+				<div style="width:400px;text-align:center;">
+					<h1>eXtplorer Login</h1>
+					<p style="color:red;">Oh, Javascript is disabled!</p>
+					<p>Find out <a target="_blank" href="https://www.google.com/adsense/support/bin/answer.py?hl=en&answer=12654">how you can enable Javascript in your browser.</a>
+					</p>
+				</div>
+			</noscript>
+			<div id="adminForm"></div>
+			
 	</div>
 	<script type="text/javascript">
-	var languages = new Ext.data.SimpleStore({
-		fields: ['language', 'langname'],
-		data :	[
-		<?php 
-		$i = 0; $c = count( $langs );
-		foreach( $langs as $language => $name ) {
-			echo "['$language', '$name' ]";
-		if( ++$i < $c ) echo ',';
-		}
-		?>
-			]
-	});
-	var simple = new Ext.FormPanel({
-		labelWidth: 125, // label settings here cascade unless overridden
-		url:'<?php echo basename( $GLOBALS['script_name']) ?>',
-		bodyStyle: {background:"transparent",border: "none"},
-		keys: {
-		    key: Ext.EventObject.ENTER,
-		    fn  : function(){
-				if (simple.getForm().isValid()) {
-					submitLoginForm();
-    	        } else {
-        	        return false;
-            	}
-            }
-		},
-		renderTo: "adminForm",
-		items: [{
-            xtype:'textfield',
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscusername', true ) ?>',
-			name: 'p_user',
-			width:175,
-			allowBlank:false
-		},{
-			xtype:'textfield',
-			fieldLabel: '<?php echo ext_Lang::msg( 'miscpassword', true ) ?>',
-			name: 'p_pass',
-			inputType: 'password',
-			width:175,
-			allowBlank:false
-		}, new Ext.form.ComboBox({
-			
-			fieldLabel: '<?php echo ext_Lang::msg( 'misclang', true ) ?>',
-			store: languages,
-			displayField:'langname',
-			valueField: 'language',
-			value: '<?php echo ext_Lang::detect_lang() ?>',
-			hiddenName: 'lang',
-			disableKeyFilter: true,
-			editable: false,
-			triggerAction: 'all',
-			mode: 'local',
-			allowBlank: false,
-			selectOnFocus:true
-		})
-		],
-		buttons: [{
-			text: '<?php echo ext_Lang::msg( 'btnlogin', true ) ?>', 
-			type: 'submit',
-			handler: function() {
-				Ext.get( 'statusBar').update( 'Please wait...' );
-				submitLoginForm();
-			}
-		},{
-			text: '<?php echo ext_Lang::msg( 'btnreset', true ) ?>', 
-			handler: function() { simple.getForm().reset(); } 
-		}
-		]
-	});
+Ext.onReady( function() {
+	var simple = new Ext.FormPanel(<?php $auth->onShowLoginForm() ?>);
 	
 	Ext.get( 'formContainer').center();
 	Ext.get( 'formContainer').setTop(100);
-	simple.getForm().findField('p_user').focus();
-	
-function submitLoginForm() {
-	form = simple.getForm();
-	form.submit({
-		//reset: true,
-		reset: false,
-		success: function(form, action) {
-			Ext.get( 'statusBar').update( action.result.message );
-			location.href = '<?php echo basename( $GLOBALS['script_name']) ?>?extplorer';
-		},
-		failure: function(form, action) {
-			if( !action.result ) return;
-			Ext.MessageBox.alert('Error!', action.result.error);
-			Ext.get( 'statusBar').update( action.result.error );
-			form.findField( 'p_pass').setValue('');
-			form.findField( 'p_user').focus();
-		},
-		scope: form,
-		// add some vars to the request, similar to hidden fields
-		params: {
-			option: 'com_extplorer', 
-			action: 'login'
-		}
-	});
-}
+	simple.getForm().findField('username').focus();
+});
 </script><?php
 			define( '_LOGIN_REQUIRED', 1 );
 		}
-	}
-}
-//------------------------------------------------------------------------------
-function logout() {
-	session_destroy();
-	session_write_close();
-	header("Location: ".$GLOBALS["script_name"]);
-}
-//------------------------------------------------------------------------------
-/**
- * Returns an IP- and BrowserID- based Session ID
- *
- * @param string $id
- * @return string
- */
-function get_session_id( $id=null ) {
-	return extMakePassword( 32 );
-}
+	
+
 

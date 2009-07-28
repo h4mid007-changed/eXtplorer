@@ -984,7 +984,22 @@ class Net_FTP extends PEAR
         return true; // No errors
 
     } // end method chmodRecursive
+    function is_readable($file) {
+			$perms = $file['rights'];
+			if ($_SESSION['ftp_login'] == $file['user']) {
+				// FTP user is owner of the file
+				return $perms[0] == 'r';
+			}
+			$fileinfo = posix_getpwnam($file['user']);
+			$userinfo = posix_getpwnam($_SESSION['ftp_login']);
 
+			if ($fileinfo['gid'] == $userinfo['gid']) {
+				return $perms[3] == 'r';
+			}
+			else {
+				return $perms[6] == 'r';
+			}
+    }
     /**
      * Rename or move a file or a directory from the ftp-server
      *

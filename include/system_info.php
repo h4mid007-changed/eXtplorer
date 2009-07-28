@@ -58,7 +58,7 @@ function system_info() {
 	//$tab = extGetParam( $_REQUEST, 'tab', 'tab1' );
 	$width = 400;	// width of 100%
 
-	switch( $GLOBALS['__POST']['action2'] ) {
+	switch( extGetParam($GLOBALS['__POST'],'action2', 'panel') ) {
 		case 'systeminfo':
 		?>
 		<div class="body-wrap">
@@ -67,7 +67,7 @@ function system_info() {
 				<td valign="top" width="250" style="font-weight:bold;">
 				Logged in as:
 				</td>
-				<td><?php echo $_SESSION['s_user'] ?></td>
+				<td><?php echo $_SESSION['credentials_extplorer']['username'] ?></td>
 			<tr>
 				<td valign="top" width="250" style="font-weight:bold;">
 					<?php echo ext_lang::msg( 'sibuilton' ); ?>:
@@ -310,15 +310,9 @@ function show_about() {			// footer for html-page
  (<a href=\"http://virtuemart.net/index2.php?option=com_versions&amp;catid=5&amp;myVersion=". $GLOBALS['ext_version'] ."\" onclick=\"javascript:void window.open('http://virtuemart.net/index2.php?option=com_versions&catid=5&myVersion=". $GLOBALS['ext_version'] ."', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=580,directories=no,location=no'); return false;\" title=\"".$GLOBALS["messages"]["check_version"]."\">".$GLOBALS["messages"]["check_version"]."</a>)
 
 	";
-	if(function_exists("disk_free_space")) {
-		$size = disk_free_space($GLOBALS['home_dir']. $GLOBALS['separator']);
-		$free=parse_file_size($size);
-	} 
-	elseif(function_exists("diskfreespace")) {
-		$size = diskfreespace($GLOBALS['home_dir'] . $GLOBALS['separator']);
-		$free=parse_file_size($size);
-	} 
-	else $free = "?";
+	
+	$size = disk_free_space($GLOBALS['home_dir']. $GLOBALS['separator']);
+	$free=parse_file_size($size);
 
 	echo '<br />'.$GLOBALS["messages"]["miscfree"].": ".$free." \n";
 	if( extension_loaded( "posix" )) {

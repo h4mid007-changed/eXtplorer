@@ -171,6 +171,7 @@ class ext_Archive extends ext_Action {
 			echo $json->encode( $response );
 			ext_exit();
 		}
+		$default_archive_type = 'zip';
 	?>
 		{
 		"xtype": "form",
@@ -181,14 +182,15 @@ class ext_Archive extends ext_Action {
 		"frame": true,
 		"items": [{
 			"xtype": "textfield",
-			fieldLabel: '<?php echo ext_Lang::msg('archive_name', true ) ?>',
-			name: 'name',
-			width: 200
+			"fieldLabel": "<?php echo ext_Lang::msg('archive_name', true ) ?>",
+			"name": "name",
+			"value": "<?php echo $GLOBALS['item'] . '.'. $default_archive_type ?>",
+			"width": "200"
 		},
 		{
 			"xtype": "combo",
-			fieldLabel: '<?php echo ext_Lang::msg('typeheader', true ) ?>',
-			store: [
+			"fieldLabel": "<?php echo ext_Lang::msg('typeheader', true ) ?>",
+			"store": [
 					['zip', 'Zip (<?php echo ext_Lang::msg('normal_compression', true ) ?>)'],
 					['tgz', 'Tar/Gz (<?php echo ext_Lang::msg('good_compression', true ) ?>)'],
 					<?php
@@ -198,27 +200,26 @@ class ext_Archive extends ext_Action {
 					?>
 					['tar', 'Tar (<?php echo ext_Lang::msg('no_compression', true ) ?>)']
 					],
-			displayField:'typename',
-			valueField: 'type',
-			name: 'type',
-			value: 'zip',
-			triggerAction: 'all',
-			hiddenName: 'type',
-			disableKeyFilter: true,
-			editable: false,
-			mode: 'local',
-			allowBlank: false,
-			selectOnFocus:true,
-			width: 200,
-			listeners: { "select": { 
+			"displayField":"typename",
+			"valueField": "type",
+			"name": "type",
+			"value": "<?php echo $default_archive_type ?>",
+			"triggerAction": "all",
+			"hiddenName": "type",
+			"disableKeyFilter": "true",
+			"editable": "false",
+			"mode": "local",
+			"allowBlank": "false",
+			"selectOnFocus":"true",
+			"width": "200",
+			"listeners": { "select": { 
 							fn: function(o, record ) {
 								form = Ext.getCmp("simpleform").getForm();
-								var nameField = form.findField('name').getValue();
-								
+								var nameField = form.findField("name").getValue();								
 								if( nameField.indexOf( '.' ) > 0 ) {
-									form.findField('name').setValue( nameField.substring( 0, nameField.indexOf('.')+1 ) + record.get("value") );
+									form.findField('name').setValue( nameField.substring( 0, nameField.indexOf('.')+1 ) + o.getValue() );
 								} else {
-									form.findField('name').setValue( nameField + '.'+ record.get("value"));
+									form.findField('name').setValue( nameField + '.'+ o.getValue());
 								}
 							}
 						  }
@@ -227,28 +228,27 @@ class ext_Archive extends ext_Action {
 		
 		}, {
 			"xtype": "textfield",
-			fieldLabel: '<?php echo ext_Lang::msg('archive_saveToDir', true ) ?>',
-			name: 'saveToDir',
-			value: '<?php echo str_replace("'", "\'", $dir ) ?>',
-			width: 200
+			"fieldLabel": "<?php echo ext_Lang::msg('archive_saveToDir', true ) ?>",
+			"name": "saveToDir",
+			"value": "<?php echo str_replace("'", "\'", $dir ) ?>",
+			"width": "200"
 		},{
 			"xtype": "checkbox",
-			fieldLabel: '<?php echo ext_Lang::msg('downlink', true ) ?>?',
-			name: 'download',
-			checked: true
+			"fieldLabel": "<?php echo ext_Lang::msg('downlink', true ) ?>?",
+			"name": "download",
+			"checked": "true"
 		}
 		],
 		"buttons": [{
-			text: '<?php echo ext_Lang::msg( 'btncreate', true ) ?>', 
-			type: 'submit', 
-			handler: function() { 
-				Ext.ux.OnDemandLoadByAjax.load([
-				    [ '<?php echo $GLOBALS['script_name'] ?>?action=include_javascript&file=archive.js', function(options) { submitArchiveForm(0) } ]
-				    ]) 
+			"text": "<?php echo ext_Lang::msg( 'btncreate', true ) ?>", 
+			"type": "submit", 
+			"handler": function() { 
+				Ext.ux.OnDemandLoad.load( "<?php echo $GLOBALS['script_name'] ?>?action=include_javascript&file=archive.js", 
+											function(options) { submitArchiveForm(0) } ); 
 			}
 		},{
-			text: '<?php echo ext_Lang::msg( 'btncancel', true ) ?>', 
-			handler: function() { Ext.getCmp("dialog").destroy() }
+			"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
+			"handler": function() { Ext.getCmp("dialog").destroy() }
 		}]
 }
 

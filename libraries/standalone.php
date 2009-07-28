@@ -19,12 +19,6 @@ if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 	error_reporting(E_ALL);
 }
 
-if (phpversion() < '4.2.0') {
-	require_once( dirname( __FILE__ ) . '/compat.php41x.php' );
-}
-if (phpversion() < '4.3.0') {
-	require_once( dirname( __FILE__ ) . '/compat.php42x.php' );
-}
 if (version_compare( phpversion(), '5.0' ) < 0) {
 	require_once( dirname( __FILE__ ) . '/compat.php50x.php' );
 }
@@ -201,7 +195,12 @@ class extMainFrame {
 	function appendPathWay( $html ) {
 		$this->_custom_pathway[] = $html;
 	}
-
+	function getUserName() {
+		return @$_SESSION['credentials_'.$GLOBALS['file_mode']]['username'];
+	}
+	function getPassword() {
+		return @$_SESSION['credentials_'.$GLOBALS['file_mode']]['password'];
+	}
   /**
 	* Gets the value of a user state variable
 	* @param string The name of the variable

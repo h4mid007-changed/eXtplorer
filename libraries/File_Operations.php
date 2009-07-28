@@ -11,7 +11,7 @@ if (!extension_loaded('ftp')) {
 }
 
 function ext_isFTPMode() {
-	return $GLOBALS['file_mode'] == 'ftp';
+	return $GLOBALS['file_mode'] == 'ftp' || $GLOBALS['file_mode'] == 'ssh2';
 }
 
 /**
@@ -183,6 +183,8 @@ class ext_File {
 			if (is_array($oldname)) {
 				$oldname = $oldname['name'];
 			}
+			$oldname = str_replace('\\', '/', $oldname);
+			$newname = str_replace('\\', '/', $newname);
 			return $GLOBALS['FTPCONNECTION']->rename($oldname, $newname);
 		} else {
 			if ($GLOBALS['use_mb']) {
@@ -299,7 +301,7 @@ class ext_File {
 
 
 	function fileperms($file) {
-		if (ext_isFTPMode()) {
+		if (ext_isFTPMode() && !isset($file['mode'])) {
 			if (isset($file['rights'])) {
 				$perms = $file['rights'];
 			} else {
@@ -308,7 +310,7 @@ class ext_File {
 			}
 			return decoct(bindec(decode_ftp_rights($perms)));
 		} else {
-			return @fileperms($file);
+			return @fileperms(is_array($file) ? $file['mode'] : $file);
 		}
 	}
 
@@ -318,7 +320,9 @@ class ext_File {
 			if (isset($file['stamp'])) {
 				return $file['stamp'];
 			}
-
+			if (isset($file['mtime'])) {
+				return $file['mtime'];
+			}
 			$res = $GLOBALS['FTPCONNECTION']->mdtm($file['name']);
 			if (!PEAR::isError($res)) {
 				return $res;
@@ -347,7 +351,7 @@ class ext_File {
 
 
 	function file_get_contents($file) {
-		if (ext_isFTPMode()) {
+		if ($GLOBALS['file_mode'] == 'ftp') {
 			$fh = tmpfile();
 
 			$file = str_replace("\\", '/', $file);
@@ -365,7 +369,8 @@ class ext_File {
 				fclose($fh);
 				return $contents;
 			}
-
+		} elseif( $GLOBALS['file_mode'] == 'ssh2' ) {
+			return $GLOBALS['FTPCONNECTION']->file_get_contents($file);
 		} else {
 			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($file) == 'ASCII') {
@@ -381,7 +386,7 @@ class ext_File {
 
 
 	function file_put_contents($file, $data) {
-		if (ext_isFTPMode()) {
+		if ($GLOBALS['file_mode'] == 'ftp') {
 			$tmp_file = tmpfile();
 			fputs($tmp_file, $data);
 			rewind($tmp_file);
@@ -389,6 +394,8 @@ class ext_File {
 
 			fclose($tmp_file);
 			return $res;
+		} elseif( $GLOBALS['file_mode'] == 'ssh2' ) {
+			return $GLOBALS['FTPCONNECTION']->file_put_contents($file, $data);
 		} else {
 			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($file) == 'ASCII') {
@@ -467,20 +474,7 @@ class ext_File {
 
 	function is_readable($file) {
 		if (ext_isFTPMode()) {
-			$perms = $file['rights'];
-			if ($_SESSION['ftp_login'] == $file['user']) {
-				// FTP user is owner of the file
-				return $perms[0] == 'r';
-			}
-			$fileinfo = posix_getpwnam($file['user']);
-			$userinfo = posix_getpwnam($_SESSION['ftp_login']);
-
-			if ($fileinfo['gid'] == $userinfo['gid']) {
-				return $perms[3] == 'r';
-			}
-			else {
-				return $perms[6] == 'r';
-			}
+			return $GLOBALS['FTPCONNECTION']->is_readable($file);
 		} else {
 			return is_readable($file);
 		}
@@ -579,12 +573,14 @@ function &getCachedFTPListing($dir, $force_refresh=false) {
 	if ($dir == '\\') $dir = '.';
 	$dir = str_replace('\\', '/', $dir);
 
+	$dir = str_replace($GLOBALS['home_dir'], '', $dir);
 	if ($dir != '' && $dir[0] != '/') {
 		$dir = '/'.$dir;
 	}
-
-	$dir = str_replace($GLOBALS['home_dir'], '', $dir);
-
+	if( !@is_object($GLOBALS['FTPCONNECTION'])) {
+		$return = array('');
+		return $return;
+	}
 	if (empty($GLOBALS['ftp_ls'][$dir]) || $force_refresh) {
 
 		if ($dir == $GLOBALS['FTPCONNECTION']->pwd()) {

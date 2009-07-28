@@ -42,8 +42,8 @@ function save_users() {
 
 	// Make PHP-File
 	$content='<?php 
-	/** ensure this file is being included by a parent file */
-	defined( "_VALID_MOS" ) or die( "Direct Access to this location is not allowed." );
+	// ensure this file is being included by a parent file
+	if( !defined( \'_JEXEC\' ) && !defined( \'_VALID_MOS\' ) ) die( \'Restricted access\' );
 	$GLOBALS["users"]=array(';
 	for($i=0;$i<$cnt;++$i) {
 		// if($GLOBALS["users"][6]&4==4) $GLOBALS["users"][6]=7;	// If admin, all permissions
@@ -78,22 +78,7 @@ function &find_user($user,$pass) {
 
 	return $return;
 }
-//------------------------------------------------------------------------------
-function activate_user($user,$pass) {
-	$data=find_user($user,$pass);
-	if($data==NULL) return false;
 
-	// Set Login
-	$_SESSION['s_user']	= $data[0];
-	$_SESSION['s_pass']	= $data[1];
-	$GLOBALS["home_dir"]	= str_replace( '\\', '/', $data[2] );
-	$GLOBALS["home_url"]	= $data[3];
-	$GLOBALS["show_hidden"]	= $data[4];
-	$GLOBALS["no_access"]	= $data[5];
-	$GLOBALS["permissions"]	= $data[6];
-
-	return true;
-}
 //------------------------------------------------------------------------------
 function update_user($user,$new_data) {
 	$data=&find_user($user,NULL);

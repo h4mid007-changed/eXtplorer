@@ -51,7 +51,7 @@ function admin($admin, $dir) {
 	"id": "dialog_tabpanel",
 	"dialogtitle": "<?php echo ext_Lang::msg('actadmin') ?>",
 	"activeItem": "<?php
-	if( $_SESSION['s_user'] == 'admin' && $_SESSION['s_pass'] == extEncodePassword('admin')) {
+	if( $_SESSION['credentials_extplorer']['username'] == 'admin' && $_SESSION['credentials_extplorer']['password'] == extEncodePassword('admin')) {
 		echo 'passform';
 	} else {
 		echo 'userform';
@@ -277,7 +277,7 @@ function changepwd($dir) {			// Change Password
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
 	}
 
-	$data=find_user($GLOBALS['__SESSION']["s_user"],$pwd);
+	$data=find_user($GLOBALS['__SESSION']['credentials_extplorer']['username'],$pwd);
 	if($data==NULL) {
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnouserpass"]);
 	}
@@ -286,9 +286,11 @@ function changepwd($dir) {			// Change Password
 	if(!update_user($data[0],$data)) {
 		ext_Result::sendResult('changepwd', true, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
 	}
-	activate_user($data[0],NULL);
+	require_once(_EXT_PATH.'/include/authentication/extplorer.php');
+	$auth = new ext_extplorer_authentication();
+	$auth->onAuthenticate(array('username'=>$data[0],'password'=>$data[1]));
 
-	ext_Result::sendResult('changepwd', false, ext_Lang::msg('change_password_success'));
+	ext_Result::sendResult('changepwd', true, ext_Lang::msg('change_password_success'));
 }
 //------------------------------------------------------------------------------
 function adduser($dir) {			// Add User
@@ -328,7 +330,7 @@ function edituser($dir) {			// Edit User
 		ext_Result::sendResult('edituser', false, $user.": ".$GLOBALS["error_msg"]["miscnofinduser"]);
 	}
 
-	if($self=($user==$GLOBALS['__SESSION']["s_user"])) $dir="";
+	if($self=($user==$GLOBALS['__SESSION']['credentials_extplorer']['username'])) $dir="";
 
 	if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
 
@@ -532,7 +534,7 @@ function show_userform( $data = null ) {
 //------------------------------------------------------------------------------
 function removeuser($dir) {			// Remove User
 	$user=stripslashes($GLOBALS['__POST']["user"]);
-	if($user==$GLOBALS['__SESSION']["s_user"]) {
+	if($user==$GLOBALS['__SESSION']['credentials_extplorer']['username']) {
 		ext_Result::sendResult('removeuser', false, $GLOBALS["error_msg"]["miscselfremove"]);
 	}
 	if(!remove_user($user)) {

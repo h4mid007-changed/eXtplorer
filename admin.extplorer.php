@@ -37,7 +37,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * I wouldn't recommend to let in Managers
  * allowed: Superadministrator
 **/
-if( !is_object($acl) && is_callable(array('jfactory','getacl'))) {
+if( !@is_object($acl) && is_callable(array('jfactory','getacl'))) {
 	$acl = JFactory::getACL();
 }
 if( @is_object($acl)) {
@@ -82,12 +82,7 @@ if( $action == "post" )
 elseif( empty( $action ))
   $action = "list";
 
-if( $action == 'include_javascript' ) {
-  	while (@ob_end_clean());
-  	header("Content-type: application/x-javascript; charset=".$GLOBALS["charset"]);
-  	include( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php');
-  	ext_exit();
-}
+
 if( $action != 'show_error') {
 	ext_Result::init();
 }
@@ -104,7 +99,7 @@ if( file_exists( _EXT_PATH . '/include/'. strtolower(basename( $action )) .'.php
 	require_once( _EXT_PATH . '/include/'. strtolower(basename( $action )) .'.php');
 }
 $classname = 'ext_'.$action;
-if( class_exists(strtolower($classname))) {
+if( class_exists(strtolower($classname)) && is_callable(array($classname,'execaction'))) {
 	$handler = new $classname();
 	$handler->execAction( $dir, $item );
 } else {
@@ -131,11 +126,7 @@ if( class_exists(strtolower($classname))) {
 		require_once( _EXT_PATH . "/include/admin.php" );
 		show_admin($dir);
 	break;
-	//------------------------------------------------------------------------------
-	case 'ftp_logout':
-		require_once( _EXT_PATH.'/include/ftp_authentication.php' );
-		ftp_logout();
-		break;
+
 	//------------------------------------------------------------------------------
 		// BOOKMARKS
 	case 'modify_bookmark':
@@ -160,6 +151,7 @@ if( class_exists(strtolower($classname))) {
 			if( empty($requestedDir) || $requestedDir == 'ext_root') {
 				$requestedDir = $dir;
 			}
+			
 			send_dircontents( $requestedDir, extGetParam($_REQUEST,'sendWhat','files') );
 			break;
 	case 'get_dir_selects':
@@ -167,15 +159,22 @@ if( class_exists(strtolower($classname))) {
 			break;
 	case 'chdir_event':
 			require_once( _EXT_PATH.'/include/bookmarks.php' );
-			$response = Array( 'dirselects' => get_dir_selects( $dir ),
-								'bookmarks' => list_bookmarks($dir)
-							);
+			$response = Array( 'bookmarks' => list_bookmarks($dir) );
 			$json = new ext_Json();
 			echo $json->encode( $response );
 			break;
 	case 'get_image':
 			require_once( _EXT_PATH . "/include/view.php" );
 			ext_View::sendImage( $dir, $item );
+	case 'ftp_authentication': 
+	case 'ssh2_authentication':
+	case 'extplorer_authentication':
+			$auth_info = explode('_', $action);
+			$auth_classname = 'ext_'.$action;
+			require_once(_EXT_PATH.'/include/authentication/'.$auth_info[0].'.php');
+			$auth_plugin = new $auth_classname();
+			$auth_plugin->onShowLoginForm();
+			break;
 	default:
 		require_once( _EXT_PATH . "/include/list.php" );
 		ext_List::execAction($dir);

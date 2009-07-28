@@ -64,6 +64,8 @@ class ext_Download extends ext_Action {
 			ext_Result::sendResult( 'download', false, $item.": ".$GLOBALS["error_msg"]["accessfile"]);
 		}
 
+		@set_time_limit( 0 );
+		
 		if (ext_isFTPMode()) {
 			$abs_item = ext_ftp_make_local_copy( $abs_item );
 			$unlink = true;
@@ -92,8 +94,6 @@ class ext_Download extends ext_Action {
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Pragma: no-cache');
 		}
-
-		@set_time_limit( 0 );
 
  		if($GLOBALS['use_mb']) {
  			if (mb_detect_encoding($abs_item) == 'ASCII') {

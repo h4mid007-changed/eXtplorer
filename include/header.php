@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2009
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -34,13 +34,25 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 function show_header($dirlinks='') {
 	$url = str_replace( '&dir=', '&ignore=', $_SERVER['REQUEST_URI'] );
+	$url = str_replace('&file_mode=', '', $url );
+	
 	$url_appendix = strpos($url, '?') === false ? '?' : '&amp;';
+	
 	echo "<link rel=\"stylesheet\" href=\""._EXT_URL."/style/style.css\" type=\"text/css\" />\n";
 	echo "<div id=\"ext_header\">\n";
 	echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"5\">\n";
-	$mode = extGetParam( $_SESSION, 'file_mode', 'file' );
-	$logoutlink = $mode == 'ftp' ? ' <a href="'.$GLOBALS['script_name'].'?option=com_extplorer&amp;action=ftp_logout" title="'.$GLOBALS['messages']['logoutlink'].'">['.$GLOBALS['messages']['logoutlink'].']</a>' : '';
-	$alternate_mode = $mode == 'file' ? 'ftp' : 'file';
+	$mode = extGetParam( $_SESSION, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default'] );
+	$logoutlink = ' <a href="'.$GLOBALS['script_name'].'?option=com_extplorer&amp;action=logout" title="'.$GLOBALS['messages']['logoutlink'].'">['.$GLOBALS['messages']['logoutlink'].']</a>';
+	$alternate_modes = array();
+	foreach( $GLOBALS['ext_conf']['authentication_methods_allowed'] as $method ) {
+		if( $method != $mode ) {
+			$onclick = '';
+			if( empty($_SESSION['credentials_'.$method])) {
+				 $onclick = "onclick=\"openActionDialog('switch_file_mode', '".$method."_authentication');return false;\"";
+			}
+			$alternate_modes[] = "<a $onclick href=\"$url".$url_appendix."file_mode=$method\">$method</a>"; 
+		}
+	}
 	echo '<tr><td width="20%">';
 	if( is_object( $GLOBALS['_VERSION'] ) || class_exists( 'jversion')) {
 		echo "<a href=\"index2.php\">Back to ".( !empty($GLOBALS['_VERSION']->PRODUCT) ? @$GLOBALS['_VERSION']->PRODUCT : 'Joomla!' ).'</a>';
@@ -56,7 +68,8 @@ function show_header($dirlinks='') {
 		</td>";
 	//echo "</div>";
 	echo "<td style=\"padding-left: 15px; color:black;\" id=\"bookmark_container\" width=\"35%\"></td>\n";
-	echo "<td width=\"25%\" style=\"padding-left: 15px; color:black;\">".sprintf( $GLOBALS['messages']['switch_file_mode'], $mode . $logoutlink, "<a id=\"switch_file_mode\" href=\"$url".$url_appendix."file_mode=$alternate_mode\">$alternate_mode</a>" ). "
+	echo "<td width=\"25%\" style=\"padding-left: 15px; color:black;\">"
+		.sprintf( $GLOBALS['messages']['switch_file_mode'], $mode . $logoutlink, implode(', ', $alternate_modes ) ). "
 	</td>\n";
 
 	echo '</tr></table>';
