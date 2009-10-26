@@ -34,7 +34,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * Layout and Application Logic Functions based on ExtJS
  */
 ?>
-Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs3/images/default/s.gif';
+Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs3/resources/images/default/s.gif';
 
 	/**
 	* This function is for changing into a specified directory

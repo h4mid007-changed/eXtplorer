@@ -152,9 +152,9 @@ function get_file_perms( $item) {		// file permissions
 	if( ext_isFTPMode() && isset($item['rights']) ) {
 		$perms = decoct( bindec( decode_ftp_rights($item['rights']) ) );
 		return $perms;
-	} elseif( isset($item['mode'])) { //SFTP
+	} elseif( is_numeric($item['mode'])) { //SFTP
 		return @decoct($item['mode']  & 0777);
-	}
+	}	
 	return @decoct(@fileperms( $item ) & 0777);
 }
 

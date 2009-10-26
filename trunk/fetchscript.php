@@ -190,7 +190,7 @@ for( $i = 0; $i < $countFiles; $i++ ) {
 	$dir = realpath( $base_dir . '/' .	$subdir );
 	$file = $dir . '/' . basename( $file );
 
-	if( !file_exists( $file ) || !stristr( $dir, $base_dir )) {
+	if( !file_exists( $file ) || (!stristr( $dir, $base_dir ) && !stristr( $dir, "/usr/share/javascript") && !stristr( $dir, "/usr/share/yui")) ) {
 		if( $countFiles == 1 ) {
 			header("HTTP/1.0 404 Not Found");
 			echo 'Not Found';
@@ -213,7 +213,7 @@ for( $i = 0; $i < $countFiles; $i++ ) {
 
 	$dir = realpath( $base_dir . '/' .	$subdir );
 	$file = $dir . '/' . basename( $file );
-	if( !file_exists( $file ) || !stristr( $dir, $base_dir ) || !is_readable( $file )) {
+	if( !file_exists( $file ) || (!stristr( $dir, $base_dir ) && !stristr( $dir, "/usr/share/javascript") && !stristr( $dir, "/usr/share/yui")) || !is_readable( $file )) {
 		continue;
 	}
 	$processed_files++;

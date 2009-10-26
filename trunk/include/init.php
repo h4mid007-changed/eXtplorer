@@ -207,7 +207,7 @@ if ( !isset( $_REQUEST['dir'] ) ) {
 	if (!empty($dir)) {
 		$dir = @$dir[0] == '/' ? substr( $dir, 1 ) : $dir;
 	}
-	if( $GLOBALS["action"]!="login") {
+	if( @$GLOBALS["action"]!="login") {
 		$try_this = ext_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
 		if (!empty($dir) && !$GLOBALS['ext_File']->file_exists($try_this)) {
 			$dir = '';
