@@ -138,7 +138,7 @@ class ext_Upload extends ext_Action {
 				"forceFit": "true"
 			},
 			"id": "swfuploader",
-			listeners: {	"allUploadsComplete": {
+			"listeners": {	"allUploadsComplete": {
 								"fn": function(panel) {
 									datastore.reload();	
 									panel.destroy();
@@ -150,14 +150,14 @@ class ext_Upload extends ext_Action {
 			// Uploader Params				
 			"upload_url": "<?php echo _EXT_URL.'/'.basename($_SERVER['SCRIPT_NAME']) ?>",
 			"post_params": { 
-				<?php echo session_name()?>: "<?php echo session_id() ?>",
+				"<?php echo session_name()?>": "<?php echo session_id() ?>",
 				"option": "com_extplorer", 
 				"action": "upload", 
 				"dir": datastore.directory, 
 				"requestType": "xmlhttprequest",
 				"confirm": "true"
 			},
-<?
+<?php
 		if (isset($_REQUEST["debug"])) print "debug: true,";
 ?>				
 			"flash_url": "scripts/extjs3/ux.swfupload/swfupload.swf",

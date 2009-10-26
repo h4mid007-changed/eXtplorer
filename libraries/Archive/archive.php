@@ -12,7 +12,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
-require_once dirname(__FILE__).'/../PEAR.php';
+//require_once dirname(__FILE__).'/../PEAR.php';
+require_once 'PEAR.php';
 /**
  * An Archive handling class
  *
