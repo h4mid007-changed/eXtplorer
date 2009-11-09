@@ -1,19 +1,15 @@
 <?php
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version		$Id: archive.php 9764 2007-12-30 07:48:11Z ircmaxell $
+ * @version		$Id: archive.php 13314 2009-10-24 07:09:41Z eddieajau $
  * @package		Joomla.Framework
  * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-//require_once dirname(__FILE__).'/../PEAR.php';
-require_once 'PEAR.php';
+if( !class_exists('PEAR')) {
+	require_once 'PEAR.php';
+}
 /**
  * An Archive handling class
  *
@@ -48,62 +44,17 @@ class extArchive {
 				}
 			break ;
 			case 'tar' :
-				$adapter = & extArchive::getAdapter( 'tar' ) ;
-				if( $adapter ) {
-					$result = $adapter->extract( $archivename, $extractdir ) ;
-				}
-			break ;
 			case 'tgz' :
-				$untar = true ; // This format is a tarball gzip'd
 			case 'gz' : // This may just be an individual file (e.g. sql script)
 			case 'gzip' :
-				$adapter = & extArchive::getAdapter( 'gzip' ) ;
-				if( $adapter ) {
-					$tmpfname = (defined('_EXT_FTPTMP_PATH' ) ? _EXT_FTPTMP_PATH.'/' : $extractdir )  . uniqid( 'gzip' ) ;
-					$gzresult = $adapter->extract( $archivename, $tmpfname ) ;
-					if( !$gzresult ) {
-						unlink( $tmpfname ) ;
-						return false ;
-					}
-					if( $untar ) {
-						// Try to untar the file
-						$tadapter = & extArchive::getAdapter( 'tar' ) ;
-						if( $tadapter ) {
-							$result = $tadapter->extract( $tmpfname, $extractdir ) ;
-						}
-					} else {
-						$path = extPath::clean( $extractdir ) ;
-						mkdir( $path ) ;
-						$result = copy( $tmpfname, $path . DS . extFile::stripExt( extFile::getName( strtolower( $archivename ) ) ) ) ;
-					}
-					@unlink( $tmpfname ) ;
-				}
-			break ;
+			case 'tbz' :
 			case 'tbz2' :
-				$untar = true ; // This format is a tarball bzip2'd
 			case 'bz2' : // This may just be an individual file (e.g. sql script)
 			case 'bzip2' :
-				$adapter = & extArchive::getAdapter( 'bzip2' ) ;
-				if( $adapter ) {
-					$tmpfname = _EXT_FTPTMP_PATH .'/' . uniqid( 'bzip2' ) ;
-					$bzresult = $adapter->extract( $archivename, $tmpfname ) ;
-					if( !$bzresult ) {
-						@unlink( $tmpfname ) ;
-						return false ;
-					}
-					if( $untar ) {
-						// Try to untar the file
-						$tadapter = & extArchive::getAdapter( 'tar' ) ;
-						if( $tadapter ) {
-							$result = $tadapter->extract( $tmpfname, $extractdir ) ;
-						}
-					} else {
-						$path = extPath::clean( $extractdir ) ;
-						mkdir( $path ) ;
-						$result = copy( $tmpfname, $path . DS . extFile::stripExt( extFile::getName( strtolower( $archivename ) ) ) ) ;
-					}
-					@unlink( $tmpfname ) ;
-				}
+					require_once( _EXT_PATH.'/libraries/Tar.php' ) ;
+					$archive = new Archive_Tar( $archivename );
+					$result = $archive->extract( $extractdir );
+				
 			break ;
 			default :
 				return PEAR::raiseError('Unknown Archive Type: '.$ext );
@@ -147,9 +98,10 @@ class extArchive {
 	 * @param	boolean	Automatically append the extension for the archive
 	 * @param	boolean	Remove for source files
 	 */
-	function create( $archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false ) {
+	function create( $archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false ) {
 		$compress = strtolower( $compress );
 		if( $compress == 'tgz' || $compress == 'tbz' || $compress == 'tar') {
+			
 			require_once( _EXT_PATH.'/libraries/Tar.php' ) ;
 			
 			if( is_string( $files ) ) {
@@ -167,23 +119,13 @@ class extArchive {
 			
 			return $result;
 		}
-		if( $compress == 'zip' ) {
-			/*require_once( _EXT_PATH.'/libraries/lib_zip.php' );
-			$zip = new ZipFile();
-			$zip->addFileList($files, $removePath );
-			return $zip->save($archive);
-			*/
-			
-			require_once( _EXT_PATH.'/libraries/Zip.php' );
-			$zip = new Archive_Zip( $archive ) ;
-			$result = $zip->add( $files, array( 'add_path' => $addPath, 'remove_path' => $removePath) ) ;
-			
-			/*require_once( _EXT_PATH.'/libraries/pclzip.lib.php' );
-			$zip = new PclZip($archive);
-			$result = $zip->add($files, PCLZIP_OPT_ADD_PATH, $addPath, PCLZIP_OPT_REMOVE_PATH, $removePath );
-			*/
-			if($result == 0) {
-				return new PEAR_Error( 'Unrecoverable error "'.$zip->errorInfo(true).'"' );
+		elseif( $compress == 'zip' ) {
+		    $adapter = & extArchive::getAdapter( 'zip' ) ;
+			if( $adapter ) {
+				$result = $adapter->create( $archive, $files, array('remove_path' => $removePath ) ) ;
+			}
+			if($result == false ) {
+				return PEAR::raiseError( 'Unrecoverable ZIP Error' );
 			}
 		}
 	}

@@ -416,6 +416,38 @@ function deleteDir( btn, node ) {
 	requestParams.action = 'delete';
 	handleCallback(requestParams, node);
 }
+
+Ext.msgBoxSlider = function(){
+    var msgCt;
+
+    function createBox(t, s){
+        return ['<div class="msg">',
+                '<div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>',
+                '<div class="x-box-ml"><div class="x-box-mr"><div id="x-box-mc-inner" class="x-box-mc"><h3>', t, '</h3>', s, '</div></div></div>',
+                '<div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>',
+                '</div>'].join('');
+    }
+    return {
+        msg : function(title, format){
+            if(!msgCt){
+                msgCt = Ext.DomHelper.insertFirst(document.body, {id:'msg-div'}, true);
+            }
+            msgCt.alignTo(document, 't-t');
+            var s = String.format.apply(String, Array.prototype.slice.call(arguments, 1));
+            var m = Ext.DomHelper.append(msgCt, {html:createBox(title, s)}, true);
+            m.setWidth(400 );
+            m.position(null, 5000 );
+           m.alignTo(document, 't-t');
+           Ext.get('x-box-mc-inner' ).setStyle('background-image', 'url("images/_accept.png")');
+           Ext.get('x-box-mc-inner' ).setStyle('background-position', '5px 10px');
+           Ext.get('x-box-mc-inner' ).setStyle('background-repeat', 'no-repeat');
+           Ext.get('x-box-mc-inner' ).setStyle('padding-left', '35px');
+            m.slideIn('t').pause(3).ghost("t", {remove:true});
+        }
+    };
+}();
+
+
 function statusBarMessage( msg, isLoading, success ) {
 	var statusBar = Ext.getCmp('statusPanel');
 	if( !statusBar ) return;
@@ -431,7 +463,7 @@ function statusBarMessage( msg, isLoading, success ) {
 		    iconCls: 'success',
 		    clear: true
 		});
-	
+		Ext.msgBoxSlider.msg('<?php echo ext_Lang::msg('success', true ) ?>', msg );
 	} else if( success != null ) {
 		statusBar.setStatus({
 		    text: '<?php echo ext_Lang::err('error', true ) ?>: ' + msg,
@@ -440,6 +472,7 @@ function statusBarMessage( msg, isLoading, success ) {
 		});
 		
 	}
+	
 
 }
 

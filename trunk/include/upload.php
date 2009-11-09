@@ -139,10 +139,11 @@ class ext_Upload extends ext_Action {
 			},
 			"id": "swfuploader",
 			"listeners": {	"allUploadsComplete": {
-								"fn": function(panel) {
+								"fn": function(panel) {	
 									datastore.reload();	
 									panel.destroy();
-									Ext.getCmp("dialog").destroy();								
+									Ext.getCmp("dialog").destroy();
+									statusBarMessage('<?php echo ext_Lang::msg('upload_completed', true ) ?>', false );								
 								}
 							}
 							
@@ -160,7 +161,7 @@ class ext_Upload extends ext_Action {
 <?php
 		if (isset($_REQUEST["debug"])) print "debug: true,";
 ?>				
-			"flash_url": "scripts/extjs3/ux.swfupload/swfupload.swf",
+			"flash_url": "scripts/extjs3-ext/ux.swfupload/swfupload.swf",
 			// Custom Params
 			"single_file_select": false, // Set to true if you only want to select one file from the FileDialog.
 			"confirm_delete": false, // This will prompt for removing files from queue.
@@ -272,7 +273,7 @@ class ext_Upload extends ext_Action {
 					success: function(form, action) {
 						datastore.reload();
 						statusBarMessage( action.result.message, false, true );
-						dialog.destroy();
+						Ext.getCmp("dialog").destroy();
 					},
 					failure: function(form, action) {
 						if( !action.result ) return;
