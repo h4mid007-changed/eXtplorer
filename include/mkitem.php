@@ -139,7 +139,7 @@ class ext_Mkitem extends ext_Action {
 					failure: function(form, action) {
 						if( !action.result ) return;
 						Ext.Msg.alert("Error!", action.result.error);
-						statusBarMessage( action.result.error, false, true );
+						statusBarMessage( action.result.error, false, false );
 					},
 					scope: Ext.getCmp("simpleform"),
 					// add some vars to the request, similar to hidden fields

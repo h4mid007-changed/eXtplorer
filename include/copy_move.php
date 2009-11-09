@@ -168,11 +168,12 @@ function copy_move_dialog($dir='') {
     "buttons": [{
     	text: '<?php echo ext_Lang::msg( 'btncreate', true ) ?>', 
     	handler: function() {
+    		form =  Ext.getCmp('simpleform').getForm();
 			statusBarMessage( 'Please wait...', true );
 		    var requestParams = getRequestParams();
 		    requestParams.confirm = 'true';
 		    requestParams.action  = '<?php echo $action ?>';
-		    simple.submit({
+		    form.submit({
 		        //reset: true,
 		        reset: false,
 		        success: function(form, action) {
@@ -181,14 +182,14 @@ function copy_move_dialog($dir='') {
 		        		dirTree.getSelectionModel().getSelectedNode().reload();
 		        	} catch(e) {}
 					datastore.reload();
-					dialog.destroy();
+					Ext.getCmp("dialog").destroy();
 		        },
 		        failure: function(form, action) {
 		        	if( !action.result ) return;
 					Ext.MessageBox.alert('Error!', action.result.error);
-					statusBarMessage( action.result.error, false, true );
+					statusBarMessage( action.result.error, false, false );
 		        },
-		        scope: simple,
+		        scope: form,
 		        // add some vars to the request, similar to hidden fields
 		        params: requestParams
 		    });

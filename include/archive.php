@@ -130,7 +130,7 @@ class ext_Archive extends ext_Action {
 			if( $dir ) {
 				$remove_path .= $dir;
 			}
-
+			$remove_path = str_replace( '\\', '/', realpath($remove_path) ).'/';
 			$debug = 'Starting from: '.$startfrom."\n";
 			$debug .= 'Files to process: '.$cnt_filelist."\n";
 			$debug .= implode( "\n", $v_list );

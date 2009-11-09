@@ -221,9 +221,9 @@ function ext_init(){
                               		cls:'x-btn-icon',
                               		disabled: <?php echo $allow && ini_get('file_uploads') ? 'false' : 'true' ?>,
                               		handler: function() { 
-                                  		Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3/ux.swfupload/SwfUploadPanel.css");
-                              			Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3/ux.swfupload/SwfUpload.js" );
-                              			Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3/ux.swfupload/SwfUploadPanel.js",
+                                  		Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3-ext/ux.swfupload/SwfUploadPanel.css");
+                              			Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3-ext/ux.swfupload/SwfUpload.js" );
+                              			Ext.ux.OnDemandLoad.load("<?php echo _EXT_URL ?>/scripts/extjs3-ext/ux.swfupload/SwfUploadPanel.js",
                               		    	function(options) { openActionDialog(this, 'upload'); }); 
                           		    }
                               	},
@@ -902,6 +902,7 @@ function ext_init(){
 	    expires: new Date(new Date().getTime()+(1000*60*60*24*7)), //7 days from now
 	}));
 
+		
     <?php
     if( $GLOBALS['require_login'] && $GLOBALS['mainframe']->getUserName() == 'admin' && $GLOBALS['mainframe']->getPassword() == extEncodePassword('admin')) {
     	// Urge User to change admin password!

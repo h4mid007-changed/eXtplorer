@@ -80,6 +80,7 @@
 				<filename>ftp_tmp/index.html</filename>
 				<filename>images/_.gif</filename>
 				<filename>images/_admin.gif</filename>
+				<filename>images/_accept.png</filename>
 				<filename>images/_archive.png</filename>
 				<filename>images/_arrowdown.gif</filename>
 				<filename>images/_arrowup.gif</filename>
@@ -262,10 +263,7 @@
 				<filename>languages/traditional_chinese_mimes.php</filename>
 				<filename>languages/turkish.php</filename>
 				<filename>languages/turkish_mimes.php</filename>
-				<filename>libraries/Archive/adapter/bzip2.php</filename>
-				<filename>libraries/Archive/adapter/gzip.php</filename>
 				<filename>libraries/Archive/adapter/index.html</filename>
-				<filename>libraries/Archive/adapter/tar.php</filename>
 				<filename>libraries/Archive/adapter/zip.php</filename>
 				<filename>libraries/Archive/archive.php</filename>
 				<filename>libraries/Archive/file.php</filename>
@@ -292,7 +290,6 @@
 				<filename>libraries/PEAR.php</filename>
 				<filename>libraries/System.php</filename>
 				<filename>libraries/Tar.php</filename>
-				<filename>libraries/Zip.php</filename>
 				<filename>libraries/compat.php41x.php</filename>
 				<filename>libraries/compat.php42x.php</filename>
 				<filename>libraries/compat.php50x.php</filename>

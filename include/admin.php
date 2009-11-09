@@ -48,20 +48,20 @@ function admin($admin, $dir) {
 {
 	"xtype": "tabpanel",
 	"width": 450,
+	"renderTo": Ext.getBody(),	
 	"id": "dialog_tabpanel",
 	"dialogtitle": "<?php echo ext_Lang::msg('actadmin') ?>",
-	"activeItem": "<?php
+	"activeTab": "<?php
 	if( $_SESSION['credentials_extplorer']['username'] == 'admin' && $_SESSION['credentials_extplorer']['password'] == extEncodePassword('admin')) {
 		echo 'passform';
 	} else {
-		echo 'userform';
+		echo 'userlist';
 	}
 	?>",
 	"items":
 	[{
 		"xtype": "form",
 		"id": "passform",
-		"renderTo": Ext.getBody(),
 		"headerAsText": false,
 		"labelWidth": 125,
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
@@ -107,11 +107,12 @@ function admin($admin, $dir) {
 							reset: false,
 							"success": function(form, action) {
 								statusBarMessage( action.result.message, false, true );
+								Ext.getCmp("dialog").destroy();
 							},
 							"failure": function(form, action) {
 								if( !action.result ) return;
 								Ext.MessageBox.alert("Error!", action.result.error);
-								statusBarMessage( action.result.error, false, true );
+								statusBarMessage( action.result.error, false, false );
 							},
 							"scope": Ext.getCmp("passform"),
 							// add some vars to the request, similar to hidden fields
@@ -131,7 +132,6 @@ function admin($admin, $dir) {
 		,{
 		"xtype": "form",
 		"id": "userlist",
-		"renderTo": Ext.getBody(),
 		"headerAsText": false,
 		"labelWidth": 125,
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
@@ -246,7 +246,7 @@ function admin($admin, $dir) {
 									"failure": function(form, action) {
 										if( !action.result ) return;
 										Ext.MessageBox.alert("Error!", action.result.error);
-										statusBarMessage( action.result.error, false, true );
+										statusBarMessage( action.result.error, false, false );
 									},
 									"scope": Ext.getCmp("userlist").getForm(),
 									// add some vars to the request, similar to hidden fields
@@ -284,7 +284,7 @@ function changepwd($dir) {			// Change Password
 
 	$data[1]=extEncodePassword(stripslashes($GLOBALS['__POST']["newpwd1"]));
 	if(!update_user($data[0],$data)) {
-		ext_Result::sendResult('changepwd', true, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
+		ext_Result::sendResult('changepwd', false, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
 	}
 	require_once(_EXT_PATH.'/include/authentication/extplorer.php');
 	$auth = new ext_extplorer_authentication();
