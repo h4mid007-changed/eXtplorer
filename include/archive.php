@@ -243,7 +243,7 @@ class ext_Archive extends ext_Action {
 			"text": "<?php echo ext_Lang::msg( 'btncreate', true ) ?>", 
 			"type": "submit", 
 			"handler": function() { 
-				Ext.ux.OnDemandLoad.load( "<?php echo $GLOBALS['script_name'] ?>?action=include_javascript&file=archive.js", 
+				Ext.ux.OnDemandLoad.load( "<?php echo $GLOBALS['script_name'] ?>?option=com_extplorer&action=include_javascript&file=archive.js", 
 											function(options) { submitArchiveForm(0) } ); 
 			}
 		},{

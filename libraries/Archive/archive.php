@@ -8,7 +8,10 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 if( !class_exists('PEAR')) {
-	require_once 'PEAR.php';
+	@include_once 'PEAR.php';
+	if( !class_exists('PEAR')) {
+		require_once(dirname(__FILE__).'/../PEAR.php');
+	}
 }
 /**
  * An Archive handling class
@@ -51,7 +54,7 @@ class extArchive {
 			case 'tbz2' :
 			case 'bz2' : // This may just be an individual file (e.g. sql script)
 			case 'bzip2' :
-					require_once( '/../Tar.php' ) ;
+					require_once( dirname(__FILE__).'/../Tar.php' ) ;
 					$archive = new Archive_Tar( $archivename );
 					$result = $archive->extract( $extractdir );
 				
