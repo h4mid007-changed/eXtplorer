@@ -438,7 +438,7 @@ Ext.msgBoxSlider = function(){
             m.setWidth(400 );
             m.position(null, 5000 );
            m.alignTo(document, 't-t');
-           Ext.get('x-box-mc-inner' ).setStyle('background-image', 'url("images/_accept.png")');
+           Ext.get('x-box-mc-inner' ).setStyle('background-image', 'url("<?php echo _EXT_URL ?>/images/_accept.png")');
            Ext.get('x-box-mc-inner' ).setStyle('background-position', '5px 10px');
            Ext.get('x-box-mc-inner' ).setStyle('background-repeat', 'no-repeat');
            Ext.get('x-box-mc-inner' ).setStyle('padding-left', '35px');

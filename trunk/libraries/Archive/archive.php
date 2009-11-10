@@ -51,7 +51,7 @@ class extArchive {
 			case 'tbz2' :
 			case 'bz2' : // This may just be an individual file (e.g. sql script)
 			case 'bzip2' :
-					require_once( _EXT_PATH.'/libraries/Tar.php' ) ;
+					require_once( '/../Tar.php' ) ;
 					$archive = new Archive_Tar( $archivename );
 					$result = $archive->extract( $extractdir );
 				
