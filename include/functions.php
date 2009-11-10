@@ -677,6 +677,9 @@ function ext_scriptTag( $src = '', $script = '') {
 function ext_alertBox( $msg ) {
 	return ext_scriptTag('', 'Ext.Msg.alert( \''.$GLOBALS["error_msg"]['message'].'\', \''. @mysql_escape_string( $msg ) .'\' );' );
 }
+function ext_successBox( $msg ) {
+	return ext_scriptTag('', 'Ext.msgBoxSlider.msg( \''.ext_Lang::msg('success', true ).'\', \''. @mysql_escape_string( $msg ) .'\' );' );
+}
 function ext_docLocation( $url ) {
 	return ext_scriptTag('', 'document.location=\''. $url .'\';' );
 }

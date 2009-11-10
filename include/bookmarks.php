@@ -39,10 +39,11 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 
 function read_bookmarks() {
-	global $my, $mainframe, $user;
+	global $my, $mainframe;
 	$bookmarkfile = _EXT_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_';
 	if( empty( $my->id )) {
-		if( is_object($user) && is_callable(array($user,'get')) ) {
+		if( class_exists('jfactory') ) {
+			$user = JFactory::getUser();
 			$bookmarkfile .= $user->get('id').'.php';
 		} else {
 			$bookmarkfile .= $mainframe->getUserName().'.php';
@@ -78,7 +79,8 @@ function modify_bookmark( $task, $dir ) {
 	$bookmarks = read_bookmarks();
 		$bookmarkfile = _EXT_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_';
 	if( empty( $my->id )) {
-		if( is_object($user) && is_callable(array($user=>'get')) ) {
+		if( class_exists('jfactory') ) {
+			$user = JFactory::getUser();
 			$bookmarkfile .= $user->get('id').'.php';
 		} else {
 			$bookmarkfile .= $mainframe->getUserName().'.php';
@@ -99,7 +101,7 @@ function modify_bookmark( $task, $dir ) {
 			//$alias = preg_replace('~[^\w-.\/\\\]~','', $alias ); // Make the alias ini-safe by removing all non-word characters
 			$alias = strip_invalid_key_char($alias, "_");
 			$bookmarks[$alias] = $dir; //we deal with the flippped array here
-			$msg = ext_alertBox( $GLOBALS['messages']['bookmark_was_added'] );
+			$msg = ext_successBox( $GLOBALS['messages']['bookmark_was_added'] );
 			break;
 
 		case 'remove':
@@ -110,7 +112,7 @@ function modify_bookmark( $task, $dir ) {
 			$bookmarks = array_flip( $bookmarks );
 			unset( $bookmarks[$dir] );
 			$bookmarks = array_flip( $bookmarks );
-			$msg = ext_alertBox( $GLOBALS['messages']['bookmark_was_removed'] );
+			$msg = ext_successBox( $GLOBALS['messages']['bookmark_was_removed'] );
 	}
 
 	$inifile = "; <?php if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' ); ?>\n";

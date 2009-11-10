@@ -215,7 +215,7 @@ class ext_Edit extends ext_Action {
 			});
 		},
         "cls":"x-btn-text-icon",
-        "icon": "images/_save.png"
+        "icon": "<?php echo _EXT_URL ?>/images/_save.png"
     },{
 		"text": "<?php echo ext_Lang::msg('btnreopen', true ) ?>", 
 		"handler": function() { 
@@ -244,7 +244,7 @@ class ext_Edit extends ext_Action {
 			});
 		},	
         "cls":"x-btn-text-icon",
-        "icon": "images/_reload.png"
+        "icon": "<?php echo _EXT_URL ?>/images/_reload.png"
     },
     {
     	"text": "<?php echo ext_Lang::msg('btncancel', true ) ?>", 
@@ -252,7 +252,7 @@ class ext_Edit extends ext_Action {
 			Ext.getCmp("mainpanel").remove( Ext.getCmp("mainpanel").getActiveTab() );
 		},
         "cls":"x-btn-text-icon",
-        "icon": "images/_cancel.png"
+        "icon": "<?php echo _EXT_URL ?>/images/_cancel.png"
 	}],	
 	"items": [{
 		"xtype": "displayfield",
