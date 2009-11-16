@@ -160,7 +160,8 @@ if( class_exists(strtolower($classname)) && is_callable(array($classname,'execac
 	case 'chdir_event':
 			require_once( _EXT_PATH.'/include/bookmarks.php' );
 			$response = Array( 'bookmarks' => list_bookmarks($dir) );
-			$json = new ext_Json();
+			$classname = class_exists('ext_Json') ? 'ext_Json' : 'Services_JSON';
+			$json = new $classname();
 			echo $json->encode( $response );
 			break;
 	case 'get_image':

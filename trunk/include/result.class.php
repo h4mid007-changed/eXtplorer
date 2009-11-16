@@ -100,7 +100,7 @@ class ext_Result {
 			foreach( $extra as $key => $value ) {
 				$result[$key] = $value;
 			}
-			$classname = class_exists('ext_Json') ? 'ext_Json' : 'JSON';
+			$classname = class_exists('ext_Json') ? 'ext_Json' : 'Services_JSON';
 			$json = new $classname();
 			$jresult = $json->encode($result);
 			if(strtolower(extGetParam($_POST,'requestType')) == 'xmlhttprequest') {

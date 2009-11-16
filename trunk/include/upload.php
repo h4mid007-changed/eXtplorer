@@ -118,7 +118,7 @@ class ext_Upload extends ext_Action {
 {
 	"xtype": "tabpanel",
 	"stateId": "upload_tabpanel",
-	"activeTab": "0",
+	"activeItem": "uploadform",
 	"dialogtitle": "<?php echo ext_Lang::msg('actupload') ?>",		
 	"height": "400", 
 	"stateful": "true",
@@ -240,8 +240,8 @@ class ext_Upload extends ext_Action {
 	
 		"xtype": "form",
 		"id": "transferform",
-		"renderTo": Ext.getBody(),
-		"hidden": true,
+		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
+		"hidden": "true",
 		"title": "<?php echo ext_Lang::msg('acttransfer') ?>",
 		"labelWidth": 225,
 		"items": [
