@@ -3,6 +3,15 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- updated to ExtJS 3.0.3
+
+--- version 2.1.0 beta5 released ---
+
+- added nice slide-in message box for success messages
+- removed deprecated ZIP library
+
+--- version 2.1.0 beta4 released ---
+
 - changed Save/Reopen/Cancel buttons in Edit View to appear in the top toolbar
 - changed directory drop-down lists to a vista-like location bar
 - new: Flash Upload! Using SWFUploadPanel

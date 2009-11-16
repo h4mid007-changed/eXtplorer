@@ -695,9 +695,15 @@ function ext_init(){
         copymoveCtxMenu.showAt(e.rawEvent.getXY());
     }
     
-
-    
-    try{ Ext.fly('header-box').hide();Ext.fly('border-top').hide(); } catch(e) {} // Hide the Admin Menu under Joomla! 1.5
+	// Hide the Admin Menu under Joomla! 1.5
+	try{ 
+    		Ext.fly('header-box').hide();Ext.fly('border-top').hide();
+	} catch(e) {}
+	// Hide the Admin Menu under Joomla! 1.0
+	try{
+		Ext.fly('header').hide();Ext.select(".menubar").hide();
+	} catch(e) {}
+	
 	var viewport = new Ext.Viewport({
 	    layout:'border',
 	    defaults: {
@@ -865,7 +871,7 @@ function ext_init(){
 	        }
         ],
         renderTo: Ext.getBody(),
-        listeners: { "afterrender": {
+        listeners: { "afterlayout": {
 	        			fn: function() {
 	    					Ext.getCmp("locationbarcmp").tree = Ext.getCmp("dirTree");
 	        				Ext.getCmp("locationbarcmp").initComponent();

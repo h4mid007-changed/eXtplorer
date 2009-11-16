@@ -341,8 +341,8 @@ function send_dircontents($dir, $sendWhat = 'files') {	// print table of files
 	} else {
 		$result = $items;
 	}
-
-	$json = new ext_Json();
+	$classname = class_exists('ext_Json') ? 'ext_Json' : 'Services_JSON';
+	$json = new $classname();
 	echo $json->encode($result);
 
 	ext_exit();
