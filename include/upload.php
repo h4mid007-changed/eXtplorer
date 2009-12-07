@@ -155,7 +155,7 @@ class ext_Upload extends ext_Action {
 							
 			},
 			// Uploader Params				
-			"upload_url": "<?php echo _EXT_URL.'/'.basename($_SERVER['SCRIPT_NAME']) ?>",
+			"upload_url": "<?php echo $_SERVER['SCRIPT_NAME'] ?>",
 			"post_params": { 
 				"<?php echo session_name()?>": "<?php echo session_id() ?>",
 				"option": "com_extplorer", 
@@ -167,7 +167,7 @@ class ext_Upload extends ext_Action {
 <?php
 		if (isset($_REQUEST["debug"])) print "debug: true,";
 ?>				
-			"flash_url": "scripts/extjs3-ext/ux.swfupload/swfupload.swf",
+			"flash_url": "<?php echo _EXT_URL ?>/scripts/extjs3-ext/ux.swfupload/swfupload.swf",
 			"file_size_limit": "<?php echo get_max_file_size() ?>B",
 			// Custom Params
 			"single_file_select": false, // Set to true if you only want to select one file from the FileDialog.
