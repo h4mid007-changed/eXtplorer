@@ -385,7 +385,11 @@ class ext_List extends ext_Action {
 			.'&amp;gzip=1"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
 		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>
-		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[]=scripts/extjs3/resources/css/&amp;file[]=ext-all.css&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=LocationBar.css&amp;gzip=1" />';
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?'
+			.'subdir[]=scripts/extjs3/resources/css/&amp;file[]=ext-all.css'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=LocationBar.css'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.fileuploadfield/&amp;file[]=fileuploadfield.css'
+			.'&amp;gzip=1" />';
 
 		if (defined('EXT_STANDALONE')) {
 			$GLOBALS['mainframe']->addcustomheadtag($scriptTag);
