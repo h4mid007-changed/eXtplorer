@@ -118,14 +118,21 @@ class ext_Upload extends ext_Action {
 {
 	"xtype": "tabpanel",
 	"stateId": "upload_tabpanel",
-	"activeItem": "uploadform",
+	"activeTab": "uploadform",
 	"dialogtitle": "<?php echo ext_Lang::msg('actupload') ?>",		
-	"height": "400", 
 	"stateful": "true",
+	
 	"stateEvents": ["tabchange"],
 	"getState": function() { return {
 					activeTab:this.items.indexOf(this.getActiveTab())
 				};
+	},
+	"listeners": {	"resize": {
+						"fn": function(panel) {	
+							panel.items.each( function(item) { item.setHeight(500);return true } );								
+						}
+					}
+					
 	},
 	"items": [
 
@@ -133,11 +140,10 @@ class ext_Upload extends ext_Action {
 			"xtype": "swfuploadpanel",
 			"title": "<?php echo Ext_Lang::msg('flashupload') ?>",
 			"height": "300",
-			"width": "500",
-			"viewConfig": {
-				"forceFit": "true"
+			"id": "swfuploader", 
+			viewConfig: {
+        		forceFit: true
 			},
-			"id": "swfuploader",
 			"listeners": {	"allUploadsComplete": {
 								"fn": function(panel) {	
 									datastore.reload();	
@@ -162,6 +168,7 @@ class ext_Upload extends ext_Action {
 		if (isset($_REQUEST["debug"])) print "debug: true,";
 ?>				
 			"flash_url": "scripts/extjs3-ext/ux.swfupload/swfupload.swf",
+			"file_size_limit": "<?php echo get_max_file_size() ?>B",
 			// Custom Params
 			"single_file_select": false, // Set to true if you only want to select one file from the FileDialog.
 			"confirm_delete": false, // This will prompt for removing files from queue.
@@ -170,6 +177,7 @@ class ext_Upload extends ext_Action {
 	{
 		"xtype": "form",
 		"autoScroll": "true",
+		"autoHeight": "true",
 		"id": "uploadform",
 		"fileUpload": true,
 		"labelWidth": 125,
@@ -191,6 +199,7 @@ class ext_Upload extends ext_Action {
 			echo '{
 				"xtype": "fileuploadfield",
 				"fieldLabel": "'.ext_Lang::msg('file', true ).' '.($i+1).'",
+				"id": "userfile'.$i.'",
 				"name": "userfile['.$i.']",
 				"width":275,
 				"buttonOnly": false
@@ -243,6 +252,7 @@ class ext_Upload extends ext_Action {
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
 		"hidden": "true",
 		"title": "<?php echo ext_Lang::msg('acttransfer') ?>",
+		"autoHeight": "true",
 		"labelWidth": 225,
 		"items": [
 		<?php

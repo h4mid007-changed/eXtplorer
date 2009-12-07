@@ -306,7 +306,9 @@ Ext.ux.SwfUploadPanel = Ext.extend(Ext.grid.GridPanel, {
     },
     onRender: function() {
         Ext.ux.SwfUploadPanel.superclass.onRender.apply(this,arguments);
-        
+		
+		this.setHeight( parseInt( this.height ) );
+		
         this.resizeProgressBar();
         var tb = this.getTopToolbar();
         this.addBtn = Ext.getCmp('swfuploadpanel-add-button');
@@ -314,6 +316,7 @@ Ext.ux.SwfUploadPanel = Ext.extend(Ext.grid.GridPanel, {
         this.uploadBtn = Ext.getCmp('swfuploadpanel-upload-button');
         this.clearBtn = Ext.getCmp('swfuploadpanel-clear-button');
         this.on('resize', this.resizeProgressBar, this);
+		
     
     },
     myInit: function() {
@@ -418,30 +421,6 @@ Ext.ux.SwfUploadPanel = Ext.extend(Ext.grid.GridPanel, {
 
         return result;
 
-        if(isNaN(bytes)) {
-            return ('');
-        }
-
-        var unit, val;
-
-        if(bytes < 999) {
-            unit = 'B';
-            val = (!bytes && this.progressRequestCount >= 1) ? '~' : bytes;
-        } else if(bytes < 999999) {
-            unit = 'kB';
-            val = Math.round(bytes/1000);
-        } else if(bytes < 999999999) {
-            unit = 'MB';
-            val = Math.round(bytes/100000) / 10;
-        } else if(bytes < 999999999999) {
-            unit = 'GB';
-            val = Math.round(bytes/100000000) / 10;
-        } else {
-            unit = 'TB';
-            val = Math.round(bytes/100000000000) / 10;
-        }
-
-        return (val + ' ' + unit);
     },
 
     /**
@@ -504,8 +483,8 @@ Ext.ux.SwfUploadPanel = Ext.extend(Ext.grid.GridPanel, {
                 Ext.MessageBox.alert(this.strings.text_error, String.format(this.strings.error_queue_exceeded + ' ' + slots, this.file_queue_limit));
                 break;
                 
-            case -110:
-                Ext.MessageBox.alert(this.strings.text_error, String.format(this.strings.error_size_exceeded, this.formatBytes(this.file_size_limit * 1024)));
+            case -110:				
+               Ext.MessageBox.alert(this.strings.text_error, String.format(this.strings.error_size_exceeded, this.formatBytes( parseInt(this.file_size_limit) )));
                 break;
 
             case -120:
@@ -517,7 +496,7 @@ Ext.ux.SwfUploadPanel = Ext.extend(Ext.grid.GridPanel, {
                 break;
         }
         
-        this.fireEvent('fileQueueError', this, file, code, error);
+        this.fireEvent('fileQueueError', this, file, code );
     },
 
     /**

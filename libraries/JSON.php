@@ -834,7 +834,7 @@ class ext_Json
         return false;
     }
 }
-
+if( !class_exists('Services_JSON_Error' )) {
 if (class_exists('PEAR_Error')) {
 
     class Services_JSON_Error extends PEAR_Error
@@ -861,4 +861,4 @@ if (class_exists('PEAR_Error')) {
     }
 
 }
-   
+}
