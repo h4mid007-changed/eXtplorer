@@ -47,7 +47,7 @@ function admin($admin, $dir) {
 	?>
 {
 	"xtype": "tabpanel",
-	"width": 450,
+	"width": "450",
 	"renderTo": Ext.getBody(),	
 	"id": "dialog_tabpanel",
 	"dialogtitle": "<?php echo ext_Lang::msg('actadmin') ?>",
@@ -62,6 +62,7 @@ function admin($admin, $dir) {
 	[{
 		"xtype": "form",
 		"id": "passform",
+	"autoHeight": "true",
 		"headerAsText": false,
 		"labelWidth": 125,
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
@@ -132,6 +133,7 @@ function admin($admin, $dir) {
 		,{
 		"xtype": "form",
 		"id": "userlist",
+		"autoHeight": "true",
 		"headerAsText": false,
 		"labelWidth": 125,
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",

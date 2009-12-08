@@ -84,6 +84,8 @@ class ext_Rename extends ext_Action {
 	?>
 {
 	"xtype": "form",
+	"width": "350",
+	"height": "150",
 	"id": "simpleform",
 	"labelWidth": 125,
 	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",

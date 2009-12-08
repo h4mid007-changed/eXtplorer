@@ -176,6 +176,8 @@ class ext_Archive extends ext_Action {
 		{
 		"xtype": "form",
 		"id": "simpleform",
+		"height": "200",
+		"width": "350",
 		"labelWidth": 125,
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
 		"dialogtitle": "<?php echo $GLOBALS["messages"]["actarchive"] ?>",
