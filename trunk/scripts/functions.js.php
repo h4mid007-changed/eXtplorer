@@ -268,12 +268,17 @@ function openActionDialog( caller, action ) {
 														// dialog we can set the title of the window
 														dialog.setTitle(json.dialogtitle);
 													}
-													// recalculate layout
-													dialog.doLayout();
 
-													// recalculate Window size
-													dialog.syncSize();
-													
+													try {
+														// recalculate layout
+														dialog.doLayout();
+														// recalculate dimensions, based on those of the newly added child component
+														firstComponent = dialog.getComponent(0);
+														newWidth = firstComponent.getWidth() + dialog.getFrameWidth();
+														newHeight = firstComponent.getHeight() + dialog.getFrameHeight();
+														dialog.setSize( newWidth, newHeight );
+														
+													} catch(e) {}
 													//alert( "Before: Dialog.width: " + dialog.getWidth() + ", Client Width: "+ Ext.getBody().getWidth());
 													if( dialog.getWidth() >= Ext.getBody().getWidth() ) {
 														dialog.setWidth( Ext.getBody().getWidth() * 0.8 );
@@ -285,6 +290,8 @@ function openActionDialog( caller, action ) {
 														dialog.setHeight( Ext.getBody().getHeight() * 0.5 );
 													}
 
+													// recalculate Window size
+													dialog.syncSize();
 													// center the window
 													dialog.center();
 												}

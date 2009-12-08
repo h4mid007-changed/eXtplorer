@@ -143,6 +143,7 @@ class ext_Chmod extends ext_Action {
 		{
 		"xtype": "form",
 		"id": "simpleform",
+		"width": "300",
 		"labelWidth": 125,
 		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
 		"dialogtitle": "<?php echo ext_Lang::msg('actperms') ?>",
