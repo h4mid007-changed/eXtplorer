@@ -9,11 +9,9 @@ $GLOBALS['use_gzip'] = 1;
 
 // Name of the authentication module which is used by default
 $GLOBALS['ext_conf']['authentication_method_default'] = 'extplorer';
-$GLOBALS['ext_conf']['authentication_methods_allowed'] = array('extplorer', 'ssh2');
-
+$GLOBALS['ext_conf']['authentication_methods_allowed'] = array('extplorer', 'ftp');
+// the next setting controls which remote servers users are allowed to connect to
 $GLOBALS['ext_conf']['remote_hosts_allowed'] = array('localhost', 
-																					'192.168.56.101',
-																					'192.168.56.102',
 																					//'yourserver.com', 
 																					);
 

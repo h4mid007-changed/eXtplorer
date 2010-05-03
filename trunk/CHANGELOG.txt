@@ -3,6 +3,10 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- only editable files are shown in source view now, viewing all other files will lead to a redirected to "download"
+- PDF files now open inline in an iframe
+
+--- version 2.1.0 beta5 released ---
 - updated to ExtJS 3.0.3
 
 --- version 2.1.0 beta5 released ---

@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2010
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -139,13 +139,14 @@ class ext_Archive extends ext_Action {
 			// Do some setup stuff
 			ini_set('memory_limit', '128M');
 			@set_time_limit( 0 );
-			error_reporting( E_ERROR | E_PARSE );
+			//error_reporting( E_ERROR | E_PARSE );
 			$result = extArchive::create( $archive_name, $v_list, $GLOBALS['__POST']["type"], '', $remove_path	);
 
 			if( PEAR::isError( $result ) ) {
 				ext_Result::sendResult('archive', false, $name.': '.ext_Lang::err('archive_creation_failed').' ('.$result->getMessage().$archive_name.')' );
 			}
-			$json = new ext_Json();
+			$classname = class_exists('ext_Json') ? 'ext_Json' : 'Services_JSON';
+			$json = new $classname();
 			if( $cnt_filelist > $startfrom+$files_per_step ) {
 
 				$response = Array( 'startfrom' => $startfrom + $files_per_step,

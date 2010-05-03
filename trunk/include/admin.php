@@ -356,10 +356,10 @@ function edituser($dir) {			// Edit User
 		if(!update_user($user,$data)) {
 			ext_Result::sendResult('edituser', false, $user.": ".$GLOBALS["error_msg"]["saveuser"]);
 		}
-		if($self) {
+		/*if($self) {
 			activate_user($nuser,NULL);
-		}
-		ext_Result::sendResult('edituser', true, $user.": ".$GLOBALS["error_msg"]["saveuser"]);
+		}*/
+		ext_Result::sendResult('edituser', true, $user.": ".ext_Lang::msg('User Profile has been updated'));
 	}
 
 	show_userform( $data);
@@ -499,11 +499,13 @@ function show_userform( $data = null ) {
 						Ext.Msg.alert('Status', "<?php echo ext_Lang::err('miscfieldmissed', true ); ?>");
 						return false;
 					}
-					if(userform.findField('chpass').getValue() &&
-						userform.findField('pass1').getValue() != userform.findField('pass2').getValue())
-					{
-						Ext.Msg.alert('Status', "<?php echo ext_Lang::err('miscnopassmatch', true ); ?>");
-						return false;
+					if( userform.findField('chpass') ) {
+						if(userform.findField('chpass').getValue() &&
+							userform.findField('pass1').getValue() != userform.findField('pass2').getValue())
+						{
+							Ext.Msg.alert('Status', "<?php echo ext_Lang::err('miscnopassmatch', true ); ?>");
+							return false;
+						}
 					}
 					statusBarMessage( 'Please wait...', true );
 					userform.submit({
