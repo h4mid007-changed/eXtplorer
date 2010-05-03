@@ -1,22 +1,11 @@
 <?php
 
-# Author: Vincent JAULIN
-# Copyright: Keyphrene.com 2008 @ all rights reserved
-
-# Tests on:
-# PHP 5 mode CGI
-# PHP5 mode mod_php
-
 # INSTALL
-# 1 - Create a folder
-# 2 - Extract and Copy package on your site with a client FTP
-# 3 - Configure webdav.php (change this script name for security reason)
-# 4 - Create .htaccess in your webdav folder (only PHP-CGI)
-# <IfModule mod_rewrite.c>
-#	RewriteEngine on
-#	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
-# </IfModule>
-# 5 - Test with a Webdav Client (Naja for example ;-))
+# 1 - Configure eXtplorer to use Webdav in /config/conf.php, also specify your database access credentials
+# 2 - Create a table called "webdav" in your database using the shipped "webdav_table.sql.php" with phpMyAdmin
+# 3 - Access the file http://YOURDOMAIN/PATH-TO-eXtplorer/webdav.php with your WebDAV client
+# 4 - Username and Password are the same as in eXtplorer
+
 define('_JEXEC', 1 );
 
 require_once(dirname(__FILE__)."/webdav_authenticate.php");

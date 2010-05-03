@@ -56,8 +56,11 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 			}
 		},
 		failure: function(form, action) {
+			Ext.Msg.hide();
 			if( action.result ) {
 				Ext.Msg.alert('<?php echo ext_Lang::err('error', true) ?>', action.result.error);
+			} else {
+				Ext.Msg.alert('<?php echo ext_Lang::err('error', true) ?>', "An unknown Error occured" );
 			}
 		},
 		scope: form,

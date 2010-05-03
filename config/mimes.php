@@ -4,12 +4,11 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 //------------------------------------------------------------------------------
 // editable files:
-$GLOBALS["editable_ext"]=array(
-	"\.txt$|\.php$|\.php3$|\.php5$|\.phtml$|\.inc$|\.sql$|\.pl$|\.csv$",
-	"\.htm$|\.html$|\.shtml$|\.dhtml$|\.xml$",
-	"\.js$|\.css$|\.cgi$|\.cpp$|\.c$|\.cc$|\.cxx$|\.hpp$|\.h$",
-	"\.pas$|\.p$|\.java$|\.py$|\.sh$\.tcl$|\.tk$"
-);
+$GLOBALS["editable_ext"]=
+	"\.txt$|\.php$|\.php3$|\.php5$|\.phtml$|\.inc$|\.sql$|\.pl$|\.csv$"
+	."\.htm$|\.html$|\.shtml$|\.dhtml$|\.xml$"
+	."\.js$|\.css$|\.cgi$|\.cpp$|\.c$|\.cc$|\.cxx$|\.hpp$|\.h$"
+	."\.pas$|\.p$|\.java$|\.py$|\.sh$\.tcl$|\.tk$";
 //------------------------------------------------------------------------------
 // image files:
 $GLOBALS["images_ext"]="\.png$|\.bmp$|\.jpg$|\.jpeg$|\.gif$|\.ico$";

@@ -154,6 +154,7 @@ function copy_move_dialog($dir='') {
 	"xtype": "form",
 	"id": "simpleform",
 	"labelWidth": 125,
+	"width": "340",
 	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
 	"dialogtitle": "<?php echo 'Copy/Move' ?>",
 	"frame": true,

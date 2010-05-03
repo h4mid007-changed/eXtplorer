@@ -38,21 +38,13 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 class ext_View extends ext_Action {
 
 	function execAction($dir, $item) {		// show file contents
-		?>
-{
-
-	"dialogtitle": "<?php echo $GLOBALS['messages']['actview'].": ".$item ?>",
-	"height": 500,
-	"width": 700,
-	"autoScroll": true,
-	"html": "<?php
-
-
+		global $action;
+		
 		if( @eregi($GLOBALS["images_ext"], $item)) {
-			echo '<img src=\"'.make_link( 'get_image', $dir, rawurlencode($item)).'\" alt=\"'.$GLOBALS["messages"]["actview"].": ".$item.'\" /><br /><br />';
+			$html =  '<img src="'.make_link( 'get_image', $dir, rawurlencode($item)).'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
 		}
 
-		else {
+		elseif( @eregi($GLOBALS["editable_ext"], $item)) {
 
 			$geshiFile = _EXT_PATH . '/libraries/geshi/geshi.php';
 
@@ -98,11 +90,11 @@ class ext_View extends ext_Action {
 				$geshi->set_encoding( $_encoding );
 			}
 
-			$text = $geshi->parse_code();
+			$html = $geshi->parse_code();
 
 			if ($langs == "japanese"){
-				if (empty($lang) || strtoupper(mb_detect_encoding($text, $enc_list)) != "UTF-8"){
-					$text = mb_convert_encoding($text, "UTF-8", $_e0 );
+				if (empty($lang) || strtoupper(mb_detect_encoding($html, $enc_list)) != "UTF-8"){
+					$html = mb_convert_encoding($html, "UTF-8", $_e0 );
 				}
 			}
 
@@ -111,11 +103,22 @@ class ext_View extends ext_Action {
 				unlink( $file );
 			}
 			
-			$text .= '<hr /><div style="line-height:25px;vertical-align:middle;text-align:center;" class="small">Rendering Time: <strong>'.$geshi->get_time().' Sec.</strong></div>';
-			echo str_replace(Array("\r", "\n"), Array('\r', '\n') , addslashes($text));
+			$html .= '<hr /><div style="line-height:25px;vertical-align:middle;text-align:center;" class="small">Rendering Time: <strong>'.$geshi->get_time().' Sec.</strong></div>';
+			
 
+		} else {
+			$html = '
+			<iframe src="'. make_link('download', $dir, $item, null, null, null, '&action2=view' ) .'" id="iframe1" width="100%" height="100%" frameborder="0"></iframe>';
+			
 		}
-		?>"
+		$html = str_replace(Array("\r", "\n"), Array('\r', '\n') , addslashes($html));
+		?>
+		{
+
+	"dialogtitle": "<?php echo $GLOBALS['messages']['actview'].": ".$item ?>",
+	"height": 500,
+	"autoScroll": true,
+	"html": "<?php echo $html	?>"
 
 }
 		<?php

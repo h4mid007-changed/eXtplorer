@@ -254,6 +254,7 @@ class ext_Upload extends ext_Action {
 		"title": "<?php echo ext_Lang::msg('acttransfer') ?>",
 		"autoHeight": "true",
 		"labelWidth": 225,
+		"frame": true,
 		"items": [
 		<?php
 			for($i=0;$i<7;$i++) {

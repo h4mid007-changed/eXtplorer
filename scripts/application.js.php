@@ -876,7 +876,7 @@ function ext_init(){
 	    					Ext.getCmp("locationbarcmp").tree = Ext.getCmp("dirTree");
 	        				Ext.getCmp("locationbarcmp").initComponent();
 	        				ext_itemgrid = Ext.getCmp("gridpanel");
-	        			    dirTree = Ext.getCmp("dirTree");
+	        			    var dirTree = Ext.getCmp("dirTree");
 
 	        			    /*
 	        			    dirTree.loader.on('load', function(loader, o, response ) {

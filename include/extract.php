@@ -5,9 +5,8 @@ if( ! defined( '_JEXEC' ) && ! defined( '_VALID_MOS' ) )
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2010
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
- * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License

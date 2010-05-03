@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 
 // French Mimes Module for v2.3 (translated by Olivier Pariseau and Alexandre PRIETO)
 
 $GLOBALS["mimes"]=array(
 	// dir, exe, file
-	"dir"	=> "R�pertoire",
+	"dir"	=> "Répertoire",
 	"exe"	=> "Executable",
 	"file"	=> "Fichier",
 	"symlink"	=> "Lien Symbolique",
