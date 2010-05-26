@@ -242,10 +242,11 @@ function get_is_image( $abs_item ) {		// is this file an image?
 //-----------------------------------------------------------------------------
 function get_is_editable( $abs_item ) {		// is this file editable?
 	if(!get_is_file( $abs_item )) return false;
+	
 	if( is_array( $abs_item ) ) {
 		$abs_item = $abs_item['name'];
 	}
-	if(@eregi($pat,$abs_item)) return true;
+	if(preg_match('/'.$GLOBALS["editable_ext"].'/i',$abs_item)) return true;
 
 	return strpos( basename($abs_item), "." ) ? false : true;
 
