@@ -75,7 +75,7 @@ Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs3/resources/images/de
 		var dirs = dir.split('/');
 		if( dirs[0] == '') { dirs.shift(); }
 		if( dirs.length > 0 ) {
-			node = dirTree.getNodeById( '_RRR_'+ dirs[0] );
+			node = Ext.getCmp("dirTree").getNodeById( '_RRR_'+ dirs[0] );
 			if( !node ) return;
 			if( node.isExpanded() ) {
 				expandNode( node, dir );
@@ -110,7 +110,7 @@ Ext.BLANK_IMAGE_URL = '<?php echo _EXT_URL ?>/scripts/extjs3/resources/images/de
 					} else {
 						dirpath += '_RRR_'+ dirs[i];
 						//dirpath = dirpath.substr( 5 );
-						var nextnode = dirTree.getNodeById( dirpath );
+						var nextnode = Ext.getCmp("dirTree").getNodeById( dirpath );
 						if( !nextnode ) { return; }
 						if( nextnode.isExpanded() ) { expandNode( nextnode, dir ); return;}
 						nextnode.on( 'load', function() { expandNode( nextnode, dir ) } );	
@@ -177,9 +177,9 @@ function openActionDialog( caller, action ) {
 	var dialog;
 	var selectedRows = ext_itemgrid.getSelectionModel().getSelections();
 	if( selectedRows.length < 1 ) {
-		var selectedNode = dirTree.getSelectionModel().getSelectedNode();
+		var selectedNode = Ext.getCmp("dirTree").getSelectionModel().getSelectedNode();
 		if( selectedNode ) {
-			selectedRows = Array( dirTree.getSelectionModel().getSelectedNode().id.replace( /_RRR_/g, '/' ) );
+			selectedRows = Array( Ext.getCmp("dirTree").getSelectionModel().getSelectedNode().id.replace( /_RRR_/g, '/' ) );
 		}
 	}
 	var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1, admin:1, ssh2_authentication: 1, extplorer_authentication: 1 };
@@ -361,9 +361,9 @@ function getRequestParams() {
 	var selitems, dir, node;
 	var selectedRows = ext_itemgrid.getSelectionModel().getSelections();
 	if( selectedRows.length < 1 ) {
-		node = dirTree.getSelectionModel().getSelectedNode();
+		node = Ext.getCmp("dirTree").getSelectionModel().getSelectedNode();
 		if( node ) {
-			var dir = dirTree.getSelectionModel().getSelectedNode().id.replace( /_RRR_/g, '/' );
+			var dir = Ext.getCmp("dirTree").getSelectionModel().getSelectedNode().id.replace( /_RRR_/g, '/' );
 			var lastSlash = dir.lastIndexOf( '/' );
 			if( lastSlash > 0 ) {
 				selitems = Array( dir.substring(lastSlash+1) );

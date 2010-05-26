@@ -777,8 +777,7 @@ function ext_init(){
                 region: "north",
                 xtype: "locationbar",
                 id: "locationbarcmp",
-                height: 28,
-                tree: Ext.getCmp("dirTree")
+                height: 28
             	},
             	{
                 region: "center",
@@ -873,11 +872,11 @@ function ext_init(){
         renderTo: Ext.getBody(),
         listeners: { "afterlayout": {
 	        			fn: function() {
-	    					Ext.getCmp("locationbarcmp").tree = Ext.getCmp("dirTree");
-	        				Ext.getCmp("locationbarcmp").initComponent();
 	        				ext_itemgrid = Ext.getCmp("gridpanel");
-	        			    var dirTree = Ext.getCmp("dirTree");
-
+							//dirTree = Ext.getCmp("dirTree");
+							locbar = Ext.getCmp("locationbarcmp");
+							locbar.tree = Ext.getCmp("dirTree");
+	        				try{ locbar.initComponent(); } catch(e) {}
 	        			    /*
 	        			    dirTree.loader.on('load', function(loader, o, response ) {
 	        			    									if( response && response.responseText ) {
@@ -889,17 +888,18 @@ function ext_init(){
 	        			    });*/
 	        			    
 	        			    
-	        			    var tsm = dirTree.getSelectionModel();
+	        			    var tsm = Ext.getCmp("dirTree").getSelectionModel();
 	        			    tsm.on('selectionchange', handleNodeClick );
 	        			    
 	        			    // create the editor for the directory tree
-	        			    var dirTreeEd = new Ext.tree.TreeEditor(dirTree, {
+	        			    var dirTreeEd = new Ext.tree.TreeEditor(Ext.getCmp("dirTree"), {
 	        			        allowBlank:false,
 	        			        blankText:'A name is required',
 	        			        selectOnFocus:true
-	        			    });
+	        			    });							
 
 	        				chDir( '<?php echo str_replace("'", "\'", $dir ) ?>' );
+							
 	    				}
 	    			}
 		}
@@ -907,7 +907,6 @@ function ext_init(){
 	Ext.state.Manager.setProvider(new Ext.state.CookieProvider({
 	    expires: new Date(new Date().getTime()+(1000*60*60*24*7)), //7 days from now
 	}));
-
 		
     <?php
     if( $GLOBALS['require_login'] && $GLOBALS['mainframe']->getUserName() == 'admin' && $GLOBALS['mainframe']->getPassword() == extEncodePassword('admin')) {
