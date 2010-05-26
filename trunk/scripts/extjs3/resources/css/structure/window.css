@@ -1,16 +1,14 @@
-/*
- * Ext JS Library 3.0 RC2
- * Copyright(c) 2006-2009, Ext JS, LLC.
+/*!
+ * Ext JS Library 3.2.1
+ * Copyright(c) 2006-2010 Ext JS, Inc.
  * licensing@extjs.com
- * 
- * http://extjs.com/license
+ * http://www.extjs.com/license
  */
-
 .x-window {
     zoom:1;
 }
 
-.x-window .x-resizable-handle {
+.x-window .x-window-handle {
     opacity:0;
     -moz-opacity:0;
     filter:alpha(opacity=0);
@@ -171,7 +169,7 @@
     overflow:hidden;
 }
 
-.x-window-maximized .x-resizable-handle {
+.x-window-maximized .x-window-handle {
     display:none;
 }
 
