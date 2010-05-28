@@ -41,7 +41,7 @@ class ext_Extract extends ext_Action {
 	function execAction( $dir, $item ) {
 		
 		if( ! ext_isArchive( $item ) ) {
-			ext_Result::sendResult( 'archive', false, ext_Lang::err( 'extract_noarchive' ) ) ;
+			ext_Result::sendResult( 'archive', false, $item.': '.ext_Lang::err( 'extract_noarchive' ) ) ;
 		} else {
 
 			$archive_name = realpath( get_abs_item( $dir, $item ) ) ;

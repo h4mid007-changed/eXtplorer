@@ -572,9 +572,10 @@ function id_browser() {
 function ext_isArchive( $file ) {
   
 	$file_info = pathinfo($file);
-	$ext = @$file_info["extension"];
-	if( $ext == "tar" || $ext == "gz" || $ext == "tgz" || $ext == "zip" || $ext == "bzip2"	|| $ext == "bz2" || $ext == "tbz") {
-	return true;
+	$ext = @strtolower($file_info["extension"]);
+	$archive_types = array("tar", "gz", "tgz", "zip", "bzip2", "bz2", "tbz", 'rar');
+	if( in_array( $ext, $archive_types )) {
+		return true;
 	}
 	return false;
 }
