@@ -40,12 +40,6 @@ class extArchive {
 		}
 		
 		switch( $ext) {
-			case 'zip' :
-				$adapter = & extArchive::getAdapter( 'zip' ) ;
-				if( $adapter ) {
-					$result = $adapter->extract( $archivename, $extractdir ) ;
-				}
-			break ;
 			case 'tar' :
 			case 'tgz' :
 			case 'gz' : // This may just be an individual file (e.g. sql script)
@@ -60,7 +54,12 @@ class extArchive {
 				
 			break ;
 			default :
-				return PEAR::raiseError('Unknown Archive Type: '.$ext );
+				$adapter = & extArchive::getAdapter( $ext ) ;
+				if( $adapter ) {
+					$result = $adapter->extract( $archivename, $extractdir ) ;
+				} else {
+					return PEAR::raiseError('Unknown Archive Type: '.$ext );
+				}
 			break ;
 		}
 		return $result;

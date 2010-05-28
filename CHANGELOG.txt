@@ -3,10 +3,12 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- added RAR extraction feature
+- updated to ExtJS 3.2.1
 - only editable files are shown in source view now, viewing all other files will lead to a redirected to "download"
 - PDF files now open inline in an iframe
 
---- version 2.1.0 beta5 released ---
+--- version 2.1.0 beta6 released ---
 - updated to ExtJS 3.0.3
 
 --- version 2.1.0 beta5 released ---

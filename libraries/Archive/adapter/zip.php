@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:zip.php 6961 2007-03-15 16:06:53Z tcp $
+ * @version		$Id: zip.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
