@@ -120,16 +120,13 @@ class ext_Rename extends ext_Action {
 					<?php 
 					if( $is_dir ) {
 						?>
-						parentDir = dirTree.getSelectionModel().getSelectedNode().parentNode;
-						parentDir.reload();
-						parentDir.select();
+						if( dirTree.getSelectionModel().getSelectedNode() ) {
+							parentDir = dirTree.getSelectionModel().getSelectedNode().parentNode;parentDir.reload();parentDir.select();
+						}
 					<?php 
-					} else {
-						?>
-						datastore.reload();
-						<?php 
-					}
+					} 
 					?>
+					datastore.reload();
 					statusBarMessage( action.result.message, false, true );
 					Ext.getCmp("dialog").destroy();
 				},
