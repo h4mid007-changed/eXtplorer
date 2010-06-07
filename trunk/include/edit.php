@@ -266,7 +266,7 @@ class ext_Edit extends ext_Action {
 		"fieldClass": "x-form-field",
 		"value": "<?php echo str_replace(Array("\r", "\n"), Array( '\r', '\n') , addslashes($content)) ?>",
 		"width": "100%",
-		"height": 300,
+		"height": 500,
 		"plugins": new Ext.ux.plugins.EditAreaEditor({
 			"id" : "ext_codefield<?php echo $id_hash ?>",	
 			"syntax": "<?php echo $cp_lang ?>",
