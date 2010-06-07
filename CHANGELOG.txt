@@ -3,6 +3,7 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- updated to EditArea 0.8.2
 - added RAR extraction feature
 - updated to ExtJS 3.2.1
 - only editable files are shown in source view now, viewing all other files will lead to a redirected to "download"
