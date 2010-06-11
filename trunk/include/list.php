@@ -376,7 +376,7 @@ class ext_List extends ext_Action {
 			.'&amp;subdir[]=scripts/editarea/&amp;file[]=edit_area_full_with_plugins.js'
 			.'&amp;subdir[]=scripts/yui/utilities/&amp;file[]=utilities.js'
 			.'&amp;subdir[]=scripts/extjs3/adapter/yui/&amp;file[]=ext-yui-adapter.js'
-			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-all-debug.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-all.js'
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.ondemandload/&amp;file[]=scriptloader.js'
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.editareaadapater/&amp;file[]=ext-editarea-adapter.js'
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.statusbar/&amp;file[]=ext-statusbar.js'
