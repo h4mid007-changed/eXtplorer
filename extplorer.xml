@@ -2,12 +2,12 @@
 <mosinstall type="component">
 <!-- Mambo/Joomla! 1.0 Installer XML File -->
     <name>eXtplorer</name>
-    <creationDate>10.11.2009</creationDate>
+    <creationDate>10.06.2010</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren|-at|-virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
-    <version>2.1.0b5</version>
+    <version>2.1.0RC1</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_extplorer/images/eXtplorer.gif" alt="eXtplorer Logo" /></div>
 	<h2>Successfully installed eXtplorer&nbsp;</h2>
@@ -79,8 +79,8 @@
 				<filename>fetchscript.php</filename>
 				<filename>ftp_tmp/index.html</filename>
 				<filename>images/_.gif</filename>
-				<filename>images/_admin.gif</filename>
 				<filename>images/_accept.png</filename>
+				<filename>images/_admin.gif</filename>
 				<filename>images/_archive.png</filename>
 				<filename>images/_arrowdown.gif</filename>
 				<filename>images/_arrowup.gif</filename>
@@ -185,14 +185,17 @@
 				<filename>include/.htaccess</filename>
 				<filename>include/admin.php</filename>
 				<filename>include/archive.php</filename>
+				<filename>include/authentication/extplorer.php</filename>
+				<filename>include/authentication/ftp.php</filename>
+				<filename>include/authentication/ssh2.php</filename>
 				<filename>include/bookmarks.php</filename>
 				<filename>include/chmod.php</filename>
 				<filename>include/copy_move.php</filename>
 				<filename>include/delete.php</filename>
+				<filename>include/diff.php</filename>
 				<filename>include/download.php</filename>
 				<filename>include/edit.php</filename>
 				<filename>include/extract.php</filename>
-				<filename>include/ftp_authentication.php</filename>
 				<filename>include/functions.php</filename>
 				<filename>include/header.php</filename>
 				<filename>include/index.html</filename>
@@ -209,12 +212,15 @@
 				<filename>include/users.php</filename>
 				<filename>include/view.php</filename>
 				<filename>index.php</filename>
+				<filename>install.extplorer.php</filename>
 				<filename>languages/arabic.php</filename>
 				<filename>languages/arabic_mimes.php</filename>
 				<filename>languages/brazilian_portuguese.php</filename>
 				<filename>languages/brazilian_portuguese_mimes.php</filename>
 				<filename>languages/bulgarian.php</filename>
 				<filename>languages/bulgarian_mimes.php</filename>
+				<filename>languages/czech.php</filename>
+				<filename>languages/czech_mimes.php</filename>
 				<filename>languages/danish.php</filename>
 				<filename>languages/danish_mimes.php</filename>
 				<filename>languages/dutch.php</filename>
@@ -241,6 +247,8 @@
 				<filename>languages/islenska_mimes.php</filename>
 				<filename>languages/italian.php</filename>
 				<filename>languages/italian_mimes.php</filename>
+				<filename>languages/japanese.php</filename>
+				<filename>languages/japanese_mimes.php</filename>
 				<filename>languages/norwegian.php</filename>
 				<filename>languages/norwegian_mimes.php</filename>
 				<filename>languages/polish.php</filename>
@@ -264,6 +272,7 @@
 				<filename>languages/turkish.php</filename>
 				<filename>languages/turkish_mimes.php</filename>
 				<filename>libraries/Archive/adapter/index.html</filename>
+				<filename>libraries/Archive/adapter/rar.php</filename>
 				<filename>libraries/Archive/adapter/zip.php</filename>
 				<filename>libraries/Archive/archive.php</filename>
 				<filename>libraries/Archive/file.php</filename>
@@ -288,8 +297,20 @@
 				<filename>libraries/MIME/Type.php</filename>
 				<filename>libraries/MIME/index.html</filename>
 				<filename>libraries/PEAR.php</filename>
+				<filename>libraries/SSH2.php</filename>
 				<filename>libraries/System.php</filename>
 				<filename>libraries/Tar.php</filename>
+				<filename>libraries/Text/Diff.php</filename>
+				<filename>libraries/Text/Diff/Engine/native.php</filename>
+				<filename>libraries/Text/Diff/Engine/shell.php</filename>
+				<filename>libraries/Text/Diff/Engine/string.php</filename>
+				<filename>libraries/Text/Diff/Engine/xdiff.php</filename>
+				<filename>libraries/Text/Diff/Mapped.php</filename>
+				<filename>libraries/Text/Diff/Renderer.php</filename>
+				<filename>libraries/Text/Diff/Renderer/context.php</filename>
+				<filename>libraries/Text/Diff/Renderer/inline.php</filename>
+				<filename>libraries/Text/Diff/Renderer/unified.php</filename>
+				<filename>libraries/Text/Diff/ThreeWay.php</filename>
 				<filename>libraries/compat.php41x.php</filename>
 				<filename>libraries/compat.php42x.php</filename>
 				<filename>libraries/compat.php50x.php</filename>
@@ -438,6 +459,7 @@
 				<filename>style/tablebg.gif</filename>
 				<filename>webdav.php</filename>
 				<filename>webdav_authenticate.php</filename>
+<filename>webdav_table.sql.php</filename>
 		</files>
     </administration>
 </mosinstall>

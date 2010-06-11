@@ -438,3 +438,5 @@ div.hr {
 .expanded .mdesc .long {
     line-height:18px;
 }
+del{ background: #fcc} 
+ins{ background: #cfc }
