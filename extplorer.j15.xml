@@ -65,7 +65,6 @@
 			</queries>    	
     </uninstall>
     <installfile>install.extplorer.php</installfile>
-    <uninstallfile></uninstallfile>
     <administration>
         <menu>eXtplorer</menu>
         <files>		

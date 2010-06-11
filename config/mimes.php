@@ -5,13 +5,15 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 //------------------------------------------------------------------------------
 // editable files:
 $GLOBALS["editable_ext"]=
-	"\.txt$|\.php$|\.php3$|\.php5$|\.phtml$|\.inc$|\.sql$|\.pl$|\.csv$"
-	."\.htm$|\.html$|\.shtml$|\.dhtml$|\.xml$"
-	."\.js$|\.css$|\.cgi$|\.cpp$|\.c$|\.cc$|\.cxx$|\.hpp$|\.h$"
-	."\.pas$|\.p$|\.java$|\.py$|\.sh$\.tcl$|\.tk$";
+	"\.asm$|\.rc$|\.hh$|\.hxx$|\.odl$|\.idl$|\.rc2$|\.dlg$|\.txt$|"
+	."\.php$|\.php3$|\.php5$|\.phtml$|\.htaccess$|\.htpasswd$|\.inc$|\.sql$|\.pl$|\.csv$"
+	."\.vb$|\.vbs$|\.bas$|\.frm$|\.cls$|\.ctl$|\.rb$|\.htm$|\.html$|\.shtml$|\.dhtml$|\.xml$"
+	."\.js$|\.css$|\.cgi$|\.cpp$|\.c$|\.cc$|\.cxx$|\.hpp$|\.h$\.lua$|\.conf$|\.properties$|"
+	."\.pas$|\.p$|\.java$|\.py$|\.sh$|\.bat$|\.tcl$|\.tk$";
+
 //------------------------------------------------------------------------------
 // image files:
-$GLOBALS["images_ext"]="\.png$|\.bmp$|\.jpg$|\.jpeg$|\.gif$|\.ico$";
+$GLOBALS["images_ext"]="\.png$|\.bmp$|\.jpg$|\.jpeg$|\.gif$|\.tif$|\.ico$";
 //------------------------------------------------------------------------------
 // mime types: (description,image,extension)
 $GLOBALS["super_mimes"]=array(
@@ -96,6 +98,8 @@ $GLOBALS["used_mime_types"]=array(
 	"docx"	=> array(extGetParam( $GLOBALS["mimes"], 'docx', 'Word' ),  "extension/docx.png",  "\.docx$"),
 	"xls"	=> array(extGetParam( $GLOBALS["mimes"], 'xls', 'Excel' ),   "extension/xls.png",   "\.xls$"),
 	"xlsx"	=> array(extGetParam( $GLOBALS["mimes"], 'xlsx', 'Excel' ),  "extension/xlsx.png",  "\.xlsx$"),
+	"rtf"	=> array(extGetParam( $GLOBALS["mimes"], 'rtf', 'Rich Text Format' ),  "extension/doc.png",  "\.rtf$"),
+	
 	"pdf"	=> array(extGetParam( $GLOBALS["mimes"], 'pdf', 'PDF' ),   "extension/pdf.png",   "\.pdf$")
 );
 //------------------------------------------------------------------------------

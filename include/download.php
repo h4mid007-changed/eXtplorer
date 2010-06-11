@@ -111,6 +111,7 @@ class ext_Download extends ext_Action {
 				case 'pptm': $extension = 'vnd.ms-powerpoint.presentation.macroEnabled.12';break;
 				case 'potm': $extension = 'vnd.ms-powerpoint.template.macroEnabled.12';break;
 				case 'ppsm': $extension = 'vnd.ms-powerpoint.slideshow.macroEnabled.12';break;
+				case 'rtf': $extension = 'application/rtf';break;
 
 			}
 			header('Content-Type: application/'.$extension.'; Charset='  . $GLOBALS["system_charset"]);
