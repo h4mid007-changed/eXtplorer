@@ -3,6 +3,10 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- fixed editable file types detection (+ added .ini)
+
+--- version 2.1.0 RC1 released ---
+
 - finally added the File Diff Feature
 - added RAR extraction feature
 - updated to ExtJS 3.2.1

@@ -5,11 +5,12 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 //------------------------------------------------------------------------------
 // editable files:
 $GLOBALS["editable_ext"]=
-	"\.asm$|\.rc$|\.hh$|\.hxx$|\.odl$|\.idl$|\.rc2$|\.dlg$|\.txt$|"
-	."\.php$|\.php3$|\.php5$|\.phtml$|\.htaccess$|\.htpasswd$|\.inc$|\.sql$|\.pl$|\.csv$"
-	."\.vb$|\.vbs$|\.bas$|\.frm$|\.cls$|\.ctl$|\.rb$|\.htm$|\.html$|\.shtml$|\.dhtml$|\.xml$"
-	."\.js$|\.css$|\.cgi$|\.cpp$|\.c$|\.cc$|\.cxx$|\.hpp$|\.h$\.lua$|\.conf$|\.properties$|"
-	."\.pas$|\.p$|\.java$|\.py$|\.sh$|\.bat$|\.tcl$|\.tk$";
+	"\.asm$|\.rc$|\.hh$|\.hxx$|\.odl$|\.idl$|\.rc2$|\.dlg$"
+	."|\.php$|\.php3$|\.php5$|\.phtml$|\.inc$|\.sql$|\.csv$"
+	."|\.vb$|\.vbs$|\.bas$|\.frm$|\.cls$|\.ctl$|\.rb$|\.htm$|\.html$|\.shtml$|\.dhtml$|\.xml$"
+	."|\.js$|\.css$|\.cgi$|\.cpp$|\.c$|\.cc$|\.cxx$|\.hpp$|\.h$|\.lua$"
+	."|\.pas$|\.p$|\.pl$|\.java$|\.py$|\.sh$|\.bat$|\.tcl$|\.tk$"
+	."|\.txt$|\.ini$|\.conf$|\.properties$|\.htaccess$|\.htpasswd$";
 
 //------------------------------------------------------------------------------
 // image files:
