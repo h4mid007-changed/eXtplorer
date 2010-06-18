@@ -31,7 +31,7 @@ $passPhrase = '';
  * @package Preinstaller
  * @author: Andy Staudacher <ast@gmx.ch>
  * @version $Revision$
- * @version  2.0.0
+ * @version  2.1.0
  */
 error_reporting(E_ALL);
 set_time_limit(900);
@@ -47,8 +47,8 @@ $downloadUrls = array();
 /*	Latest stable release */
 $downloadUrls['stable'] = '';
 /*	Latest beta version */
-$downloadUrls['latest']= 'http://joomlacode.org/gf/download/frsrelease/8187/29823/com_eXtplorer_2.0.0.zip';
-$downloadUrls['beta']= 'http://downloads.sourceforge.net/extplorer/extplorer_2.0.0_RC4.zip';
+$downloadUrls['latest']= 'http://joomlacode.org/gf/download/frsrelease/9367/35360/com_extplorer_2.0.1.zip';
+$downloadUrls['beta']= 'http://joomlacode.org/gf/download/frsrelease/11389/51929/com_extplorer_2.1.0RC1.zip';
 
 /* The page on GMC that lists the latest versions */
 /* FOR GR, we request pages from sf.net which then redirects to GMC, e.g. to /release, /beta, .. */
