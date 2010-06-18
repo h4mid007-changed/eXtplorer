@@ -10,10 +10,10 @@ Supported Browsers:
 -------------------
 * Internet Explorer >= 6.0
 * Firefox >= 2
-* Safari >= 2
-* Google Chrome/Iron >= 1
-* Konqueror (KDE > 3.5)
-* Opera 9+
+* Safari >= 4
+* Google Chrome/Iron >= 3
+* Konqueror (KDE > 4.0)
+* Opera 10.5+
 
 Opera and Konqueror don't allow custom Context Menus. Use Double Click on a record in the grid instead.
 
@@ -118,6 +118,6 @@ Languages:
 	* Users can select one of all available languages on login.
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
-adapted for Joomla!: 	Soeren Eberhardt <soeren[aat]virtuemart.net>
+Developer: 	Soeren Eberhardt <soeren[aat]virtuemart.net>
 original author:	the QuiX project
 ----------------------------------------------------------------------------------------------------
