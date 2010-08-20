@@ -3,6 +3,7 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- fixed visibility of user form fields (form appeared empty)
 - fixed editable file types detection (+ added .ini)
 
 --- version 2.1.0 RC1 released ---
