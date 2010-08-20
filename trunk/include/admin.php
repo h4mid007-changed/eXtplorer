@@ -375,6 +375,7 @@ function show_userform( $data = null ) {
 	"renderTo": Ext.getCmp("dialog_tabpanel").getEl(),
 	"hidden": true,
 	"closable":true,
+	"autoHeight": "true",
 	"labelWidth": 125,
 	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
 	"title": "<?php

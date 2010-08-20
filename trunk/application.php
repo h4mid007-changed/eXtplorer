@@ -180,5 +180,6 @@ $GLOBALS['_LANG'] = array(
 'th' => 'thai',
 'tr' => 'turkish',
 'uk' => 'ukrainian',
-'zh' => 'simplified_chinese'
+'zh-tw' => 'traditional_chinese',
+'zh-cn' => 'simplified_chinese'
 );
