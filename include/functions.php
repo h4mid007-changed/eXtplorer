@@ -555,15 +555,15 @@ function down_home($abs_dir) {			// dir deeper than home?
 function id_browser() {
 	$browser=$GLOBALS['__SERVER']['HTTP_USER_AGENT'];
 
-	if(@ereg('Opera(/| )([0-9].[0-9]{1,2})', $browser)) {
-		return 'OPERA';
-	} else if(@ereg('MSIE ([0-9].[0-9]{1,2})', $browser)) {
-		return 'IE';
-	} else if(@ereg('OmniWeb/([0-9].[0-9]{1,2})', $browser)) {
-		return 'OMNIWEB';
-	} else if(@ereg('(Konqueror/)(.*)', $browser)) {
-		return 'KONQUEROR';
-	} else if(@ereg('Mozilla/([0-9].[0-9]{1,2})', $browser)) {
+	if(preg_match('/Opera(\/| )([0-9]\.[0-9]{1,2})/', $browser)) {
+ 		return 'OPERA';
+	} else if(preg_match('/MSIE ([0-9]\.[0-9]{1,2})/', $browser)) {
+ 		return 'IE';
+	} else if(preg_match('/OmniWeb\/([0-9]\.[0-9]{1,2})/', $browser)) {
+ 		return 'OMNIWEB';
+	} else if(preg_match('/(Konqueror\/)(.*)/', $browser)) {
+ 		return 'KONQUEROR';
+	} else if(preg_match('/Mozilla\/([0-9]\.[0-9]{1,2})/', $browser)) {
 		return 'MOZILLA';
 	} else {
 		return 'OTHER';
@@ -621,7 +621,7 @@ function ext_getSeparator() {
  * @return boolean
  */
 function ext_isIE() {
-	return (@ereg('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']));
+	return (preg_match('/MSIE ([0-9]\.[0-9]{1,2})/', $_SERVER['HTTP_USER_AGENT']));
 }
 
 /**
@@ -1360,4 +1360,3 @@ function logout() {
 function get_session_id( $id=null ) {
 	return extMakePassword( 32 );
 }
-?>
