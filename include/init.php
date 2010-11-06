@@ -133,7 +133,7 @@ if (!isset($_REQUEST['file_mode']) && !empty($_SESSION['file_mode'])) {
 	$GLOBALS['file_mode'] = extGetParam($_SESSION, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
 } else {
 	if (@$_REQUEST['file_mode'] != @$_SESSION['file_mode'] && in_array($_REQUEST['file_mode'], $GLOBALS['ext_conf']['authentication_methods_allowed'])) {
-		if (empty($_SESSION['credentials_'.extGetParam($_REQUEST, 'file_mode')])) {
+		if ($action != 'login' && empty($_SESSION['credentials_'.extGetParam($_REQUEST, 'file_mode')])) {
 			extRedirect(make_link( 'login','',null,null,null,null,'&type='.urlencode(extGetParam($_REQUEST, 'file_mode'))));
 		} else {
 			$GLOBALS['file_mode'] = $_SESSION['file_mode'] = extGetParam($_REQUEST, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
@@ -246,7 +246,7 @@ if (!$GLOBALS['ext_conf']['symlink_allow_abovehome']) {
 }
 
 if (!get_is_dir(utf8_decode($abs_dir)) && !get_is_dir($abs_dir.$GLOBALS["separator"])) {
-	ext_Result::sendResult('', false, $abs_dir." : ".$GLOBALS["error_msg"]["direxist"]);
+	ext_Result::sendResult('', false, '"'.$abs_dir.'" - '.$GLOBALS["error_msg"]["direxist"]);
 	$dir = '';
 }
 

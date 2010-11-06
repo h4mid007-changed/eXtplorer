@@ -103,7 +103,8 @@ class ext_ftp_authentication {
 						params: {
 							option: "com_extplorer", 
 							action: "login",
-							type: "ftp"
+							type: "ftp",
+							file_mode: "ftp"
 						}
 					});
     	        } else {
@@ -157,7 +158,8 @@ class ext_ftp_authentication {
 					params: {
 						option: "com_extplorer", 
 						action: "login",
-						type: "ftp"
+						type: "ftp",
+						file_mode: "ftp"
 					}
 				});
 			}

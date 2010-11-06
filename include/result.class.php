@@ -80,6 +80,7 @@ class ext_Result {
 	function sendResult( $action, $success, $msg,$extra=array() ) {		// show error-message
 		
 		if( ext_isXHR() ) {
+			
 			$success = (bool)$success;
 			if( $success && ext_Result::count_errors() > 0 ) {
 				$success = false;
@@ -108,60 +109,57 @@ class ext_Result {
 			print $jresult;
 			ext_exit();
 		}
-
+		$messagetxt = '';
 		if($extra != NULL) {
 			$msg .= " - ".$extra;
 		}
-		ext_Result::add_error( $msg );
-
-		if( empty( $_GET['error'] )) {
-			session_write_close();
-			extRedirect( make_link("show_error", $GLOBALS["dir"], null, null, null, null, '&error=1&extra='.urlencode( $extra )) );
+		if( $msg != '' ) {
+			ext_Result::add_error( $msg );
 		}
-		else {
-			show_header($GLOBALS["error_msg"]["error"]);
 
-			echo '<div class="quote">';
-			echo '<a href="#errors">'.ext_Result::count_errors() .' '.$GLOBALS["error_msg"]["error"].'</a>, ';
-			echo '<a href="#messages">'.ext_Result::count_messages() .' '.$GLOBALS["error_msg"]["message"].'</a><br />';
-			echo "</div>\n";
-
-			if( !empty( $_SESSION['ext_message'])) {
-				echo "<a href=\"".str_replace('&dir=', '&ignore=', make_link("list", '' ))."\">[ "
-						.$GLOBALS["error_msg"]["back"]." ]</a>";
-
-				echo "<div class=\"ext_message\"><a name=\"messages\"></a>
-						<h3>".$GLOBALS["error_msg"]["message"].":</strong>"."</h3>\n";
+		if( ext_Result::count_messages() < 1 && ext_Result::count_errors() < 1 ) {
+			return;
+		}
+			
+			if( ext_Result::count_messages() > 0 ) {
+				$messagetxt .= '<h3>'.$GLOBALS["error_msg"]["message"].':</h3>';
 
 				foreach ( $_SESSION['ext_message'] as $msgtype ) {
 					foreach ( $msgtype as $message ) {
-						echo $message ."\n<br/>";
+						$messagetxt .= $message .'<br/>';
 					}
-					echo '<br /><hr /><br />';
+					$messagetxt .= '<br /><hr /><br />';
 				}
 				ext_Result::empty_messages();
 
-				if( !empty( $_REQUEST['extra'])) echo " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
-				echo "</div>\n";
+				if( !empty( $_REQUEST['extra'])) {
+					$messagetxt .= ' - '.htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
+				}
+				
 			}
 
 			if( !empty( $_SESSION['ext_error'])) {
-				echo "<div class=\"ext_error\"><a name=\"errors\"></a>
-						<h3>".$GLOBALS["error_msg"]["error"].":</strong>"."</h3>\n";
+				$messagetxt .= '<h3>'.$GLOBALS["error_msg"]["error"].':</h3>';
 
 				foreach ( $_SESSION['ext_error'] as $errortype ) {
 					foreach ( $errortype as $error ) {
-						echo $error ."\n<br/>";
+						$messagetxt .= $error .'<br/>';
 					}
-					echo '<br /><hr /><br />';
+					$messagetxt .= '<br /><hr /><br />';
 				}
 				ext_Result::empty_errors();
 			}
-			echo "<a href=\"".str_replace('&dir=', '&ignore=', make_link("list", '' ))."\">".$GLOBALS["error_msg"]["back"]."</a>";
-			if( !empty( $_REQUEST['extra'])) echo " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
-			echo "</div>\n";
+			
+			if( !empty( $_REQUEST['extra'])) {
+				$messagetxt .= " - ".htmlspecialchars(urldecode($_REQUEST['extra']), ENT_QUOTES );
+			}
+			extHTML::loadExtJS();
+			show_header();
 			defined('EXPLORER_NOEXEC') or define('EXPLORER_NOEXEC', 1 );
-		}
+			
+			echo ext_scriptTag('', 'Ext.Msg.alert(\'Status\', \''.$messagetxt . '\')' );
+		//}
+		$GLOBALS['action'] = 'show_error';
 	}
 }
 //------------------------------------------------------------------------------

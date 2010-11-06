@@ -301,7 +301,13 @@ function system_info() {
 	}
 	
 }
-function show_about() {			// footer for html-page
+/**
+ * 
+ * Shows eXtplorer information
+ */
+function show_about() {			
+	//$sess = print_r($_SESSION,true);
+	//echo str_replace(array("\r", "\n"),array('',''),$sess);
 	echo "\n<div id=\"ext_footer\" style=\"text-align:center;\">
 	<img src=\""._EXT_URL."/images/eXtplorer.gif\" align=\"middle\" alt=\"eXtplorer Logo\" />
 	<br />

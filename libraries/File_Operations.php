@@ -60,11 +60,9 @@ class ext_File {
 	function copy($from, $to) {
 		if (ext_isFTPMode()) {
 
-			$fh = ext_ftp_make_local_copy($from, true);
-			$res = $GLOBALS['FTPCONNECTION']->fput($fh, $to);
-
-			fclose($fh);
-
+			$local_file = ext_ftp_make_local_copy( $from );
+			$res = $GLOBALS['FTPCONNECTION']->put($local_file, $to);
+			unlink($local_file);
 			return $res;
 		} else {
 			if ($GLOBALS['use_mb']) {
@@ -120,8 +118,12 @@ class ext_File {
 
 	function mkfile($file) {
 		if (ext_isFTPMode()) {
-			$tmp = tmpfile();
-			return $GLOBALS['FTPCONNECTION']->fput($tmp, $file);
+			$tmp_file = tempnam(_EXT_FTPTMP_PATH, 'ext_ftp_dl_');
+	
+			if ($tmp_file == 'false') {
+				ext_Result::sendResult('list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
+			}
+			return $GLOBALS['FTPCONNECTION']->put($tmp_file, $file);
 		} else {
 			if ($GLOBALS['use_mb']) {
 				if (mb_detect_encoding($file) == 'ASCII'){
@@ -352,21 +354,21 @@ class ext_File {
 
 	function file_get_contents($file) {
 		if ($GLOBALS['file_mode'] == 'ftp') {
-			$fh = tmpfile();
+			$tmp_file = tempnam(_EXT_FTPTMP_PATH, 'ext_ftp_dl_');
+	
+			if ($tmp_file == 'false') {
+				ext_Result::sendResult('list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
+			}
 
 			$file = str_replace("\\", '/', $file);
 			if ($file[0] != '/') $file = '/'. $file; 
-			$res = $GLOBALS['FTPCONNECTION']->fget($file, $fh);
+			$res = $GLOBALS['FTPCONNECTION']->get($file, $tmp_file);
 
 			if (PEAR::isError($res)) {
 				return false;
 			} else {
-				rewind($fh);
-				$contents = '';
-				while(!feof($fh)) {
-					$contents .= fread($fh, 2048);
-				}
-				fclose($fh);
+				$contents = file_get_contents($tmp_file);
+				unlink($tmp_file);
 				return $contents;
 			}
 		} elseif( $GLOBALS['file_mode'] == 'ssh2' ) {
@@ -387,12 +389,16 @@ class ext_File {
 
 	function file_put_contents($file, $data) {
 		if ($GLOBALS['file_mode'] == 'ftp') {
-			$tmp_file = tmpfile();
-			fputs($tmp_file, $data);
-			rewind($tmp_file);
-			$res = $GLOBALS['FTPCONNECTION']->fput($tmp_file, $file, true);
+			$tmp_file = tempnam(_EXT_FTPTMP_PATH, 'ext_ftp_dl_');
+	
+			if ($tmp_file == 'false') {
+				ext_Result::sendResult('list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
+			}
+			file_put_contents($tmp_file, $data);
+			
+			$res = $GLOBALS['FTPCONNECTION']->put($tmp_file, $file, true);
 
-			fclose($tmp_file);
+			unlink($tmp_file);
 			return $res;
 		} elseif( $GLOBALS['file_mode'] == 'ssh2' ) {
 			return $GLOBALS['FTPCONNECTION']->file_put_contents($file, $data);
@@ -474,7 +480,21 @@ class ext_File {
 
 	function is_readable($file) {
 		if (ext_isFTPMode()) {
-			return $GLOBALS['FTPCONNECTION']->is_readable($file);
+			$perms = $file['rights'];
+			if ($_SESSION['ftp_login'] == $file['user']) {
+				// FTP user is owner of the file
+				return $perms[0] == 'r';
+			}
+			$fileinfo = posix_getpwnam($file['user']);
+			$userinfo = posix_getpwnam($_SESSION['ftp_login']);
+
+			if ($fileinfo['gid'] == $userinfo['gid']) {
+				return $perms[3] == 'r';
+			}
+			else {
+				return $perms[6] == 'r';
+			}
+			
 		} else {
 			return is_readable($file);
 		}
@@ -529,9 +549,7 @@ class ext_File {
 	}
 }
 
-
-
-function ext_ftp_make_local_copy($abs_item, $use_filehandle = false) {
+function ext_ftp_make_local_copy( $abs_item ) {
 
 	if (get_is_dir($abs_item)) {
 		$tmp_dir = _EXT_FTPTMP_PATH.'/'.uniqid('ext_tmpdir_').'/';
@@ -545,26 +563,17 @@ function ext_ftp_make_local_copy($abs_item, $use_filehandle = false) {
 	$abs_item = str_replace("\\", '/', $abs_item);
 	if ($abs_item[0] != '/') $abs_item = '/'. $abs_item; 
 
-	if (!$use_filehandle) {
-		$tmp_file = tempnam(_EXT_FTPTMP_PATH, 'ext_ftp_dl_');
+	$tmp_file = tempnam(_EXT_FTPTMP_PATH, 'ext_ftp_dl_');
 
-		if ($tmp_file == 'false') {
-			ext_Result::sendResult('list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
-		}
-
-		$res = $GLOBALS['FTPCONNECTION']->get($abs_item, $tmp_file, true);
-		if (PEAR::isError($res)) {
-			ext_Result::sendResult('list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage());
-		}
-	} else {
-		$tmp_file = tmpfile();
-
-		$res = $GLOBALS['FTPCONNECTION']->fget('/'.$abs_item, $tmp_file, true);
-		if (PEAR::isError($res)) {
-			ext_Result::sendResult('list', false, 'Failed to fetch the file via FTP: '.$res->getMessage());
-		}
-		rewind($tmp_file);
+	if ($tmp_file == 'false') {
+		ext_Result::sendResult('list', false, 'The /ftp_tmp Directory must be writable in order to use this functionality in FTP Mode.');
 	}
+
+	$res = $GLOBALS['FTPCONNECTION']->get($abs_item, $tmp_file, true);
+	if (PEAR::isError($res)) {
+		ext_Result::sendResult('list', false, 'Failed to fetch the file via filehandle from FTP: '.$res->getMessage());
+	}	
+
 	return $tmp_file;
 
 }
