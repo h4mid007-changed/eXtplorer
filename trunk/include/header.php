@@ -33,8 +33,9 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * This is the file, which prints the header row with the Logo
  */
 function show_header($dirlinks='') {
-	$url = str_replace( '&dir=', '&ignore=', $_SERVER['REQUEST_URI'] );
-	$url = str_replace('&file_mode=', '', $url );
+	$url = str_replace( array('&dir=', '&action=', '&file_mode='), 
+						array('&a=','&b=','&c='), 
+						$_SERVER['REQUEST_URI'] );
 	
 	$url_appendix = strpos($url, '?') === false ? '?' : '&amp;';
 	

@@ -44,7 +44,7 @@ class ext_Upload extends ext_Action {
 
 		// Execute
 		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
-			
+				
 			if( isset($GLOBALS['__FILES']['Filedata'])) {
 				// Re-Map the flash-uploaded file with the name "Filedata" to the "userfile" array
 				$GLOBALS['__FILES']['userfile'] = array(
@@ -155,9 +155,15 @@ class ext_Upload extends ext_Action {
 							
 			},
 			// Uploader Params				
-			"upload_url": "<?php echo $_SERVER['SCRIPT_NAME'] ?>",
+			"upload_url": "<?php 
+				if( ext_isJoomla() ){
+					echo _EXT_URL .'/uploadhandler.php';
+				} else {
+					echo basename( $GLOBALS['script_name']);
+				}	?>",
 			"post_params": { 
 				"<?php echo session_name()?>": "<?php echo session_id() ?>",
+				"<?php echo get_cfg_var ('session.name') ?>": "<?php echo session_id() ?>",
 				"option": "com_extplorer", 
 				"action": "upload", 
 				"dir": datastore.directory, 
@@ -312,5 +318,3 @@ class ext_Upload extends ext_Action {
 
 	}
 }
-
-?>

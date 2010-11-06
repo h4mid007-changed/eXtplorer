@@ -2,12 +2,12 @@
 <mosinstall type="component">
 <!-- Mambo/Joomla! 1.0 Installer XML File -->
     <name>eXtplorer</name>
-    <creationDate>10.06.2010</creationDate>
+    <creationDate>9.11.2010</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <authorEmail>soeren|-at|-virtuemart.net</authorEmail>
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
-    <version>2.1.0RC1</version>
+    <version>2.1.0RC2</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_extplorer/images/eXtplorer.gif" alt="eXtplorer Logo" /></div>
 	<h2>Successfully installed eXtplorer&nbsp;</h2>
@@ -457,6 +457,7 @@
 				<filename>style/opacity.js</filename>
 				<filename>style/style.css</filename>
 				<filename>style/tablebg.gif</filename>
+				<filename>uploadhandler.php</filename>
 				<filename>webdav.php</filename>
 				<filename>webdav_authenticate.php</filename>
 <filename>webdav_table.sql.php</filename>

@@ -44,20 +44,24 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @param string $dir
  */
 function admin($admin, $dir) {			
+	if( $GLOBALS["permissions"] < 7 || $_SESSION['credentials_extplorer']['username'] == 'admin' && $_SESSION['credentials_extplorer']['password'] == extEncodePassword('admin') ) {
+		$activeTab = '0';
+	} else {
+		$activeTab = '1';
+	}
 	?>
 {
 	"xtype": "tabpanel",
 	"width": "450",
-	"renderTo": Ext.getBody(),	
 	"id": "dialog_tabpanel",
 	"dialogtitle": "<?php echo ext_Lang::msg('actadmin') ?>",
-	"activeTab": "<?php
-	if( $_SESSION['credentials_extplorer']['username'] == 'admin' && $_SESSION['credentials_extplorer']['password'] == extEncodePassword('admin')) {
-		echo 'passform';
-	} else {
-		echo 'userlist';
-	}
-	?>",
+	"listeners": {
+		"afterrender": {
+			fn: function(cmp) {
+					cmp.activate(<?php echo $activeTab ?>);
+			}
+		}
+	},
 	"items":
 	[{
 		"xtype": "form",
@@ -125,12 +129,12 @@ function admin($admin, $dir) {
 						})
 						}
 			}]
-			}
+			
 	
 	<?php
 	if($admin) {
 		?>
-		,{
+		},{
 		"xtype": "form",
 		"id": "userlist",
 		"autoHeight": "true",

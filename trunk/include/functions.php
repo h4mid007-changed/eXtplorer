@@ -705,14 +705,14 @@ function ext_isJoomla( $version='', $operator='=', $compare_minor_versions=true)
 		$jversion =& $GLOBALS['_VERSION'];
 		$this_version = $jversion->RELEASE .'.'. $jversion->DEV_LEVEL;
 	}
-	elseif ( defined('JVERSION')) {
+	elseif ( class_exists('JVersion') ) {
 		$jversion = new JVersion();
 		$this_version = $jversion->RELEASE .'.'. $jversion->DEV_LEVEL;
 	} else {
 		return false;
 	}
 	if( empty( $version ) ) {
-		return empty($this_version);
+		return !empty($this_version);
 	}
 	$allowed_operators = array( '<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne' );
 
@@ -862,6 +862,34 @@ class extProfiler {
 * @package eXtplorer
 */
 class extHTML {
+	function loadExtJS() {
+		$scriptTag = '
+		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
+			.'&amp;subdir[]=scripts/editarea/&amp;file[]=edit_area_full_with_plugins.js'
+			.'&amp;subdir[]=scripts/extjs3/adapter/ext/&amp;file[]=ext-base.js'
+			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-all.js'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.ondemandload/&amp;file[]=scriptloader.js'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.editareaadapater/&amp;file[]=ext-editarea-adapter.js'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.statusbar/&amp;file[]=ext-statusbar.js'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.fileuploadfield/&amp;file[]=ext-fileUploadField.js'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=Ext.ux.LocationBar.js'
+			.'&amp;gzip=1"></script>
+		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
+		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?'
+			.'subdir[]=scripts/extjs3/resources/css/&amp;file[]=ext-all.css'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=LocationBar.css'
+			.'&amp;subdir[]=scripts/extjs3-ext/ux.fileuploadfield/&amp;file[]=fileuploadfield.css'
+			.'&amp;gzip=1" />';
+
+	
+		if (defined('EXT_STANDALONE')) {
+			$GLOBALS['mainframe']->addcustomheadtag($scriptTag);
+		} else {
+			echo $scriptTag;
+		}
+	}
+	
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 		$obj = new stdClass;
 		$obj->$value_name = $value;

@@ -75,7 +75,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 
 		if( ext_isFTPMode() ) {
 			$abs_item = get_item_info($dir,$tmp);
-			$abs_new_item = get_item_info('/'.$new_dir,$new);
+			$abs_new_item = $new_dir.'/'.$new;
 		} else {
 			$abs_item = get_abs_item($dir,$tmp);
 			$abs_new_item = get_abs_item($new_dir,$new);
