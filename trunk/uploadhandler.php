@@ -10,6 +10,10 @@ if( @$_POST['option'] == 'com_extplorer' && !empty($_POST[session_name()]) && !d
 	file_put_contents( 'debug.txt', $res, FILE_APPEND );
 	**/
 	
-	require( '/../../index.php' ); 
+	if( file_exists('/../../configuration.php') ){
+		require( '/../../index.php' ); 
+	} else {
+		require( dirname(__FILE__).'/index.php' ); 
+	}
 	
 }

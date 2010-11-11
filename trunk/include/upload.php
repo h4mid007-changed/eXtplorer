@@ -156,11 +156,8 @@ class ext_Upload extends ext_Action {
 			},
 			// Uploader Params				
 			"upload_url": "<?php 
-				if( ext_isJoomla() ){
-					echo _EXT_URL .'/uploadhandler.php';
-				} else {
-					echo basename( $GLOBALS['script_name']);
-				}	?>",
+				echo _EXT_URL .'/uploadhandler.php';
+					?>",
 			"post_params": { 
 				"<?php echo session_name()?>": "<?php echo session_id() ?>",
 				"<?php echo get_cfg_var ('session.name') ?>": "<?php echo session_id() ?>",
