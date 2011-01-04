@@ -2,9 +2,11 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
+--- version 2.1.0 RC2 released ---
+
+- updated to ExtJS 3.3.1
 - fixed Flash Upload
 - updated to SWFUPload 2.5 beta
-- updated to ExtJS 3.3.0
 - fixed deprecated warnings because of ereg functions
 - fixed some FTP file operations (upload, copy, move, delete)
 - fixed visibility of user form fields (form appeared empty)
