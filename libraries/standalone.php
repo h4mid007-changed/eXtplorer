@@ -41,7 +41,7 @@ if( empty( $_SERVER['PHP_SELF'])) {
 }
 
 // current server time
-$now = date( 'Y-m-d H:i', time() );
+$now = @date( 'Y-m-d H:i', time() );
 DEFINE( '_CURRENT_SERVER_TIME', $now );
 DEFINE( '_CURRENT_SERVER_TIME_FORMAT', '%Y-%m-%d %H:%M:%S' );
 
@@ -64,7 +64,7 @@ class extMainFrame {
 	*/
 	function extMainFrame() {
 		session_name( 'eXtplorer' );
-		if( !@is_writable(ini_get('session.save_path'))) {
+		if( !@is_writable(ini_get('session.save_path')) && ini_get('session.save_handler') == 'files') {
 			ini_set('session.save_path', realpath( dirname( __FILE__ ).'/../ftp_tmp') );
 		}
 		session_start();
