@@ -56,7 +56,7 @@ function show_header($dirlinks='') {
 	}
 	echo '<tr><td width="20%">';
 	if( is_object( $GLOBALS['_VERSION'] ) || class_exists( 'jversion')) {
-		echo "<a href=\"index2.php\">Back to ".( !empty($GLOBALS['_VERSION']->PRODUCT) ? @$GLOBALS['_VERSION']->PRODUCT : 'Joomla!' ).'</a>';
+		echo '<a href="'.basename($_SERVER['SCRIPT_NAME']).'">Back to '.( !empty($GLOBALS['_VERSION']->PRODUCT) ? @$GLOBALS['_VERSION']->PRODUCT : 'Joomla!' ).'</a>';
 
 	} else {
 		echo ext_selectList('language_selector', $GLOBALS['language'], get_languages(), 1, '', 'onchange="document.location.href=\''.$GLOBALS['script_name'].'?lang=\' + this.options[this.selectedIndex].value;"');

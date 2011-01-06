@@ -2,6 +2,9 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
+
+- works with Joomla! 1.6 now
+
 --- version 2.1.0 RC2 released ---
 
 - updated to ExtJS 3.3.1
