@@ -33,11 +33,14 @@ function com_install(){
 		'.$result->getMessage().'
 		</pre>';
 	}
-	$database->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_extplorer'" );
-	$id = $database->loadResult();
+	if( !is_callable( array( $database, 'loadNextRow' ))) {
 
-	//add new admin menu images
-	$database->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_extplorer/images/joomla_x_icon.png', admin_menu_link = 'option=com_extplorer' WHERE id=$id");
-	$database->query();
+		$database->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_extplorer'" );
+		$id = $database->loadResult();
+
+		//add new admin menu images
+		$database->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_extplorer/images/joomla_x_icon.png', admin_menu_link = 'option=com_extplorer' WHERE id=$id");
+		$database->query();
+	}
 }
 ?>

@@ -37,22 +37,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * I wouldn't recommend to let in Managers
  * allowed: Superadministrator
 **/
-if( !@is_object($my) && is_callable(array('jfactory','getuser'))) {
-	$my = JFactory::getUser();
-}
-if( @is_object($my)) {
-	if ($my->usertype != 'Super Administrator') {
-		$url = htmlspecialchars($_SERVER['PHP_SELF']);
-		if (headers_sent()) {
-			echo "<script>document.location.href='$url';</script>\n";
-		} else {
-			@ob_end_clean(); // clear output buffer
-			header( 'HTTP/1.1 403 Forbidden' );
-			header( "Location: ". $url );
-		}
-	}
-}
-// The joomlaXplorer version number
+
+// The eXtplorer version number
 $GLOBALS['ext_version'] = '2.1.0';
 $GLOBALS['ext_home'] = 'http://extplorer.sourceforge.net';
 
@@ -64,6 +50,30 @@ if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 umask(0002); // Added to make created files/dirs group writable
 //------------------------------------------------------------------------------
 require_once( dirname( __FILE__) . "/include/init.php" );	// Init
+
+if( !@is_object($my) && is_callable(array('jfactory','getuser'))) {
+	$my = JFactory::getUser();
+}
+
+if( @is_object($my)) {
+	
+	if( ext_isJoomla('1.6', '>=' )) {
+		$access = $my->authorise('core.admin');
+	} else {
+		$access = $my->usertype == 'Super Administrator';
+	}
+	
+	if (!$access) {
+		$url = htmlspecialchars($_SERVER['PHP_SELF']);
+		if (headers_sent()) {
+			echo "<script>document.location.href='$url';</script>\n";
+		} else {
+			@ob_end_clean(); // clear output buffer
+			header( 'HTTP/1.1 403 Forbidden' );
+			header( "Location: ". $url );
+		}
+	}
+}
 
 /** Needed to keep the filelist in the XML installer file up-to-date
 $path = dirname(__FILE__);
@@ -193,4 +203,3 @@ if( ext_isFTPMode() ) {
 if( ext_isXHR() ) {
 	ext_exit();
 }
-

@@ -3,7 +3,7 @@
 <install type="component" version="1.5.0">
 <!-- Joomla! 1.5 Installer XML File -->
     <name>eXtplorer</name>
-    <creationDate>09.11.2010</creationDate>
+    <creationDate>04.01.2011</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
     <license>GNU/GPL, alternative: MPL</license>
@@ -22,7 +22,9 @@
 	  <li>Creating and Extracting Archives with Files and Directories,</li>
 	  <li>Changing file permissions (chmod)</li></ul><br/>and much more.<br/><br/>
 	  <strong>By default restricted to Superadministrators!</strong>
-	]]></description>
+	]]></description> 
+	<!-- Runs on install/uninstall/update; New in J! 1.6 -->
+    <scriptfile>script.php</scriptfile>
     <files>
         <filename>configuration.ext.php</filename>
         <filename>extplorer.php</filename>
@@ -66,7 +68,7 @@
     </uninstall>
     <installfile>install.extplorer.php</installfile>
     <administration>
-        <menu>eXtplorer</menu>
+        <menu img="../administrator/components/com_extplorer/images/joomla_x_icon.png">eXtplorer</menu>
         <files>		
 				<filename>scripts.tar.gz</filename>
 				<filename>CHANGELOG.txt</filename>

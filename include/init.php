@@ -49,14 +49,6 @@ if (isset($_SERVER)) {
 }
 
 //------------------------------------------------------------------------------
-// check for the existance of Joomla!/Mambo mainframe variable
-	if ( !is_callable( array( $GLOBALS['mainframe'], 'getuser') )) {
-		// login to use eXtplorer: (true/false)
-		$GLOBALS["require_login"] = true;
-	} else {
-		$GLOBALS["require_login"] = false;
-	}
-
 	// if gzcompress is available, we can use Zip, Tar and TGz
 	if ( extension_loaded("zlib")) {
 		$GLOBALS["zip"] = $GLOBALS["tgz"] = true;
@@ -90,6 +82,14 @@ if (function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
 require_once(_EXT_PATH . '/application.php');
 require_once(_EXT_PATH . '/include/functions.php');
 
+// check if we need login
+	if ( !ext_isjoomla() ) {
+		// login to use eXtplorer: (true/false)
+		$GLOBALS["require_login"] = true;
+	} else {
+		$GLOBALS["require_login"] = false;
+	}
+
 if (!class_exists('InputFilter')) {
 	require_once( _EXT_PATH . '/libraries/inputfilter.php' );
 }
@@ -99,6 +99,9 @@ $GLOBALS["separator"] = ext_getSeparator();
 
 $action 			= stripslashes(extGetParam( $_REQUEST, "action" ));
 $default_lang		= !empty( $GLOBALS['mosConfig_lang'] ) ? $GLOBALS['mosConfig_lang'] : ext_Lang::detect_lang();
+if( !@is_object( $mainframe )) {
+	$mainframe = JFactory::getApplication('administrator');
+}
 $GLOBALS["language"] = basename($mainframe->getUserStateFromRequest( 'language', 'lang', $default_lang ));
 
 // Get Item
@@ -252,4 +255,3 @@ if (!get_is_dir(utf8_decode($abs_dir)) && !get_is_dir($abs_dir.$GLOBALS["separat
 
 $_SESSION['ext_'.$GLOBALS['file_mode'].'dir'] = $dir;
 //------------------------------------------------------------------------------
-?>
