@@ -161,14 +161,17 @@ class ext_Upload extends ext_Action {
 			"post_params": { 
 				"<?php echo session_name()?>": "<?php echo session_id() ?>",
 				"<?php echo get_cfg_var ('session.name') ?>": "<?php echo session_id() ?>",
+				"session_name": "<?php echo session_name()?>",
+				"user_agent": "<?php echo addslashes( $_SERVER['HTTP_USER_AGENT'] ) ?>",
 				"option": "com_extplorer", 
 				"action": "upload", 
 				"dir": datastore.directory, 
 				"requestType": "xmlhttprequest",
 				"confirm": "true"
 			},
+			
 <?php
-		if (isset($_REQUEST["debug"])) print "debug: true,";
+		if ( $_SERVER['SERVER_NAME'] == 'localhost' ) echo '"debug": "true",';
 ?>				
 			"flash_url": "<?php echo _EXT_URL ?>/scripts/extjs3-ext/ux.swfupload/swfupload.swf",
 			"file_size_limit": "<?php echo get_max_file_size() ?>B",
