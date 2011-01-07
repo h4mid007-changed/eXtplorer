@@ -1,17 +1,26 @@
 <?php
 // eXtplorer Flash Upload Handler for Joomla!
 if( @$_POST['option'] == 'com_extplorer' && !empty($_POST[session_name()]) && !defined('_JEXEC') ) {
+	session_name( $_POST['session_name'] );
 	$sess_id = substr( $_POST[session_name()], 0 , 32 );
 	$_COOKIE[session_name()] = $sess_id;
 	session_id( $sess_id );
+	session_start();
+	// we need to spoof J! 1.6 and modify the user agent to get the allowance to reuse the existing browser session
+	$_SERVER['HTTP_USER_AGENT'] = stripslashes( $_POST['user_agent'] );
+
 	/**DEBUG
 	$res = "\r\nTime: ".time()."\r\nSession Name: ".session_name().', Session ID: '.session_id();
+	$res .= "\r\nUser Agent String: ".$_SERVER['HTTP_USER_AGENT'];
 	$res .= "\r\nCOOKIE: ".print_r( $_COOKIE, true )."\r\nPOST: ".print_r( $_POST, true );
-	file_put_contents( 'debug.txt', $res, FILE_APPEND );
-	**/
+	//die( $res );
+	//file_put_contents( 'debug.txt', $res, FILE_APPEND );
+	//**/
 	
-	if( file_exists('/../../configuration.php') ){
-		require( '/../../index.php' ); 
+	if( file_exists('../../../configuration.php') ){
+		//  we had our fun, enough values set-
+		// now just continue with the default Joomla! /administrator/index.php
+		require( '../../index.php' ); 
 	} else {
 		require( dirname(__FILE__).'/index.php' ); 
 	}
