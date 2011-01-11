@@ -3,6 +3,7 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- fixed filesize for files > 2GB
 - works with Joomla! 1.6 now
 
 --- version 2.1.0 RC2 released ---

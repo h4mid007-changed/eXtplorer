@@ -227,7 +227,7 @@ function get_dir_size($dir) {
 function parse_file_size($bytes, $precision = 2) {
     $units = array('B', 'KB', 'MB', 'GB', 'TB');
     if( !is_float($bytes)) {
-    	$bytes = (int)sprintf("%u", $bytes);
+    	$bytes = (float)sprintf("%u", $bytes);
     }
     $bytes = max($bytes, 0);
     $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
