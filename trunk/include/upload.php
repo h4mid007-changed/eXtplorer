@@ -174,6 +174,7 @@ class ext_Upload extends ext_Action {
 		if ( $_SERVER['SERVER_NAME'] == 'localhost' ) echo '"debug": "true",';
 ?>				
 			"flash_url": "<?php echo _EXT_URL ?>/scripts/extjs3-ext/ux.swfupload/swfupload.swf",
+			"prevent_swf_caching": "false",
 			"file_size_limit": "<?php echo get_max_file_size() ?>B",
 			// Custom Params
 			"single_file_select": false, // Set to true if you only want to select one file from the FileDialog.

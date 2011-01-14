@@ -5,7 +5,6 @@ if( @$_POST['option'] == 'com_extplorer' && !empty($_POST[session_name()]) && !d
 	$sess_id = substr( $_POST[session_name()], 0 , 32 );
 	$_COOKIE[session_name()] = $sess_id;
 	session_id( $sess_id );
-	session_start();
 	// we need to spoof J! 1.6 and modify the user agent to get the allowance to reuse the existing browser session
 	$_SERVER['HTTP_USER_AGENT'] = stripslashes( $_POST['user_agent'] );
 
@@ -18,6 +17,7 @@ if( @$_POST['option'] == 'com_extplorer' && !empty($_POST[session_name()]) && !d
 	//**/
 	
 	if( file_exists('../../../configuration.php') ){
+		session_start();
 		//  we had our fun, enough values set-
 		// now just continue with the default Joomla! /administrator/index.php
 		require( '../../index.php' ); 

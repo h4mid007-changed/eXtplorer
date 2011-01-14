@@ -174,7 +174,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 	// Flash Settings
 	this.ensureDefault("flash_url", "swfupload.swf");
 	this.ensureDefault("flash9_url", "swfupload_fp9.swf");
-	this.ensureDefault("prevent_swf_caching", true);
+	this.ensureDefault("prevent_swf_caching", false);
 	
 	// Button Settings
 	this.ensureDefault("button_image_url", "");

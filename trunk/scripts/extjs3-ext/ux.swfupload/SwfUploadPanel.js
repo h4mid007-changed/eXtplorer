@@ -346,6 +346,7 @@ Ext.ux.SwfUploadPanel = Ext.extend(Ext.grid.GridPanel, {
             file_types_description: this.file_types_description,
             file_upload_limit: this.file_upload_limit,
             flash_url: this.flash_url,   
+			prevent_swf_caching: this.prevent_swf_caching,
     
             // Event Handler Settings
             swfupload_loaded_handler: this.swfUploadLoaded.createDelegate(this),
