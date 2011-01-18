@@ -1,12 +1,11 @@
 <?php
+// $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $
 // eXtplorer Flash Upload Handler for Joomla!
 if( @$_POST['option'] == 'com_extplorer' && !empty($_POST[session_name()]) && !defined('_JEXEC') ) {
-	session_name( $_POST['session_name'] );
+	session_name( substr( $_POST['session_name'], 0 , 32 ) );
 	$sess_id = substr( $_POST[session_name()], 0 , 32 );
 	$_COOKIE[session_name()] = $sess_id;
 	session_id( $sess_id );
-	// we need to spoof J! 1.6 and modify the user agent to get the allowance to reuse the existing browser session
-	$_SERVER['HTTP_USER_AGENT'] = stripslashes( $_POST['user_agent'] );
 
 	/**DEBUG
 	$res = "\r\nTime: ".time()."\r\nSession Name: ".session_name().', Session ID: '.session_id();
@@ -17,6 +16,8 @@ if( @$_POST['option'] == 'com_extplorer' && !empty($_POST[session_name()]) && !d
 	//**/
 	
 	if( file_exists('../../../configuration.php') ){
+		// we need to spoof J! 1.6 and modify the user agent to get the allowance to reuse the existing browser session
+		$_SERVER['HTTP_USER_AGENT'] = stripslashes( $_POST['user_agent'] );
 		session_start();
 		//  we had our fun, enough values set-
 		// now just continue with the default Joomla! /administrator/index.php
