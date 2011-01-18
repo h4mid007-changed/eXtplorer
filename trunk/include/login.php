@@ -117,7 +117,7 @@ function login() {
 		<div style="width: 400px;" id="formContainer">
 			<div id="ext_logo" style="text-align:center;">
 			<a href="http://extplorer.sourceforge.net" target="_blank">
-				<img src="<?php echo _EXT_URL ?>/images/eXtplorer.gif" align="middle" alt="eXtplorer Logo" style="border:none;" />
+				<img src="<?php echo _EXT_URL ?>/images/eXtplorer-horizontal2.png" align="middle" alt="eXtplorer Logo" style="border:none;" />
 			</a>
 			</div>
 			<noscript>

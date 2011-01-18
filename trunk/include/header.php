@@ -65,7 +65,7 @@ function show_header($dirlinks='') {
 	echo "</td><td style=\"color:black;\" width=\"10%\">";
 	//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
 	echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"eXtplorer Project\">
-		<img src=\""._EXT_URL."/images/eXtplorer.gif\" alt=\"eXtplorer Logo\" border=\"0\" /></a>
+		<img src=\""._EXT_URL."/images/eXtplorer_logo.png\" alt=\"eXtplorer Logo\" border=\"0\" /></a>
 		</td>";
 	//echo "</div>";
 	echo "<td style=\"padding-left: 15px; color:black;\" id=\"bookmark_container\" width=\"35%\"></td>\n";
