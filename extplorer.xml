@@ -10,7 +10,7 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
     <authorUrl>http://joomlacode.org/gf/project/joomlaxplorer/</authorUrl>
     <version>2.1.0RC3</version>
     <description><![CDATA[
-	<div align="left"><img src="components/com_extplorer/images/eXtplorer.gif" alt="eXtplorer Logo" /></div>
+	<div align="left"><img src="components/com_extplorer/images/eXtplorer_logo.png" alt="eXtplorer Logo" /></div>
 	<h2>Successfully installed eXtplorer&nbsp;</h2>
 	eXtplorer is a powerful File- and FTP/WebDAV Manager script. 
 	<br/>It allows 
@@ -113,7 +113,8 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
 				<filename>images/_save.png</filename>
 				<filename>images/_up.png</filename>
 				<filename>images/_view.png</filename>
-				<filename>images/eXtplorer.gif</filename>
+				<filename>images/eXtplorer-horizontal2.png</filename>
+				<filename>images/eXtplorer_logo.png</filename>
 				<filename>images/extension/avi.png</filename>
 				<filename>images/extension/bmp.png</filename>
 				<filename>images/extension/bz2.png</filename>
