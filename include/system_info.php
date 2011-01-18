@@ -309,7 +309,7 @@ function show_about() {
 	//$sess = print_r($_SESSION,true);
 	//echo str_replace(array("\r", "\n"),array('',''),$sess);
 	echo "\n<div id=\"ext_footer\" style=\"text-align:center;\">
-	<img src=\""._EXT_URL."/images/eXtplorer.gif\" align=\"middle\" alt=\"eXtplorer Logo\" />
+	<img src=\""._EXT_URL."/images/eXtplorer_logo.png\" align=\"middle\" alt=\"eXtplorer Logo\" />
 	<br />
 	".ext_Lang::msg('your_version').": <a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\">eXtplorer {$GLOBALS['ext_version']}</a>
 	<br />
