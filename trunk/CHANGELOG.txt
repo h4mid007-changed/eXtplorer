@@ -3,6 +3,9 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- fixed a fatal error in the webdav module
+- added ability to load without fetchscript.php (when it's inaccessible due to server permission problems)
+
 --- version 2.1.0 RC3 released ---
 
 - fixed filesize for files > 2GB

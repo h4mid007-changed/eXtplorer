@@ -106,11 +106,11 @@ function login() {
 	// Ask for Login
 	$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );
 	$GLOBALS['mainframe']->addcustomheadtag( '
-		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
-			.'subdir[0]=scripts/extjs3/adapter/ext/&amp;file[0]=ext-base.js'
-			.'&amp;subdir[1]=scripts/extjs3/&amp;file[1]=ext-all.js&amp;gzip=1"></script>
+		<script type="text/javascript" src="scripts/extjs3/adapter/ext/ext-base.js"></script>
+		<script type="text/javascript" src="scripts/extjs3/ext-all.js"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
-		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?subdir[0]=scripts/extjs3/resources/css/&file[0]=ext-all.css&amp;subdir[1]=scripts/extjs3/resources/css/&file[1]=xtheme-blue.css&amp;gzip=1" />');
+		<link rel="stylesheet" href="'. _EXT_URL . '/scripts/extjs3/resources/css/ext-all.css" />
+		<link rel="stylesheet" href="scripts/extjs3/resources/css/xtheme-blue.css" />');
 
 			
 			?>

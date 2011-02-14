@@ -920,8 +920,7 @@ function ext_init(){
     ?>    
 }
 if( typeof Ext == 'undefined' ) {
-	alert( 'The ExtJS Library could not be found.\nPlease make sure that eXtplorer has been fully installed\nand the file "fetchscript.php" in the\nextplorer directory is not chmodded to 777\n(so chmod to 644 or 666)' );
-	document.location = '<?php echo basename( $GLOBALS['script_name']) ?>';
+	document.location = '<?php echo basename( $GLOBALS['script_name']) ?>?option=com_extplorer&nofetchscript=1';
 }
 
 function startExtplorer() {

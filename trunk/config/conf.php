@@ -17,6 +17,8 @@ $GLOBALS['ext_conf']['remote_hosts_allowed'] = array('localhost',
 													);
 
 $GLOBALS['allow_webdav'] = 0;
+$GLOBALS['webdav_authentication_method'] = 'extplorer'; // use one of the  authentication methods in /include/authentication
+
 // The following database settings are only necessary if you want to use WebDAV in Standalone Mode.
 // Joomla users don't need to enter their DB settings here, 
 // because eXtplorer will read them from the Joomla configuration file instead.

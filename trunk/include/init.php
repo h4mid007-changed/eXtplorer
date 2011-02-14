@@ -47,7 +47,9 @@ if (isset($_SERVER)) {
 	die("<strong>ERROR: Your PHP version is too old</strong><br/>".
 	"You need at least PHP 5.0 to run eXtplorer; preferably PHP 5.2 or higher.");
 }
-
+if( !empty( $_GET['nofetchscript'])) {
+	$_COOKIE['nofetchscript'] = 1;
+}
 //------------------------------------------------------------------------------
 	// if gzcompress is available, we can use Zip, Tar and TGz
 	if ( extension_loaded("zlib")) {
@@ -167,6 +169,7 @@ require_once(_EXT_PATH . "/include/result.class.php");
 
 if( $action == 'include_javascript' ) {
   	while (@ob_end_clean());
+	ob_start();
   	header("Content-Type: text/javascript; charset=".strtolower($GLOBALS["charset"]));
   	include( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php');
   	ext_exit();

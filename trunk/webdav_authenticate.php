@@ -67,7 +67,16 @@ function AuthenticationBasicHTTP($realm, $users, $phpcgi=0) {
 	}
 
 	if (array_key_exists($user, $users) && $users[$user] == extEncodePassword($_SERVER['PHP_AUTH_PW']) ){
-		activate_user($user, extEncodePassword($_SERVER['PHP_AUTH_PW']));
+		if( !empty($GLOBALS['webdav_authentication_method']) && file_exists(_EXT_PATH.'/include/authentication/'.$GLOBALS['webdav_authentication_method'].'.php') ) {
+			require_once( _EXT_PATH.'/include/authentication/'.$GLOBALS['webdav_authentication_method'].'.php');
+			$classname = 'ext_'.$GLOBALS['webdav_authentication_method'].'_authentication';
+			$auth = new $classname();
+			
+		} else {
+			require_once( _EXT_PATH.'/include/authentication/extplorer.php');
+			$auth = new ext_extplorer_authentication();
+		}
+		$auth->onAuthenticate(array('user' => $user, 'password' => $_SERVER['PHP_AUTH_PW'] ));
 		return TRUE;
 	}
 
@@ -76,4 +85,3 @@ function AuthenticationBasicHTTP($realm, $users, $phpcgi=0) {
 	die('401 Unauthorized');
 	return FALSE;
 }
-?>
