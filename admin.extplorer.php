@@ -195,7 +195,7 @@ if( class_exists(strtolower($classname)) && is_callable(array($classname,'execac
 }
 //------------------------------------------------------------------------------
 // Disconnect from ftp server
-if( ext_isFTPMode() ) {
+if( ext_isFTPMode() && is_object($GLOBALS['FTPCONNECTION']) ) {
 	$GLOBALS['FTPCONNECTION']->disconnect();
 }
 

@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2011
  * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -709,7 +709,10 @@ function ext_isXHR() {
 }
 function ext_exit() {
 	global $mainframe;
-
+	if( class_exists( 'jfactory' )) {
+		$app = jfactory::getApplication();
+		$app->close();
+	}
 	if( is_callable( array( $mainframe, 'close' ) ) ) {
 		$mainframe->close();
 	} else {
@@ -881,7 +884,28 @@ class extProfiler {
 */
 class extHTML {
 	function loadExtJS() {
-		$scriptTag = '
+		$scripts[] = array('dir' => 'scripts/editarea/', 'file' => 'edit_area_full_with_plugins.js');
+		$scripts[] = array('dir' => 'scripts/extjs3/adapter/ext/', 'file' => 'ext-base.js');
+		$scripts[] = array('dir' => 'scripts/extjs3/', 'file' => 'ext-all.js');
+		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.ondemandload/', 'file' => 'scriptloader.js');
+		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.editareaadapater/', 'file' => 'ext-editarea-adapter.js');
+		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.statusbar/', 'file' => 'ext-statusbar.js');
+		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.fileuploadfield/', 'file' => 'ext-fileUploadField.js');
+		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.locationbar/', 'file' => 'Ext.ux.LocationBar.js');
+		
+		$styles[] = array('dir' => 'scripts/extjs3/resources/css/', 'file' => 'ext-all.css');
+		$styles[] = array('dir' => 'scripts/extjs3-ext/ux.locationbar/', 'file' => 'LocationBar.css');
+		$styles[] = array('dir' => 'scripts/extjs3-ext/ux.fileuploadfield/', 'file' => 'fileuploadfield.css');
+		$scriptTag = '';
+		if( !empty($_GET['nofetchscript']) || !empty( $_COOKIE['nofetchscript'])) {
+			foreach( $scripts as $script ) {
+				$scriptTag .= '<script type="text/javascript" src="'.$script['dir'].$script['file'].'"></script>';
+			}
+			foreach( $styles as $style ) {
+				$scriptTag .= '<link type="text/css" href="'.$style['dir'].$style['file'].'" rel="stylesheet" />';
+			}			
+		} else {
+			$scriptTag = '
 		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
 			.'&amp;subdir[]=scripts/editarea/&amp;file[]=edit_area_full_with_plugins.js'
 			.'&amp;subdir[]=scripts/extjs3/adapter/ext/&amp;file[]=ext-base.js'
@@ -891,14 +915,17 @@ class extHTML {
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.statusbar/&amp;file[]=ext-statusbar.js'
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.fileuploadfield/&amp;file[]=ext-fileUploadField.js'
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=Ext.ux.LocationBar.js'
-			.'&amp;gzip=1"></script>
-		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
-		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>
+			.'&amp;gzip=1"></script>';
+			$scriptTag .= '
 		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?'
 			.'subdir[]=scripts/extjs3/resources/css/&amp;file[]=ext-all.css'
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=LocationBar.css'
 			.'&amp;subdir[]=scripts/extjs3-ext/ux.fileuploadfield/&amp;file[]=fileuploadfield.css'
 			.'&amp;gzip=1" />';
+		}
+		$scriptTag .= '
+		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
+		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>';
 
 	
 		if (defined('EXT_STANDALONE')) {
