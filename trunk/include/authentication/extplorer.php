@@ -185,3 +185,4 @@ class ext_extplorer_authentication {
 		logout();
 	}
 } 
+?>

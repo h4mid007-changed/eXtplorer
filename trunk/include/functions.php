@@ -425,7 +425,7 @@ function get_dir_selects( $dir ) {
 	return $dir_links;
 }
 //------------------------------------------------------------------------------
-function copy_dir($source,$dest) {		// copy dir
+function ext_copy_dir($source,$dest) {		// copy dir
 	$ok = true;
 	$source = str_replace( '\\', '/', $source );
 	$dest = str_replace( '\\', '/', $dest );

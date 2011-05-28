@@ -318,7 +318,7 @@ function adduser($dir) {			// Add User
 			$GLOBALS['__POST']["show_hidden"],stripslashes($GLOBALS['__POST']["no_access"]),
 			$GLOBALS['__POST']["permissions"],$GLOBALS['__POST']["active"]);
 
-		if(!add_user($data)) {
+		if(!ext_add_user($data)) {
 			ext_Result::sendResult('adduser', false, $user.": ".$GLOBALS["error_msg"]["adduser"]);
 		}
 		ext_Result::sendResult('adduser', true, $user.": The user has been added");

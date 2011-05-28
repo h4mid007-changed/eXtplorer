@@ -86,14 +86,14 @@ class ext_File {
 	}
 
 
-	function copy_dir($abs_item, $abs_new_item) {
+	function ext_copy_dir($abs_item, $abs_new_item) {
 		if (ext_isFTPMode()) {
 			$tmp_dir = ext_ftp_make_local_copy($abs_item);
 			$res = $GLOBALS['FTPCONNECTION']->putRecursive($tmp_dir, $abs_new_item);
 			remove($tmp_dir);
 			return $res;
 		} else {
-			return copy_dir($abs_item,$abs_new_item);
+			return ext_copy_dir($abs_item,$abs_new_item);
 		}
 	}
 

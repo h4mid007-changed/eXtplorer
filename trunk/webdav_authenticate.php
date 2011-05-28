@@ -85,3 +85,4 @@ function AuthenticationBasicHTTP($realm, $users, $phpcgi=0) {
 	die('401 Unauthorized');
 	return FALSE;
 }
+?>

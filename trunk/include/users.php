@@ -88,7 +88,7 @@ function update_user($user,$new_data) {
 	return save_users();
 }
 //------------------------------------------------------------------------------
-function add_user($data) {
+function ext_add_user($data) {
 	if(find_user($data[0],NULL)) return false;
 
 	$GLOBALS["users"][]=$data;
