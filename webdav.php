@@ -78,3 +78,5 @@ if( stristr( $_SERVER['SCRIPT_NAME'], 'administrator/components/com_extplorer'))
 
 # Real path of your site
 $server->ServeRequest($GLOBALS["home_dir"]);
+
+?>
