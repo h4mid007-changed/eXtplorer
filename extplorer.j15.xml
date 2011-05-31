@@ -69,7 +69,7 @@ $Id$ -->
     </uninstall>
     <installfile>install.extplorer.php</installfile>
     <administration>
-        <menu img="../administrator/components/com_extplorer/images/joomla_x_icon.png">eXtplorer</menu>
+        <menu img="../administrator/components/com_extplorer/images/x_icon.png">eXtplorer</menu>
         <files>		
 				<filename>scripts.tar.gz</filename>
 				<filename>CHANGELOG.txt</filename>
@@ -186,7 +186,7 @@ $Id$ -->
 				<filename>images/extension/xml.png</filename>
 				<filename>images/extension/zip.png</filename>
 				<filename>images/index.html</filename>
-				<filename>images/joomla_x_icon.png</filename>
+				<filename>images/x_icon.png</filename>
 				<filename>images/logo.gif</filename>
 				<filename>images/systeminfo.gif</filename>
 				<filename>include/.htaccess</filename>

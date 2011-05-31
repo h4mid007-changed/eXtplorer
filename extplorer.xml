@@ -181,7 +181,7 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
 				<filename>images/extension/xml.png</filename>
 				<filename>images/extension/zip.png</filename>
 				<filename>images/index.html</filename>
-				<filename>images/joomla_x_icon.png</filename>
+				<filename>images/x_icon.png</filename>
 				<filename>images/logo.gif</filename>
 				<filename>images/systeminfo.gif</filename>
 				<filename>include/.htaccess</filename>
