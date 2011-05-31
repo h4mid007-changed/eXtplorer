@@ -5,7 +5,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -35,7 +35,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 //------------------------------------------------------------------------------
 require_once _EXT_PATH."/include/users.php";
-load_users();
+ext_load_users();
 //------------------------------------------------------------------------------
 
 $GLOBALS['__SESSION']=&$_SESSION;
@@ -116,7 +116,7 @@ function login() {
 			?>
 		<div style="width: 400px;" id="formContainer">
 			<div id="ext_logo" style="text-align:center;">
-			<a href="http://extplorer.sourceforge.net" target="_blank">
+			<a href="http://extplorer.net" target="_blank">
 				<img src="<?php echo _EXT_URL ?>/images/eXtplorer-horizontal2.png" align="middle" alt="eXtplorer Logo" style="border:none;" />
 			</a>
 			</div>

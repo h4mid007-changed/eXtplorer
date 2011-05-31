@@ -4,8 +4,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2010
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @copyright soeren 2007-2011
+ * @author The eXtplorer project (http://extplorer.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -163,5 +163,5 @@ function ftp_logout() {
 	unset($_SESSION['ftp_pass']);
 	unset($_SESSION['ftp_host']);
 	session_write_close();
-	extRedirect( make_link(null, null, null, null, null, null, '&file_mode=file') );
+	extRedirect( ext_make_link(null, null, null, null, null, null, '&file_mode=file') );
 }

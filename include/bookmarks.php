@@ -4,8 +4,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2010
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @copyright soeren 2007-2011
+ * @author The eXtplorer project (http://extplorer.net)
  * 
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -72,7 +72,7 @@ function strip_invalid_key_char($s, $replacement ="") {
  *
  * @param string $dir
  */
-function modify_bookmark( $task, $dir ) {
+function ext_modify_bookmark( $task, $dir ) {
 	global $my, $user, $mainframe;
 	$alias = substr( extGetParam($_REQUEST,'alias'), 0, 150 );
 	$bookmarks = read_bookmarks();
@@ -128,7 +128,7 @@ function modify_bookmark( $task, $dir ) {
 	file_put_contents( $bookmarkfile, $inifile );
 
 	echo $msg;
-	echo list_bookmarks($dir);
+	echo ext_list_bookmarks($dir);
 	exit;
 }
 
@@ -137,7 +137,7 @@ function modify_bookmark( $task, $dir ) {
  *
  * @param string $dir
  */
-function list_bookmarks( $dir ) {
+function ext_list_bookmarks( $dir ) {
 
 	$bookmarks = read_bookmarks();
 	$bookmarks = array_flip($bookmarks);
@@ -163,7 +163,7 @@ function list_bookmarks( $dir ) {
 	$addlink=$removelink='';
 
 	if( !isset( $bookmarks[$dir] ) && $dir != '' && $dir != '/' ) {
-		$addlink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=add" onclick="'
+		$addlink = '<a href="'.ext_make_link('modify_bookmark', $dir ).'&task=add" onclick="'
 		.'Ext.Msg.prompt(\''.ext_Lang::msg('lbl_add_bookmark',true).'\', \''.ext_Lang::msg('enter_alias_name', true ).':\', '
 		.'function(btn, text){ '
 			.'if (btn == \'ok\') { '
@@ -182,7 +182,7 @@ function list_bookmarks( $dir ) {
 			.'}'
 		.'}); return false;" title="'.$GLOBALS['messages']['lbl_add_bookmark'].'" >'.$img_add.'</a>';
 	} elseif( $dir != '' && $dir != '/' ) {
-		$removelink = '<a href="'.make_link('modify_bookmark', $dir ).'&task=remove" onclick="'
+		$removelink = '<a href="'.ext_make_link('modify_bookmark', $dir ).'&task=remove" onclick="'
 		.'Ext.Msg.confirm(\''.ext_Lang::msg('lbl_remove_bookmark', true ).'\',\''.ext_Lang::msg('lbl_remove_bookmark', true ).'?\', '
 		.'function(btn, text){ '
 			.'if (btn == \'yes\') { '

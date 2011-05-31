@@ -2,10 +2,10 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: ftp_authentication.php 143 2009-04-01 18:48:16Z soeren $
+ * @version $Id: ftp_authentication.php 143 2009-05-30 20:22:16Z sloarch $
  * @package eXtplorer
  * @copyright soeren 2007-2010
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -41,7 +41,7 @@ class ext_extplorer_authentication {
 		// Check Login
 		//------------------------------------------------------------------------------
 
-		$data=find_user($credentials['username'], $credentials['password'] );
+		$data=ext_find_user($credentials['username'], $credentials['password'] );
 		if($data==NULL) {
 			return false;
 		}

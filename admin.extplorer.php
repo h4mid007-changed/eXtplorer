@@ -8,7 +8,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
  * @package eXtplorer
  * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -40,7 +40,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 // The eXtplorer version number
 $GLOBALS['ext_version'] = '2.1.0';
-$GLOBALS['ext_home'] = 'http://extplorer.sourceforge.net';
+$GLOBALS['ext_home'] = 'http://extplorer.net';
 
 //------------------------------------------------------------------------------
 if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
@@ -120,21 +120,21 @@ if( class_exists(strtolower($classname)) && is_callable(array($classname,'execac
 	// COPY/MOVE FILE(S)/DIR(S)
 	case "copy":	case "move":
 		require_once( _EXT_PATH ."/include/copy_move.php" );
-		copy_move_items($dir);
+		ext_copy_move_items($dir);
 	break;
 
 	//------------------------------------------------------------------------------
 	// SEARCH FOR FILE(S)/DIR(S)
 	case "search":
 		require_once( _EXT_PATH ."/include/search.php" );
-		search_items($dir);
+		ext_search_items($dir);
 	break;
 
 	//------------------------------------------------------------------------------
 	// USER-ADMINISTRATION
 	case "admin":
 		require_once( _EXT_PATH . "/include/admin.php" );
-		show_admin($dir);
+		ext_show_admin($dir);
 	break;
 
 	//------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ if( class_exists(strtolower($classname)) && is_callable(array($classname,'execac
 	case 'modify_bookmark':
 		$task = extGetParam( $_REQUEST, 'task' );
 		require_once( _EXT_PATH.'/include/bookmarks.php' );
-		modify_bookmark( $task, $dir );
+		ext_modify_bookmark( $task, $dir );
 
 		break;
 	//------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ if( class_exists(strtolower($classname)) && is_callable(array($classname,'execac
 			break;
 	case 'chdir_event':
 			require_once( _EXT_PATH.'/include/bookmarks.php' );
-			$response = Array( 'bookmarks' => list_bookmarks($dir) );
+			$response = Array( 'bookmarks' => ext_list_bookmarks($dir) );
 			$classname = class_exists('ext_Json') ? 'ext_Json' : 'Services_JSON';
 			$json = new $classname();
 			echo $json->encode( $response );

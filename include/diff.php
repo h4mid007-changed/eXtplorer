@@ -5,7 +5,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id: edit.php 129 2009-01-26 16:14:53Z ryu_ms $
  * @package eXtplorer
  * @copyright Geoffrey Tran 2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  *
  * @license

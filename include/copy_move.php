@@ -5,7 +5,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  *
  * @license
@@ -36,7 +36,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * File/Directory Copy & Move Functions
  */
-function copy_move_items($dir) {		// copy/move file/dir
+function ext_copy_move_items($dir) {		// copy/move file/dir
 	$action = extGetParam( $_REQUEST, 'action' );
 	if(($GLOBALS["permissions"]&01)!=01){
 		ext_Result::sendResult( $action, false, $GLOBALS["error_msg"]["accessfunc"]);
@@ -50,7 +50,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 	$cnt=count($GLOBALS['__POST']["selitems"]);
 
 	if (!$new_dir) {
-	    copy_move_dialog($dir);
+	    ext_copy_move_dialog($dir);
 	    return;
 	}
 
@@ -147,7 +147,7 @@ function copy_move_items($dir) {		// copy/move file/dir
 	ext_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
 }
 
-function copy_move_dialog($dir='') {
+function ext_copy_move_dialog($dir='') {
     $action = extGetParam( $_REQUEST, 'action' );
     ?>
 {

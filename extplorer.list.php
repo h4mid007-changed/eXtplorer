@@ -4,8 +4,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @copyright soeren 2007-2011
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -139,7 +139,7 @@ function print_table($dir, $list, $allow) {	// print table of files
 	global $dir_up;
 	if(!is_array($list)) return;
 	if( $dir != "" || strstr( $dir, _EXT_PATH ) ) {
-	echo "<tr class=\"sectiontableentry1\"><td valign=\"baseline\"><a href=\"".make_link("list",$dir_up,NULL)."\">";
+	echo "<tr class=\"sectiontableentry1\"><td valign=\"baseline\"><a href=\"".ext_make_link("list",$dir_up,NULL)."\">";
 	echo "<img border=\"0\" align=\"absmiddle\" src=\""._EXT_URL."/images/_up.png\" ";
 	echo "alt=\"".$GLOBALS["messages"]["uplink"]."\" title=\"".$GLOBALS["messages"]["uplink"]."\"/>&nbsp;&nbsp;..</a></td>\n";
 	echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
@@ -163,9 +163,9 @@ function print_table($dir, $list, $allow) {	// print table of files
 		$is_file = false;
 		//if(is_link($abs_item)) $extra=" -> ".@readlink($abs_item);
 		if(@is_dir($abs_item)) {
-			$link = make_link("list",get_rel_item($dir, $item),NULL);
+			$link = ext_make_link("list",get_rel_item($dir, $item),NULL);
 		} else { //if(get_is_editable($dir,$item) || get_is_image($dir,$item)) {
-			$link = make_link("download",$dir,$item);
+			$link = ext_make_link("download",$dir,$item);
 			$is_file = true;
 		} //else $link = "";
 
@@ -227,11 +227,11 @@ function list_dir($dir) {			// list directory contents
 
 	$dirs = explode( "/", $dir );
 	$implode = "";
-	$dir_links = "<a href=\"".make_link( "list", "", null )."\">..</a>&nbsp;/&nbsp;";
+	$dir_links = "<a href=\"".ext_make_link( "list", "", null )."\">..</a>&nbsp;/&nbsp;";
 	foreach( $dirs as $directory ) {
 	if( $directory != "" ) {
 		$implode .= $directory."/";
-		$dir_links .= "<a href=\"".make_link( "list", $implode, null )."\">$directory</a>&nbsp;/&nbsp;";
+		$dir_links .= "<a href=\"".ext_make_link( "list", $implode, null )."\">$directory</a>&nbsp;/&nbsp;";
 	}
 	}
 	echo '<div class="componentheading">'.$GLOBALS["messages"]["actdir"].": ".$dir_links.'</div>';
@@ -250,13 +250,13 @@ function list_dir($dir) {			// list directory contents
 	// PARENT DIR
 	echo "<td>";
 	if( $dir != "" ) {
-	echo "<a href=\"".make_link("list",$dir_up,NULL)."\">";
+	echo "<a href=\"".ext_make_link("list",$dir_up,NULL)."\">";
 	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._EXT_URL."/images/_up.png\" ";
 	echo "alt=\"".$GLOBALS["messages"]["uplink"]."\" title=\"".$GLOBALS["messages"]["uplink"]."\"></a>";
 	}
 	echo "</td>\n";
 	// HOME DIR
-	echo "<td><a href=\"".make_link("list",NULL,NULL)."\">";
+	echo "<td><a href=\"".ext_make_link("list",NULL,NULL)."\">";
 	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._EXT_URL."/images/_home.gif\" ";
 	echo "alt=\"".$GLOBALS["messages"]["homelink"]."\" title=\"".$GLOBALS["messages"]["homelink"]."\"></a></td>\n";
 	// RELOAD
@@ -264,7 +264,7 @@ function list_dir($dir) {			// list directory contents
 	echo "align=\"absmiddle\" src=\""._EXT_URL."/images/_refresh.gif\" alt=\"".$GLOBALS["messages"]["reloadlink"];
 	echo "\" title=\"".$GLOBALS["messages"]["reloadlink"]."\"></A></td>\n";
 	// SEARCH
-	echo "<td><a href=\"".make_link("search",$dir,NULL)."\">";
+	echo "<td><a href=\"".ext_make_link("search",$dir,NULL)."\">";
 	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._EXT_URL."/images/_search.gif\" ";
 	echo "alt=\"".$GLOBALS["messages"]["searchlink"]."\" title=\"".$GLOBALS["messages"]["searchlink"];
 	echo "\"></a></td>\n";
@@ -272,7 +272,7 @@ function list_dir($dir) {			// list directory contents
 	echo "<td><img src=\"images/menu_divider.png\" height=\"22\" width=\"2\" border=\"0\" alt=\"|\" /></td>";
 
 	// Joomla Sysinfo
-	echo "<td><a href=\"".make_link("sysinfo",$dir,NULL)."\">";
+	echo "<td><a href=\"".ext_make_link("sysinfo",$dir,NULL)."\">";
 	echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" src=\""._EXT_URL."/images/systeminfo.gif\" ";
 	echo "alt=\"" . $GLOBALS['messages']['mossysinfolink'] . "\" title=\"" .$GLOBALS['messages']['mossysinfolink'] . "\"></a></td>\n";
 
@@ -296,7 +296,7 @@ function list_dir($dir) {			// list directory contents
 		echo "align=\"absmiddle\" src=\""._EXT_URL."/images/_chmod.gif\" alt=\"chmod\" title=\"" . $GLOBALS['messages']['chmodlink'] . "\"></a></td>\n";
 		// UPLOAD
 		if(ini_get("file_uploads")) {
-			echo "<td><a href=\"".make_link("upload",$dir,NULL)."\">";
+			echo "<td><a href=\"".ext_make_link("upload",$dir,NULL)."\">";
 			echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
 			echo "src=\""._EXT_URL."/images/_upload.gif\" alt=\"".$GLOBALS["messages"]["uploadlink"];
 			echo "\" title=\"".$GLOBALS["messages"]["uploadlink"]."\"></A></td>\n";
@@ -335,13 +335,13 @@ function list_dir($dir) {			// list directory contents
 		echo "<td>::</td>";
 		// ADMIN
 		if($admin) {
-			echo "<td><a href=\"".make_link("admin",$dir,NULL)."\">";
+			echo "<td><a href=\"".ext_make_link("admin",$dir,NULL)."\">";
 			echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
 			echo "src=\""._EXT_URL."/images/_admin.gif\" alt=\"".$GLOBALS["messages"]["adminlink"]."\" title=\"";
 			echo $GLOBALS["messages"]["adminlink"]."\"></A></td>\n";
 		}
 		// LOGOUT
-		echo "<td><a href=\"".make_link("logout",NULL,NULL)."\">";
+		echo "<td><a href=\"".ext_make_link("logout",NULL,NULL)."\">";
 		echo "<img border=\"0\" width=\"22\" height=\"22\" align=\"absmiddle\" ";
 		echo "src=\""._EXT_URL."/images/_logout.gif\" alt=\"".$GLOBALS["messages"]["logoutlink"]."\" title=\"";
 		echo $GLOBALS["messages"]["logoutlink"]."\"></a></td>\n";
@@ -359,7 +359,7 @@ function list_dir($dir) {			// list directory contents
 	// Create File / Dir
 
 	if($allow && is_writable($GLOBALS['home_dir'].'/'.$dir)) {
-		echo "<td align=\"right\"><table><form action=\"".make_link("mkitem",$dir,NULL)."\" method=\"post\">\n<tr><td>";
+		echo "<td align=\"right\"><table><form action=\"".ext_make_link("mkitem",$dir,NULL)."\" method=\"post\">\n<tr><td>";
 		echo "<select name=\"mktype\"><option value=\"file\">".$GLOBALS["mimes"]["file"]."</option>";
 		echo "<option value=\"dir\">".$GLOBALS["mimes"]["dir"]."</option></select>\n";
 		echo "<input name=\"mkname\" type=\"text\" size=\"15\">";
@@ -376,19 +376,19 @@ function list_dir($dir) {			// list directory contents
 	echo"<table width=\"95%\" cellpadding=\"5\" cellspacing=\"2\"><tr class=\"sectiontableheader\">\n";
 	echo "<th width=\"44%\"><b>\n";
 	if($GLOBALS["order"]=="name") $new_srt = $_srt;	else $new_srt = "yes";
-	echo "<a href=\"".make_link("list",$dir,NULL,"name",$new_srt)."\">".$GLOBALS["messages"]["nameheader"];
+	echo "<a href=\"".ext_make_link("list",$dir,NULL,"name",$new_srt)."\">".$GLOBALS["messages"]["nameheader"];
 	if($GLOBALS["order"]=="name") echo $images;
 	echo "</a></b></td>\n<th width=\"10%\"><b>";
 	if($GLOBALS["order"]=="size") $new_srt = $_srt;	else $new_srt = "yes";
-	echo "<a href=\"".make_link("list",$dir,NULL,"size",$new_srt)."\">".$GLOBALS["messages"]["sizeheader"];
+	echo "<a href=\"".ext_make_link("list",$dir,NULL,"size",$new_srt)."\">".$GLOBALS["messages"]["sizeheader"];
 	if($GLOBALS["order"]=="size") echo $images;
 	echo "</a></b></th>\n<th width=\"12%\" ><b>";
 	if($GLOBALS["order"]=="type") $new_srt = $_srt;	else $new_srt = "yes";
-	echo "<a href=\"".make_link("list",$dir,NULL,"type",$new_srt)."\">".$GLOBALS["messages"]["typeheader"];
+	echo "<a href=\"".ext_make_link("list",$dir,NULL,"type",$new_srt)."\">".$GLOBALS["messages"]["typeheader"];
 	if($GLOBALS["order"]=="type") echo $images;
 	echo "</a></b></th>\n<th width=\"12%\"><b>";
 	if($GLOBALS["order"]=="mod") $new_srt = $_srt;	else $new_srt = "yes";
-	echo "<a href=\"".make_link("list",$dir,NULL,"mod",$new_srt)."\">".$GLOBALS["messages"]["modifheader"];
+	echo "<a href=\"".ext_make_link("list",$dir,NULL,"mod",$new_srt)."\">".$GLOBALS["messages"]["modifheader"];
 	if($GLOBALS["order"]=="mod") echo $images;
 	echo "</a></b></th></tr>\n";
 

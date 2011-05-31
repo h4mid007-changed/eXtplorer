@@ -4,8 +4,8 @@ if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @copyright soeren 2007-2011
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -139,7 +139,7 @@ if (!isset($_REQUEST['file_mode']) && !empty($_SESSION['file_mode'])) {
 } else {
 	if (@$_REQUEST['file_mode'] != @$_SESSION['file_mode'] && in_array($_REQUEST['file_mode'], $GLOBALS['ext_conf']['authentication_methods_allowed'])) {
 		if ($action != 'login' && empty($_SESSION['credentials_'.extGetParam($_REQUEST, 'file_mode')])) {
-			extRedirect(make_link( 'login','',null,null,null,null,'&type='.urlencode(extGetParam($_REQUEST, 'file_mode'))));
+			extRedirect(ext_make_link( 'login','',null,null,null,null,'&type='.urlencode(extGetParam($_REQUEST, 'file_mode'))));
 		} else {
 			$GLOBALS['file_mode'] = $_SESSION['file_mode'] = extGetParam($_REQUEST, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
 		}
@@ -236,7 +236,7 @@ $abs_dir=get_abs_dir($GLOBALS["dir"]);
 if (!file_exists($GLOBALS["home_dir"])) {
   if (!file_exists($GLOBALS["home_dir"].$GLOBALS["separator"])) {
 	if ($GLOBALS["require_login"]) {
-		$extra = "<a href=\"" . make_link("logout",NULL,NULL) . "\">" . $GLOBALS["messages"]["btnlogout"] . "</a>";
+		$extra = "<a href=\"" . ext_make_link("logout",NULL,NULL) . "\">" . $GLOBALS["messages"]["btnlogout"] . "</a>";
 	} else {
 		$extra = NULL;
 	}

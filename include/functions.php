@@ -5,7 +5,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007-2011
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -36,7 +36,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * THESE ARE NUMEROUS HELPER FUNCTIONS FOR THE OTHER INCLUDE FILES
  */
 
-function make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages=NULL, $extra=null) {
+function ext_make_link($_action,$_dir,$_item=NULL,$_order=NULL,$_srt=NULL,$languages=NULL, $extra=null) {
 	// make link to next page
 	if($_action=="" || $_action==NULL) $_action="list";
 

@@ -3,8 +3,8 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @package eXtplorer
- * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @copyright soeren 2007-2011
+ * @author The eXtplorer project (http://extplorer.net)
  * @license
  * @version $Id$
  * The contents of this file are subject to the Mozilla Public License
@@ -283,7 +283,7 @@ function ext_init(){
                           	    		icon: '<?php echo _EXT_URL ?>/images/_logout.png',
                           	    		tooltip: '<?php echo ext_Lang::msg('logoutlink', true ) ?>',
                           	    		cls:'x-btn-icon',
-                          	    		handler: function() { document.location.href='<?php echo make_link('logout', null ) ?>'; }
+                          	    		handler: function() { document.location.href='<?php echo ext_make_link('logout', null ) ?>'; }
                           	    	},		
                           	    	'-',
                           			<?php
