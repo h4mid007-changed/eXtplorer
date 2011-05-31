@@ -1,6 +1,6 @@
 ﻿<?php
 
-// Spanish Language Module for joomlaXplorer (translated by J. Pedro Flor P. y Actualizado por Udo Llorens)
+// Spanish Language Module for eXtplorer (translated by J. Pedro Flor P. y Actualizado por Udo Llorens)
 global $_VERSION;
 
 $GLOBALS["charset"] = "iso-8859-1";
@@ -95,7 +95,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extraer Archivo Comprimido",
 	'chmodlink'		=> 'Cambio (chmod) de permisos (Directorio/Archivos(s)))', // new mic
 	'mossysinfolink'	=> 'Información de Sistema', // new mic
-	'logolink'		=> 'Ir a la página de JoomlaeXtplorer', // new mic
+	'logolink'		=> 'Ir a la página de eXtplorer', // new mic
 	
 	// list
 	"nameheader"		=> "Nombre",
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Editar",
 	"btnremove"		=> "Remover",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'RENAME',
 	'confirm_delete_file' => 'Seguro que quieres borrar el archivo? \\n%s',
 	'success_delete_file' => 'Archivos borrados correctamente.',

@@ -97,7 +97,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Packa upp akrivet",
 	'chmodlink'		=> 'ändra (chmod) rättigheter (Mapp/Fil(er))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Gå till siten för joomlaXplorer (öppnas i nytt fönster)', // new mic
+	'logolink'		=> 'Gå till siten för eXtplorer (öppnas i nytt fönster)', // new mic
 
 	// list
 	"nameheader"		=> "Namn",
@@ -125,7 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Redigera",
 	"btnremove"		=> "Ta bort",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Byt namn',
 	'confirm_delete_file' => 'Are you sure you want to delete this file? <br />%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',

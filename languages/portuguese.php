@@ -1,6 +1,6 @@
 <?php
 
-// Portuguese Language Module for joomlaXplorer (translated by Paulo Brito, geral@oitavaesfera.com, http://www.oitavaesfera.com)
+// Portuguese Language Module for eXtplorer (translated by Paulo Brito, geral@oitavaesfera.com, http://www.oitavaesfera.com)
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -95,7 +95,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extrair Arquivo",
 	'chmodlink'		=> 'Modificar as Permissões (chmod) (Pasta/Ficheiro(s))', // new mic
 	'mossysinfolink'	=> 'eXtplorer Informação do Sistema (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Ir para o site do joomlaXplorer (nova janela)', // new mic
+	'logolink'		=> 'Ir para o site do eXtplorer (nova janela)', // new mic
 	
 	// list
 	"nameheader"		=> "Nome",
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Editar",
 	"btnremove"		=> "Remover",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'RENOMEAR',
 	'confirm_delete_file' => 'Tem a certeza que deseja apagar este ficheiro? \\n%s',
 	'success_delete_file' => 'Item(s) apagado com sucesso.',

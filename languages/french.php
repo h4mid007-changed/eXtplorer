@@ -1,6 +1,6 @@
 ﻿<?php
 
-// French Language Module for joomlaXplorer (translated by Olivier Pariseau and Alexandre PRIETO)
+// French Language Module for eXtplorer (translated by Olivier Pariseau and Alexandre PRIETO)
 
 $GLOBALS["charset"] = "UTF-8";
 $GLOBALS["text_dir"] = "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
@@ -122,7 +122,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Editer",
 	"btnremove"		=> "Supprimer",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'			=> "Renommer",
 	'confirm_delete_file' 	=> 'Etes-vous sûr de vouloir supprimer le fichier %s',
 	'success_delete_file'	=> 'Fichier supprimé avec succés.',

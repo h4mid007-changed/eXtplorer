@@ -1,6 +1,6 @@
 ﻿<?php
 
-// Turkish Language for joomlaXplorer (Translated by Sinan Ata, Tolga'(cumla.blogspot.com))
+// Turkish Language for eXtplorer (Translated by Sinan Ata, Tolga'(cumla.blogspot.com))
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -97,7 +97,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'İzinleri (chmod) Değiştir (Klasör/Dosya(lar))', // new mic
 	'mossysinfolink'	=> 'eXtplorer Sistem Bilgisi (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'JoomlaXplorer Websitesine git (yeni pencerede)', // new mic
+	'logolink'		=> 'eXtplorer Websitesine git (yeni pencerede)', // new mic
 	
 	// list
 	"nameheader"		=> "İsim",
@@ -125,7 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Değiştir",
 	"btnremove"		=> "Kaldır",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Yeniden Adlandır',
 	'confirm_delete_file' => 'Bu dosyayı silmek istediğinize eminmisiniz? <br />%s',
 	'success_delete_file' => 'Öğe(ler) başarıyla silindi.',

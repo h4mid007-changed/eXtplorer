@@ -2,7 +2,7 @@
 // Portuguese Translation by Paulino Michelazzo - paulino@michelazzo.com.br
 // http://www.noritmodomambo.org
 // Version: 1.0
-// Date: Sep, 07 2006
+// Date: 2011-05-30
 
 global $_VERSION;
 
@@ -97,9 +97,9 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extrair Arquivo",
 	'chmodlink'		=> 'Alterar (chmod) Permissões (Pasta/Arquivo(s))',
 	'mossysinfolink'	=> 'eXtplorer Informação do Sistema (eXtplorer, Servidor, PHP, MySQL)',
-	'logolink'		=> 'Ir para o site do joomlaXplorer (nova janela)',
+	'logolink'		=> 'Ir para o site do eXtplorer (nova janela)',
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'RENOMEAR',
 	'confirm_delete_file' => 'Você tem certeza que deseja apagar este arquivo? \\n%s',
 	'success_delete_file' => 'Item(s) apagado com sucesso',

@@ -1,5 +1,5 @@
 <?php
-// $Id: czech.php 115 2009-12-15 09:46:58 GMT soeren $
+// $Id: czech.php 195 2011-05-30 09:46:58 GMT sloarch $
 // Czech Language Module for v2.3 (translated by Raskolnikoff)
 global $_verze;
 
@@ -125,7 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Editovat",
 	"btnremove"		=> "Odstranit",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'P&#345;ejmenovat',
 	'confirm_delete_file' => 'Jste si jisti, &#382;e chcete smazat tento soubor <br />%s',
 	'success_delete_file' => 'Polo&#382;ka úsp&#283;&#353;n&#283; smaz&#225;na',

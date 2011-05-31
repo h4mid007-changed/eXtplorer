@@ -186,7 +186,7 @@ Version $Id$
 - changed the way errors are displayed (+nice styling).
 - added support for *symbolic links*. You can create and delete links, but not change the target. You will have to create a new link to do so.
 
-- joomlaXplorer is an FTP client now! - added PEAR'S Net_FTP package to allow local FTP access/transactions
+- eXtplorer is an FTP client now! - added PEAR'S Net_FTP package to allow local FTP access/transactions
 
 - changed Archiving Section to ajax-based step-by-step system to prevent time-outs
 - added PEAR Package File_Archive to allow better archive handling
@@ -215,7 +215,7 @@ Version $Id$
 --- version 1.3.3 released ---
 
 - fixed a wrong image source (menu_divider.gif => png)
-- fixed a fatal error when using joomlaXplorer on installations with the SafeMode hack
+- fixed a fatal error when using eXtplorer on installations with the SafeMode hack
 - added Bulgarian language (thanks to Ivo Apostolov)
 - fixed download problems under Mambo 4.5.2.3 with gzip compression = On
 
@@ -250,7 +250,7 @@ Version $Id$
 - added a checkbox to chmod form, so the user can decide wether to chmod rescursively or not
 - added a rename feature
 - current user ID and group ID (on a *nix OS) are displayed correctly now
-- component name changed to "joomlaXplorer"
+- component name changed to "eXtplorer"
 
 --- version 1.2.1 released ---
 

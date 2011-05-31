@@ -1,13 +1,13 @@
 <?php
 /**
-* @version $Id:germanf.php 13 2007-05-13 07:10:43Z soeren $
+* @version $Id:germanf.php 195 2011-05-30 07:10:43Z sloarch $
 * @package eXtplorer
 * @copyright (C) 2005 Quix project, Soeren
 * @license http://www.mozilla.org/MPL/
-* joomlaXplorer is Free Software
+* eXtplorer is Free Software
 */
 
-// German Language Module for joomlaXplorer (translated by the QuiX project)
+// German Language Module for eXtplorer (translated by the QuiX project)
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -103,7 +103,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Entpacken",
 	'chmodlink'		=> 'Zugriffsrechte ändern (chmod)', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Informationen (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Gehe zur joomlaXplorer Webseite (neues Fenster)', // new mic
+	'logolink'		=> 'Gehe zur eXtplorer Webseite (neues Fenster)', // new mic
 
 	// list
 	"nameheader"		=> "Name",
@@ -131,7 +131,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Ändern",
 	"btnremove"		=> "Löschen",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Umbenennen',
 	'confirm_delete_file' => 'Sind Sie sicher, dass Sie diese Datei löschen wollen? \\n%s',
 	'success_delete_file' => 'Die Datei(en) bzw. Verzeichnis(se) wurden gelöscht.',

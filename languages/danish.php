@@ -1,5 +1,5 @@
 <?php
-// $Id: english.php 96 2008-02-03 18:13:22Z soeren $
+// $Id: english.php 195 2011-05-30 18:13:22Z sloarch $
 // English Language Module for v2.3 (translated by the QuiX project)
 global $_VERSION;
 
@@ -97,7 +97,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Udpak arkiv",
 	'chmodlink'		=> 'Skift (chmod) rettigheder (Mappe/Fil(er))', // new mic
 	'mossysinfolink'	=> 'eXtplorer Systeminformation (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Gå til joomlaXplorer webstedet (nyt vindue)', // new mic
+	'logolink'		=> 'Gå til eXtplorer webstedet (nyt vindue)', // new mic
 
 	// list
 	"nameheader"		=> "Navn",
@@ -125,7 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Rediger",
 	"btnremove"		=> "Fjern",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Omdøb',
 	'confirm_delete_file' => 'Er du sikker på at du vil slette denne fil? <br />%s',
 	'success_delete_file' => 'Element(er) slettet.',

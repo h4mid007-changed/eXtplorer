@@ -97,7 +97,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Razpakiraj arhiv",
 	'chmodlink'		=> 'Spremeni dovoljenja (chmod)(Mapa/Datoteka(e))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Go to the joomlaXplorer Website (new window)', // new mic
+	'logolink'		=> 'Go to the eXtplorer Website (new window)', // new mic
 
 	// list
 	"nameheader"		=> "Ime",
@@ -125,7 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Uredi",
 	"btnremove"		=> "Odstrani",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Preimenuj',
 	'confirm_delete_file' => 'Ste prepričani, da želite izbrisati to datoteko? <br />%s',
 	'success_delete_file' => 'Element(i) uspešno odstranjen(i).',

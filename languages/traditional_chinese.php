@@ -1,5 +1,5 @@
 ﻿<?php
-// $Id: traditional_chinese.php 149 2010-06-16 23:13:22Z which $
+// $Id: traditional_chinese.php 195 2011-05-30 23:13:22Z sloarch $
 // Traditional Chinese Language Module for v2.3 (translated by www.which.tw)
 // Additional translation by sloarch, mic, Paulino Michelazzo
 
@@ -130,7 +130,7 @@ $GLOBALS["messages"] = array(
 	"btnremove"		=> "移除",
   "btndiff"       => "Diff",
 		
-		// user messages, new in joomlaXplorer 1.3.0
+		// user messages, new in eXtplorer 1.3.0
 	"renamelink"	=> "重新命名",
 	"confirm_delete_file" => "您確定要刪除這個檔案? \\n%s",
 	"success_delete_file" => "物件成功刪除.",

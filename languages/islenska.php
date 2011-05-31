@@ -1,6 +1,6 @@
 <?php
 
-// Íslenska fyrir joomlaXplorer ver 1.2.1 (translated by gudjon@247.is)
+// Íslenska fyrir eXtplorer ver 1.2.1 (translated by gudjon@247.is)
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -95,7 +95,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Afþjappa",
 	'chmodlink'		=> 'Breyta (chmod) Aðgangsstýringum (möppu/skrá(a))', // new mic
 	'mossysinfolink'	=> 'eXtplorer upplýsingar (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Fara á heimasíðu joomlaXplorer (new window)', // new mic
+	'logolink'		=> 'Fara á heimasíðu eXtplorer (new window)', // new mic
 
 	// list
 	"nameheader"		=> "Nafn",
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Breyta",
 	"btnremove"		=> "Taka út",
 
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'RENAME',
 	'confirm_delete_file' => 'Are you sure you want to delete this file? \\n%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',

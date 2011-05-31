@@ -2,7 +2,7 @@
 /** ensure this file is being included by a parent file */
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 
-$GLOBALS['ext_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer';
+$GLOBALS['ext_home'] = 'http://joomlacode.org/gf/project/eXtplorer';
 
 define ( "_EXT_PATH", realpath( dirname(__FILE__).'/../../administrator/components/com_extplorer') );
 define ( "_EXT_URL", $mosConfig_live_site."/administrator/components/com_extplorer" );

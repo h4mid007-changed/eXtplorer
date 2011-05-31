@@ -151,7 +151,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "تعديل",
 	"btnremove"		=> "حذف",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'إعادة تسمية',
 	'confirm_delete_file' => 'Are you sure you want to delete this file? <br />%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',

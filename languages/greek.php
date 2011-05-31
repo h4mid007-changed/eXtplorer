@@ -1,6 +1,6 @@
 <?php
 
-// Greek Language file for joomlaXplorer
+// Greek Language file for eXtplorer
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Επεξεργασία",
 	"btnremove"		=> "Αφαίρεση",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'RENAME',
 	'confirm_delete_file' => 'Are you sure you want to delete this file? \\n%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',
