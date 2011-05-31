@@ -27,7 +27,7 @@ ini_set("display_errors", 0 );
 $phpcgi = substr(PHP_SAPI, 0, 3) == 'cgi';
 $realm = 'Restricted Area: eXtplorer WebDAV';
 
-load_users();
+ext_load_users();
 
 foreach( $GLOBALS["users"] as $user ) {
 	$users[$user[0]] = $user[1];

@@ -5,7 +5,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license
@@ -32,11 +32,11 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * 
  * Administrative Functions regarding users
  */
-function load_users() {
+function ext_load_users() {
 	require _EXT_PATH."/config/.htusers.php";
 }
 //------------------------------------------------------------------------------
-function save_users() {
+function ext_save_users() {
 	$cnt=count($GLOBALS["users"]);
 	if($cnt>0) sort($GLOBALS["users"]);
 
@@ -63,7 +63,7 @@ function save_users() {
 	return true;
 }
 //------------------------------------------------------------------------------
-function &find_user($user,$pass) {
+function &ext_find_user($user,$pass) {
 	$return = null;
 	$cnt=count($GLOBALS["users"]);
 	for($i=0;$i<$cnt;++$i) {
@@ -80,23 +80,23 @@ function &find_user($user,$pass) {
 }
 
 //------------------------------------------------------------------------------
-function update_user($user,$new_data) {
-	$data=&find_user($user,NULL);
+function ext_update_user($user,$new_data) {
+	$data=&ext_find_user($user,NULL);
 	if($data==NULL) return false;
 
 	$data=$new_data;
-	return save_users();
+	return ext_save_users();
 }
 //------------------------------------------------------------------------------
 function ext_add_user($data) {
-	if(find_user($data[0],NULL)) return false;
+	if(ext_find_user($data[0],NULL)) return false;
 
 	$GLOBALS["users"][]=$data;
-	return save_users();
+	return ext_save_users();
 }
 //------------------------------------------------------------------------------
-function remove_user($user) {
-	$data=&find_user($user,NULL);
+function ext_remove_user($user) {
+	$data=&ext_find_user($user,NULL);
 	if($data==NULL) return false;
 
 	// Remove
@@ -105,10 +105,10 @@ function remove_user($user) {
 	// Copy Valid Users
 	$cnt=count($GLOBALS["users"]);
 	for($i=0;$i<$cnt;++$i) {
-		if($GLOBALS["users"][$i]!=NULL) $save_users[]=$GLOBALS["users"][$i];
+		if($GLOBALS["users"][$i]!=NULL) $ext_save_users[]=$GLOBALS["users"][$i];
 	}
-	$GLOBALS["users"]=$save_users;
-	return save_users();
+	$GLOBALS["users"]=$ext_save_users;
+	return ext_save_users();
 }
 //------------------------------------------------------------------------------
 /*

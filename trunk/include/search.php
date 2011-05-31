@@ -4,8 +4,8 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @copyright soeren 2007-2011
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  *
  * @license
@@ -103,7 +103,7 @@ function get_result_table($list) {			// print table of found items
 
 		if(get_is_dir($dir,$item)) {
 			$img = "dir.png";
-			$link = make_link("list",get_rel_item($dir, $item),NULL);
+			$link = ext_make_link("list",get_rel_item($dir, $item),NULL);
 		} else {
 			$img = get_mime_type( $item, "img");
 			//if(get_is_editable($dir,$item) || get_is_image($dir,$item)) {
@@ -117,7 +117,7 @@ function get_result_table($list) {			// print table of found items
 		/*if($link!="")*/
 		$response .= "<a href=\"".$link."\" target=\"".$target."\">";
 		//else echo "<a>";
-		$response .= $s_item."</a></td><td><a href=\"" . make_link("list",$dir,null)."\"> /";
+		$response .= $s_item."</a></td><td><a href=\"" . ext_make_link("list",$dir,null)."\"> /";
 		$response .= $s_dir."</a></td></tr>\n";
 	}
 	return $response;
@@ -137,7 +137,7 @@ function get_result_array($list) {			// print table of found items
 		
 		if(get_is_dir($dir,$item)) {
 			$img = "dir.png";
-			$link = make_link("list",get_rel_item($dir, $item),NULL);
+			$link = ext_make_link("list",get_rel_item($dir, $item),NULL);
 		} else {
 			$img = get_mime_type( $item, "img");
 			//if(get_is_editable($dir,$item) || get_is_image($dir,$item)) {
@@ -156,7 +156,7 @@ function get_result_array($list) {			// print table of found items
 	return $array;
 }
 //------------------------------------------------------------------------------
-function search_items($dir) {	// search for item
+function ext_search_items($dir) {	// search for item
     if( empty($dir) && !empty($GLOBALS['__POST']["item"]) ) {
         $dir = $GLOBALS['__POST']["item"];
     }

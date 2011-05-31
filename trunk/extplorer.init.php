@@ -81,7 +81,7 @@ $abs_dir=get_abs_dir($GLOBALS["dir"]);
 if(!file_exists($GLOBALS["home_dir"])) {
   if(!file_exists($GLOBALS["home_dir"].$GLOBALS["separator"])) {
 	if(!empty($GLOBALS["require_login"])) {
-		$extra="<a href=\"".make_link("logout",NULL,NULL)."\">".
+		$extra="<a href=\"".ext_make_link("logout",NULL,NULL)."\">".
 			$GLOBALS["messages"]["btnlogout"]."</A>";
 	} 
 	else {

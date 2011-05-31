@@ -5,7 +5,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007-2009
- * @author The eXtplorer project (http://sourceforge.net/projects/extplorer)
+ * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
  * @version $Id$
@@ -283,13 +283,13 @@ function changepwd($dir) {			// Change Password
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
 	}
 
-	$data=find_user($GLOBALS['__SESSION']['credentials_extplorer']['username'],$pwd);
+	$data=ext_find_user($GLOBALS['__SESSION']['credentials_extplorer']['username'],$pwd);
 	if($data==NULL) {
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnouserpass"]);
 	}
 
 	$data[1]=extEncodePassword(stripslashes($GLOBALS['__POST']["newpwd1"]));
-	if(!update_user($data[0],$data)) {
+	if(!ext_update_user($data[0],$data)) {
 		ext_Result::sendResult('changepwd', false, $data[0].": ".$GLOBALS["error_msg"]["chpass"]);
 	}
 	require_once(_EXT_PATH.'/include/authentication/extplorer.php');
@@ -308,7 +308,7 @@ function adduser($dir) {			// Add User
 		if($GLOBALS['__POST']["pass1"]!=$GLOBALS['__POST']["pass2"]) {
 			ext_Result::sendResult('adduser', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
 		}
-		$data=find_user($user,NULL);
+		$data=ext_find_user($user,NULL);
 		if($data!=NULL) {
 			ext_Result::sendResult('adduser', false, $user.": ".$GLOBALS["error_msg"]["miscuserexist"]);
 		}
@@ -331,7 +331,7 @@ function adduser($dir) {			// Add User
 //------------------------------------------------------------------------------
 function edituser($dir) {			// Edit User
 	$user=stripslashes($GLOBALS['__POST']["nuser"]);
-	$data=find_user($user,NULL);
+	$data=ext_find_user($user,NULL);
 	if($data==NULL) {
 		ext_Result::sendResult('edituser', false, $user.": ".$GLOBALS["error_msg"]["miscnofinduser"]);
 	}
@@ -357,7 +357,7 @@ function edituser($dir) {			// Edit User
 			stripslashes($GLOBALS['__POST']["home_url"]),$GLOBALS['__POST']["show_hidden"],
 			stripslashes($GLOBALS['__POST']["no_access"]),$GLOBALS['__POST']["permissions"],$GLOBALS['__POST']["active"]);
 
-		if(!update_user($user,$data)) {
+		if(!ext_update_user($user,$data)) {
 			ext_Result::sendResult('edituser', false, $user.": ".$GLOBALS["error_msg"]["saveuser"]);
 		}
 		/*if($self) {
@@ -546,14 +546,14 @@ function removeuser($dir) {			// Remove User
 	if($user==$GLOBALS['__SESSION']['credentials_extplorer']['username']) {
 		ext_Result::sendResult('removeuser', false, $GLOBALS["error_msg"]["miscselfremove"]);
 	}
-	if(!remove_user($user)) {
+	if(!ext_remove_user($user)) {
 		ext_Result::sendResult('removeuser', false, $user.": ".$GLOBALS["error_msg"]["deluser"]);
 	}
 	ext_Result::sendResult('removeuser', true, $user." was successfully removed." );
 
 }
 //------------------------------------------------------------------------------
-function show_admin($dir) {			// Execute Admin Action
+function ext_show_admin($dir) {			// Execute Admin Action
 	$pwd=(($GLOBALS["permissions"]&2)==2);
 	$admin=(($GLOBALS["permissions"]&4)==4);
 
