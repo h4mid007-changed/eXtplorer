@@ -1,6 +1,6 @@
 <?php
 
-// German Language Module for joomlaXplorer (translated by the QuiX project)
+// German Language Module for eXtplorer (translated by the QuiX project)
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Ändern",
 	"btnremove"		=> "Löschen",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'		=> 'Umbenennen',
 	'confirm_delete_file' 	=> 'Are you sure you want to delete this file? \\n%s',
 	'success_delete_file' 	=> 'Item(s) successfully deleted.',

@@ -1,5 +1,5 @@
 <?php
-// $Id: english.php 96 2008-02-03 18:13:22Z soeren $
+// $Id: english.php 196 2011-05-30 18:13:22Z sloarch $
 // English Language Module for v2.3 (translated by the QuiX project)
 global $_VERSION;
 
@@ -97,7 +97,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extragere Arhiva",
 	'chmodlink'		=> 'Schimbare drepturile (chmod) (Director/Fisie(e))', // new mic
 	'mossysinfolink'	=> 'Sistemul de Informatii eXtplorer (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Mergi la site-ul joomlaXplorer (fereastra noua)', // new mic
+	'logolink'		=> 'Mergi la site-ul eXtplorer (fereastra noua)', // new mic
 
 	// list
 	"nameheader"		=> "Nume",
@@ -125,7 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Editare",
 	"btnremove"		=> "Stergere",
 
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Redenumire',
 	'confirm_delete_file' => 'Sigur stergeti acest fisier ? <br />%s',
 	'success_delete_file' => 'Element(e) sters(e).',

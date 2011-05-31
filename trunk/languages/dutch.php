@@ -1,6 +1,6 @@
 <?php
 
-// Dutch Language Module for joomlaXplorer
+// Dutch Language Module for eXtplorer
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -95,7 +95,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Uitpakken archiefbestand",
 	'chmodlink'		=> 'Verander rechten (chmod)(Map/Bestand(en))', // new mic
 	'mossysinfolink'	=> 'Systeem Informatie (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Ga naar de joomlaXplorer Website (nieuw window)', // new mic
+	'logolink'		=> 'Ga naar de eXtplorer Website (nieuw window)', // new mic
 	
 	// list
 	"nameheader"		=> "Naam",
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Bewerken",
 	"btnremove"		=> "Verwijderen",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'HERNOEM',
 	'confirm_delete_file' => 'Weet u zeker dat u dit bestand wilt verwijderen? \\n%s',
 	'success_delete_file' => 'Item(s) succesvol verwijderd.',

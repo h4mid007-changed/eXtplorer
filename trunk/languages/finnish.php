@@ -130,7 +130,7 @@ $GLOBALS["messages"] = array(
 	"btnremove"		=> "Poista",
 	"btndiff"       => "Vertaa",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Nimeä',
 	'confirm_delete_file' => 'Haluatko varmasti poistaa tiedoston? <br />%s',
 	'success_delete_file' => 'Nimike poistettu.',
@@ -146,7 +146,7 @@ $GLOBALS["messages"] = array(
 	"actmoveitems"		=> "Siirrä nimikkeet",
 	"actmovefrom"		=> "Siirrä kohteesta /%s kohteeseen /%s ",
 	"actlogin"		=> "Kirjaudu",
-	"actloginheader"	=> "Kirjaudu käyttääksesi joomlaXploreria",
+	"actloginheader"	=> "Kirjaudu käyttääksesi eXtploreria",
 	"actadmin"		=> "Hallinta",
 	"actchpwd"		=> "Muuta salasana",
 	"actusers"		=> "Käyttäjät",

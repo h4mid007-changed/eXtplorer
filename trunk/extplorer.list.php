@@ -349,7 +349,7 @@ function list_dir($dir) {			// list directory contents
 	// Logo
 	echo "<td style=\"padding-left:10px;\">";
 	//echo "<div style=\"margin-left:10px;float:right;\" width=\"305\" >";
-	echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"joomlaXplorer Project\"><img border=\"0\" align=\"absmiddle\" id=\"ext_logo\" style=\"filter:alpha(opacity=10);-moz-opacity:.10;opacity:.10;\" onmouseover=\"opacity('ext_logo', 60, 99, 500);\" onmouseout=\"opacity('ext_logo', 100, 60, 500);\" ";
+	echo "<a href=\"".$GLOBALS['ext_home']."\" target=\"_blank\" title=\"eXtplorer Project\"><img border=\"0\" align=\"absmiddle\" id=\"ext_logo\" style=\"filter:alpha(opacity=10);-moz-opacity:.10;opacity:.10;\" onmouseover=\"opacity('ext_logo', 60, 99, 500);\" onmouseout=\"opacity('ext_logo', 100, 60, 500);\" ";
 	echo "src=\""._EXT_URL."/images/logo.gif\" align=\"right\" alt=\"" . $GLOBALS['messages']['logolink'] . "\"></a>";
 	//echo "</div>";
 	echo "</td>\n";

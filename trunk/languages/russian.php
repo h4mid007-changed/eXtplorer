@@ -1,6 +1,6 @@
 <?php
 
-// Russian Language Module for joomlaXplorer (translated by Mikhail M. Pigulsky - mikhail@mikhail.pp.ru)
+// Russian Language Module for eXtplorer (translated by Mikhail M. Pigulsky - mikhail@mikhail.pp.ru)
 global $_VERSION;
 
 $GLOBALS["charset"] = "UTF-8";
@@ -95,7 +95,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Extract Archive",
 	'chmodlink'		=> 'Change (chmod) Rights (Folder/File(s))', // new mic
 	'mossysinfolink'	=> 'eXtplorer System Information (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Go to the joomlaXplorer Website (new window)', // new mic
+	'logolink'		=> 'Go to the eXtplorer Website (new window)', // new mic
       
       // list
       "nameheader"            => "Файл",
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
       "btnedit"            => "Редактировать",
       "btnremove"            => "Удалить",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'RENAME',
 	'confirm_delete_file' => 'Are you sure you want to delete this file? \\n%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',

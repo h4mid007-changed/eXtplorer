@@ -3,7 +3,7 @@
  * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007-2010
- * @author The eXtplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
+ * @author The eXtplorer project (http://joomlacode.org/gf/project/eXtplorer/)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
  * @license

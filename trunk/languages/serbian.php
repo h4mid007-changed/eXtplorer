@@ -1,5 +1,5 @@
 ﻿<?php
-// $Id: srpski.php 149 2011-05-27 09:36:27Z talatorre $
+// $Id: srpski.php 149 2011-05-30 09:36:27Z sloarch $
 // Serbian (Cyrillic) Language Module for v2.3 (translated by Bojan Saric)
 // Additional translation by:
 
@@ -130,7 +130,7 @@ $GLOBALS["messages"] = array(
 	"btnremove"			=> "Уклони",
 	"btndiff"			=> "Дифф",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'		=> 'Преименуј',
 	'confirm_delete_file' => 'Јесте ли сигурни да желите да обришете ову датотеку? <br />%s',
 	'success_delete_file' => 'Ставка(е) успјешно обрисана(е).',

@@ -30,7 +30,7 @@ if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
  * the provisions above, a recipient may use your version of this file
  * under either the MPL or the GPL."
  * 
- * This file initializes most of the variables and constants we need in joomlaXplorer
+ * This file initializes most of the variables and constants we need in eXtplorer
  */
 // Vars
 if (isset($_SERVER)) {

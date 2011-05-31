@@ -95,7 +95,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Estrai archivio",
 	'chmodlink'		=> 'Modifica (chmod) Diritti (Cartella/File)', // new mic
 	'mossysinfolink'	=> 'eXtplorer Informazioni di sistema (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'Visita il sito web ufficiale joomlaXplorer (nuova finestra)', // new mic
+	'logolink'		=> 'Visita il sito web ufficiale eXtplorer (nuova finestra)', // new mic
 
 	// list
 	"nameheader"		=> "Nome",
@@ -123,7 +123,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Modifica",
 	"btnremove"		=> "Rimuovi",
 
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Rinomina',
 	'confirm_delete_file' => 'Sei certo di voler cancellare questo file? \\n%s',
 	'success_delete_file' => 'Elemento(i) correttamente cancellato.',

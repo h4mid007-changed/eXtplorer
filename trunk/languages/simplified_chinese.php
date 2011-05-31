@@ -1,5 +1,5 @@
 <?php
-// Simplified chinese Language Module for joomlaXplorer version 1.5 
+// Simplified chinese Language Module for eXtplorer version 1.5 
 
 // translated by Baijianpeng http://www.tcmbook.net
 global $_VERSION;
@@ -96,7 +96,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "解压缩",
 	'chmodlink'		=> '改变 (chmod) 权限 (目录/文件)', // new mic
 	'mossysinfolink'	=> 'eXtplorer 系统信息 (eXtplorer, 服务器, PHP, mySQL数据库)', // new mic
-	'logolink'		=> '访问 joomlaXplorer 官方网站 (在新窗口打开)', // new mic
+	'logolink'		=> '访问 eXtplorer 官方网站 (在新窗口打开)', // new mic
 	
 	// list
 	"nameheader"		=> "名称",
@@ -124,7 +124,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "编辑",
 	"btnremove"		=> "移除",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> '重命名',
 	'confirm_delete_file' => '你确定要删除这些文件吗？ \\n%s',
 	'success_delete_file' => '项目删除成功！',

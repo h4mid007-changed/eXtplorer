@@ -1,5 +1,5 @@
 <?php
-// $Id: bulgarian.php 2009-04-28 sloarch $
+// $Id: bulgarian.php 2011-05-30 sloarch $
 // Bulgarian Language Module for v2.4 (translated by the QuiX project)
 // Additional translation by Ivo Apostolov, sloarch, mic, Paulino Michelazzo
 
@@ -130,7 +130,7 @@ $GLOBALS["messages"] = array(
 	"btnremove"			=> "Изтрий",
 	"btndiff"			=> "Диференц",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'		=> 'Преименувайте',
 	'confirm_delete_file' => 'Сигурни ли сте, че искате да изтриете този файл? <br />%s',
 	'success_delete_file' => 'Item(s) successfully deleted.',

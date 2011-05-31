@@ -1,5 +1,5 @@
 <?php
-// $Id: japanese.php 96 2008-02-03 18:13:22Z soeren $
+// $Id: japanese.php 196 2011-05-30 18:13:22Z sloarch $
 // Japanese Language Module for v2.3 (translated by www.joomlaway.net)
 global $_VERSION;
 
@@ -97,7 +97,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "解凍",
 	'chmodlink'		=> '権限変更 (chmod) ', // new mic
 	'mossysinfolink'	=> 'eXtplorerシステム情報 (eXtplorer, Server, PHP, mySQL)', // new mic
-	'logolink'		=> 'joomlaXplorer Webサイトへ行く(新しいウインドウ)', // new mic
+	'logolink'		=> 'eXtplorer Webサイトへ行く(新しいウインドウ)', // new mic
 
 	// list
 	"nameheader"		=> "名前",
@@ -125,7 +125,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "編集",
 	"btnremove"		=> "削除",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> '名前の変更',
 	'confirm_delete_file' => 'このファイルを削除してもよいですか？ <br />%s',
 	'success_delete_file' => 'アイテムを正常に削除しました。',

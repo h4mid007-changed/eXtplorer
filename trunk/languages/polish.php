@@ -100,7 +100,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"		=> "Rozpakuj archiwum",
 	'chmodlink'			=> 'Zmień uprawnienia (chmod)', // new mic
 	'mossysinfolink'	=> 'Informacje o systemie', // new mic
-	'logolink'			=> 'Skocz do strony joomlaXplorer (nowe okno)', // new mic
+	'logolink'			=> 'Skocz do strony eXtplorer (nowe okno)', // new mic
 
 	// list
 	"nameheader"		=> "Nazwa",
@@ -130,7 +130,7 @@ $GLOBALS["messages"] = array(
 	"btnremove"			=> "Usuń",
 	"btndiff"			=> "Porównaj",
 
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'			=> 'Zmień nazwę',
 	'confirm_delete_file'	=> 'Na pewno chcesz usunąć ten plik?<br />%s',
 	'success_delete_file'	=> 'Element(y) zostały poprawnie usunięte.',

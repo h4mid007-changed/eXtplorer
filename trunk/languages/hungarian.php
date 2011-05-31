@@ -96,7 +96,7 @@ $GLOBALS["messages"] = array(
 	"extractlink"	=> "Archívum kibontása",
 	'chmodlink'		=> 'Engedélyek módosítása (chmod) (Könyvtár/Fájl(ok))', // new mic
 	'mossysinfolink'	=> $_VERSION->PRODUCT.' Rendszerinformáció ('.$_VERSION->PRODUCT.', Kiszolgáló, PHP, mySQL)', // new mic
-	'logolink'		=> 'Ugrás a joomlaXplorer webhelyére (új ablak)', // new mic
+	'logolink'		=> 'Ugrás a eXtplorer webhelyére (új ablak)', // new mic
 	
 	// list
 	"nameheader"		=> "Név",
@@ -124,7 +124,7 @@ $GLOBALS["messages"] = array(
 	"btnedit"		=> "Szerkesztés",
 	"btnremove"		=> "Eltávolítás",
 	
-	// user messages, new in joomlaXplorer 1.3.0
+	// user messages, new in eXtplorer 1.3.0
 	'renamelink'	=> 'Átnevezés',
 	'confirm_delete_file' => 'Biztosan törölni akarja ezt a fájlt? \\n%s',
 	'success_delete_file' => 'Az elem(ek) törlése sikerült.',
