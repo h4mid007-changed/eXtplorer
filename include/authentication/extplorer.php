@@ -78,10 +78,11 @@ class ext_extplorer_authentication {
 						success: function(form, action) { location.reload() },
 						failure: function(form, action) {
 							if( !action.result ) return;
-							Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+							Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error, function() {
+							this.findField( 'password').setValue('');
+							this.findField( 'password').focus();
+							}, form );
 							Ext.get( 'statusBar').update( action.result.error );
-							form.findField( 'password').setValue('');
-							form.findField( 'username').focus();
 						},
 						scope: Ext.getCmp("simpleform").getForm(),
 						params: {
@@ -150,10 +151,12 @@ class ext_extplorer_authentication {
 					success: function(form, action) { location.reload() },
 					failure: function(form, action) {
 						if( !action.result ) return;
-						Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
+						Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error, function() {
+							this.findField( 'password').setValue('');
+							this.findField( 'password').focus();
+							}, form );
 						Ext.get( 'statusBar').update( action.result.error );
-						form.findField( 'password').setValue('');
-						form.findField( 'username').focus();
+						
 					},
 					scope: Ext.getCmp("simpleform").getForm(),
 					params: {

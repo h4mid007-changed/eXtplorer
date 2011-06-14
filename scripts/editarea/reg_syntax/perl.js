@@ -65,7 +65,7 @@ editAreaLoader.load_syntax["perl"] = {
 			'modifiers' : 'g', 'execute' : 'after' },
 		'hashs' : { 'search': '()(%[a-zA-Z0-9_:]*)()',
 			'class' : 'vars',
-			'modifiers' : 'g', 'execute' : 'after' },
+			'modifiers' : 'g', 'execute' : 'after' }
 	},
 
 	'STYLES' :
@@ -82,7 +82,7 @@ editAreaLoader.load_syntax["perl"] = {
 		'REGEXPS':
 		{
 			'scopingnames' : 'color: #ff0000;',
-			'vars' : 'color: #00aaaa;',
+			'vars' : 'color: #00aaaa;'
 		}
 	} //'STYLES'
 };

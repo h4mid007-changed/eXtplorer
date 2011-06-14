@@ -65,7 +65,7 @@ class ext_Edit extends ext_Action {
 		}
 		$fname = get_abs_item($dir, $item);
 
-		if(!get_is_file(utf8_decode($fname)))  {
+		if(!get_is_file($fname))  {
 			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('fileexist' ));
 		}
 		if(!get_show_item($dir, $item)) {

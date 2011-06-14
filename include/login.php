@@ -138,6 +138,7 @@ Ext.onReady( function() {
 	Ext.get( 'formContainer').center();
 	Ext.get( 'formContainer').setTop(100);
 	simple.getForm().findField('username').focus();
+	Ext.EventManager.onWindowResize( function() { Ext.get( 'formContainer').center();Ext.get( 'formContainer').setTop(100); } );
 });
 </script><?php
 			define( '_LOGIN_REQUIRED', 1 );

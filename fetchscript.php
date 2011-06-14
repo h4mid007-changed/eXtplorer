@@ -208,7 +208,7 @@ http_conditionalRequest( $newest_mdate );
 // here we need to send the script or stylesheet
 $processed_files = 0;
 for( $i = 0; $i < $countFiles; $i++ ) {
-	$file = $files[$i];
+	$file = addslashes($files[$i]);// fix by colonelxc
 	$subdir = $subdirs[$i];
 
 	$dir = realpath( $base_dir . '/' .	$subdir );
