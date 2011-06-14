@@ -3,6 +3,9 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- updated to ExtJS 3.4.0 (brings support for IE9)
+- fixed file-disclosure issue reported by colonelxc@users.sourceforge.net
+- support for files with non-ascii chars for editing (thanks gr8ron)
 - fixed a fatal error in the webdav module
 - added ability to load without fetchscript.php (when it's inaccessible due to server permission problems)
 

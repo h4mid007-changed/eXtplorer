@@ -263,6 +263,7 @@ function ext_init(){
                               	<?php
                           		// ADMIN & LOGOUT
                           		if(!empty($GLOBALS["require_login"])) {
+                          			$admin=(($GLOBALS["permissions"]&4)==4);
                           			if($admin) {
                           		
                           			?>
