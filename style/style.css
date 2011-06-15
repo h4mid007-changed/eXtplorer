@@ -67,6 +67,12 @@ a:hover, a:active {
 	border-bottom:2px solid #f3f2e7;
 }
 .x-tabs-item-body {padding:10px;}
+
+#dialog_tabpanel .x-panel {
+	height: 322px;
+	overflow: auto;
+}
+
 .ext_statusbar {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size:8pt;
