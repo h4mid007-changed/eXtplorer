@@ -359,11 +359,13 @@ function ext_init(){
     // the column model has information about grid columns
     // dataIndex maps the column to the specific data field in
     // the data store
-    var cm = new Ext.grid.ColumnModel([{
+    var cm = new Ext.grid.ColumnModel({
+		columns: [{
            id: 'gridcm', // id assigned so we can apply custom css (e.g. .x-grid-col-topic b { color:#333 })
            header: "<?php echo ext_Lang::msg('nameheader', true ) ?>",
            dataIndex: 'name',
            width: 250,
+		   sortable: true,
            renderer: renderFileName,
            editor: new Ext.form.TextField({
 					allowBlank: false
@@ -372,21 +374,25 @@ function ext_init(){
         },{
            header: "<?php echo ext_Lang::msg('sizeheader', true ) ?>",
            dataIndex: 'size',
-           width: 50
+           width: 50,
+		   sortable: true
         },{
            header: "<?php echo ext_Lang::msg('typeheader', true ) ?>",
            dataIndex: 'type',
            width: 70,
+		   sortable: true,
            align: 'right',
            renderer: renderType
         },{
            header: "<?php echo ext_Lang::msg('modifheader', true ) ?>",
            dataIndex: 'modified',
-           width: 150
+           width: 150,
+		   sortable: true
         },{
            header: "<?php echo ext_Lang::msg('permheader', true ) ?>",
            dataIndex: 'perms',
-           width: 100
+           width: 100,
+		   sortable: true
         },{
            header: "<?php echo ext_Lang::msg('miscowner', true ) ?>",
            dataIndex: 'owner',
@@ -400,11 +406,11 @@ function ext_init(){
         {dataIndex: 'is_chmodable', hidden: true, hideable: false },
         {dataIndex: 'is_readable', hidden: true, hideable: false },
         {dataIndex: 'is_deletable', hidden: true, hideable: false },
-        {dataIndex: 'is_editable', hidden: true, hideable: false }
-        ]);
-
-    // by default columns are sortable
-    cm.defaultSortable = true;
+        {dataIndex: 'is_editable', hidden: true, hideable: false }],
+	defaults: {
+		sortable: true
+		}
+        });
 
 
     // Unregister the default double click action (which makes the name field editable - we want this when the user clicks "Rename" in the menu)
