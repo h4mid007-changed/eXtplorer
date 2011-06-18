@@ -344,7 +344,7 @@ function edituser($dir) {			// Edit User
 		if($nuser=="" || $GLOBALS['__POST']["home_dir"]=="") {
 			ext_Result::sendResult('edituser', false, $GLOBALS["error_msg"]["miscfieldmissed"]);
 		}
-		if(isset($GLOBALS['__POST']["chpass"]) && $GLOBALS['__POST']["chpass"]=="true")	{
+		if(isset($GLOBALS['__POST']["chpass"]) && $GLOBALS['__POST']["chpass"]=="on")	{
 			if($GLOBALS['__POST']["pass1"]!=$GLOBALS['__POST']["pass2"]) ext_Result::sendResult('edituser', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
 			$pass=extEncodePassword(stripslashes($GLOBALS['__POST']["pass1"]));
 		} else {
