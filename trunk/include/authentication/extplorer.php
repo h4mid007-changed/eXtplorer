@@ -41,9 +41,14 @@ class ext_extplorer_authentication {
 		// Check Login
 		//------------------------------------------------------------------------------
 
-		$data=ext_find_user($credentials['username'], $credentials['password'] );
-		if($data==NULL) {
-			return false;
+		$data=ext_find_user( $credentials['username'],null );
+		require_once( _EXT_PATH.'/libraries/PasswordHash.php');
+		$hasher = new PasswordHash(8, FALSE);
+		$result = $hasher->CheckPassword($credentials['password'], $data[1]);
+		
+		if(!$result) {
+			$data=ext_find_user( $credentials['username'],$credentials['password'] );
+			if( $data == NULL ) return false;
 		}
 		// 	Set Login
 		$_SESSION['credentials_extplorer']['username']	= $data[0];
