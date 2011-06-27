@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: edit.php 129 2009-01-26 16:14:53Z ryu_ms $
+ * @version $Id$
  * @package eXtplorer
  * @copyright Geoffrey Tran 2009
  * @author The eXtplorer project (http://extplorer.net)
