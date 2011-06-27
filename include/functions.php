@@ -1389,7 +1389,10 @@ function extMakePassword($length=8) {
  * @return string
  */
 function extEncodePassword( $pass ) {
-	return md5( $pass );
+	require_once( _EXT_PATH.'/libraries/PasswordHash.php');
+	$hasher = new PasswordHash(8, FALSE);
+	$hash = $hasher->HashPassword($pass);
+	return $hash;
 }
 
 if (!function_exists('html_entity_decode')) {

@@ -73,7 +73,6 @@ function login() {
 		if( !empty($GLOBALS['__POST']['username'])) {
 			$username = $GLOBALS['__POST']['username'];
 			$password = $GLOBALS['__POST']['password'];
-			if( $authentication_type == 'extplorer') $password = extEncodePassword($password);
 		} else {
 			$username = $_SESSION['credentials_'.$authentication_type]['username'];
 			$password = $_SESSION['credentials_'.$authentication_type]['password'];
@@ -87,6 +86,19 @@ function login() {
 			}
 			return true;
 		} else {
+			if( $authentication_type == 'extplorer') {
+				// Second attempt to authenticate, since we've switched password hashing algorithm
+				// now we fall back to md5 hashing.
+				$password = md5($GLOBALS['__POST']['password']);
+				$res = $auth->onAuthenticate( array('username' => $username, 'password' => $password) );
+				if( !PEAR::isError($res) && $res !== false ) {
+					if( @$GLOBALS['__POST']['action'] == 'login' && ext_isXHR() ) {
+						session_write_close();
+						ext_Result::sendResult('login', true, ext_Lang::msg('actlogin_success') );
+					}
+					return true;
+				}
+			}
 			if( ext_isXHR() ) {
 				$errmsg = PEAR::isError($res) ? $res->getMessage() : ext_Lang::msg( 'actlogin_failure' );
 				
