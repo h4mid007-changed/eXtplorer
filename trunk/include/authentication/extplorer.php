@@ -2,7 +2,7 @@
 // ensure this file is being included by a parent file
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
- * @version $Id: ftp_authentication.php 143 2009-05-30 20:22:16Z sloarch $
+ * @version $Id$
  * @package eXtplorer
  * @copyright soeren 2007-2010
  * @author The eXtplorer project (http://extplorer.net)
@@ -42,6 +42,9 @@ class ext_extplorer_authentication {
 		//------------------------------------------------------------------------------
 
 		$data=ext_find_user( $credentials['username'],null );
+		// Username not existing
+		if( $data === NULL ) return false;
+		
 		require_once( _EXT_PATH.'/libraries/PasswordHash.php');
 		$hasher = new PasswordHash(8, FALSE);
 		$result = $hasher->CheckPassword($credentials['password'], $data[1]);

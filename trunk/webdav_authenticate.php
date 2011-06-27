@@ -52,7 +52,7 @@ function AuthenticationDigestHTTP($realm, $users, $phpcgi=0) {
 
 function AuthenticationBasicHTTP($realm, $users, $phpcgi=0) {
 
-	if (empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['REDIRECT_REMOTE_USER'])) {
+	if ((empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['REDIRECT_REMOTE_USER'])) || empty($_SERVER['PHP_AUTH_PW'])) {
 		header('WWW-Authenticate: Basic realm="'.$realm.'"');
 		header('HTTP/1.0 401 Unauthorized');
 		die('401 Unauthorized');
@@ -66,20 +66,18 @@ function AuthenticationBasicHTTP($realm, $users, $phpcgi=0) {
 		$_SERVER['PHP_AUTH_PW']    = strip_tags($password);
 	}
 
-	if (array_key_exists($user, $users) && $users[$user] == extEncodePassword($_SERVER['PHP_AUTH_PW']) ){
-		if( !empty($GLOBALS['webdav_authentication_method']) && file_exists(_EXT_PATH.'/include/authentication/'.$GLOBALS['webdav_authentication_method'].'.php') ) {
-			require_once( _EXT_PATH.'/include/authentication/'.$GLOBALS['webdav_authentication_method'].'.php');
-			$classname = 'ext_'.$GLOBALS['webdav_authentication_method'].'_authentication';
-			$auth = new $classname();
-			
-		} else {
-			require_once( _EXT_PATH.'/include/authentication/extplorer.php');
-			$auth = new ext_extplorer_authentication();
-		}
-		$auth->onAuthenticate(array('user' => $user, 'password' => $_SERVER['PHP_AUTH_PW'] ));
+	if( !empty($GLOBALS['webdav_authentication_method']) && file_exists(_EXT_PATH.'/include/authentication/'.$GLOBALS['webdav_authentication_method'].'.php') ) {
+		require_once( _EXT_PATH.'/include/authentication/'.$GLOBALS['webdav_authentication_method'].'.php');
+		$classname = 'ext_'.$GLOBALS['webdav_authentication_method'].'_authentication';
+		$auth = new $classname();
+		
+	} else {
+		require_once( _EXT_PATH.'/include/authentication/extplorer.php');
+		$auth = new ext_extplorer_authentication();
+	}
+	if( $auth->onAuthenticate(array('username' => $user, 'password' => $_SERVER['PHP_AUTH_PW'] )) !== false ) {
 		return TRUE;
 	}
-
 	header('WWW-Authenticate: Basic realm="'.$realm.'"');
 	header('HTTP/1.0 401 Unauthorized');
 	die('401 Unauthorized');
