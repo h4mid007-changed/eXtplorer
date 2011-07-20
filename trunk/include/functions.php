@@ -738,11 +738,10 @@ function ext_isJoomla( $version='', $operator='=', $compare_minor_versions=true)
 	$allowed_operators = array( '<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne' );
 
 	if( $compare_minor_versions ) {
-		if( $jversion->RELEASE != substr($version, 0, 3 ) ) {
-			return false;
-		}
+		$this_version = $jversion->RELEASE;
 	}
 	if( in_array($operator, $allowed_operators )) {
+	
 		return version_compare( $this_version, $version, $operator );
 	}
 	return false;
