@@ -60,7 +60,7 @@ class ext_Rename extends ext_Action {
 			}
 
 			if(@$GLOBALS['ext_File']->file_exists($abs_new)) {
-				ext_Result::sendResult('rename', false, $newitemname.": ".$GLOBALS["error_msg"]["itemdoesexist"]);
+				ext_Result::sendResult('rename', false, ext_TextEncoding::toUTF8($newitemname).": ".$GLOBALS["error_msg"]["itemdoesexist"]);
 			}
 			$perms_old = $GLOBALS['ext_File']->fileperms( $abs_old );
 

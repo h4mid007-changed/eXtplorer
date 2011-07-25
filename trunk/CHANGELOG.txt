@@ -3,6 +3,7 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- updated version check to work with J! 1.7
 - implemented PHPass Library for more secure hashing of passwords: http://www.openwall.com/phpass/ (backwards compatible with previous md5 hashing method)
 - updated to ExtJS 3.4.0 (brings support for IE9)
 - fixed file-disclosure issue reported by colonelxc@users.sourceforge.net

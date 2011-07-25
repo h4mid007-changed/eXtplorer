@@ -30,12 +30,10 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * the provisions above, a recipient may use your version of this file
  * under either the MPL or the GPL."
  * 
- * 
  */
 
 /**
  * File-Edit Functions
- *
  */
 class ext_Edit extends ext_Action {
 	var	$lang_tbl = Array(
@@ -63,10 +61,10 @@ class ext_Edit extends ext_Action {
 		if(($GLOBALS["permissions"]&01)!=01) {
 			ext_Result::sendResult('edit', false, ext_Lang::err('accessfunc' ));
 		}
-		$fname = get_abs_item($dir, $item);
+		$fname = ext_TextEncoding::fromUTF8(get_abs_item($dir, $item));
 
 		if(!get_is_file($fname))  {
-			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('fileexist' ));
+			ext_Result::sendResult('edit', false, ext_TextEncoding::toUTF8($item).": ".ext_Lang::err('fileexist' ));
 		}
 		if(!get_show_item($dir, $item)) {
 			ext_Result::sendResult('edit', false, $item.": ".ext_Lang::err('accessfile' ));
@@ -75,7 +73,7 @@ class ext_Edit extends ext_Action {
 		if(isset($GLOBALS['__POST']["dosave"]) && $GLOBALS['__POST']["dosave"]=="yes") {
 			// Save / Save As
 			$item=basename(stripslashes($GLOBALS['__POST']["fname"]));
-			$fname2=get_abs_item($dir, $item);
+			$fname2=ext_TextEncoding::fromUTF8(get_abs_item($dir, $item));
 
 			if(!isset($item) || $item=="") {
 				ext_Result::sendResult('edit', false, ext_Lang::err('miscnoname' ));

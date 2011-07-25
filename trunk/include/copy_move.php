@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2011
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  *
@@ -45,7 +45,7 @@ function ext_copy_move_items($dir) {		// copy/move file/dir
 	// Vars
 	$first = extGetParam($GLOBALS['__POST'], 'first' );
 	if($first=="y") $new_dir=$dir;
-	else $new_dir = stripslashes($GLOBALS['__POST']["new_dir"]);
+	else $new_dir = extGetParam($GLOBALS['__POST'], "new_dir");
 	if($new_dir==".") $new_dir="";
 	$cnt=count($GLOBALS['__POST']["selitems"]);
 
@@ -57,8 +57,8 @@ function ext_copy_move_items($dir) {		// copy/move file/dir
 	// DO COPY/MOVE
 
 	// ALL OK?
-	if(!@$GLOBALS['ext_File']->file_exists(get_abs_dir($new_dir))) {
-		ext_Result::sendResult( $action, false, get_abs_dir($new_dir).": ".$GLOBALS["error_msg"]["targetexist"]);
+	if(!@$GLOBALS['ext_File']->file_exists(dirname(get_abs_dir($new_dir)))) {
+		ext_Result::sendResult( $action, false, dirname(get_abs_dir($new_dir)).": ".$GLOBALS["error_msg"]["targetexist"]);
 	}
 	if(!get_show_item($new_dir,"")) {
 		ext_Result::sendResult( $action, false, $new_dir.": ".$GLOBALS["error_msg"]["accesstarget"]);
@@ -103,13 +103,13 @@ function ext_copy_move_items($dir) {		// copy/move file/dir
 
 		// Copy / Move
 		if($action=="copy") {
-			if(@is_link($abs_item) || get_is_file($abs_item)) {
+			if(@is_link(ext_TextEncoding::fromUTF8($abs_item)) || get_is_file(ext_TextEncoding::fromUTF8($abs_item))) {
 				// check file-exists to avoid error with 0-size files (PHP 4.3.0)
 				if( ext_isFTPMode() ) $abs_item = '/'.$dir.'/'.$abs_item['name'];
 				$ok=@$GLOBALS['ext_File']->copy( $abs_item ,$abs_new_item); //||@file_exists($abs_new_item);
 
 			}
-			elseif(@get_is_dir($abs_item)) {
+			elseif(@get_is_dir(ext_TextEncoding::fromUTF8($abs_item))) {
 				$ext_copy_dir = ext_isFTPMode() ? '/'.$dir.'/'.$abs_item['name'].'/' : $abs_item;
 				if( ext_isFTPMode() ) $abs_new_item .= '/';
 
