@@ -27,15 +27,7 @@ class ext_File {
 			}
 			return $GLOBALS['FTPCONNECTION']->chmod($item, $mode);
 		} else {
-			if ($GLOBALS['use_mb']) {
-				if (mb_detect_encoding($item) == 'ASCII'){
-					return @chmod(utf8_decode($item), $mode);
-				} else {
-					return @chmod($item, $mode);
-				}
-			} else {
-				return @chmod(utf8_decode($item), $mode);
-			}
+			return @chmod(ext_TextEncoding::fromUTF8($item), $mode);
 		}
 	}
 
@@ -44,15 +36,7 @@ class ext_File {
 		if (ext_isFTPMode()) {
 			return $GLOBALS['FTPCONNECTION']->chmodRecursive($item, $mode);
 		} else {
-			if ($GLOBALS['use_mb']) {
-				if (mb_detect_encoding($item) == 'ASCII'){
-					return chmod_recursive(utf8_decode($item), $mode);
-				} else {
-					return chmod_recursive($item, $mode);
-				}
-			} else {
-				return chmod_recursive(utf8_decode($item), $mode);
-			}
+			return chmod_recursive(ext_TextEncoding::fromUTF8($item), $mode);
 		}
 	}
 
@@ -65,23 +49,8 @@ class ext_File {
 			unlink($local_file);
 			return $res;
 		} else {
-			if ($GLOBALS['use_mb']) {
-				if (mb_detect_encoding($from) == 'ASCII'){
-					if (mb_detect_encoding($to) == 'ASCII'){
-						return copy(utf8_decode($from), utf8_decode($to));
-					} else {
-						return copy(utf8_decode($from), $to);
-					}
-				} else {
-					if (mb_detect_encoding($to) == 'ASCII'){
-						return copy($from, utf8_decode($to));
-					} else {
-						return copy($from, $to);
-					}
-				}
-			} else {
-				return copy(utf8_decode($from), utf8_decode($to));
-			}
+			return copy(ext_TextEncoding::fromUTF8($from, true), ext_TextEncoding::fromUTF8($to, true));
+			
 		}
 	}
 
@@ -142,15 +111,8 @@ class ext_File {
 		if (ext_isFTPMode()) {
 			return $GLOBALS['FTPCONNECTION']->rm($item);
 		} else {
-			if ($GLOBALS['use_mb']) {
-				if (mb_detect_encoding($item) == 'ASCII'){
-					return unlink(utf8_decode($item));
-				} else {
-					return unlink($item);
-				}
-			} else {
-				return unlink(utf8_decode($item));
-			}
+			return unlink(ext_TextEncoding::fromUTF8($item, true));
+			
 		}
 	}
 
@@ -168,15 +130,8 @@ class ext_File {
 		if (ext_isFTPMode()) {
 			return $GLOBALS['FTPCONNECTION']->rm($item, true);
 		} else {
-			if ($GLOBALS['use_mb']) {
-				if (mb_detect_encoding($item) == 'ASCII'){
-					return remove(utf8_decode($item));
-				} else {
-					return remove($item);
-				}
-			} else {
-				return remove(utf8_decode($item));
-			}		}
+			remove(ext_TextEncoding::fromUTF8($item, true));
+		}
 	}
 
 
@@ -189,23 +144,8 @@ class ext_File {
 			$newname = str_replace('\\', '/', $newname);
 			return $GLOBALS['FTPCONNECTION']->rename($oldname, $newname);
 		} else {
-			if ($GLOBALS['use_mb']) {
-				if (mb_detect_encoding($oldname) == 'ASCII'){
-					if (mb_detect_encoding($newname) == 'ASCII'){
-						return rename(utf8_decode($oldname), utf8_decode($newname));
-					} else {
-						return rename(utf8_decode($oldname), $newname);
-					}
-				} else {
-					if (mb_detect_encoding($newname) == 'ASCII'){
-						return rename($oldname, utf8_decode($newname));
-					} else {
-						return rename($oldname, $newname);
-					}
-				}
-			} else {
-				return rename(utf8_decode($oldname), utf8_decode($newname));
-			}
+			return rename(ext_TextEncoding::fromUTF8($oldname, true), ext_TextEncoding::fromUTF8($newname, true));
+			
 		}
 	}
 
@@ -277,15 +217,7 @@ class ext_File {
 			return false;
 
 		} else {
-			if ($GLOBALS['use_mb']) {
-				if (mb_detect_encoding($file) == 'ASCII') {
-					return file_exists(utf8_decode($file));
-				} else {
-					return file_exists($file);
-				}
-			} else {
-				return file_exists(utf8_decode($file));
-			}
+			return file_exists(ext_TextEncoding::fromUTF8($file));
 		}
 	}
 

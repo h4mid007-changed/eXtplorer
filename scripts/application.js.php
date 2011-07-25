@@ -86,10 +86,12 @@ function ext_init(){
 
     // pluggable renders
     function renderFileName(value,p, record){
-        return String.format('<img src="{0}" alt="* " align="absmiddle" />&nbsp;<b>{1}</b>', record.get('icon'), value );
+        var t = new Ext.Template("<img src=\"{0}\" alt=\"* \" align=\"absmiddle\" />&nbsp;<b>{1}</b>");
+        return t.apply([record.get('icon'), value] );
     }
     function renderType(value){
-        return String.format('<i>{0}</i>', value);
+        var t = new Ext.Template("<i>{0}</i>");
+        return t.apply([value]);
     }
     var gridtb = new Ext.Toolbar([
                          	{

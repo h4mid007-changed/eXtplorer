@@ -163,6 +163,7 @@ if ( file_exists(_EXT_PATH . "/languages/" . $GLOBALS["language"]."_mimes.php"))
 
 require_once(_EXT_PATH . "/config/mimes.php");
 require_once(_EXT_PATH . '/libraries/JSON.php');
+require_once(_EXT_PATH . "/libraries/Text/TextEncoding.php");
 require_once(_EXT_PATH . "/libraries/File_Operations.php");
 require_once(_EXT_PATH . "/include/header.php");
 require_once(_EXT_PATH . "/include/result.class.php");
