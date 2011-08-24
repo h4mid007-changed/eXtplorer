@@ -3,12 +3,12 @@
 <!-- Joomla! 1.0 Installer XML File 
 $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
     <name>eXtplorer</name>
-    <creationDate>18.01.2011</creationDate>
+    <creationDate>24.08.2011</creationDate>
     <author>soeren, QuiX Project</author>
     <copyright>Soeren Eberhardt-Biermann, QuiX Project</copyright>
-    <authorEmail>soeren|-at|-virtuemart.net</authorEmail>
-    <authorUrl>http://joomlacode.org/gf/project/eXtplorer/</authorUrl>
-    <version>2.1.0RC3</version>
+    <authorEmail>info|-at|-extplorer.net</authorEmail>
+    <authorUrl>http://extplorer.net/</authorUrl>
+    <version>2.1.0RC4</version>
     <description><![CDATA[
 	<div align="left"><img src="components/com_extplorer/images/eXtplorer_logo.png" alt="eXtplorer Logo" /></div>
 	<h2>Successfully installed eXtplorer&nbsp;</h2>
@@ -298,11 +298,13 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
 				<filename>libraries/MIME/Parameter.php</filename>
 				<filename>libraries/MIME/Type.php</filename>
 				<filename>libraries/MIME/index.html</filename>
+				<filename>libraries/PasswordHash.php</filename>
 				<filename>libraries/PEAR.php</filename>
 				<filename>libraries/SSH2.php</filename>
 				<filename>libraries/System.php</filename>
 				<filename>libraries/Tar.php</filename>
 				<filename>libraries/Text/Diff.php</filename>
+				<filename>libraries/Text/TextEncoding.php</filename>
 				<filename>libraries/Text/Diff/Engine/native.php</filename>
 				<filename>libraries/Text/Diff/Engine/shell.php</filename>
 				<filename>libraries/Text/Diff/Engine/string.php</filename>
