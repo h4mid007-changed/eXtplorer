@@ -86,5 +86,3 @@ echo '<br style="clear:both;"/>
 	<a class="title" href="'.$GLOBALS['ext_home'].'" target="_blank">powered by eXtplorer</a>
 	</small>
 	';
-
-?>
