@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2011
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -278,14 +278,24 @@ function admin($admin, $dir) {
 }
 //------------------------------------------------------------------------------
 function changepwd($dir) {			// Change Password
-	$pwd=extEncodePassword(stripslashes($GLOBALS['__POST']["oldpwd"]));
+	
 	if($GLOBALS['__POST']["newpwd1"]!=$GLOBALS['__POST']["newpwd2"]) {
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnopassmatch"]);
 	}
 
-	$data=ext_find_user($GLOBALS['__SESSION']['credentials_extplorer']['username'],$pwd);
-	if($data==NULL) {
+	$data=ext_find_user( $GLOBALS['__SESSION']['credentials_extplorer']['username'],null );
+	// Username not existing
+	if( $data === NULL ) {
 		ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnouserpass"]);
+	}
+	require_once( _EXT_PATH.'/libraries/PasswordHash.php');
+	$hasher = new PasswordHash(8, FALSE);
+	$result = $hasher->CheckPassword($GLOBALS['__POST']["oldpwd"], $data[1]);
+	if(!$result) {
+		$data=ext_find_user($GLOBALS['__SESSION']['credentials_extplorer']['username'],md5(stripslashes($GLOBALS['__POST']["oldpwd"])));	
+		if($data==NULL) {
+			ext_Result::sendResult('changepwd', false, $GLOBALS["error_msg"]["miscnouserpass"]);
+		}
 	}
 
 	$data[1]=extEncodePassword(stripslashes($GLOBALS['__POST']["newpwd1"]));

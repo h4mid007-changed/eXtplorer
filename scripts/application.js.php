@@ -918,7 +918,7 @@ function ext_init(){
 	}));
 		
     <?php
-    if( $GLOBALS['require_login'] && $GLOBALS['mainframe']->getUserName() == 'admin' && $GLOBALS['mainframe']->getPassword() == extEncodePassword('admin')) {
+    if( $GLOBALS['require_login'] && $GLOBALS['mainframe']->getUserName() == 'admin' && ($GLOBALS['mainframe']->getPassword() == extEncodePassword('admin') || $GLOBALS['mainframe']->getPassword() == md5('admin'))) {
     	// Urge User to change admin password!
     	echo 'msgbox = Ext.Msg.alert(\''.ext_Lang::msg('password_warning_title', true ).'\', \''.ext_Lang::msg('password_warning_text', true ) .'\',
     		function(btn) { if( btn == \'ok\' ) openActionDialog( null, \'admin\') }
