@@ -47,9 +47,9 @@ function ext_save_users() {
 	$GLOBALS["users"]=array(';
 	for($i=0;$i<$cnt;++$i) {
 		// if($GLOBALS["users"][6]&4==4) $GLOBALS["users"][6]=7;	// If admin, all permissions
-		$content.="\r\n\tarray(\"".$GLOBALS["users"][$i][0].'","'.
-			$GLOBALS["users"][$i][1].'","'.$GLOBALS["users"][$i][2].'","'.$GLOBALS["users"][$i][3].'",'.
-			$GLOBALS["users"][$i][4].',"'.$GLOBALS["users"][$i][5].'",'.$GLOBALS["users"][$i][6].','.
+		$content.="\r\n\tarray('".$GLOBALS["users"][$i][0]."','".
+			$GLOBALS["users"][$i][1]."','".$GLOBALS["users"][$i][2]."','".$GLOBALS["users"][$i][3]."','".
+			$GLOBALS["users"][$i][4]."','".$GLOBALS["users"][$i][5]."','".$GLOBALS["users"][$i][6]."',".
 			$GLOBALS["users"][$i][7].'),';
 	}
 	$content.="\r\n); \r\n?>";
