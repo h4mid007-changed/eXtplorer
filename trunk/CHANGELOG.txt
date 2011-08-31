@@ -3,6 +3,10 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+--- version 2.1.0 RC5 released ---
+
+- fixed password change functionality
+
 --- version 2.1.0 RC4 released ---
 
 - updated version check to work with J! 1.7
