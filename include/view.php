@@ -39,7 +39,7 @@ class ext_View extends ext_Action {
 
 	function execAction($dir, $item) {		// show file contents
 		global $action;
-		
+		$item = basename($item);
 		if( @eregi($GLOBALS["images_ext"], $item)) {
 			$html =  '<img src="'.ext_make_link( 'get_image', $dir, rawurlencode($item)).'" alt="'.$GLOBALS["messages"]["actview"].": ".$item.'" /><br /><br />';
 		}
@@ -124,6 +124,7 @@ class ext_View extends ext_Action {
 		<?php
 	}
 	function sendImage( $dir, $item ) {
+		$item = basename($item);
 		$abs_item = get_abs_item( $dir, $item );
 		if( $GLOBALS['ext_File']->file_exists( $abs_item )) {
   			if(!@eregi($GLOBALS["images_ext"], $item)) return;
