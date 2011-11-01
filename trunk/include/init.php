@@ -172,7 +172,8 @@ if( $action == 'include_javascript' ) {
   	while (@ob_end_clean());
 	ob_start();
   	header("Content-Type: text/javascript; charset=".strtolower($GLOBALS["charset"]));
-  	include( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php');
+  	$script_js_php = _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php';
+  	if( file_exists( $script_js_php ) ) include( $script_js_php );
   	ext_exit();
 }
 //------------------------------------------------------------------------------
