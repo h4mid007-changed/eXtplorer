@@ -47,7 +47,7 @@ $Id$ -->
 						  UNIQUE KEY token (token),
 						  KEY path (path),
 						  KEY expires (expires)
-						) TYPE=MyISAM;
+						) ENGINE=MyISAM;
 			</query>
 			<query>CREATE TABLE IF NOT EXISTS `#__extwebdav_properties` (
 						  path varchar(255) NOT NULL default '',
@@ -56,7 +56,7 @@ $Id$ -->
 						  value text,
 						  PRIMARY KEY ( `ns` ( 100 ) , `path` ( 100 ) , `name` ( 50 ) ),
 						  KEY path (path)
-						) TYPE=MyISAM;
+						) ENGINE=MyISAM;
 			</query>
 
 	</queries>
