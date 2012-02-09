@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -34,9 +34,6 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 
 //------------------------------------------------------------------------------
-require_once _EXT_PATH."/include/users.php";
-ext_load_users();
-//------------------------------------------------------------------------------
 
 $GLOBALS['__SESSION']=&$_SESSION;
 if( !empty($_REQUEST['type'])) {
@@ -62,14 +59,10 @@ if( file_exists(_EXT_PATH.'/include/authentication/'.$authentication_type.'.php'
 		}
 }
 	
-//------------------------------------------------------------------------------
-function login() {
+function checkLoggedIn() {
 	global $auth, $authentication_type;
-	if( !is_object($auth)) {
-		return false;
-	}
 	if( !empty($GLOBALS['__POST']['username']) || !empty($_SESSION['credentials_'.$authentication_type])) {
-		
+	
 		if( !empty($GLOBALS['__POST']['username'])) {
 			$username = $GLOBALS['__POST']['username'];
 			$password = $GLOBALS['__POST']['password'];
@@ -77,7 +70,7 @@ function login() {
 			$username = $_SESSION['credentials_'.$authentication_type]['username'];
 			$password = $_SESSION['credentials_'.$authentication_type]['password'];
 		}
-		
+	
 		$res = $auth->onAuthenticate( array('username' => $username, 'password' => $password) );
 		if( !PEAR::isError($res) && $res !== false ) {
 			if( @$GLOBALS['__POST']['action'] == 'login' && ext_isXHR() ) {
@@ -101,12 +94,25 @@ function login() {
 			}
 			if( ext_isXHR() ) {
 				$errmsg = PEAR::isError($res) ? $res->getMessage() : ext_Lang::msg( 'actlogin_failure' );
-				
+	
 				ext_Result::sendResult('login', false, $errmsg );
 			}
 			return false;
 		}
-		
+	
+	}
+}
+//------------------------------------------------------------------------------
+function login() {
+	global $auth, $authentication_type;
+	if( !is_object($auth)) {
+		return false;
+	}
+	$result = checkLoggedIn();
+	if( $result === true ) {
+		return true;
+	} elseif( $result === false ) {
+		return false;
 	}
 	if( ext_isXHR() && $GLOBALS['action'] != 'login') {
 		echo '<script type="text/javascript>document.location="'._EXT_URL.'/index.php";</script>';
@@ -118,11 +124,9 @@ function login() {
 	// Ask for Login
 	$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );
 	$GLOBALS['mainframe']->addcustomheadtag( '
-		<script type="text/javascript" src="scripts/extjs3/adapter/ext/ext-base.js"></script>
-		<script type="text/javascript" src="scripts/extjs3/ext-all.js"></script>
+		<script type="text/javascript" src="scripts/extjs/ext-all.js"></script>
 		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
-		<link rel="stylesheet" href="'. _EXT_URL . '/scripts/extjs3/resources/css/ext-all.css" />
-		<link rel="stylesheet" href="scripts/extjs3/resources/css/xtheme-blue.css" />');
+		<link rel="stylesheet" href="scripts/resources/css/ext-all-gray.css" />');
 
 			
 			?>

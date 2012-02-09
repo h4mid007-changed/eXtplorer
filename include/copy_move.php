@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2011
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  *
@@ -50,8 +50,8 @@ function ext_copy_move_items($dir) {		// copy/move file/dir
 	$cnt=count($GLOBALS['__POST']["selitems"]);
 
 	if (!$new_dir) {
-	    ext_copy_move_dialog($dir);
-	    return;
+		// if $new_dir is missing we guess it's a call to fill the form
+	    
 	}
 
 	// DO COPY/MOVE
@@ -146,61 +146,3 @@ function ext_copy_move_items($dir) {		// copy/move file/dir
 
 	ext_Result::sendResult( $action, true, 'The File(s)/Directory(s) were successfully '.($action=='copy'?'copied':'moved').'.' );
 }
-
-function ext_copy_move_dialog($dir='') {
-    $action = extGetParam( $_REQUEST, 'action' );
-    ?>
-{
-	"xtype": "form",
-	"id": "simpleform",
-	"labelWidth": 125,
-	"width": "340",
-	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
-	"dialogtitle": "<?php echo 'Copy/Move' ?>",
-	"frame": true,
-	"items": [{
-		"xtype": "textfield",
-        "fieldLabel": "Destination",
-        "name": "new_dir",
-        "value": "<?php echo $dir ?>/",
-        "width":175,
-        "allowBlank":false
-    }],
-    "buttons": [{
-    	text: '<?php echo ext_Lang::msg( 'btncreate', true ) ?>', 
-    	handler: function() {
-    		form =  Ext.getCmp('simpleform').getForm();
-			statusBarMessage( 'Please wait...', true );
-		    var requestParams = getRequestParams();
-		    requestParams.confirm = 'true';
-		    requestParams.action  = '<?php echo $action ?>';
-		    form.submit({
-		        //reset: true,
-		        reset: false,
-		        success: function(form, action) {
-		        	statusBarMessage( action.result.message, false, true );
-		        	try{
-		        		dirTree.getSelectionModel().getSelectedNode().reload();
-		        	} catch(e) {}
-					datastore.reload();
-					Ext.getCmp("dialog").destroy();
-		        },
-		        failure: function(form, action) {
-		        	if( !action.result ) return;
-					Ext.MessageBox.alert('Error!', action.result.error);
-					statusBarMessage( action.result.error, false, false );
-		        },
-		        scope: form,
-		        // add some vars to the request, similar to hidden fields
-		        params: requestParams
-		    });
-		  }
-	},{
-		text: '<?php echo ext_Lang::msg( 'btncancel', true ) ?>', 
-		handler: function() { Ext.getCmp("dialog").destroy(); }
-	}
-	]
-}
-	<?php
-}
-?>

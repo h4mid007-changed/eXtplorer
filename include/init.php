@@ -4,7 +4,7 @@ if (!defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2011
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -78,7 +78,7 @@ define ("_EXT_FTPTMP_PATH", realpath(dirname( __FILE__ ) . '/../ftp_tmp'));
 if (function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
 	define ("_EXT_URL", $GLOBALS['home_url']."/administrator/components/com_extplorer");
 } else {
-	define ("_EXT_URL", dirname($GLOBALS['script_name']));
+	define ("_EXT_URL", str_replace('/scripts/app/view/forms', '', dirname($GLOBALS['script_name'])));
 }
 
 require_once(_EXT_PATH . '/application.php');
@@ -133,7 +133,7 @@ $GLOBALS["limit"]	= extGetParam( $_REQUEST, 'limit', 50);
 
 //------------------------------------------------------------------------------
 
-/** @var $GLOBALS['file_mode'] Can be 'file' or 'ftp' */
+// @var $GLOBALS['file_mode'] Can be 'file' or 'ftp'
 if (!isset($_REQUEST['file_mode']) && !empty($_SESSION['file_mode'])) {
 	$GLOBALS['file_mode'] = extGetParam($_SESSION, 'file_mode', $GLOBALS['ext_conf']['authentication_method_default']);
 } else {
@@ -168,14 +168,9 @@ require_once(_EXT_PATH . "/libraries/File_Operations.php");
 require_once(_EXT_PATH . "/include/header.php");
 require_once(_EXT_PATH . "/include/result.class.php");
 
-if( $action == 'include_javascript' ) {
-  	while (@ob_end_clean());
-	ob_start();
-  	header("Content-Type: text/javascript; charset=".strtolower($GLOBALS["charset"]));
-  	$script_js_php = _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php';
-  	if( file_exists( $script_js_php ) ) include( $script_js_php );
-  	ext_exit();
-}
+$allow = ($GLOBALS["permissions"]&01) == 01;
+$admin = ((($GLOBALS["permissions"]&04) == 04) || (($GLOBALS["permissions"]&02) == 02));
+
 //------------------------------------------------------------------------------
 
 // Raise Memory Limit
@@ -188,7 +183,18 @@ $GLOBALS['ext_File'] = new ext_File();
 if ($GLOBALS["require_login"]) {	// LOGIN
 
 	require(_EXT_PATH."/include/login.php");
-
+	if( $action == 'include_javascript' && checkLoggedIn() !== true && $_GET['file'] != 'functions.js' ) {
+		echo 'Restricted Access';
+		ext_exit();
+	}
+	if( $action == 'include_javascript' && $_GET['file'] == 'functions.js' ) {
+		while (@ob_end_clean());
+		if( function_exists('extInitGzip')) extInitGzip();
+		header("Content-Type: text/javascript; charset=".strtolower($GLOBALS["charset"]));
+		include(_EXT_PATH.'/scripts/functions.js.php');
+		if( function_exists('extDoGzip')) extDoGzip();
+		ext_exit();
+	}
 	if ($GLOBALS["action"]=="logout") {
 		$auth->onLogout();
 	} else {
@@ -210,23 +216,60 @@ if (ext_isWindows()) {
 
 //------------------------------------------------------------------------------
 if ( !isset( $_REQUEST['dir'] ) ) {
-
-	$GLOBALS["dir"] = $dir = extGetParam( $_SESSION,'ext_'.$GLOBALS['file_mode'].'dir', '' );
-	if (!empty($dir)) {
-		$dir = @$dir[0] == '/' ? substr( $dir, 1 ) : $dir;
-	}
-	if( @$GLOBALS["action"]!="login") {
-		$try_this = ext_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
-		if (!empty($dir) && !$GLOBALS['ext_File']->file_exists($try_this)) {
-			$dir = '';
+	if( ext_isXHR() &&  $action != 'include_javascript' ) {
+		// Requests via ajax must contain the dir parameter!!
+		$dir = '';
+	} else {
+		$GLOBALS["dir"] = $dir = extGetParam( $_SESSION,'ext_'.$GLOBALS['file_mode'].'dir', '' );
+		if (!empty($dir)) {
+			$dir = @$dir[0] == '/' ? substr( $dir, 1 ) : $dir;
+		}
+		if( @$GLOBALS["action"]!="login") {
+			$try_this = ext_isFTPMode() ? '/'.$dir : $GLOBALS['home_dir'].'/'.$dir;
+			if (!empty($dir) && !$GLOBALS['ext_File']->file_exists($try_this)) {
+				$dir = '';
+			}
 		}
 	}
 } else {
 	$GLOBALS["dir"] = $dir = urldecode(stripslashes(extGetParam($_REQUEST, "dir")));
 }
 
-if ($dir == 'ext_root') {
+if ($dir == 'root' ||  $dir == 'ext-record-1') {
 	$GLOBALS["dir"] = $dir = '';
+}
+/**
+ * This is the section where all of the single eXtplorer Javascript files are loaded
+ * The MVC dogma requires splitting up the application into various files
+ * We all load them here, the ExtJS dependency loader is not enabled
+ */
+if( $action == 'include_javascript' ) {
+	
+	while (@ob_end_clean());
+	ob_start();
+	if( function_exists('extInitGzip')) extInitGzip();
+	header("Content-Type: text/javascript; charset=".strtolower($GLOBALS["charset"]));
+	if( @is_array( $_GET['file']) && @is_array( $_GET['subdir']) ) {
+		if( count($_GET['file']) != count($_GET['subdir'])) break;
+		$max_files = 50;
+		$i = 0;
+
+		foreach( $_GET['file'] as $file ) {
+			$path = realpath( _EXT_PATH.'/scripts/'.	$_GET['subdir'][$i] );
+			$script_js_php[] = $path . '/' . basename( $file ) .'.php';
+			if( $i >= $max_files ) break;
+			$i++;
+		}
+	} else {
+		$script_js_php = array( _EXT_PATH.'/scripts/'.basename(extGetParam($_REQUEST, 'file' )).'.php' );
+	}
+	
+	foreach( $script_js_php as $script_file ) {
+		if( file_exists( $script_file ) ) include( $script_file );
+		echo "\n";
+	}
+	if( function_exists('extDoGzip')) extDoGzip();
+	ext_exit();
 }
 
 if (ext_isFTPMode() && $dir != '') {
@@ -257,6 +300,7 @@ if (!get_is_dir(utf8_decode($abs_dir)) && !get_is_dir($abs_dir.$GLOBALS["separat
 	ext_Result::sendResult('', false, '"'.$abs_dir.'" - '.$GLOBALS["error_msg"]["direxist"]);
 	$dir = '';
 }
-
-$_SESSION['ext_'.$GLOBALS['file_mode'].'dir'] = $dir;
+if( !empty($dir)) {
+	$_SESSION['ext_'.$GLOBALS['file_mode'].'dir'] = $dir;
+}
 //------------------------------------------------------------------------------

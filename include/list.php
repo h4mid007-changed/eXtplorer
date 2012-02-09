@@ -4,7 +4,7 @@ if ( !defined('_JEXEC') && !defined('_VALID_MOS')) die('Restricted access');
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2010
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -198,6 +198,7 @@ function send_dircontents($dir, $sendWhat = 'files') {	// print table of files
 
 	$i = 0;
 	$items['totalCount'] = count($list);
+	$items['results'] = count($list);
 	$items['items'] = array();
 	$dirlist = array();
 
@@ -290,44 +291,22 @@ function send_dircontents($dir, $sendWhat = 'files') {	// print table of files
 			$qtip = "<strong>".ext_Lang::mime('dir',true)."</strong><br /><strong>".ext_Lang::msg('miscperms',true).":</strong> ".$perms."<br />";
 			$qtip .= '<strong>'.ext_Lang::msg('miscowner',true).':</strong> '.$items['items'][$i]['owner'];
 			if ($GLOBALS['use_mb']) {
-				if (ext_isFTPMode()) {
-					$dirlist[] = array('text' => htmlspecialchars($item),
-									'id'		=> $id,
-									'qtip'		=> $qtip,
-									'is_writable'  => $is_writable,
-									'is_chmodable' => $is_chmodable,
-									'is_readable'  => $is_readable,
-									'is_deletable' => $is_deletable,
-									'cls'		=> 'folder');
-				} else if (mb_detect_encoding($item) == 'ASCII') {
-					$dirlist[] = array('text' => htmlspecialchars(utf8_encode($item)),
-									'id'		=> utf8_encode($id),
-									'qtip'		=> $qtip,
-									'is_writable'  => $is_writable,
-									'is_chmodable' => $is_chmodable,
-									'is_readable'  => $is_readable,
-									'is_deletable' => $is_deletable,
-									'cls'		=> 'folder');
+				if (mb_detect_encoding($item) == 'ASCII') {
+					$item = htmlspecialchars(utf8_encode($item));
 				} else {
-					$dirlist[] = array('text' => htmlspecialchars($item),
-									'id'		=> $id,
-									'qtip'		=> $qtip,
-									'is_writable'  => $is_writable,
-									'is_chmodable' => $is_chmodable,
-									'is_readable'  => $is_readable,
-									'is_deletable' => $is_deletable,
-									'cls'		=> 'folder');
+					$item = htmlspecialchars($item);
 				}
 			} else {
-				$dirlist[] = array('text' => htmlspecialchars(ext_isFTPMode() ? $item : utf8_encode($item)),
-									'id'		=> ext_isFTPMode() ? $id : utf8_encode($id),
-									'qtip'		=> $qtip,
-									'is_writable'  => $is_writable,
-									'is_chmodable' => $is_chmodable,
-									'is_readable'  => $is_readable,
-									'is_deletable' => $is_deletable,
-									'cls'		=> 'folder');
+				$item = htmlspecialchars(ext_isFTPMode() ? $item : utf8_encode($item));
 			}
+			$dirlist[] = array('text' => $item,
+					'id'		=> ext_isFTPMode() ? $id : utf8_encode($id),
+					'qtip'		=> $qtip,
+					'is_writable'  => $is_writable,
+					'is_chmodable' => $is_chmodable,
+					'is_readable'  => $is_readable,
+					'is_deletable' => $is_deletable,
+					'cls'		=> 'folder');
 		}
 		if (!$is_dir && $sendWhat == 'files' || $sendWhat == 'both') {
 			$i++;
@@ -373,14 +352,6 @@ class ext_List extends ext_Action {
 		show_header();
 		extHTML::loadExtJS();
 		
-		?>
-		
-	<div id="dirtree-panel"></div>
-	<div id="locationbar-panel"></div>
-	<div id="item-grid"></div>
-	<div id="ext_statusbar" class="ext_statusbar"></div>
-
-	<?php
 		// That's the main javascript file to build the Layout & App Logic
 		include(_EXT_PATH.'/scripts/application.js.php');
 	}

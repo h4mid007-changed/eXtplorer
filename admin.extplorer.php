@@ -7,7 +7,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  * @version $Id$
  * 
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -39,7 +39,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 **/
 
 // The eXtplorer version number
-$GLOBALS['ext_version'] = '2.1.0';
+$GLOBALS['ext_version'] = '3.0.0';
 $GLOBALS['ext_home'] = 'http://extplorer.net';
 
 //------------------------------------------------------------------------------
@@ -131,13 +131,6 @@ if( class_exists(strtolower($classname)) && is_callable(array($classname,'execac
 	break;
 
 	//------------------------------------------------------------------------------
-	// USER-ADMINISTRATION
-	case "admin":
-		require_once( _EXT_PATH . "/include/admin.php" );
-		ext_show_admin($dir);
-	break;
-
-	//------------------------------------------------------------------------------
 		// BOOKMARKS
 	case 'modify_bookmark':
 		$task = extGetParam( $_REQUEST, 'task' );
@@ -157,8 +150,8 @@ if( class_exists(strtolower($classname)) && is_callable(array($classname,'execac
 	// DEFAULT: LIST FILES & DIRS
 	case "getdircontents":
 			require_once( _EXT_PATH . "/include/list.php" );
-			$requestedDir = stripslashes(str_replace( '_RRR_', '/', extGetParam( $_REQUEST, 'node' )));
-			if( empty($requestedDir) || $requestedDir == 'ext_root') {
+			$requestedDir = stripslashes(str_replace( array('_RRR_', 'eXtplorer.model.Directory-'), array('/',''), extGetParam( $_REQUEST, 'node' )));
+			if( empty($requestedDir) || $requestedDir == 'root') {
 				$requestedDir = $dir;
 			}
 			

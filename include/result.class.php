@@ -94,9 +94,11 @@ class ext_Result {
 			}
 			$result = array('action' => $action,
 							'message' => str_replace("'", "\\'", $msg ),
-							'error' => str_replace("'", "\\'", $msg ),//.print_r($_POST,true),
 							'success' => $success 
 						);
+			if( !$success) {
+				$result['error'] = str_replace("'", "\\'", $msg );
+			}
 			foreach( $extra as $key => $value ) {
 				$result[$key] = $value;
 			}

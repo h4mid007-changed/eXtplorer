@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2010
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -38,19 +38,21 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
  */
 class ext_extplorer_authentication {
 	function onAuthenticate($credentials, $options=null ) {
+		require_once( _EXT_PATH.'/libraries/PasswordHash.php');
+		require_once( _EXT_PATH.'/include/user/eXtplorer.php');
+		$this->users = new eXtplorer_User();
 		// Check Login
 		//------------------------------------------------------------------------------
 
-		$data=ext_find_user( $credentials['username'],null );
+		$data=$this->users->load( $credentials['username'],null );
 		// Username not existing
 		if( $data === NULL ) return false;
 		
-		require_once( _EXT_PATH.'/libraries/PasswordHash.php');
-		$hasher = new PasswordHash(8, FALSE);
-		$result = $hasher->CheckPassword($credentials['password'], $data[1]);
+		$result = extCheckPassword($credentials['password'], $data[1]);
 		
 		if(!$result) {
-			$data=ext_find_user( $credentials['username'],$credentials['password'] );
+			$data=$this->users->load( $credentials['username'],$credentials['password'] );
+			
 			if( $data == NULL ) return false;
 		}
 		// 	Set Login
@@ -108,14 +110,14 @@ class ext_extplorer_authentication {
             xtype:"textfield",
 			fieldLabel: "<?php echo ext_Lang::msg( 'miscusername', true ) ?>",
 			name: "username",
-			width:175,
+			width:275,
 			allowBlank:false
 		},{
 			xtype:"textfield",
 			fieldLabel: "<?php echo ext_Lang::msg( 'miscpassword', true ) ?>",
 			name: "password",
 			inputType: "password",
-			width:175,
+			width:275,
 			allowBlank:false
 		}, new Ext.form.ComboBox({
 			
@@ -136,7 +138,7 @@ class ext_extplorer_authentication {
 			displayField:"langname",
 			valueField: "language",
 			value: "<?php echo ext_Lang::detect_lang() ?>",
-			hiddenName: "lang",
+			name: "lang",
 			disableKeyFilter: true,
 			editable: false,
 			triggerAction: "all",
@@ -152,6 +154,8 @@ class ext_extplorer_authentication {
 		buttons: [{
 			text: "<?php echo ext_Lang::msg( 'btnlogin', true ) ?>", 
 			type: "submit",
+			formBind: true,
+			disabled: true,
 			handler: function() {
 				Ext.get( "statusBar").update( "Please wait..." );
 				Ext.getCmp("simpleform").getForm().submit({
@@ -196,4 +200,3 @@ class ext_extplorer_authentication {
 		logout();
 	}
 } 
-?>

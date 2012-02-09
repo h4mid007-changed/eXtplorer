@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -81,78 +81,6 @@ class ext_Rename extends ext_Action {
 		}
 		$is_dir = get_is_dir(ext_isFTPMode() ? get_item_info($dir,$item) : get_abs_item($dir,$item));
 
-	?>
-{
-	"xtype": "form",
-	"width": "350",
-	"height": "150",
-	"id": "simpleform",
-	"labelWidth": 125,
-	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
-	"dialogtitle": "<?php echo $GLOBALS['messages']['rename_file'] ?>",
-	"frame": true,
-	"items": [{
-	
-		"xtype": "textfield",
-		"fieldLabel": "<?php echo ext_Lang::msg( 'newname', true ) ?>",
-		"name": "newitemname",
-		"id": "newitemname",
-		"value": "<?php echo str_replace("'", "\'", stripslashes($item) ) ?>",
-		"width":175,
-		"allowBlank":false
-		}
-	],
-	"listeners": { "afterrender": { 
-						fn: function( form ) {
-							form.findById("newitemname").focus(true);
-						}
-					}
-	},
-	"buttons": [{
-		"text": "<?php echo ext_Lang::msg( 'btnsave', true ) ?>", 
-		"handler": function() {
-			statusBarMessage( 'Please wait...', true );
-			form = Ext.getCmp("simpleform").getForm();
-			form.submit({
-				//reset: true,
-				reset: false,
-				success: function(form, action) {
-					<?php 
-					if( $is_dir ) {
-						?>
-						if( dirTree.getSelectionModel().getSelectedNode() ) {
-							parentDir = dirTree.getSelectionModel().getSelectedNode().parentNode;parentDir.reload();parentDir.select();
-						}
-					<?php 
-					} 
-					?>
-					datastore.reload();
-					statusBarMessage( action.result.message, false, true );
-					Ext.getCmp("dialog").destroy();
-				},
-				failure: function(form, action) {
-					if( !action.result ) return;
-					Ext.MessageBox.alert('Error!', action.result.error);
-					statusBarMessage( action.result.error, false, false );
-				},
-				scope: form,
-				// add some vars to the request, similar to hidden fields
-				params: {
-					option: 'com_extplorer', 
-					action: 'rename', 
-					dir: '<?php echo stripslashes($dir) ?>', 
-					item: '<?php echo stripslashes($item) ?>', 
-					confirm: 'true'
-				}
-			});
-		}
-	},{
-		"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
-		"handler": function() { Ext.getCmp("dialog").destroy(); } 
-	}]
-}
-	
-	<?php
 
 	}
 }
