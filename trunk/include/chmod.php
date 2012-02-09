@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -132,95 +132,14 @@ class ext_Chmod extends ext_Action {
 		if($mode===false) {
 			ext_Result::sendResult('chmod', false, $item.": ".$GLOBALS["error_msg"]["permread"]);
 		}
-		$pos = "rwx";
+		
 		$text = "";
 		for($i=0;$i<$cnt;++$i) {
 			$s_item=get_rel_item($dir,$GLOBALS['__POST']["selitems"][$i]);
 			if(strlen($s_item)>50) $s_item="...".substr($s_item,-47);
 			$text .= $s_item.($i+1<$cnt ? ', ':'');
 		}
-		?>
-		{
-		"xtype": "form",
-		"id": "simpleform",
-		"width": "300",
-		"labelWidth": 125,
-		"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
-		"dialogtitle": "<?php echo ext_Lang::msg('actperms') ?>",
-		"title" : "<?php echo $text  ?>",
-		"frame": true,
-		"items": [{
-			"layout": "column",
-			"items": [{
-	<?php
-		// print table with current perms & checkboxes to change
-		for($i=0;$i<3;++$i) {
-			?>
-			"width":80, 
-			"title":"<?php echo ext_Lang::msg(array('miscchmod'=> $i ), true ) ?>",					
-			"items": [{
-				<?php
-				for($j=0;$j<3;++$j) {
-					?>
-					"xtype": "checkbox",
-					"boxLabel":"<?php echo $pos{$j}  ?>",
-					<?php if($mode{(3*$i)+$j} != "-") echo '"checked":true,' ?>
-						"name":"<?php echo "r_". $i.$j ?>"
-					}	<?php
-					if( $j<2 ) echo ',{';
-				}
-				?>	
-				]
-			}
-		<?php 
-			if( $i<2 ) echo ',{';
-		}
-		?>,{
-			"width":400, 
-			"style":"margin-left:10px", 
-			"clear":true,
-			"html": "&nbsp;"
-		}]
 
-	},{
-		"xtype": "checkbox",
-		"fieldLabel":"<?php echo ext_Lang::msg('recurse_subdirs', true ) ?>",
-		"name":"do_recurse"
-	}],
-	"buttons": [{
-		"text": "<?php echo ext_Lang::msg( 'btnsave', true ) ?>", 
-		"handler": function() {
-			statusBarMessage( '<?php echo ext_Lang::msg( 'permissions_processing', true ) ?>', true );
-			form = Ext.getCmp("simpleform").getForm();
-			form.submit({
-				//reset: true,
-				reset: false,
-				success: function(form, action) {
-					statusBarMessage( action.result.message, false, true );
-					datastore.reload();
-					Ext.getCmp("dialog").destroy();
-				},
-				failure: function(form, action) {
-					statusBarMessage( action.result.error, false, false );
-					Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-				},
-				scope: form,
-				params: {
-					"option": "com_extplorer", 
-					"action": "chmod", 
-					"dir": "<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>", 
-					"selitems[]": ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
-					confirm: 'true'
-				}
-			});
-		}
-	},{
-		"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
-		"handler": function() { Ext.getCmp("dialog").destroy(); }
-	}]
-}
-	
-		<?php
 	}
 }
 //------------------------------------------------------------------------------

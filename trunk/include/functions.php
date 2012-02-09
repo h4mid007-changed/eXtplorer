@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2011
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -884,17 +884,18 @@ class extProfiler {
 class extHTML {
 	function loadExtJS() {
 		$scripts[] = array('dir' => 'scripts/editarea/', 'file' => 'edit_area_full_with_plugins.js');
-		$scripts[] = array('dir' => 'scripts/extjs3/adapter/ext/', 'file' => 'ext-base.js');
-		$scripts[] = array('dir' => 'scripts/extjs3/', 'file' => 'ext-all.js');
-		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.ondemandload/', 'file' => 'scriptloader.js');
-		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.editareaadapater/', 'file' => 'ext-editarea-adapter.js');
-		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.statusbar/', 'file' => 'ext-statusbar.js');
-		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.fileuploadfield/', 'file' => 'ext-fileUploadField.js');
-		$scripts[] = array('dir' => 'scripts/extjs3-ext/ux.locationbar/', 'file' => 'Ext.ux.LocationBar.js');
+		$scripts[] = array('dir' => 'scripts/extjs/', 'file' => 'ext-all-debug-w-comments.js');
 		
-		$styles[] = array('dir' => 'scripts/extjs3/resources/css/', 'file' => 'ext-all.css');
-		$styles[] = array('dir' => 'scripts/extjs3-ext/ux.locationbar/', 'file' => 'LocationBar.css');
-		$styles[] = array('dir' => 'scripts/extjs3-ext/ux.fileuploadfield/', 'file' => 'fileuploadfield.css');
+		$scripts[] = array('dir' => 'scripts/extjs-ux/editareaadapater/', 'file' => 'Editarea-panel.js');
+		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'StatusBar.js');
+		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'ValidationStatus.js');
+		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUpload.js');
+		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUploadPanel.js');
+		
+		$styles[] = array('dir' => 'scripts/resources/css/', 'file' => 'ext-all-gray.css');
+		$styles[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUploadPanel.css');
+		$styles[] = array('dir' => 'scripts/extjs-ux/statusbar/css/', 'file' => 'statusbar.css');
+		
 		$scriptTag = '';
 		if( !empty($_GET['nofetchscript']) || !empty( $_COOKIE['nofetchscript'])) {
 			foreach( $scripts as $script ) {
@@ -905,25 +906,40 @@ class extHTML {
 			}			
 		} else {
 			$scriptTag = '
-		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?'
-			.'&amp;subdir[]=scripts/editarea/&amp;file[]=edit_area_full_with_plugins.js'
-			.'&amp;subdir[]=scripts/extjs3/adapter/ext/&amp;file[]=ext-base.js'
-			.'&amp;subdir[]=scripts/extjs3/&amp;file[]=ext-all.js'
-			.'&amp;subdir[]=scripts/extjs3-ext/ux.ondemandload/&amp;file[]=scriptloader.js'
-			.'&amp;subdir[]=scripts/extjs3-ext/ux.editareaadapater/&amp;file[]=ext-editarea-adapter.js'
-			.'&amp;subdir[]=scripts/extjs3-ext/ux.statusbar/&amp;file[]=ext-statusbar.js'
-			.'&amp;subdir[]=scripts/extjs3-ext/ux.fileuploadfield/&amp;file[]=ext-fileUploadField.js'
-			.'&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=Ext.ux.LocationBar.js'
-			.'&amp;gzip=1"></script>';
+		<script type="text/javascript" src="'. _EXT_URL . '/fetchscript.php?';
+			foreach( $scripts as $script ) {
+				$scriptTag .= '&amp;subdir[]='.$script['dir'].'&amp;file[]='.$script['file'];
+			}	
+			$scriptTag.='&amp;gzip=1"></script>';
 			$scriptTag .= '
-		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?'
-			.'subdir[]=scripts/extjs3/resources/css/&amp;file[]=ext-all.css'
-			.'&amp;subdir[]=scripts/extjs3-ext/ux.locationbar/&amp;file[]=LocationBar.css'
-			.'&amp;subdir[]=scripts/extjs3-ext/ux.fileuploadfield/&amp;file[]=fileuploadfield.css'
-			.'&amp;gzip=1" />';
+		<link rel="stylesheet" href="'. _EXT_URL . '/fetchscript.php?';
+		
+			foreach( $styles as $style ) {
+				$scriptTag .= '&amp;subdir[]='.$style['dir'].'&amp;file[]='.$style['file'];
+			}	
+			$scriptTag .= '&amp;gzip=1" />';
 		}
+		$phpified_jscripts[] = array('dir' => '/', 'file' => 'functions.js' );
+		$phpified_jscripts[] = array('dir' => 'app/model', 'file' => 'File.js');
+		$phpified_jscripts[] = array('dir' => 'app/model', 'file' =>  'Directory.js');
+		$phpified_jscripts[] = array('dir' => 'app/store', 'file' => 'File.js');
+		$phpified_jscripts[] = array('dir' => 'app/store', 'file' => 'DirectoryTree.js');
+		$phpified_jscripts[] = array('dir' => 'app/view', 'file' => 'FileList.js');
+		$phpified_jscripts[] = array('dir' => 'app/view', 'file' => 'DirectoryTree.js');
+		$phpified_jscripts[] = array('dir' => 'app/view', 'file' => 'header.js');
+		$phpified_jscripts[] = array('dir' => 'app/view', 'file' => 'menus.js');
+		$phpified_jscripts[] = array('dir' => 'app/view', 'file' => 'ViewPort.js');
+		$phpified_jscripts[] = array('dir' => 'app/controller', 'file' => 'Forms.js');
+		$phpified_jscripts[] = array('dir' => 'app/controller', 'file' => 'File.js');
+		$phpified_jscripts[] = array('dir' => 'app/controller', 'file' => 'Tree.js');
 		$scriptTag .= '
-		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript&amp;file=functions.js"></script>
+		<script type="text/javascript" src="'. $GLOBALS['script_name'].'?option=com_extplorer&amp;action=include_javascript';
+		
+		foreach( $phpified_jscripts as $file ) {
+			$scriptTag .= '&amp;subdir[]='.$file['dir'].'&amp;file[]='.$file['file'];
+			
+		}
+		$scriptTag .= '"></script>
 		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>';
 
 	
@@ -1393,7 +1409,12 @@ function extEncodePassword( $pass ) {
 	$hash = $hasher->HashPassword($pass);
 	return $hash;
 }
-
+function extCheckPassword( $pass1, $pass2 ) {
+	require_once( _EXT_PATH.'/libraries/PasswordHash.php');
+	$hasher = new PasswordHash(8, FALSE);
+	$result = $hasher->CheckPassword($pass1, $pass2);
+	return $result;
+}
 if (!function_exists('html_entity_decode')) {
 	/**
 	* html_entity_decode function for backward compatability in PHP
@@ -1434,4 +1455,16 @@ function logout() {
  */
 function get_session_id( $id=null ) {
 	return extMakePassword( 32 );
+}
+function extDirToNodePath($dir) {
+	$dirStr = '';
+	
+	$str = "/root/";
+	$dirs = explode('/', $dir);
+	foreach( $dirs as $d ) {
+		$dirStr .= '_RRR_'.$d;
+		$dirStrArr[] = $dirStr;
+	}
+	
+	return $str . implode('/', $dirStrArr );
 }

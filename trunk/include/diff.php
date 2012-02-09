@@ -105,62 +105,10 @@ class ext_Diff extends ext_Action {
 			if( empty( $diff )) {
 				ext_Result::sendResult('diff', true, 'Both Files are identical');
 			}
-			$diff = utf8_encode( nl2br( $diff ) );
-			echo '{ "xtype": "panel", "dialogtitle": "Diff Result", "html": "'.str_replace( array("\n", "\r"), array('',''), $diff).'" }';
+			$diff = utf8_encode( nl2br( htmlentities( $diff, ENT_QUOTES ) ) );
+			echo '{ "xtype": "panel", "success": "true", "dialogtitle": "Diff Result", "html": "'.str_replace( array("\n", "\r"), array('',''), $diff).'" }';
 			exit;
 		}
-           
-	?>
-{
-	"xtype": "form",
-	"id": "simpleform",
-	"width": "700",
-	"labelWidth": 125,
-	"url":"<?php echo basename( $GLOBALS['script_name']) ?>",
-	"dialogtitle": "Diff <?php echo htmlentities($item); ?><?php if ($item2) { echo ' and ' . htmlentities($item2); } ?>",
-	"title": "Diff",
-	"items": [{
-		xtype: "textfield",
-		fieldLabel: 'File to Compare',
-		name: 'item2',
-		value: "<?php echo $dir ?>/",
-		width:175,
-		allowBlank:false
-		}],
-    buttons: [{
-		"text": "<?php echo ext_Lang::msg( 'btndiff', true ) ?>", 
-		"handler": function() {
-			statusBarMessage( 'Please wait...', true );
-			form = Ext.getCmp("simpleform").getForm();
-			form.submit({
-				//reset: true,
-				reset: false,
-				success: function(form, action) {
-					Ext.getCmp("dialog").setContent( action.result.message, true );
-				},
-				failure: function(form, action) {
-					if( !action.result ) return;
-					Ext.MessageBox.alert('Error!', action.result.error);
-					statusBarMessage( action.result.error, false, true );
-				},
-				scope: form,
-				// add some vars to the request, similar to hidden fields
-				params: {
-					"option": "com_extplorer", 
-					"action": "diff", 
-					"dir": "<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>", 
-					"item": "<?php echo $item ?>",
-					"selitems[]": ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
-					confirm: 'true'
-				}
-			});
-		}
-	},{
-		"text": "<?php echo ext_Lang::msg( 'btncancel', true ) ?>", 
-		"handler": function() { Ext.getCmp("dialog").destroy(); }
-	}]
-}
-	<?php
 	}
 
 	/**

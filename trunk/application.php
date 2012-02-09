@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @package eXtplorer
  * @version $Id$
- * @copyright soeren 2007-2010
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -44,7 +44,17 @@ class ext_Action {
 	function execAction( $dir, $item ) {
 		// to be overridden by the child class
 	}
-
+	function readJsonInput() {
+		$handle = fopen('php://input','r');
+		$jsonInput = fgets($handle);
+		if( $jsonInput ) {
+			$classname = class_exists('ext_Json') ? 'ext_Json' : 'Services_JSON';
+			$json = new $classname();
+			$decoded = $json->decode( $jsonInput );;
+			return $decoded;
+		}
+		return null;
+	}
 }
 /**
  * Wrapper Class for the Global Language Array
@@ -118,18 +128,18 @@ class ext_Lang {
 
 		// Try to detect Primary language if several languages are accepted',
 		foreach($GLOBALS['_LANG'] as $K => $lang) {
-		if(strpos($_AL, $K)===0)
-		return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+			if(strpos($_AL, $K)===0)
+			return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
 		}
 
 		// Try to detect any language if not yet detected',
 		foreach($GLOBALS['_LANG'] as $K => $lang) {
-		if(strpos($_AL, $K)!==false)
-		return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+			if(strpos($_AL, $K)!==false)
+			return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
 		}
 		foreach($GLOBALS['_LANG'] as $K => $lang) {
-		if(preg_match("/[\[\( ]{$K}[;,_\-\)]/",$_UA))
-		return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
+			if(preg_match("/[\[\( ]{$K}[;,_\-\)]/",$_UA))
+			return file_exists( _EXT_PATH.'/languages/'.$lang.'.php' ) ? $lang : $default;
 		}
 
 		// Return default language if language is not yet detected',

@@ -156,7 +156,7 @@ function ext_list_bookmarks( $dir ) {
 	if( !empty($dir[0]) && @$dir[0] == '/' ) {
 		$dir = substr( $dir, 1);
 	}
-	$html .= ext_selectList( 'favourites', $dir, $bookmarks, 1, '', 'onchange="chDir( this.options[this.options.selectedIndex].value);" style="max-width: 200px;"');
+	$html .= ext_selectList( 'favourites', $dir, $bookmarks, 1, '', ' style="max-width: 200px;"');
 	$img_add = '<img src="'._EXT_URL.'/images/_bookmark_add.png" border="0" alt="'.$GLOBALS['messages']['lbl_add_bookmark'].'" align="absmiddle" />';
 	$img_remove = '<img src="'._EXT_URL.'/images/_remove.png" border="0" alt="'.$GLOBALS['messages']['lbl_remove_bookmark'].'" align="absmiddle" />';
 

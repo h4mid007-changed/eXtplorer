@@ -2,7 +2,7 @@
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2010
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://joomlacode.org/gf/project/eXtplorer/)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -40,6 +40,7 @@ if( stristr( $_SERVER['SCRIPT_NAME'], 'administrator/components/com_extplorer'))
 // Set flag that this is a parent file
 define( '_VALID_MOS', 1 );
 define( '_VALID_EXT', 1 );
+define( '_JEXEC', 1 );
 
 require_once( dirname(__FILE__).'/libraries/standalone.php');
 ob_start();

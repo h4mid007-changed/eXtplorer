@@ -2,7 +2,7 @@
 /**
 * @version $Id$
 * @package eXtplorer
-* @copyright Copyright (C) 2007 Open Source Matters. All rights reserved.
+* @copyright Copyright (C) 2007-2012 soeren. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -22,7 +22,7 @@ if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 if (version_compare( phpversion(), '5.0' ) < 0) {
 	require_once( dirname( __FILE__ ) . '/compat.php50x.php' );
 }
-require_once( dirname( __FILE__ ) .'/../include/users.php' );
+
 @set_magic_quotes_runtime( 0 );
 
 // platform neurtral url handling
@@ -397,4 +397,3 @@ if( file_exists( $archive_name ) && !file_exists( $mypath .'/scripts/functions.j
 			</body></html>');
 	}
 }
-?>

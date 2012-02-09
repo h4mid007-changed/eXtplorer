@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2011
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * 
  * @license
@@ -111,17 +111,9 @@ class ext_View extends ext_Action {
 			<iframe src="'. ext_make_link('download', $dir, $item, null, null, null, '&action2=view' ) .'" id="iframe1" width="100%" height="100%" frameborder="0"></iframe>';
 			
 		}
-		$html = str_replace(Array("\r", "\n"), Array('\r', '\n') , addslashes($html));
-		?>
-		{
-
-	"dialogtitle": "<?php echo $GLOBALS['messages']['actview'].": ".$item ?>",
-	"height": 500,
-	"autoScroll": true,
-	"html": "<?php echo $html	?>"
-
-}
-		<?php
+		//$html = str_replace(Array("\r", "\n"), Array('\r', '\n') , addslashes($html));
+		
+		echo $html;
 	}
 	function sendImage( $dir, $item ) {
 		$item = basename($item);
