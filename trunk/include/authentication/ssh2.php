@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2011
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * 
  * @license
@@ -87,30 +87,10 @@ class ext_ssh2_authentication {
 		dialogtitle: "<?php echo ext_Lang::msg('ssh2_header') ?>",
 		title: "<?php echo ext_Lang::msg('ssh2_login_lbl') ?>",
 		frame: true,
-		keys: {
-		    key: Ext.EventObject.ENTER,
-		    fn : function(){
-				if (Ext.getCmp("simpleform").getForm().isValid()) {
-					statusBarMessage( '<?php echo ext_Lang::msg('ssh2_login_check', true ) ?>', true );
-					Ext.getCmp("simpleform").getForm().submit({
-						reset: false,
-						success: function(form, action) { location.href = '<?php echo basename( $GLOBALS['script_name']) ?>?ssh2' },
-						failure: function(form, action) {
-							if( !action.result ) return;
-							msgbox = Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-							msgbox.setIcon( Ext.MessageBox.ERROR );	
-							statusBarMessage( action.result.error, false, false );
-						},
-						scope: Ext.getCmp("simpleform").getForm(),
-						params: {
-							option: "com_extplorer", 
-							action: "ssh2_authentication"
-						}
-					});
-    	        } else {
-        	        return false;
-            	}
-            }
+		defaults: {
+			listeners: {
+				specialkey: submitOnEnter
+			}
 		},
 		items: [{
 			xtype: "textfield",
@@ -140,6 +120,11 @@ class ext_ssh2_authentication {
 		{
 			xtype: "displayfield",
 			id: "statusBar"
+		},
+		{
+			xtype: "hiddenfield",
+			name: "type",
+			value: "ssh2"
 		}],
 		buttons: [{
 			text: "<?php echo ext_Lang::msg( 'btnlogin', true ) ?>", 

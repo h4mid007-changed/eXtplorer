@@ -36,35 +36,36 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 
 ?>
 <script type="text/javascript">
-//if( typeof Ext == 'undefined' ) {
-//	document.location = '<?php echo basename( $GLOBALS['script_name']) ?>?option=com_extplorer&nofetchscript=1';
-//}
-
+if( typeof Ext == 'undefined' ) {
+	document.location = '<?php echo basename( $GLOBALS['script_name']) ?>?option=com_extplorer&nofetchscript=1';
+}
+// Override the getPath function to load .js.php files
 Ext.Loader.getPath = function(className) {
-        var path = '',
-            paths = this.config.paths,
-            prefix = this.getPrefix(className);
+    var path = '',
+        paths = this.config.paths,
+        prefix = this.getPrefix(className);
 
-        if (prefix.length > 0) {
-            if (prefix === className) {
-                return paths[prefix];
-            }
-
-            path = paths[prefix];
-            className = className.substring(prefix.length + 1);
+    if (prefix.length > 0) {
+        if (prefix === className) {
+            return paths[prefix];
         }
 
-        if (path.length > 0) {
-            path += '/';
-        }
-
-        return path.replace(/\/\.\//g, '/') + className.replace(/\./g, "/") + '.js.php';
+        path = paths[prefix];
+    	className = className.substring(prefix.length + 1);
     }
+
+    if (path.length > 0) {
+        path += '/';
+    }
+
+    return path.replace(/\/\.\//g, '/') + className.replace(/\./g, "/") + '.js.php';
+}
+
 Ext.String.camelize = function (str) {
     return str.replace (/(?:^|[-_])(\w)/g, function (_, c) {
         return c ? c.toUpperCase () : '';
       })
-    }
+}
 Ext.application({
     name: 'eXtplorer',
     autoCreateViewport: true,
@@ -98,7 +99,7 @@ Ext.application({
         	    }*/
         	    ?> 
         this.getController('Directory').getDirTree().on("load", this.openDir, this ); 
-	    
+        
     },
     openDir: function(store, records, successful, options) {
 		this.getController('Directory').getDirTree().selectPath( '<?php echo extDirToNodePath(@$_SESSION['ext_'.$GLOBALS['file_mode'].'dir'] ) ?>', 'id', '/');
@@ -106,6 +107,7 @@ Ext.application({
 	}
 });  
 Ext.onReady(function() {
+	Ext.FocusManager.enable(true);
 	Ext.Loader.setConfig({enabled: true});
 	Ext.Loader.setPath('eXtplorer.controller', 'scripts/app/controller' );
 	Ext.Loader.setPath('eXtplorer.store', 'scripts/app/store' );

@@ -49,7 +49,7 @@ Ext.define('eXtplorer.controller.File', {
 					this.handleCallback(requestParams);
 					return true;
 					}	
-				} 
+				}
 			},
 			'filelist button[action=home]': {
 				click: function() { this.application.fireEvent('dirchange', 'root') }
@@ -99,8 +99,8 @@ Ext.define('eXtplorer.controller.File', {
 			'filelist button[action=extract]': {
 				click: function(item, e) { this.loadForm(e, 'extract'); } 
 			},
-			'filelist button[action=info]': {
-				click: function(item, e) { this.loadForm(e, 'get_about'); } 
+			'filelist button[action=sysinfo]': {
+				click: function(item, e) { this.loadForm(e, 'sysinfo'); } 
 			},
 			'filelist button[action=users]': {
 				click: function(item, e) { this.loadForm(e, 'users') }
@@ -138,21 +138,68 @@ Ext.define('eXtplorer.controller.File', {
                                 
                	}
             },
-            'copymovectx menuitem[action=copy]': {
-				click: function() { 
-                	//                                
-               	}
-            },
-            'copymovectx menuitem[action=move]': {
-				click: function() { 
-                	//                                
-               	}
-            },
-            'copymovectx menuitem[action=hide]': {
-				click: function() { 
-                	//                                
-               	}
-            },
+            'filelist gridview': {
+	            itemkeydown: { fn: 
+					function( view, record, el, index, e ) {
+						
+						switch( e.getKey() ) {
+		    				case Ext.EventObject.C:
+		    					if( e.ctrlKey ) {
+		    						e.preventDefault();
+		    						this.loadForm(null, 'copy');
+		    					}
+		    					break;
+		    		   		case Ext.EventObject.X:
+		    					if( e.ctrlKey ) {
+		    						e.preventDefault();
+		    						this.loadForm(null, 'move');
+		    					}
+		    					break;
+		    				case Ext.EventObject.A:
+		    					if( e.ctrlKey ) {
+		    						e.preventDefault();
+		    						this.getFilesList().getSelectionModel().selectAll();
+		    					}
+		    					break;
+		    				case Ext.EventObject.DELETE:
+		    					if( e.ctrlKey ) e.preventDefault();
+		    					this.loadForm(null, 'delete');
+		    					break;
+		    		 	}
+			    	},
+			    	scope: this
+				},
+	        	containerkeydown: { fn: 
+					function( view, e ) {
+						
+						switch( e.getKey() ) {
+		    				case Ext.EventObject.C:
+		    					if( e.ctrlKey ) {
+		    						e.preventDefault();
+		    						this.loadForm(null, 'copy');
+		    					}
+		    					break;
+		    		   		case Ext.EventObject.X:
+		    					if( e.ctrlKey ) {
+		    						e.preventDefault();
+		    						this.loadForm(null, 'move');
+		    					}
+		    					break;
+		    				case Ext.EventObject.A:
+		    					if( e.ctrlKey ) {
+		    						e.preventDefault();
+		    						this.getFilesList().getSelectionModel().selectAll();
+		    					}
+		    					break;
+		    				case Ext.EventObject.DELETE:
+		    					e.preventDefault();
+		    					this.loadForm(null, 'delete');
+		    					break;
+		    		 	}
+			    	},
+			    	scope: this
+				}
+			},
 			'gridctx menuitem[action=edit]': {
 				click: function(item, e) { this.loadForm(e, 'edit'); }
 			},
@@ -309,7 +356,7 @@ Ext.define('eXtplorer.controller.File', {
 			}
 		}
 		
-		var dontNeedSelection = { mkitem:1, get_about:1, ftp_authentication:1, upload:1, search:1, users:1, ssh2_authentication: 1, extplorer_authentication: 1 };
+		var dontNeedSelection = { mkitem:1, sysinfo:1, ftp_authentication:1, upload:1, search:1, users:1, ssh2_authentication: 1, extplorer_authentication: 1 };
 		if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
 			Ext.Msg.alert( '<?php echo ext_Lang::err('error', true )."','".ext_Lang::err('miscselitems', true ) ?>');
 			return false;
@@ -358,7 +405,7 @@ Ext.define('eXtplorer.controller.File', {
 			case 'extplorer_authentication':
 			case 'ftp_authentication':
 			case 'ssh2_authentication':
-			case 'get_about':
+			case 'sysinfo':
 			case 'mkitem':
 			case 'move':
 			case 'rename':
@@ -390,7 +437,7 @@ Ext.define('eXtplorer.controller.File', {
 				break;
 		}
 	},
-	handleCallback: function(requestParams, node) {
+	handleCallback: function(requestParams, node1, node2) {
 		var conn = new Ext.data.Connection();
 	
 		conn.request({
@@ -402,15 +449,15 @@ Ext.define('eXtplorer.controller.File', {
 					if( json.success ) {
 						statusBarMessage( json.message, false, true );
 						try {
-							if( dropEvent) {
-								dropEvent.target.parentNode.reload();
-								dropEvent = null;
-							}
-							if( node ) {
-								if( options.params.action == 'delete' || options.params.action == 'rename' ) {
-									node.parentNode.select();
+							if( node1 ) {
+								this.application.getStore("DirectoryTree").load({ node: node1 });
+								if( node2 ) {
+									this.application.getStore("DirectoryTree").load({ node: node2 });
 								}
-								node.parentNode.reload();
+								if( options.params.action == 'delete' || options.params.action == 'rename' ) {
+									node1.parentNode.select();
+								}
+								
 							} else {
 								this.getFileStore().load();
 							}
@@ -433,7 +480,7 @@ Ext.define('eXtplorer.controller.File', {
 		if( selectedRows.length < 1 ) {
 			node = this.getDirTree().getSelectionModel().getSelection();
 			if( node.length == 1 ) {
-				var dir = this.getDirTree().getSelectionModel().getSelection().id.replace( /_RRR_/g, '/' );
+				var dir = this.getDirTree().getSelectionModel().getSelection()[0].id.replace( /_RRR_/g, '/' );
 				var lastSlash = dir.lastIndexOf( '/' );
 				if( lastSlash > 0 ) {
 					selitems = Array( dir.substring(lastSlash+1) );
@@ -481,18 +528,8 @@ Ext.define('eXtplorer.controller.File', {
 		if( btn != 'yes') {
 			return;
 		}
-		requestParams = getRequestParams();
+		requestParams = this.getRequestParams();
 		requestParams.action = 'extract';
 		this.handleCallback(requestParams);
-	},
-	deleteDir: function( btn, node ) {
-		if( btn != 'yes') {
-			return;
-		}
-		requestParams = getRequestParams();
-		requestParams.dir = this.currentDir.substring( 0, this.currentDir.lastIndexOf('/'));
-		requestParams.selitems = Array( node.id.replace( /_RRR_/g, '/' ) );
-		requestParams.action = 'delete';
-		this.handleCallback(requestParams, node);
 	}
 });

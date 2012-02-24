@@ -883,15 +883,16 @@ class extProfiler {
 */
 class extHTML {
 	function loadExtJS() {
-		$scripts[] = array('dir' => 'scripts/editarea/', 'file' => 'edit_area_full_with_plugins.js');
+		$scripts[] = array('dir' => 'scripts/codemirror/lib/', 'file' => 'codemirror.js');
 		$scripts[] = array('dir' => 'scripts/extjs/', 'file' => 'ext-all-debug-w-comments.js');
 		
-		$scripts[] = array('dir' => 'scripts/extjs-ux/editareaadapater/', 'file' => 'Editarea-panel.js');
+		$scripts[] = array('dir' => 'scripts/extjs-ux/codemirror/', 'file' => 'Ext.ux.form.field.CodeMirror.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'StatusBar.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'ValidationStatus.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUpload.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUploadPanel.js');
 		
+		$styles[] = array('dir' => 'scripts/codemirror/lib/', 'file' => 'codemirror.css');
 		$styles[] = array('dir' => 'scripts/resources/css/', 'file' => 'ext-all-gray.css');
 		$styles[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUploadPanel.css');
 		$styles[] = array('dir' => 'scripts/extjs-ux/statusbar/css/', 'file' => 'statusbar.css');
@@ -939,8 +940,7 @@ class extHTML {
 			$scriptTag .= '&amp;subdir[]='.$file['dir'].'&amp;file[]='.$file['file'];
 			
 		}
-		$scriptTag .= '"></script>
-		<script type="text/javascript" >editAreaLoader.baseURL = "'. _EXT_URL .'/scripts/editarea/";</script>';
+		$scriptTag .= '"></script>';
 
 	
 		if (defined('EXT_STANDALONE')) {
