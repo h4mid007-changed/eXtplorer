@@ -6,10 +6,19 @@
 Ext.define('eXtplorer.view.FileList', {
     extend: 'Ext.grid.Panel',
 	alias: "widget.filelist",
+	id: "filelist",
 	title: "<?php echo ext_lang::msg("actdir", true ) ?>",
 	autoScroll:true,
 	collapsible: false,
 	closeOnTab: true,
+	viewConfig: {
+        plugins: {
+            ddGroup: 'FileGrid',
+            ptype: 'gridviewdragdrop',
+            enableDrop: false
+        }
+    },
+    enableDragDrop   : true,
 	stores: ['File', 'DirectoryTree'],
     initComponent: function() {
         Ext.apply(this, {
@@ -248,7 +257,7 @@ Ext.define('eXtplorer.view.FileList', {
                               		tooltip: '<?php echo ext_Lang::msg('aboutlink', true ) ?>',
                               		cls:'x-btn-icon',
                          
-                              		action: 'info'
+                              		action: 'sysinfo'
                               	},
                               	{
                             		xtype: 'tbseparator'
@@ -326,34 +335,6 @@ Ext.define('eXtplorer.view.FileList', {
 	);
 	this.callParent(arguments);
 	
-	/*,
-	keys:
-		[{
-			key: 'c',
-			ctrl: true,
-			stopEvent: true,
-			handler: function() { openActionDialog(this, 'copy'); }
-		   
-	   },{
-			key: 'x',
-			ctrl: true,
-			stopEvent: true,
-			handler: function() { openActionDialog(this, 'move'); }
-		   
-	   },{
-		 key: 'a',
-		 ctrl: true,
-		 stopEvent: true,
-		 handler: function() {
-			ext_itemgrid.getSelectionModel().selectAll();
-		 }
-	}, 
-	{
-		key: Ext.EventObject.DELETE,
-		handler: function() { openActionDialog(this, 'delete'); }
-	}
-	],*/
-	
 	}
 });
 
@@ -369,12 +350,5 @@ Ext.define('eXtplorer.view.ActionDialog', {
 	proxyDrag: true,
 	resizable: true,
 	renderTo: Ext.getBody(),
-	keys: {
-		key: 27,
-		fn  : function(){
-		   	this.hide();
-		   	this.removeAll(true);
-	    }
-	},
 	title: '<?php echo ext_Lang::msg('dialog_title', true ) ?>'
 });			

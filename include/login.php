@@ -148,6 +148,29 @@ function login() {
 			
 	</div>
 	<script type="text/javascript">
+	function submitOnEnter(field, event) {
+
+		if (event.getKey() == event.ENTER) {
+			field.up('form').getForm().submit({
+				reset: false,
+				success: function(form, action) { location.reload() },
+				failure: function(form, action) {
+					if( !action.result ) return;
+					Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error, function() {
+					this.findField( 'password').setValue('');
+					this.findField( 'password').focus();
+					}, form );
+					Ext.get( 'statusBar').update( action.result.error );
+				},
+				scope: Ext.getCmp("simpleform").getForm(),
+				params: {
+					option: "com_extplorer", 
+					action: "login"
+				}
+			});
+		}
+	}
+
 Ext.onReady( function() {
 	var simple = new Ext.FormPanel(<?php $auth->onShowLoginForm() ?>);
 	

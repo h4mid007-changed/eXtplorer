@@ -78,33 +78,10 @@ class ext_extplorer_authentication {
 		labelWidth: 125, // label settings here cascade unless overridden
 		url: "<?php echo basename( $GLOBALS['script_name']) ?>",
 		frame: true,
-		keys: {
-		    key: Ext.EventObject.ENTER,
-		    fn  : function(){
-				if (simple.getForm().isValid()) {
-					Ext.get( "statusBar").update( "Please wait..." );
-					Ext.getCmp("simpleform").getForm().submit({
-						reset: false,
-						success: function(form, action) { location.reload() },
-						failure: function(form, action) {
-							if( !action.result ) return;
-							Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error, function() {
-							this.findField( 'password').setValue('');
-							this.findField( 'password').focus();
-							}, form );
-							Ext.get( 'statusBar').update( action.result.error );
-						},
-						scope: Ext.getCmp("simpleform").getForm(),
-						params: {
-							option: "com_extplorer", 
-							action: "login",
-							type : "extplorer"
-						}
-					});
-    	        } else {
-        	        return false;
-            	}
-            }
+		defaults: {
+			listeners: {
+				specialkey: submitOnEnter
+			}
 		},
 		items: [{
             xtype:"textfield",
@@ -149,6 +126,11 @@ class ext_extplorer_authentication {
 		{
 			xtype: "displayfield",
 			id: "statusBar"
+		},
+		{
+			xtype: "hiddenfield",
+			name: "type",
+			value: "extplorer"
 		}
 		],
 		buttons: [{

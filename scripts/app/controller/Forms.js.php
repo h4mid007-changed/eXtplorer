@@ -73,7 +73,12 @@ Ext.define('eXtplorer.controller.Forms', {
 	genericForm: function( action ) {
 		// we expect the returned JSON to be an object that
 		var selectedRecords = this.getSelectedRecords();
-		var formPanel = Ext.create('eXtplorer.view.forms.' + Ext.String.camelize( action ), {
+		if( action == 'copy' || action == 'move') {
+			var actionCls = 'Copymove';
+		}else {
+			var actionCls = Ext.String.camelize( action );
+		}
+		var formPanel = Ext.create('eXtplorer.view.forms.' + actionCls, {
 							selectedRecords: selectedRecords,
 							dir: this.getCurrentDir(),
 							action: action 
@@ -96,6 +101,7 @@ Ext.define('eXtplorer.controller.Forms', {
 				statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
 				var frm = formPanel.getForm();
 				frm.submit({
+					url: "index.php",
 					waitMsg: 'Please wait...',
 					reset: false,
 					success: function(frm, action) {
@@ -141,7 +147,8 @@ Ext.define('eXtplorer.controller.Forms', {
 			filename: json.item,
 			cp_lang: json.cp_lang,
 			language: json.language,
-			taWidth: this.getMainPanel().getWidth() - 100
+			taWidth: this.getMainPanel().getWidth() - 100,
+			taHeight: this.getMainPanel().getHeight() - 100
 		});
 		this.getMainPanel().add(form);
 		this.getMainPanel().setActiveTab(form.id);
@@ -175,6 +182,7 @@ Ext.define('eXtplorer.controller.Forms', {
 					statusBarMessage( '<?php echo ext_Lang::msg('save_processing', true ) ?>', true );
 					var frm = form.getForm();
 					frm.submit({
+						url: "index.php",
 						waitMsg: 'Saving the File, please wait...',
 						reset: false,
 						success: function(frm, action) {
@@ -199,6 +207,7 @@ Ext.define('eXtplorer.controller.Forms', {
 			statusBarMessage( '<?php echo ext_Lang::msg('reopen_processing', true ) ?>', true );
 			var frm = form.getForm();
 			frm.submit({
+				url: "index.php",
 				waitMsg: 'Processing Data, please wait...',
 				reset: false,
 				success: function(frm, action) {
@@ -244,6 +253,7 @@ Ext.define('eXtplorer.controller.Forms', {
 		params.confirm = 'true'
 		
 		form.submit({
+			url: "index.php",
 			reset: false,
 			success: function(form, action) {
 				if( !action.result ) return;

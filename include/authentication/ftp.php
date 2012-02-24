@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2011
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * 
  * @license
@@ -86,31 +86,10 @@ class ext_ftp_authentication {
 		dialogtitle: "<?php echo ext_Lang::msg('ftp_header') ?>",
 		title: "<?php echo ext_Lang::msg('ftp_login_lbl') ?>",
 		frame: true,
-		keys: {
-		    key: Ext.EventObject.ENTER,
-		    fn : function(){
-				if (Ext.getCmp("simpleform").getForm().isValid()) {
-					Ext.get( 'statusBar').update( '<?php echo ext_Lang::msg('ftp_login_check', true ) ?>' );
-					Ext.getCmp("simpleform").getForm().submit({
-						reset: false,
-						success: function(form, action) { location.reload() },
-						failure: function(form, action) {
-							if( !action.result ) return;
-							Ext.Msg.alert('<?php echo ext_Lang::err( 'error', true ) ?>', action.result.error);
-							Ext.get( 'statusBar').update( action.result.error );
-						},
-						scope: Ext.getCmp("simpleform").getForm(),
-						params: {
-							option: "com_extplorer", 
-							action: "login",
-							type: "ftp",
-							file_mode: "ftp"
-						}
-					});
-    	        } else {
-        	        return false;
-            	}
-            }
+		defaults: {
+			listeners: {
+				specialkey: submitOnEnter
+			}
 		},
 		items: [{
 			xtype: "textfield",
@@ -140,6 +119,11 @@ class ext_ftp_authentication {
 		{
 			xtype: "displayfield",
 			id: "statusBar"
+		},
+		{
+			xtype: "hiddenfield",
+			name: "type",
+			value: "ftp"
 		}],
 		buttons: [{
 			text: "<?php echo ext_Lang::msg( 'btnlogin', true ) ?>", 

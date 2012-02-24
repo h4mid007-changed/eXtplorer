@@ -4,6 +4,12 @@
 	id: 'dirTree',
 	stateId: 'dirTreeCache',
     stores: ['File', 'DirectoryTree'],
+	viewConfig: {
+        plugins: {
+            ptype: 'treeviewdragdrop',
+            ddGroup: "FileGrid"
+        }
+    },
     initComponent: function() {
         Ext.apply(this, {
 			layout: { margin: 0 },
@@ -17,11 +23,6 @@
 			autoScroll:true,
 			animate:true, 
 			containerScroll: true,
-    		viewConfig: {
-        		plugins: {
-            		ptype: 'treeviewdragdrop'
-        		}
-    		},
     		// If you want the root node to be visible, change this to true
     		rootVisible: true
    	

@@ -9,17 +9,30 @@ if( !defined( '_JEXEC' )) {
 Ext.define( 'eXtplorer.view.forms.Edit', {
 	extend: 'Ext.form.Panel',
 	labelWidth: 300,
-	autoScroll: "true",
+	autoScroll: true,
+	
 	url:"<?php echo basename( $GLOBALS['script_name']) ?>",
 	
 	initComponent: function() {
 		this.callParent();
-
-		this.getForm().findField('code').setValue( this.taContent );
-		this.getForm().findField('code').setWidth( this.taWidth );		
 		this.getForm().findField('fname').setValue( this.filename );
 		this.getForm().findField('item').setValue( this.filename );
 		this.getForm().findField('dir').setValue( this.dir );
+		
+	},
+	listeners: {
+		render: { fn:
+			function() {
+				var codefield = this.getForm().findField('code');
+				codefield.setValue( this.taContent );
+				codefield.setWidth( this.taWidth );		
+				codefield.setMode( "text/x-" + this.cp_lang );
+				
+				codefield.setMode( "application/" + this.cp_lang );
+				codefield.setMode( "text/" + this.cp_lang );
+			
+			}
+		}
 	},
 	frame: true,
 	closable: true,
@@ -45,20 +58,12 @@ Ext.define( 'eXtplorer.view.forms.Edit', {
 		value: "<?php echo $GLOBALS["messages"]["actedit"] ?>"
 	},
 	{
-		xtype: "textarea",
-		hideLabel: true,
-		name: "code",
-		fieldClass: "x-form-field",
-
-		height: 500,
-		/*plugins: Ext.create( "Ext.ux.EditAreaEditor", {
-			id : "ext_codefield" + this.id,
-			syntax: this.cp_lang,
-			start_highlight: true,
-			display: "later",
-			toolbar: "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help",
-			language: this.language 
-		})*/
+		xtype:      'codemirror',
+        pathModes:  '<?php echo _EXT_URL ?>/scripts/codemirror/mode',
+        pathExtensions: '<?php echo _EXT_URL ?>/scripts/codemirror/lib/util',
+        name:       'code',
+        fieldLabel: 'Code',
+        hideLabel:  true,
 	},
 	{
 		

@@ -40,13 +40,21 @@ Ext.define('eXtplorer.controller.Directory', {
 						return true;
 					}	
 				},
-				beforenodedrop: { fn: function(e){
-										dropEvent = e;
-										this.onCopyMoveCtx(e);
-									}
-				},
-				beforemove: { fn: function() { return false; } },
 				selectionchange: this.onDirSelect
+			},
+			'dirtree treeview': {
+			
+	            drop: function(node, data, dropRec, dropPosition) {
+	               var dropOn = dropRec ? ' ' + dropPosition + ' ' + dropRec.get('name') : ' on empty view';
+	               console.log("Drag from right to left", 'Dropped ' + data.records[0].get('name') + dropOn);
+	        	},
+	               
+				beforedrop: { fn: 
+					function(node,data,overModel) {
+						this.onCopyMoveCtx(node,data,overModel);
+						return false;
+					}
+				}
 			},
 			'dirctx menuitem[action=mkitem]': {
 				click: function(item, e) { fileController.loadForm(e, 'mkitem') }
@@ -67,17 +75,26 @@ Ext.define('eXtplorer.controller.Directory', {
 				click: function(item, e) { fileController.loadForm(e, 'archive') }
 			},
 			'dirctx menuitem[action=reload]': {
-				click: function(item, e) { this.getDirectoryTreeStore().load({ node: dirCtxMenu.clickedNode, params: { node: dirCtxMenu.clickedNode.id }}) }
+				click: function(item, e) { this.getDirectoryTreeStore().load({ node: eXtplorer.view.dirCtxMenu.clickedNode, params: { node: eXtplorer.view.dirCtxMenu.clickedNode.id }}) }
 			},
 			'dirctx menuitem[action=delete]': {
 				click: function(item, e) { 
-					Ext.Msg.confirm('Confirm', String.format("<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", num ), 
-						function(btn) { deleteDir( btn, dirCtxMenu.node ) }
+					Ext.Msg.confirm('Confirm', Ext.String.format("<?php echo $GLOBALS['error_msg']['miscdelitems'] ?>", 1 ), 
+						function(btn) { this.deleteDir( btn, eXtplorer.view.dirCtxMenu.node ) }, this
 					); 
 				}
 			},
 			'dirctx menuitem[action=hide]': {
 				click: function(item, e) { eXtplorer.view.dirCtxMenu.hide() }
+			},
+			'copymovectx menuitem[action=copy]': {
+				click: function(item, e) { this.onCopyMove('copy') }
+			},
+			'copymovectx menuitem[action=move]': {
+				click: function(item, e) { this.onCopyMove('move') }
+			},
+			'copymovectx menuitem[action=hide]': {
+				click: function(item, e) { eXtplorer.view.CopyMoveCtxMenu.hide() }
 			}
 		});
 		
@@ -109,7 +126,7 @@ Ext.define('eXtplorer.controller.Directory', {
 		e.preventDefault();
 		// Unselect all files in the grid
 		this.getFilesList().getSelectionModel().deselectAll();
-		dirCtxMenu = eXtplorer.view.dirCtxMenu;
+		var dirCtxMenu = eXtplorer.view.dirCtxMenu;
 		dirCtxMenu.clickedNode = this.getDirTree().getRootNode().findChild("id", record.get("id"), true );
 		dirCtxMenu.items.get('dirCtxMenu_rename')[record.get('is_deletable') ? 'enable' : 'disable']();
 		dirCtxMenu.items.get('dirCtxMenu_remove')[record.get('is_deletable') ? 'enable' : 'disable']();
@@ -119,36 +136,59 @@ Ext.define('eXtplorer.controller.Directory', {
 		
 	},
 	onCopyMove: function ( action ) {
-	    var s = dropEvent.data.selections, r = [];
-		if( s ) {
+	    var ctxMenu = eXtplorer.view.CopyMoveCtxMenu;
+	    
+		if( ctxMenu.data.records[0].get("name") != "" ) {
 			// Dragged from the Grid
-			requestParams = getRequestParams();
-			requestParams.new_dir = dropEvent.target.id.replace( /_RRR_/g, '/' );
+			console.log(Ext.String.camelize( action )+' ' + ctxMenu.data.records[0].get("name").replace( /_RRR_/g, '/' )
+						+' to '+ ctxMenu.target.get("id").replace( /_RRR_/g, '/' ));
+			requestParams = this.application.getController('File').getRequestParams();
+			requestParams.new_dir = ctxMenu.target.get("id").replace( /_RRR_/g, '/' );
 			requestParams.new_dir = requestParams.new_dir.replace( /ext_root/g, '' );
 			requestParams.confirm = 'true';
 			requestParams.action = action;
-			handleCallback(requestParams);
+			this.application.getController('File').handleCallback(requestParams, ctxMenu.targetNode);
 		} else {
+			
 			// Dragged from inside the tree
-			//alert('Move ' + dropEvent.data.node.id.replace( /_RRR_/g, '/' )+' to '+ dropEvent.target.id.replace( /_RRR_/g, '/' ));
-			requestParams = getRequestParams();
-			requestParams.dir = datastore.directory.substring( 0, datastore.directory.lastIndexOf('/'));
-			requestParams.new_dir = dropEvent.target.id.replace( /_RRR_/g, '/' );
+			console.log(Ext.String.camelize( action )+' ' + ctxMenu.data.records[0].get("id").replace( /_RRR_/g, '/' )
+						+' to '+ ctxMenu.target.get("id").replace( /_RRR_/g, '/' ));
+			requestParams = this.application.getController('File').getRequestParams();
+			requestParams.dir = this.application.getController('File').currentDir.substring( 0, this.application.getController('File').currentDir.lastIndexOf('/'));
+			requestParams.new_dir = ctxMenu.target.get("id").replace( /_RRR_/g, '/' );
 			requestParams.new_dir = requestParams.new_dir.replace( /ext_root/g, '' );
-			requestParams.selitems = Array( dropEvent.data.node.id.replace( /_RRR_/g, '/' ) );
+			requestParams.selitems = Array(ctxMenu.data.records[0].get("id").replace( /_RRR_/g, '/' ) );
 			requestParams.confirm = 'true';
 			requestParams.action = action;
-			handleCallback(requestParams);
+			this.application.getController('File').handleCallback(requestParams, ctxMenu.targetNode, ctxMenu.originNode.parentNode);
 		}
 	},
 
-    onCopyMoveCtx: function (e){
+    onCopyMoveCtx: function (node,data,target){
         //ctxMenu.items.get('remove')[node.attributes.allowDelete ? 'enable' : 'disable']();
-        copyMoveCtxMenu.showAt(e.rawEvent.getXY());
+        var ctxMenu = eXtplorer.view.CopyMoveCtxMenu;
+        ctxMenu.node = node;
+        ctxMenu.data = data;
+        ctxMenu.target = target;
+        ctxMenu.targetNode = this.getDirTree().getRootNode().findChild("id", target.get("id"), true );
+        ctxMenu.originNode = this.getDirTree().getRootNode().findChild("id", data.records[0].get("id"), true );
+        ctxMenu.showBy(node, 'tl-b');
     },
 	expandTreeToDir: function( dir ) {
 		dir = dir ? dir : new String('<?php echo str_replace("'", "\'", extGetParam( $_SESSION,'ext_'.$GLOBALS['file_mode'].'dir', '' )) ?>');
 		this.getDirTree().selectPath(dir);
+	},
+	
+	deleteDir: function( btn, node ) {
+		if( btn != 'yes') {
+			return;
+		}
+		var dirCtxMenu = eXtplorer.view.dirCtxMenu;
+		requestParams = this.application.getController('File').getRequestParams();
+		requestParams.dir = this.application.getController('File').currentDir.substring( 0, this.application.getController('File').currentDir.lastIndexOf('/'));
+		requestParams.selitems = Array( dirCtxMenu.clickedNode.id.replace( /_RRR_/g, '/' ) );
+		requestParams.action = 'delete';
+		this.application.getController('File').handleCallback(requestParams, dirCtxMenu.clickedNode.parentNode);
 	}
 	
 });

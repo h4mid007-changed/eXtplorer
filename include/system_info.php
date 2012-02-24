@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2012
  * @author The eXtplorer project (http://extplorer.net)
  * 
  * @license
@@ -57,9 +57,10 @@ function system_info() {
 	$version = $GLOBALS['ext_version'];
 	//$tab = extGetParam( $_REQUEST, 'tab', 'tab1' );
 	$width = 400;	// width of 100%
-
+	
 	switch( extGetParam($GLOBALS['__POST'],'action2', 'panel') ) {
 		case 'systeminfo':
+			ob_start();
 		?>
 		<div class="body-wrap">
 		  <table class="member-table">
@@ -234,6 +235,8 @@ function system_info() {
 			</table>
 		</div>
 			<?php 
+			
+			echo utf8_encode(ob_get_clean());
 			break;
 		case 'phpinfo':
 
@@ -247,57 +250,14 @@ function system_info() {
 			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 			$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
 			$output = preg_replace('#<hr />#', '', $output);
-			echo $output;
+			echo utf8_encode($output);
 					
 			break;
 			
 		case 'about':
 			show_about();
 			break;
-			
-		default:
-			?>
-			{
-				"xtype": "tabpanel",
-				
-				"height": 350,
-				"activeTab": 0,
-				"items": [{
-					"title": "<?php echo ext_Lang::msg( 'aboutlink' ) ?>",
-					"autoScroll": true,
-					"autoLoad": { 
-						"url": "<?php echo $GLOBALS['script_name'] ?>",
-						"params": {
-							"option": "com_extplorer",
-							"action": "get_about",
-							"action2": "about"
-						}
-					}
-				},{
-					"title": "<?php echo ext_Lang::msg( 'sisysteminfo' ) ?>",
-					"autoScroll": true,
-					"autoLoad": { 
-						"url": "<?php echo $GLOBALS['script_name'] ?>",
-						"params": {
-							"option": "com_extplorer",
-							"action": "get_about",
-							"action2": "systeminfo"
-						}
-					}
-				},{
-					"title": "<?php echo ext_Lang::msg('siphpinfo' ); ?>",
-					"autoScroll": true,
-					"autoLoad": { 
-						"url": "<?php echo $GLOBALS['script_name'] ?>",
-						"params": {
-							"option": "com_extplorer",
-							"action": "get_about",
-							"action2": "phpinfo"
-						}
-					}
-				}]
-			}
-			<?php
+		
 	}
 	
 }
