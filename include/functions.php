@@ -883,16 +883,15 @@ class extProfiler {
 */
 class extHTML {
 	function loadExtJS() {
-		$scripts[] = array('dir' => 'scripts/codemirror/lib/', 'file' => 'codemirror.js');
 		$scripts[] = array('dir' => 'scripts/extjs/', 'file' => 'ext-all-debug-w-comments.js');
 		
-		$scripts[] = array('dir' => 'scripts/extjs-ux/codemirror/', 'file' => 'Ext.ux.form.field.CodeMirror.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'StatusBar.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'ValidationStatus.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUpload.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUploadPanel.js');
 		
 		$styles[] = array('dir' => 'scripts/codemirror/lib/', 'file' => 'codemirror.css');
+		$styles[] = array('dir' => 'scripts/codemirror/lib/util/', 'file' => 'dialog.css');
 		$styles[] = array('dir' => 'scripts/resources/css/', 'file' => 'ext-all-gray.css');
 		$styles[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUploadPanel.css');
 		$styles[] = array('dir' => 'scripts/extjs-ux/statusbar/css/', 'file' => 'statusbar.css');

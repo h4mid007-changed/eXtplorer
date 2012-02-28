@@ -75,6 +75,8 @@ $GLOBALS['home_dir'] = !empty( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_
 define ("_EXT_PATH",		realpath(dirname( __FILE__ ) . '/..'));
 define ("_EXT_FTPTMP_PATH", realpath(dirname( __FILE__ ) . '/../ftp_tmp'));
 
+set_include_path(get_include_path() . PATH_SEPARATOR .  _EXT_PATH .DIRECTORY_SEPARATOR.'libraries');
+
 if (function_exists( 'mosGetParam') || class_exists( 'jconfig')) {
 	define ("_EXT_URL", $GLOBALS['home_url']."/administrator/components/com_extplorer");
 } else {

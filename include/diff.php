@@ -122,15 +122,17 @@ class ext_Diff extends ext_Action {
 	{
 	    $hlines1 = explode("\n", $text1);
         $hlines2 = explode("\n", $text2);
-
-        include_once dirname(dirname(__FILE__)).'/libraries/Text/Diff.php';
+        include_once dirname(dirname(__FILE__)).'/libraries/Horde/Autoloader.php';
+        include_once dirname(dirname(__FILE__)).'/libraries/Horde/Autoloader/Default.php';
+        
+        include_once dirname(dirname(__FILE__)).'/libraries/Horde/Text/Diff.php';
 		// create the diff object
-        $diff = new Text_Diff($hlines1, $hlines2);
+        $diff = new Horde_Text_Diff('auto', array( $hlines1, $hlines2 ));
 
         // get the diff in unified format
         // you can add 4 other parameters, which will be the ins/del prefix/suffix tags
-		include_once dirname(dirname(__FILE__)).'/libraries/Text/Diff/Renderer/unified.php';
-        $renderer = new Text_Diff_Renderer_unified();
+		include_once dirname(dirname(__FILE__)).'/libraries/Horde/Text/Diff/Renderer/unified.php';
+        $renderer = new Horde_Text_Diff_Renderer_unified();
 		//include_once dirname(dirname(__FILE__)).'/libraries/Text/Diff/Renderer/inline.php';
         //$renderer = new Text_Diff_Renderer_Inline(50000);
 

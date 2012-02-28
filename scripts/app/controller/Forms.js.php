@@ -212,8 +212,7 @@ Ext.define('eXtplorer.controller.Forms', {
 				reset: false,
 				success: function(frm, action) {
 					statusBarMessage( action.result.message, false, true );
-					frm.findField('thecode').setValue( action.result.content );
-					//editAreaLoader.setValue("ext_codefield" + this.id, action.result.content);
+					frm.findField('code').setValue( action.result.content );
 				},
 				failure: function(form, action) {
 					statusBarMessage( action.result.error, false, false );
