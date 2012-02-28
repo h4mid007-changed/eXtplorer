@@ -101,8 +101,8 @@ if( defined( '_LOGIN_REQUIRED')) return;
 
 // Empty the output buffer if this is a XMLHttpRequest
 if( ext_isXHR() ) {
-	//error_reporting(0);
-	//while( @ob_end_clean() );
+	error_reporting(0);
+	while( @ob_end_clean() );
 }
 
 if( file_exists( _EXT_PATH . '/include/'. strtolower(basename( $action )) .'.php') ) {
