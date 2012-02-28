@@ -299,7 +299,7 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
         dependencies:   ['yaml/yaml.js']
     },{
         mime:           ['text/x-sql' ,'text/x-mysql'],
-        dependencies:   ['sql/sql.js']
+        dependencies:   ['mysql/mysql.js']
     },{
         mime:           ['text/x-markdown'],
         dependencies:   ['markdown/markdown.js']
