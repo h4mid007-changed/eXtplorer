@@ -5,13 +5,18 @@ if( !defined( '_JEXEC' )) {
 	$_GET['file'][] = str_replace('.php', '', basename(__FILE__) );
 	include('../../../../index.php');
 }
+include( '../../../codemirror/lib/codemirror.js' );
+
+include( '../../../extjs-ux/codemirror/Ext.ux.form.field.CodeMirror.js');
+include( '../../../codemirror/lib/util/dialog.js' );
+include( '../../../codemirror/lib/util/foldcode.js' );
+include( '../../../codemirror/lib/util/search.js' );
+include( '../../../codemirror/lib/util/searchcursor.js' );
 ?>
 Ext.define( 'eXtplorer.view.forms.Edit', {
 	extend: 'Ext.form.Panel',
 	labelWidth: 300,
 	autoScroll: true,
-	
-	url:"<?php echo basename( $GLOBALS['script_name']) ?>",
 	
 	initComponent: function() {
 		this.callParent();
