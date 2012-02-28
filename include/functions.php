@@ -883,7 +883,7 @@ class extProfiler {
 */
 class extHTML {
 	function loadExtJS() {
-		$scripts[] = array('dir' => 'scripts/extjs/', 'file' => 'ext-all-debug-w-comments.js');
+		$scripts[] = array('dir' => 'scripts/extjs/', 'file' => 'ext-all.js');
 		
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'StatusBar.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'ValidationStatus.js');
