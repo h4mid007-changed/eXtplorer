@@ -1,9 +1,14 @@
 <?php
 if( !defined( '_JEXEC' )) {
 	$_REQUEST['action'] = 'include_javascript';
+	$_REQUEST['option'] = 'com_extplorer';
 	$_GET['subdir'][] = 'app/view/forms';
 	$_GET['file'][] = str_replace('.php', '', basename(__FILE__) );
-	include('../../../../index.php');
+	if( strstr( __FILE__, 'com_extplorer')) {
+		include('../../../../../../index.php');
+	}else {
+		include('../../../../index.php');
+	}
 }
 ?>	
 Ext.define( 'eXtplorer.view.forms.Mkitem', {

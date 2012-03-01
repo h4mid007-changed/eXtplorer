@@ -105,6 +105,9 @@ Ext.define('eXtplorer.controller.File', {
 			'filelist button[action=users]': {
 				click: function(item, e) { this.loadForm(e, 'users') }
 			},
+			'filelist button[action=changepw]': {
+				click: function(item, e) { this.loadForm(e, 'changepw') }
+			},
 			'filelist button[action=logout]': {
 				click: function() { document.location.href='<?php echo ext_make_link('logout', null ) ?>'; }
 			},
@@ -356,7 +359,7 @@ Ext.define('eXtplorer.controller.File', {
 			}
 		}
 		
-		var dontNeedSelection = { mkitem:1, sysinfo:1, ftp_authentication:1, upload:1, search:1, users:1, ssh2_authentication: 1, extplorer_authentication: 1 };
+		var dontNeedSelection = { mkitem:1, sysinfo:1, ftp_authentication:1, upload:1, search:1, users:1, ssh2_authentication: 1, changepw: 1, extplorer_authentication: 1 };
 		if( dontNeedSelection[action] == null  && selectedRows.length < 1 ) {
 			Ext.Msg.alert( '<?php echo ext_Lang::err('error', true )."','".ext_Lang::err('miscselitems', true ) ?>');
 			return false;
@@ -416,6 +419,7 @@ Ext.define('eXtplorer.controller.File', {
 			case 'users':
 			case 'archive':
 			case 'chmod':
+			case 'changepw':
 			case 'copy':
 			case 'move':
 				if( formController[action.replace( /(-[a-z])/gi, camelReplaceFn )] != null ) {

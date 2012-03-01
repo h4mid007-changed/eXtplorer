@@ -74,7 +74,7 @@ class ext_Users extends ext_Action {
 				}
 				$this->edituser();
 				break;
-			case "rmuser":
+			case "removeuser":
 				if(!$admin) {
 					ext_Result::sendResult('admin', false, $GLOBALS["error_msg"]["accessfunc"]); break;
 				}

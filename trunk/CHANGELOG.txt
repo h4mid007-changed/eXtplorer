@@ -3,6 +3,8 @@ Changelog for eXtplorer
 Version $Id$
 ****************************
 
+- refactored eXtplorer to work with ExtJS 4
+
 --- version 2.1.0 RC5 released ---
 
 - fixed password change functionality

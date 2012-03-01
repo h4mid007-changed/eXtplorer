@@ -262,6 +262,15 @@ Ext.define('eXtplorer.view.FileList', {
                               	{
                             		xtype: 'tbseparator'
                             	},
+                              	{
+                          			xtype: "button",
+                             		id: 'tb_chpwd',
+                              		icon: '<?php echo _EXT_URL ?>/images/password.png',
+                              		tooltip: '<?php echo ext_Lang::msg( 'actchpwd', true ) ?>',
+                              		cls:'x-btn-icon',
+                         
+                              		action: 'changepw'
+                              	},
                               	<?php
                           		// ADMIN & LOGOUT
                           		if(!empty($GLOBALS["require_login"])) {
