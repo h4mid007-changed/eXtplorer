@@ -262,6 +262,8 @@ Ext.define('eXtplorer.view.FileList', {
                               	{
                             		xtype: 'tbseparator'
                             	},
+                            	<?php 
+                            	if(!empty($GLOBALS["require_login"])) { ?>
                               	{
                           			xtype: "button",
                              		id: 'tb_chpwd',
@@ -272,6 +274,7 @@ Ext.define('eXtplorer.view.FileList', {
                               		action: 'changepw'
                               	},
                               	<?php
+                            	}
                           		// ADMIN & LOGOUT
                           		if(!empty($GLOBALS["require_login"])) {
                           			$admin=(($GLOBALS["permissions"]&4)==4);
