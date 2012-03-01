@@ -1,9 +1,14 @@
 <?php
 if( !defined( '_JEXEC' )) {
 	$_REQUEST['action'] = 'include_javascript';
+	$_REQUEST['option'] = 'com_extplorer';
 	$_GET['subdir'][] = 'app/view/forms';
 	$_GET['file'][] = str_replace('.php', '', basename(__FILE__) );
-	include('../../../../index.php');
+	if( strstr( __FILE__, 'com_extplorer')) {
+		include('../../../../../../index.php');
+	}else {
+		include('../../../../index.php');
+	}
 }
 $permvalues = array(0,1,2,3,7);
 $permcount = count($GLOBALS["messages"]["miscpermnames"]);
@@ -52,7 +57,9 @@ var store = Ext.create('Ext.data.Store', {
 	}],
     listeners: {
         write: function(proxy, operation){
-            Ext.Msg.alert(operation.action, operation.resultSet.message);
+            if( operation.resultSet.message ) {
+            	Ext.Msg.alert(operation.action, operation.resultSet.message);
+            }
         }
     }
 });
@@ -61,14 +68,7 @@ store.on("update", function( store, record, operation, modifiedFieldNames, eOpts
 	
 	store.sync();
 });
-store.on("remove", function( store, record, operation, modifiedFieldNames, eOpts ) {
-	Ext.Msg.confirm('Are you sure?', 'Are you sure you want to remove this user account?', 
-		function( btn ) {
-			if( btn == 'ok' ) {
-				this.sync();
-			}
-		}, store );
-}, this);
+
 var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
 	clicksToMoveEditor: 1,
 	autoCancel: true
@@ -162,12 +162,19 @@ Ext.define( 'eXtplorer.view.forms.Users', {
 	        text: 'Remove User',
 	        icon: '<?php echo _EXT_URL ?>/images/user_delete.png',
 	        handler: function() {
-	            var sm = this.up("gridpanel").getSelectionModel();
-	            rowEditing.cancelEdit();
-	            store.remove(sm.getSelection());
-	            if (store.getCount() > 0) {
-	                sm.select(0);
-	            }
+		        Ext.Msg.confirm('Are you sure?', 'Are you sure you want to remove this user account?', 
+					function( btn ) {
+						if( btn == 'yes' ) {
+							var sm = this.up("gridpanel").getSelectionModel();
+				            rowEditing.cancelEdit();
+				            store.remove(sm.getSelection());
+				            store.sync();
+				            if (store.getCount() > 0) {
+				                sm.select(0);
+				            }
+						}
+					}, this );
+	            
 	        },
 	        disabled: true
 	    }],

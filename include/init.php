@@ -69,6 +69,8 @@ if ($_SERVER['SERVER_PORT'] == 443 ) {
 }
 
 $GLOBALS['home_url'] = str_replace( '/administrator', '', $GLOBALS['home_url'] );
+$GLOBALS['home_url'] = str_replace( '/components/com_extplorer', '', $GLOBALS['home_url'] );
+$GLOBALS['home_url'] = str_replace( '/scripts/app/view/forms', '', $GLOBALS['home_url'] );
 $GLOBALS['home_dir'] = !empty( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : '.';
 
 // Important Definitions!

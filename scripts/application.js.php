@@ -33,7 +33,10 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * Layout and Application Logic Functions based on ExtJS
  */
-
+$pathprepend = '';
+if( ext_isJoomla() ) {
+	$pathprepend = 'components/com_extplorer/';
+}
 ?>
 <script type="text/javascript">
 if( typeof Ext == 'undefined' ) {
@@ -89,14 +92,20 @@ Ext.application({
     	    expires: new Date(new Date().getTime()+(1000*60*60*24*7)) //7 days from now
     	}));
         <?php
-        /*	    if( $GLOBALS['require_login'] && $GLOBALS['mainframe']->getUserName() == 'admin' && ($GLOBALS['mainframe']->getPassword() == extEncodePassword('admin') || $GLOBALS['mainframe']->getPassword() == md5('admin'))) {
+        	    if( $GLOBALS['require_login'] && $GLOBALS['mainframe']->getUserName() == 'admin' && ($GLOBALS['mainframe']->getPassword() == extEncodePassword('admin') || $GLOBALS['mainframe']->getPassword() == md5('admin'))) {
         	    	// Urge User to change admin password!
-        	    	echo 'msgbox = Ext.Msg.alert(\''.ext_Lang::msg('password_warning_title', true ).'\', \''.ext_Lang::msg('password_warning_text', true ) .'\',
-        	    		function(btn) { if( btn == \'ok\' ) openActionDialog( null, \'admin\') }
-        	    	);
+        	    	echo 'var config = {
+                title : \''.ext_Lang::msg('password_warning_title', true ).'\',
+                msg : \''.ext_Lang::msg('password_warning_text', true ) .'\',
+                buttons: Ext.Msg.OK,
+                fn: function(btn) { if( btn == \'ok\' ) this.getController(\'File\').loadForm( null, \'changepw\') },
+                scope : this,
+                model: true
+            }
+        	    	msgbox = Ext.Msg.alert( config );
         	    	msgbox.setIcon(Ext.MessageBox.WARNING);
         			';
-        	    }*/
+        	    }
         	    ?> 
         this.getController('Directory').getDirTree().on("load", this.openDir, this ); 
         
@@ -109,9 +118,9 @@ Ext.application({
 Ext.onReady(function() {
 	Ext.FocusManager.enable(true);
 	Ext.Loader.setConfig({enabled: true});
-	Ext.Loader.setPath('eXtplorer.controller', 'scripts/app/controller' );
-	Ext.Loader.setPath('eXtplorer.store', 'scripts/app/store' );
-	Ext.Loader.setPath('eXtplorer.view', 'scripts/app/view');
+	Ext.Loader.setPath('eXtplorer.controller', '<?php echo $pathprepend ?>scripts/app/controller' );
+	Ext.Loader.setPath('eXtplorer.store', '<?php echo $pathprepend ?>scripts/app/store' );
+	Ext.Loader.setPath('eXtplorer.view', '<?php echo $pathprepend ?>scripts/app/view');
 });
 
 </script>
