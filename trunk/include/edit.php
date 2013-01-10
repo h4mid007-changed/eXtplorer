@@ -137,7 +137,7 @@ class ext_Edit extends ext_Action {
 			case 'ruby': 
 				$cp_lang = 'ruby'; break;
 			case 'sql':
-				$cp_lang = 'sql'; break;
+				$cp_lang = 'mysql'; break;
 			case 'vb':
 			case 'vbs':
 				$cp_lang = 'vb'; break;
