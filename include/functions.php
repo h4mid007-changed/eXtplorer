@@ -883,12 +883,20 @@ class extProfiler {
 */
 class extHTML {
 	function loadExtJS() {
-		$scripts[] = array('dir' => 'scripts/extjs/', 'file' => 'ext-all.js');
+		include( "Mobile_Detect.php");
+		$detect = new Mobile_Detect();
+		if ($detect->isMobile()) {
+			// any mobile platform
+		} else {
+			
+		}
+		$scripts[] = array('dir' => 'scripts/extjs/', 'file' => 'ext-all-debug-w-comments.js');
 		
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'StatusBar.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/statusbar/', 'file' => 'ValidationStatus.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUpload.js');
 		$scripts[] = array('dir' => 'scripts/extjs-ux/swfupload/', 'file' => 'SwfUploadPanel.js');
+		$scripts[] = array('dir' => 'scripts/codemirror/lib/', 'file' => 'codemirror.js');
 		
 		$styles[] = array('dir' => 'scripts/codemirror/lib/', 'file' => 'codemirror.css');
 		$styles[] = array('dir' => 'scripts/codemirror/lib/util/', 'file' => 'dialog.css');

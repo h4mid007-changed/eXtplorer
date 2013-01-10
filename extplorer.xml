@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1" ?>
-<mosinstall type="component">
-<!-- Joomla! 1.0 Installer XML File 
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+<!-- Joomla! 3.0 Installer XML File 
 $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
     <name>eXtplorer</name>
     <creationDate>29.02.2012</creationDate>
@@ -42,7 +42,7 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
 						  UNIQUE KEY token (token),
 						  KEY path (path),
 						  KEY expires (expires)
-						) TYPE=MyISAM
+						) ENGINE=MyISAM
 			</query>
 			<query>CREATE TABLE IF NOT EXISTS `#__extwebdav_properties` (
 						  path varchar(255) NOT NULL default '',
@@ -51,7 +51,7 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
 						  value text,
 						  PRIMARY KEY ( `ns` ( 100 ) , `path` ( 100 ) , `name` ( 50 ) ),
 						  KEY path (path)
-						) TYPE=MyISAM
+						) ENGINE=MyISAM
 			</query>
 
 	</queries>
@@ -353,6 +353,7 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
 			<filename>libraries/MIME/Parameter.php</filename>
 			<filename>libraries/MIME/Type.php</filename>
 			<filename>libraries/MIME/index.html</filename>
+			<filename>libraries/Mobile_Detect.php</filename>			
 			<filename>libraries/PEAR.php</filename>
 			<filename>libraries/PasswordHash.php</filename>
 			<filename>libraries/SSH2.php</filename>
@@ -511,4 +512,4 @@ $Id: extplorer.php 164 2010-05-03 15:06:51Z soeren $ -->
 			<filename>webdav_table.sql.php</filename>
 		</files>
     </administration>
-</mosinstall>
+</extension>

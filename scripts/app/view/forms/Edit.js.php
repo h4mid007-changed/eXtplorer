@@ -10,19 +10,19 @@ if( !defined( '_JEXEC' )) {
 		include('../../../../index.php');
 	}
 }
-include( '../../../codemirror/lib/codemirror.js' );
 
 include( '../../../extjs-ux/codemirror/Ext.ux.form.field.CodeMirror.js');
 include( '../../../codemirror/lib/util/dialog.js' );
 include( '../../../codemirror/lib/util/foldcode.js' );
+include( '../../../codemirror/lib/util/loadmode.js' );
 include( '../../../codemirror/lib/util/search.js' );
 include( '../../../codemirror/lib/util/searchcursor.js' );
+
 ?>
 Ext.define( 'eXtplorer.view.forms.Edit', {
 	extend: 'Ext.form.Panel',
 	labelWidth: 300,
 	autoScroll: true,
-	
 	initComponent: function() {
 		this.callParent();
 		this.getForm().findField('fname').setValue( this.filename );
@@ -31,15 +31,23 @@ Ext.define( 'eXtplorer.view.forms.Edit', {
 		
 	},
 	listeners: {
-		render: { fn:
+		afterrender: { fn:
 			function() {
+			   				
 				var codefield = this.getForm().findField('code');
 				codefield.setValue( this.taContent );
 				codefield.setWidth( this.taWidth );		
-				codefield.setMode( "text/x-" + this.cp_lang );
+				codefield.setHeight( this.taHeight );
+				cm = Ext.getCmp("ext-codemirror");
 				
-				codefield.setMode( "application/" + this.cp_lang );
-				codefield.setMode( "text/" + this.cp_lang );
+        		tabHeight = cm.ownerCt.ownerCt.getHeight();
+        		codefield.setWidth( this.taWidth );
+        		
+				CodeMirror.modeURL = "scripts/codemirror/mode/%N/%N.js";
+				cm.editor.setOption("mode", this.cp_lang);
+   				CodeMirror.autoLoadMode(cm.editor, this.cp_lang);
+   				
+   				//cm.setMode("text/x-php" );
 			
 			}
 		}
@@ -69,6 +77,7 @@ Ext.define( 'eXtplorer.view.forms.Edit', {
 	},
 	{
 		xtype:      'codemirror',
+		id: "ext-codemirror",
         pathModes:  '<?php echo _EXT_URL ?>/scripts/codemirror/mode',
         pathExtensions: '<?php echo _EXT_URL ?>/scripts/codemirror/lib/util',
         name:       'code',

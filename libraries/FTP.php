@@ -30,7 +30,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * Include PEAR.php to obtain the PEAR base class
  */
-require_once 'PEAR.php';
+require_once dirname(__FILE__).'/PEAR.php';
 
 /**
  * Option to let the ls() method return only files.

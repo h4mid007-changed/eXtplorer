@@ -11,25 +11,66 @@ Ext.define('Ext.ux.layout.component.field.CodeMirror', {
     alias: ['layout.codemirror'],
 
     type: 'codemirror',
+    
+    toolbarSizePolicy: {
+        setsWidth: 0,
+        setsHeight: 0
+    },
 
-    sizeBodyContents: function(width, height) {
+    beginLayout: function(ownerContext) {
+        this.callParent(arguments);
+
+        ownerContext.textAreaContext = ownerContext.getEl('textareaEl');
+        ownerContext.editorContext   = ownerContext.getEl('editorEl');
+        ownerContext.toolbarContext  = ownerContext.context.getCmp(this.owner.getToolbar());
+    },
+
+    renderItems: Ext.emptyFn,
+
+    getItemSizePolicy: function (item) {
+        
+        return this.toolbarSizePolicy;
+    },
+
+    getLayoutItems: function () {
+        var toolbar = this.owner.getToolbar();
+        
+        return toolbar ? [toolbar] : [];
+    },
+
+    getRenderTarget: function() {
+        return this.owner.bodyEl;
+    },
+
+    publishInnerHeight: function (ownerContext, height) {
         var me = this,
-            owner = me.owner,
-            bodyEl = owner.bodyEl,
-            toolbar = owner.getToolbar(),
-            editor = owner.editorEl,
-            editorHeight;
-
-        if (Ext.isNumber(width)) {
-            width -= bodyEl.getFrameWidth('lr');
-        }
-        toolbar.setWidth(width);
-        editor.setWidth(width);
+            innerHeight = height - me.measureLabelErrorHeight(ownerContext) -
+                          ownerContext.toolbarContext.getProp('height') -
+                          ownerContext.bodyCellContext.getPaddingInfo().height;
 
         
-        if (Ext.isNumber(height)) {
-            editorHeight = height - toolbar.getHeight() - bodyEl.getFrameWidth('tb');
-            editor.setHeight(editorHeight);
+        if (Ext.isNumber(innerHeight)) {
+            ownerContext.textAreaContext.setHeight(innerHeight);
+            
+            ownerContext.editorContext.setHeight(innerHeight);
+        } else {
+            me.done = false;
+        }
+        
+        // hide the toolbar if there is no button visible
+        if(this.owner.toolbar.items.length == 0){
+            this.owner.toolbar.hide();
+        }
+    },
+
+    publishInnerWidth: function (ownerContext, width) {
+        var me = this;
+        
+        if (Ext.isNumber(width)) {
+            ownerContext.textAreaContext.setWidth(width);
+            ownerContext.editorContext.setWidth(width);
+        } else {
+            me.done = false;
         }
     }
 });
@@ -39,11 +80,16 @@ Ext.define('Ext.ux.layout.component.field.CodeMirror', {
 * @extends Ext.form.field.Base
 * @author Adrian Teodorescu (ateodorescu@gmail.com; http://www.mzsolutions.eu)
 * @docauthor Adrian Teodorescu (ateodorescu@gmail.com; http://www.mzsolutions.eu)
-* @version 2.2 - keep the same versioning as CodeMirror
+* @license [MIT][1]
 * 
-* Provides a [CodeMirror][1] component wrapper for Sencha. The supported CodeMirror version is 2.2 from 20.12.2011.
+* @version 1.5
 * 
-* [1]: http://codemirror.net/
+* 
+* Provides a [CodeMirror][2] component wrapper for Sencha. The supported and tested CodeMirror versions are 2.2, 2.3 and 2.4.
+* The component works with Extjs 4.1.x. 
+* 
+* [1]: http://www.mzsolutions.eu/extjs/license.txt
+* [2]: http://codemirror.net/
 * 
 * 
 * The editor's toolbar buttons have tooltips defined in the {@link #buttonTips} property, but they are not
@@ -53,9 +99,10 @@ Ext.define('Ext.ux.layout.component.field.CodeMirror', {
 * If you also include the extensions script files by yourself then ignore the {@link #extensions} property.
 * 
 * 
+* 
 #Example usage:#
 
-{@img Ext.ux.form.field.CodeMirror/Ext.ux.form.field.CodeMirror.png Ext.ux.form.field.CodeMirror component}
+{@img Ext.ux.form.field.CodeMirror.png Ext.ux.form.field.CodeMirror component}
 
     var form = Ext.create('Ext.form.Panel', {
         title:          'Function info',
@@ -85,11 +132,74 @@ Ext.define('Ext.ux.layout.component.field.CodeMirror', {
         }]
     }); 
 
-* @markdown
-* @docauthor Jason Johnston <jason@sencha.com>
+    
+#Plugin example for the CodeMirror component:#
+
+    Ext.define('Ext.ux.form.plugin.CodeMirror', {
+        mixins: {
+            observable: 'Ext.util.Observable'
+        },
+        alternateClassName: 'Ext.form.plugin.CodeMirror',
+        requires: [
+            'Ext.tip.QuickTipManager',
+            'Ext.ux.form.field.CodeMirror'
+        ],
+
+        constructor: function(config) {
+            Ext.apply(this, config);
+        },
+            
+        init: function(codemirror){
+            var me = this;
+            me.codemirror = codemirror;
+            me.mon(codemirror, 'initialize', me.onInitialize, me);
+        },
+
+        onInitialize: function(){
+            var me = this, undef,
+                items = [],
+                baseCSSPrefix = Ext.baseCSSPrefix,
+                tipsEnabled = Ext.tip.QuickTipManager && Ext.tip.QuickTipManager.isEnabled();
+            
+            function btn(id, toggle, handler){
+                return {
+                    itemId : id,
+                    cls : baseCSSPrefix + 'btn-icon',
+                    iconCls: baseCSSPrefix + 'edit-'+id,
+                    enableToggle:toggle !== false,
+                    scope: me,
+                    handler:handler||me.relayBtnCmd,
+                    clickEvent:'mousedown',
+                    tooltip: tipsEnabled ? me.buttonTips[id] || undef : undef,
+                    overflowText: me.buttonTips[id].title || undef,
+                    tabIndex:-1
+                };
+            }
+
+            items.push(btn('test', false));
+            if(items.length > 0){
+                me.codemirror.getToolbar().add(items);
+            }
+        },
+        
+        relayBtnCmd: function(btn){
+            alert('test');
+        },
+
+        buttonTips : {
+            test : {
+                title: 'Test',
+                text: 'Test button.',
+                cls: Ext.baseCSSPrefix + 'html-editor-tip'
+            }
+        }
+        
+    });
+
+
 */
 Ext.define('Ext.ux.form.field.CodeMirror', {
-    extend: 'Ext.form.field.Base',
+    extend: 'Ext.Component',
     mixins: {
         labelable: 'Ext.form.Labelable',
         field: 'Ext.form.field.Field'
@@ -104,21 +214,27 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
         'Ext.ux.layout.component.field.CodeMirror'
     ],
 
+    childEls: [
+        'editorEl', 'textareaEl'
+    ],
+
     fieldSubTpl: [
-        '<div class="{toolbarWrapCls}"></div>',
-        '<textarea id="{id}" name="{name}" tabIndex="-1" class="{textareaCls}" ',
+        '<textarea id="{cmpId}-textareaEl" name="{name}" tabIndex="-1" class="{textareaCls}" ',
             'style="{size}" autocomplete="off"></textarea>',
-        '<div class="{editorCls}" name="{editorName}" style="{size}"></div>',
+        '<div id="{cmpId}-editorEl" class="{editorCls}" name="{editorName}" style="{size}"></div>',
         {
-            compiled: true,
             disableFormats: true
         }
     ],
 
     componentLayout: 'codemirror',
 
-    fieldBodyCls: Ext.baseCSSPrefix + 'html-editor-wrap',
+    editorWrapCls: Ext.baseCSSPrefix + 'html-editor-wrap',
     
+    maskOnDisable: true,
+
+    afterBodyEl: '</div>',
+
     /**
     * @cfg {String} mode The default mode to use when the editor is initialized. When not given, this will default to the first mode that was loaded. 
     * It may be a string, which either simply names the mode or is a MIME type associated with the mode. Alternatively, 
@@ -178,7 +294,7 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
     * @cfg {Boolean} enableGutter Can be used to force a 'gutter' (empty space on the left of the editor) to be shown even 
     * when no line numbers are active. This is useful for setting markers.
     */
-    enableGutter:           false,
+    enableGutter:           true,
 
     /**
     * @cfg {Boolean} enableFixedGutter When enabled (off by default), this will make the gutter stay visible when the 
@@ -404,11 +520,26 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
             'keyevent'
         );
 
-        me.initLabelable();
-        me.initField();
 
         me.callParent(arguments);
         
+        me.createToolbar(me);
+        me.initLabelable();
+        me.initField();
+        /* 
+        Fix resize issues as suggested by user koblass on the Extjs forums
+        http://www.sencha.com/forum/showthread.php?167047-Ext.ux.form.field.CodeMirror-for-Ext-4.x&p=860535&viewfull=1#post860535
+        */
+        me.on('resize', function() {
+            if (me.editor) {
+                me.editor.refresh();
+            }
+        }, me);
+        
+    },
+
+    getMaskTarget: function(){
+        return this.bodyEl;    
     },
 
     /**
@@ -417,50 +548,81 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
     getSubTplData: function() {
         var cssPrefix = Ext.baseCSSPrefix;
         return {
-            toolbarWrapCls: cssPrefix + 'html-editor-tb',
-            textareaCls: cssPrefix + 'hidden',
-            editorCls: cssPrefix + 'codemirror',
-            editorName: Ext.id(),
-            size: 'height:400px;'
+            $comp           : this,
+            cmpId           : this.id,
+            id              : this.getInputId(),
+            toolbarWrapCls  : cssPrefix + 'html-editor-tb',
+            textareaCls     : cssPrefix + 'hidden',
+            editorCls       : cssPrefix + 'codemirror',
+            editorName      : Ext.id(),
+            size            : 'height:100px;width:100%'
         };
     },
 
-    getBodyNaturalWidth: function() {
-        return 565;
+    getSubTplMarkup: function() {
+        return this.getTpl('fieldSubTpl').apply(this.getSubTplData());
+    },
+
+    finishRenderChildren: function () {
+        this.callParent();
+        this.toolbar.finishRender();
+        
     },
 
     /**
     * @private override
     */
     onRender: function() {
-        var me = this,
-            renderSelectors = me.renderSelectors;
-        
-        Ext.applyIf(renderSelectors, {
-            toolbarWrap: 'div.' + Ext.baseCSSPrefix + 'html-editor-tb',
-            editorEl: 'div.' + Ext.baseCSSPrefix + 'codemirror'
-        });
+        var me = this;
 
         me.callParent(arguments);
+        me.inputEl = me.editorEl;
 
-        me.createToolbar(me);
         me.disableItems(true);
         me.initEditor();
+        
         me.rendered = true;
     },
     
+    initRenderTpl: function() {
+        var me = this;
+        if (!me.hasOwnProperty('renderTpl')) {
+            me.renderTpl = me.getTpl('labelableRenderTpl');
+        }
+        return me.callParent();
+    },
+
+    initRenderData: function() {
+        this.beforeSubTpl = '<div class="' + this.editorWrapCls + '">' + Ext.DomHelper.markup(this.toolbar.getRenderTree());
+        return Ext.applyIf(this.callParent(), this.getLabelableRenderData());
+    },
+
     /**
     * @private override
     */
     initEditor : function(){
-        var me = this;
+        var me = this,
+            mode = 'text/plain';
+        
+        // if no mode is loaded we could get an error like "Object #<Object> has no method 'startState'"
+        // search mime to find script dependencies
+        
+        var item = me.getMime(me.mode);
+        if(item) {
+            mode = me.getMimeMode(me.mode);
+            if(!mode){
+                mode = 'text/plain';
+            }
+        }
         
         me.editor = CodeMirror(me.editorEl, {
             matchBrackets:      me.enableMatchBrackets,
             electricChars:      me.enableElectricChars,
+            autoClearEmptyLines:true,
+            value:              me.rawValue,
             indentUnit:         me.indentUnit,
             smartIndent:        me.enableSmartIndent,
-            indentWithTabs:     me.enableIndentWithTabs,
+            indentWithTabs:     me.indentWithTabs,
             pollInterval:       me.pollInterval,
             lineNumbers:        me.enableLineNumbers,
             lineWrapping:       me.enableLineWrapping,
@@ -469,8 +631,10 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
             gutter:             me.enableGutter,
             fixedGutter:        me.enableFixedGutter,
             theme:              me.theme,
+            mode:               mode,
             onChange:           function(editor, tc){
                 me.checkChange();
+                //me.fireEvent('change', me, tc.from, tc.to, tc.text, tc.next || null);
             },
             onCursorActivity:   function(editor){
                 me.fireEvent('cursoractivity', me);
@@ -494,10 +658,11 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
                 me.fireEvent('update', me);
             },
             onKeyEvent:         function(editor, event){
+                event.cancelBubble = true; // fix suggested by koblass user on Sencha forums (http://www.sencha.com/forum/showthread.php?167047-Ext.ux.form.field.CodeMirror-for-Ext-4.x&p=862029&viewfull=1#post862029)
                 me.fireEvent('keyevent', me, event);
             }
         });
-        me.editor.setValue(me.rawValue);
+        //me.editor.setValue(me.rawValue);
         me.setMode(me.mode);
         me.setReadOnly(me.readOnly);
         me.fireEvent('initialize', me);
@@ -506,6 +671,8 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
         var css = Ext.util.CSS.getRule('.CodeMirror');
         if(css){
             css.style.height = '100%';
+            css.style.position = 'relative';
+            css.style.overflow = 'hidden';
         }
         var css = Ext.util.CSS.getRule('.CodeMirror-Scroll');
         if(css){
@@ -542,7 +709,7 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
         if(me.showModes){
             modesSelectItem = Ext.widget('component', {
                 renderTpl: [
-                    '<select class="{cls}">',
+                    '<select id="{id}-selectEl" class="{cls}">',
                         '<tpl for="modes">',
                             '<option value="{mime}" <tpl if="this.isSelected(values.mime)"> selected</tpl>>{text}</option>',
                         '</tpl>',
@@ -557,8 +724,10 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
                     cls: baseCSSPrefix + 'font-select',
                     modes: me.listModes
                 },
-                renderSelectors: {
-                    selectEl: 'select'
+                childEls: ['selectEl'],
+                afterRender: function() {
+                    me.modesSelect = this.selectEl;
+                    Ext.Component.prototype.afterRender.apply(this, arguments);
                 },
                 onDisable: function() {
                     var selectEl = this.selectEl;
@@ -573,6 +742,12 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
                         selectEl.dom.disabled = false;
                     }
                     Ext.Component.superclass.onEnable.apply(this, arguments);
+                },
+                listeners: {
+                    change: function() {
+                        me.setMode(me.modesSelect.dom.value);
+                    },
+                    element: 'selectEl'
                 }
             });
 
@@ -590,26 +765,22 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
             items.push(btn('insertorderedlist'));
         
         toolbar = Ext.widget('toolbar', {
-            renderTo: me.toolbarWrap,
+            id: me.id + '-toolbar',
+            ownerCt: me,
+            cls: Ext.baseCSSPrefix + 'html-editor-tb',
             enableOverflow: true,
-            items: items
+            items: items,
+            ownerLayout: me.getComponentLayout(),
+
+            
+            listeners: {
+                click: function(e){
+                    e.preventDefault();
+                },
+                element: 'el'
+            }
         });
         
-        if(items.length == 0){
-            toolbar.hide();
-        }
-        
-        if(me.showModes){
-            me.modesSelect = modesSelectItem.selectEl;
-            me.mon(me.modesSelect, 'change', function(){
-                me.setMode(me.modesSelect.dom.value);
-            });
-        }
-
-        me.mon(toolbar.el, 'click', function(e){
-            e.preventDefault();
-        });
-
         me.toolbar = toolbar;
         me.updateToolbarButtons();
     },
@@ -624,9 +795,14 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
     updateToolbarButtons: function(){
         var me = this;
         
-        btns = me.getToolbar().items.map;
-        if(me.showLineNumbers)
-            btns['insertorderedlist'].toggle(me.enableLineNumbers);
+        try{
+            btns = me.getToolbar().items.map;
+            if(me.showLineNumbers){
+                btns['insertorderedlist'].toggle(me.enableLineNumbers);            
+            }
+        }catch(err){
+            
+        }
         
     },
     
@@ -682,6 +858,7 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
         me.enableLineNumbers = !me.enableLineNumbers;
         me.editor.setOption('lineNumbers', me.enableLineNumbers);
     },
+    
     /**
     * @private
     */
@@ -740,7 +917,7 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
                     onLoad: function(options){
                         var ok = true;
                         for(j=0; j < me.scripts.length; j++){
-                            if(me.scripts[j].called) {// this event could be raised before one script if fetched
+                        	if(me.scripts[j].called) {// this event could be raised before one script if fetched
                                 ok = ok && me.scripts[j].success;
                                 if(me.scripts[j].success && !Ext.Array.contains(me.scriptsLoaded, me.scripts[j].url)){
                                     me.scriptsLoaded.push(me.scripts[j].url);
@@ -750,6 +927,7 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
                             }
                         }
                         if(ok){
+                        	
                             handler.call(scope || me.editor);
                         }
                     }
@@ -766,32 +944,49 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
             }
         }
         for(var i=0; i < me.scripts.length; i++){
-            me.loadScript(me.scripts[i].options);
+            me.injectScriptElement("script-" + i, me.scripts[i].options.url, me.scripts[i].options.onLoad, me.scripts[i].options.onError, scope || me.editor);
         }
     },
-    
-    /**
-    * @private
-    */
-    loadScript: function(options){
-        var me = this;
-        Ext.Ajax.request({
-            url: options.url,
-            scriptIndex: options.index,
-            success: function(response, options) {
-                var script = 'Ext.getCmp("' + this.id + '").scripts[' + options.scriptIndex + ']';
-                window.setTimeout('try { ' + response.responseText + ' } catch(e) { '+script+'.success = false; '+script+'.onError('+script+'.options, e); };  ' + script + '.called = true; if ('+script+'.success) '+script+'.onLoad('+script+'.options);', 0);
+   
+    injectScriptElement: function(id, url, onLoad, onError, scope) {
+        var script = document.createElement('script'),
+            documentHead = typeof document !== 'undefined' && (document.head || document.getElementsByTagName('head')[0]),
+            cleanupScriptElement = function(script) {
+                 script.id = id;
+                 script.onload = null;
+                 script.onreadystatechange = null;
+                 script.onerror = null;
+
+                 return this;
             },
-            failure: function(response, options) {
-                var script = this.scripts[options.scriptIndex];
-                script.success = false;
-                script.called = true;
-                script.onError(script.options, response.status);
+            onLoadFn = function() {
+                cleanupScriptElement(script);
+                onLoad.call(scope);
             },
-            scope: me
-        });        
+            onErrorFn = function() {
+                cleanupScriptElement(script);
+                onError.call(scope);
+            };
+
+        // if the script is already loaded, don't load it again
+        if (document.getElementById(id) !== null) {
+             onLoadFn();
+             return;
+        }
+
+        script.type = 'text/javascript';
+        script.src = url;
+        script.onload = onLoadFn;
+        script.onerror = onErrorFn;
+        script.onreadystatechange = function() {
+            if (this.readyState === 'loaded' || this.readyState === 'complete') {
+                onLoadFn();
+            }
+        };
+        documentHead.appendChild(script);
+        return script;
     },
-    
+
     /**
     * @private
     * Return mode depending on the mime; If the mime is not loaded then return null
@@ -801,6 +996,7 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
     getMimeMode: function(mime){
         var mode = null;
         var mimes = CodeMirror.listMIMEs();
+        
         for(var i=0; i<mimes.length; i++){
             if(mimes[i].mime == mime){
                 mode = mimes[i].mode;
@@ -818,7 +1014,8 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
     * @param {String} mime The MIME value according to the CodeMirror documentation
     */
     setMode: function(mime){
-        var me = this, 
+    	
+    	var me = this, 
             found = false;
         // search mime to find script dependencies
         var item = me.getMime(mime);
@@ -829,20 +1026,26 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
         }
         
         var mode = me.getMimeMode(mime);
-
+        
         if(!mode){
+        	
             me.loadDependencies(item, me.pathModes, function(){
                 var mode = me.getMimeMode(mime);
-                if(typeof mode == "string")
-                    me.editor.setOption('mode', mime);
-                else
-                    me.editor.setOption('mode', mode);
+                
+                if(typeof mode == "string") {
+                    me.editor.setOption('mode', mime);                    
+                }
+                else {
+                    me.editor.setOption('mode', mode);                    
+                }
             });
+            
         }else{
-            if(typeof mode == "string")
+            if(typeof mode == "string") {
                 me.editor.setOption('mode', mime);
-            else
-                me.editor.setOption('mode', mode);
+            } else {
+            	me.editor.setOption('mode', mode);
+            }
         }
         
         if(me.modesSelect){
@@ -850,8 +1053,8 @@ Ext.define('Ext.ux.form.field.CodeMirror', {
         }
         try{
             me.fireEvent('modechanged', me, mime, me.lastMode);
+            me.lastMode = mime;
         }catch(err){}
-        me.lastMode = mime;
     },
     
     /**

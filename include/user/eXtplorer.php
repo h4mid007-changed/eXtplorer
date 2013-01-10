@@ -84,7 +84,7 @@ class eXtplorer_User {
 		$cnt=count($this->_users);
 		for($i=0;$i<$cnt;++$i) {
 			if($user==$this->_users[$i][0]) {
-				if($pass==NULL || ($pass==$this->_users[$i][1] && $this->_users[$i][7])) {
+				if($pass===NULL || ($pass==$this->_users[$i][1] && $this->_users[$i][7])) {
 					return $this->_users[$i];
 				}
 			}

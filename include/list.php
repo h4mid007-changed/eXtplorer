@@ -239,10 +239,10 @@ function send_dircontents($dir, $sendWhat = 'files') {	// print table of files
 			} else if (mb_detect_encoding($item) == 'ASCII') {
 				$items['items'][$i]['name'] = utf8_encode($item);
 			} else {
-				$items['items'][$i]['name'] = utf8_encode($item);
+				$items['items'][$i]['name'] = $item;
 			}
 		} else {
-			$items['items'][$i]['name'] = ext_isFTPMode() ? $item : utf8_encode($item);
+			$items['items'][$i]['name'] = $item;
 		}
 
 		$items['items'][$i]['is_file']		= get_is_file($abs_item);

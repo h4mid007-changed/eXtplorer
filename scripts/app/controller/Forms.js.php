@@ -145,10 +145,11 @@ Ext.define('eXtplorer.controller.Forms', {
 			taContent: json.content,
 			dir: this.getCurrentDir(),
 			filename: json.item,
+			mode: json.cp_lang,
 			cp_lang: json.cp_lang,
 			language: json.language,
 			taWidth: this.getMainPanel().getWidth() - 100,
-			taHeight: this.getMainPanel().getHeight() - 100
+			taHeight: this.getMainPanel().getHeight() - 150
 		});
 		this.getMainPanel().add(form);
 		this.getMainPanel().setActiveTab(form.id);

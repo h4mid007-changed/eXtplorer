@@ -358,6 +358,7 @@ $Id$ -->
 			<filename>libraries/MIME/Parameter.php</filename>
 			<filename>libraries/MIME/Type.php</filename>
 			<filename>libraries/MIME/index.html</filename>
+			<filename>libraries/Mobile_Detect.php</filename>
 			<filename>libraries/PEAR.php</filename>
 			<filename>libraries/PasswordHash.php</filename>
 			<filename>libraries/SSH2.php</filename>
