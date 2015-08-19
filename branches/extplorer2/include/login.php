@@ -113,7 +113,7 @@ function login() {
 		exit();
 	}
 	session_write_close();
-	session_id( get_session_id() );
+	session_id( generate_session_id() );
 	session_start();
 	// Ask for Login
 	$GLOBALS['mainframe']->setPageTitle( ext_Lang::msg('actlogin') );

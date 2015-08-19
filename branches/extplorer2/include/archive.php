@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2011
+ * @copyright soeren 2007-2015
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -46,7 +46,11 @@ class ext_Archive extends ext_Action {
 		if(!$GLOBALS["zip"] && !$GLOBALS["tgz"]) {
 			ext_Result::sendResult('archive', false, $GLOBALS["error_msg"]["miscnofunc"]);
 		}
-		
+
+        // CSRF Security Check
+        if( !ext_checkToken($GLOBALS['__POST']["token"]) ) {
+            ext_Result::sendResult('tokencheck', false, 'Request failed: Security Token not valid.');
+        }
 		$allowed_types = array( 'zip', 'tgz', 'tbz', 'tar' );
 
 		// If we have something to archive, let's do it now

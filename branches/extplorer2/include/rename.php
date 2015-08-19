@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2015
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -44,7 +44,10 @@ class ext_Rename extends ext_Action {
 		}
 
 		if(isset($GLOBALS['__POST']["confirm"]) && $GLOBALS['__POST']["confirm"]=="true") {
-
+            // CSRF Security Check
+            if( !ext_checkToken($GLOBALS['__POST']["token"]) ) {
+                ext_Result::sendResult('tokencheck', false, 'Request failed: Security Token not valid.');
+            }
 			$newitemname=$GLOBALS['__POST']["newitemname"];
 			$newitemname=trim(basename(stripslashes($newitemname)));
 

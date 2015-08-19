@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007
+ * @copyright soeren 2007-2015
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * 
@@ -44,7 +44,10 @@ class ext_Delete extends ext_Action {
 		// delete files/dirs
 		if(($GLOBALS["permissions"]&01)!=01) 
 		ext_Result::sendResult('delete', false, $GLOBALS["error_msg"]["accessfunc"]);
-
+        // CSRF Security Check
+        if( !ext_checkToken($GLOBALS['__POST']["token"]) ) {
+            ext_Result::sendResult('tokencheck', false, 'Request failed: Security Token not valid.');
+        }
 		$cnt = count($GLOBALS['__POST']["selitems"]);
 		$err = false;
 
@@ -94,5 +97,3 @@ class ext_Delete extends ext_Action {
 		ext_Result::sendResult('delete', true, $GLOBALS['messages']['success_delete_file'] );
 	}
 }
-//------------------------------------------------------------------------------
-?>

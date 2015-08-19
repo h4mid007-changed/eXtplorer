@@ -1432,6 +1432,12 @@ function logout() {
  * @param string $id
  * @return string
  */
-function get_session_id( $id=null ) {
+function generate_session_id( $id=null ) {
 	return extMakePassword( 32 );
+}
+function ext_getToken() {
+    return md5(session_id());
+}
+function ext_checkToken($token) {
+    return md5(session_id()) == $token;
 }
