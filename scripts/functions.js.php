@@ -4,7 +4,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 /**
  * @version $Id$
  * @package eXtplorer
- * @copyright soeren 2007-2009
+ * @copyright soeren 2007-2015
  * @author The eXtplorer project (http://extplorer.net)
  * @author The	The QuiX project (http://quixplorer.sourceforge.net)
  * @license
@@ -390,7 +390,8 @@ function getRequestParams() {
 		option: 'com_extplorer',
 		dir: dir,
 		item: selitems.length > 0 ? selitems[0]:'',
-		'selitems[]': selitems
+		'selitems[]': selitems,
+        token: "<?php echo ext_getToken() ?>"
 	};
 	return requestParams;
 }
@@ -456,6 +457,7 @@ Ext.msgBoxSlider = function(){
 
 
 function statusBarMessage( msg, isLoading, success ) {
+	msg = msg.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {  return '&#' + i.charCodeAt(0) + ';';});
 	var statusBar = Ext.getCmp('statusPanel');
 	if( !statusBar ) return;
 	if( isLoading ) {

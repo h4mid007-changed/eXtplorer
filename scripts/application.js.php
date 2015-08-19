@@ -3,7 +3,7 @@
 if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
 /**
  * @package eXtplorer
- * @copyright soeren 2007-2014
+ * @copyright soeren 2007-2015
  * @author The eXtplorer project (http://extplorer.net)
  * @license
  * @version $Id$
