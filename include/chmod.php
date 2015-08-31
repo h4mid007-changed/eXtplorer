@@ -214,7 +214,8 @@ class ext_Chmod extends ext_Action {
 					"action": "chmod", 
 					"dir": "<?php echo stripslashes($GLOBALS['__POST']["dir"]) ?>", 
 					"selitems[]": ['<?php echo implode("','", $GLOBALS['__POST']["selitems"]) ?>'], 
-					confirm: 'true'
+					confirm: 'true',
+					token: "<?php echo ext_getToken() ?>"
 				}
 			});
 		}

@@ -157,6 +157,7 @@ class ext_Archive extends ext_Action {
 				'totalitems' => $cnt_filelist,
 				'success' => true,
 				'action' => 'archive',
+					'token' => ext_getToken(),
 				'message' => sprintf( ext_Lang::msg('processed_x_files'), $startfrom + $files_per_step, $cnt_filelist )
 				);
 			}
@@ -167,6 +168,7 @@ class ext_Archive extends ext_Action {
 				}
 				$response = Array( 'action' => 'archive',
 				'success' => true,
+				'token' => ext_getToken(),
 				'message' => ext_Lang::msg('archive_created'),
 				'newlocation' => ext_make_link( 'download', $dir, basename($archive_name) )
 				);
