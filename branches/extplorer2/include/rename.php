@@ -145,7 +145,8 @@ class ext_Rename extends ext_Action {
 					action: 'rename', 
 					dir: '<?php echo stripslashes($dir) ?>', 
 					item: '<?php echo stripslashes($item) ?>', 
-					confirm: 'true'
+					confirm: 'true',
+					token: "<?php echo ext_getToken() ?>"
 				}
 			});
 		}

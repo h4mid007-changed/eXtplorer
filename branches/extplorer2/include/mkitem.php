@@ -150,7 +150,9 @@ class ext_Mkitem extends ext_Action {
 					params: {option: "com_extplorer", 
 							action: "mkitem", 
 							dir: datastore.directory, 
-							confirm: "true"}
+							confirm: "true",
+							token: "<?php echo ext_getToken() ?>"
+					}
 				})
 			}
 		},{
