@@ -2,6 +2,8 @@
 Changelog for eXtplorer
 Version $Id$
 ****************************
+--- version 2.1.9 ---
+- fixed PHP 7 compatibility issues
 
 --- version 2.1.8 ---
 - added security functions for protection against CSRF attacks
