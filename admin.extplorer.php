@@ -41,7 +41,7 @@ if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' 
 // The eXtplorer version number
 $GLOBALS['ext_version'] = '2.1.8';
 $GLOBALS['ext_home'] = 'http://extplorer.net';
-
+$dir = '';
 //------------------------------------------------------------------------------
 if( defined( 'E_STRICT' ) ) { // Suppress Strict Standards Warnings
 	error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE);
